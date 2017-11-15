@@ -9,11 +9,11 @@ public class APIgrbl {
         {
             try{
 
-                BufferedReader in = new BufferedReader(new FileReader(file));
+                BufferedReader in = new BufferedReader(new FileReader(file));  // gsrc
                 int offset = 0;
                 int length = 127;
                 int x = 0;
-                File directory = new File("C:\\example");                   //todo find path
+                File directory = new File("C:\\example");                   //todo find path to temp
                 // will stop at end of file
                 while(x >= 0)
                 {
@@ -31,7 +31,7 @@ public class APIgrbl {
                     bw.close();
 
                     // execute stream.py
-                    //CmdLine.executeCmd("stream.py tempfile.tmp " + port);             //todo
+                    //CmdLine.executeCmd("stream.py tempfile.tmp " + port);             //todo import cmdline
 
                     // read starting from the last line read
                     offset += length;
@@ -43,7 +43,7 @@ public class APIgrbl {
 
         private static File getFile()
         {
-            File f = new File("C:\\example");                   //todo
+            File f = new File("C:\\example");                   //todo find path
             File[] matchingFiles = f.listFiles(new FilenameFilter()
             {
                 public boolean accept(File dir, String name)
@@ -57,7 +57,7 @@ public class APIgrbl {
         private static String detectPort()
         {
             return null;
-        }               //todo
+        }               //todo port detection
 
         public static void Main(String [] args)
         {

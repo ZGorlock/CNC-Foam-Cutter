@@ -2,7 +2,7 @@ package grbl.tests;
 
 import java.io.*;
 import java.util.*;
-// import cmdline.class
+// import cmdline.class todo
 
 /*
     This is the testing class for grbl,
@@ -19,7 +19,7 @@ public class Tester
     private static ArrayList<String> loadFiles()
     {
         ArrayList<String> files = new ArrayList<String>();
-        File directory = new File("directory");
+        File directory = new File("directory"); // get tests directory
         
         for (File file : directory.listFiles())
         {
@@ -31,14 +31,14 @@ public class Tester
     private static void send(String file, String port) //send using stream.py
     {
         String command = "stream.py" + file + " " + port;
-        CmdLine cmdLine = new CmdLine();
-        cmdLine.executeCmd(command, true);
+        //CmdLine cmdLine = new CmdLine();                          //todo cmdline dependency
+        //cmdLine.executeCmd(command, true);
     }
 
     private static String read()
     {
         return "";
-    }
+    } // read response from port
 
     private static void evaluate(String port)
     {
@@ -59,5 +59,5 @@ public class Tester
     public static void main(String [] args)
     {
         evaluate("COM3");
-    }
+    } //no need to actively find port for testing
 }
