@@ -40,7 +40,7 @@ public class Main
             return;
         }
     
-        File model = new File("can.stl");
+        File model = new File("Birds_and_flowers.stl");
         Slicer slicer = new Slicer(model.getAbsolutePath());
         slicer.slice("");
     }
