@@ -1,5 +1,9 @@
+package grbl.tests;
+
 import java.io.*;
 import java.util.*;
+// import cmdline.class
+
 /*
     This is the testing class for grbl,
     It will load files from the testing 
