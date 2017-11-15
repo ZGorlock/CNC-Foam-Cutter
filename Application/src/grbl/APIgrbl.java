@@ -1,5 +1,7 @@
 package grbl;
 
+import utils.Constants;
+import utils.CmdLine;
 import java.io.*;
 // import cmdline class
 
@@ -13,7 +15,7 @@ public class APIgrbl {
                 int offset = 0;
                 int length = 127;
                 int x = 0;
-                File directory = new File("C:\\example");                   //todo find path to temp
+                File directory = new File(Constants.getTemp());
                 // will stop at end of file
                 while(x >= 0)
                 {
@@ -31,7 +33,7 @@ public class APIgrbl {
                     bw.close();
 
                     // execute stream.py
-                    //CmdLine.executeCmd("stream.py tempfile.tmp " + port);             //todo import cmdline
+                    CmdLine.executeCmd("stream.py tempfile.tmp " + port);
 
                     // read starting from the last line read
                     offset += length;
@@ -43,7 +45,7 @@ public class APIgrbl {
 
         private static File getFile()
         {
-            File f = new File("C:\\example");                   //todo find path
+            File f = new File(Constants.getGsrc());
             File[] matchingFiles = f.listFiles(new FilenameFilter()
             {
                 public boolean accept(File dir, String name)

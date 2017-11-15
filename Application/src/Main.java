@@ -4,6 +4,9 @@
  * Author:  Zachary Gill
  */
 
+import slicer.Slicer;
+import utils.CmdLine;
+import utils.Constants;
 import java.io.File;
 
 public class Main
@@ -40,8 +43,8 @@ public class Main
             return;
         }
     
-        File model = new File("Birds_and_flowers.stl");
-        Slicer slicer = new Slicer(model.getAbsolutePath());
+        File model = new File("cadfiles\\Birds_and_flowers.stl"); // renamed to find the cadfiles
+        Slicer slicer = new Slicer(model.getAbsolutePath(),architecture);
         slicer.slice("");
     }
     
