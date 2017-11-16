@@ -8,6 +8,7 @@ import slicer.Slicer;
 import utils.CmdLine;
 import utils.Constants;
 import java.io.File;
+import grbl.APIgrbl;
 
 public class Main
 {
@@ -28,7 +29,8 @@ public class Main
      * The Java runtime version.
      */
     public static String javaVersion;
-    
+
+    public static String port;
     
     //Methods
     
@@ -46,6 +48,9 @@ public class Main
         File model = new File("cadfiles\\Birds_and_flowers.stl"); // renamed to find the cadfiles
         Slicer slicer = new Slicer(model.getAbsolutePath(),architecture);
         slicer.slice("");
+
+        APIgrbl grbl = new APIgrbl();
+        grbl.start();
     }
     
     /**
@@ -91,7 +96,7 @@ public class Main
                 return false;
             }
         }
-        
+
         System.out.println(operatingSystem);
         System.out.println(architecture);
         System.out.println(javaVersion);

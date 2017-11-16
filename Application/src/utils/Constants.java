@@ -69,7 +69,7 @@ public class Constants
     /**
      * The filepath for g code source
      */
-    private static final String GSRC_PATH = "C:\\Users\\nicol\\Desktop\\CNC-Foam-Cutter\\Application\\src\\grbl\\gsrc\\";
+    private static final String GSRC_PATH = "C:\\Users\\nicol\\Desktop\\CNC-Foam-Cutter\\Application\\src\\gcode\\";
 
     /**
      * The filepath for the temp folder to write to

@@ -11,7 +11,7 @@ public class APIgrbl {
         {
             try{
 
-                BufferedReader in = new BufferedReader(new FileReader(file));  // gsrc
+                BufferedReader in = new BufferedReader(new FileReader(file));  // gcode
                 int offset = 0;
                 int length = 127;
                 int x = 0;
@@ -61,7 +61,9 @@ public class APIgrbl {
             return null;
         }               //todo port detection
 
-        public static void Main(String [] args)
+        public APIgrbl(){}
+
+        public static void start()
         {
             File file = getFile();
             String port = detectPort();

@@ -38,6 +38,8 @@ import re
 import time
 import sys
 import argparse
+import warnings
+import detect
 # import threading
 
 RX_BUFFER_SIZE = 128
@@ -46,23 +48,18 @@ RX_BUFFER_SIZE = 128
 parser = argparse.ArgumentParser(description='Stream g-code file to grbl. (pySerial and argparse libraries required)')
 parser.add_argument('gcode_file', type=argparse.FileType('r'),
         help='g-code filename to be streamed')
-parser.add_argument('device_file',
-        help='serial device path')
 parser.add_argument('-q','--quiet',action='store_true', default=False, 
         help='suppress output text')
 parser.add_argument('-s','--settings',action='store_true', default=False, 
         help='settings write mode')        
 args = parser.parse_args()
 
-# Periodic timer to query for status reports
-# TODO: Need to track down why this doesn't restart consistently before a release.
-# def periodic():
-#     s.write('?')
-#     t = threading.Timer(0.1, periodic) # In seconds
-#     t.start()
+#detect the arduino's port
+arduino = detect.Arduino()
+port = arduino.getPort()
 
 # Initialize
-s = serial.Serial(args.device_file,115200)
+s = serial.Serial(port,115200)
 f = args.gcode_file
 verbose = True
 if args.quiet : verbose = False
