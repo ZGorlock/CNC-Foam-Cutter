@@ -1,7 +1,8 @@
 package grbl;
 
-import utils.Constants;
 import utils.CmdLine;
+import utils.Constants;
+
 import java.io.*;
 // import cmdline class
 
@@ -50,7 +51,7 @@ public class APIgrbl {
             {
                 public boolean accept(File dir, String name)
                 {
-                    return name.endsWith("gcode");
+                    return name.endsWith("resources/gcode");
                 }
             });
             return null;

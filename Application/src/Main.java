@@ -4,11 +4,13 @@
  * Author:  Zachary Gill
  */
 
+import grbl.APIgrbl;
+import renderer.Renderer;
 import slicer.Slicer;
 import utils.CmdLine;
 import utils.Constants;
+
 import java.io.File;
-import grbl.APIgrbl;
 
 public class Main
 {
@@ -45,9 +47,14 @@ public class Main
             return;
         }
     
-        File model = new File("cadfiles\\Birds_and_flowers.stl"); // renamed to find the cadfiles
+        File model = new File("resources\\cadfiles\\Birds_and_flowers.stl"); // renamed to find the cadfiles
+        
+        Renderer renderer = new Renderer(model);
+        System.out.println();
+        
         Slicer slicer = new Slicer(model.getAbsolutePath(),architecture);
         slicer.slice("");
+        System.out.println();
 
         APIgrbl grbl = new APIgrbl();
         grbl.start();

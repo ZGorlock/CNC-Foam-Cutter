@@ -23,7 +23,7 @@ public class Slicer
     /**
      * The list of supported model file formats.
      */
-    public static final String[] validFileExtensions = {"stl", "obj", "amf"}; //TODO ensure we can also render these formats
+    public static final String[] validFileExtensions = {"stl", "obj", "amf"}; //TODO ensure we can also renderer these formats
     
  
     //Fields

@@ -59,6 +59,7 @@ public class Constants
      */
     public static final String JAVA3D_FILENAME_SUFFIX_86 = "-i586.exe";
 
+    
     // GRBL - subject to change
 
     /**
