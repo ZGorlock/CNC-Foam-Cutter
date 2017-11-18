@@ -5,6 +5,8 @@ package utils;/*
  */
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * Contains constants for the application.
@@ -78,19 +80,25 @@ public class Constants
     private static final String TEMP_PATH = "C:\\Users\\nicol\\Desktop\\CNC-Foam-Cutter\\Application\\src\\grbl\\temp\\";
 
     /**
-     * The port used for ARDUINO UNO
+     * Acceptable code for grbl
      */
-    private static final String PORT = "COM3";
+    private static final String[] ACCEPTABLE_GCODE = new String[]
+    {       "G0", "G1", "G2", "G3", "G4", "G10L2", "G10L20", "G17", "G18",
+            "G19", "G20", "G21", "G28", "G28.1", "G30", "G30.1", "G38.2",
+            "G38.3", "G38.4", "G38.5", "G53", "G80", "G90", "G91", "G91.1",
+            "G92", "G92.1", "G93", "G94", "G40", "G43.1", "G49", "G54", "G55",
+            "G56", "G57", "G58", "G59", "G61", "M0", "M1", "M2", "M30*","M7*",
+            "M8","M9","M3", "M4", "M5","F", "I", "J", "K", "L", "N", "P", "R",
+            "S", "T", "X", "Y", "Z"
+    };
 
+    private static final HashSet<String> ACCEPTABLE_SET = new HashSet<>(Arrays.asList(ACCEPTABLE_GCODE));
+
+    public static HashSet<String> getAcceptableSet(){return  ACCEPTABLE_SET;}
 
     public static String getInputTestPath()
     {
         return INPUT_TEST_PATH;
-    }
-
-    public  static String getPort()
-    {
-        return PORT;
     }
 
     public static String getGsrc()
