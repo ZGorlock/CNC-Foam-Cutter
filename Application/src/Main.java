@@ -5,7 +5,6 @@
  */
 
 import grbl.APIgrbl;
-import renderer.Renderer;
 import slicer.Slicer;
 import utils.CmdLine;
 import utils.Constants;
@@ -47,13 +46,13 @@ public class Main
             return;
         }
     
-        File model = new File("resources\\cadfiles\\Birds_and_flowers.stl"); // renamed to find the cadfiles
+        File model = new File("resources\\cadfiles\\can.stl");
         
-        Renderer renderer = new Renderer(model);
-        System.out.println();
+//        Renderer renderer = new Renderer(model);
+//        System.out.println();
         
         Slicer slicer = new Slicer(model.getAbsolutePath(),architecture);
-        slicer.slice("");
+        slicer.slice("--gcode-flavor mach3");
         System.out.println();
 
         APIgrbl grbl = new APIgrbl();
