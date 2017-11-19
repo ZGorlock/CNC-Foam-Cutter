@@ -38,7 +38,7 @@ public class Tester
 
     private static void send(String file) //send using stream.py
     {
-        String command = "stream.py" + file + " " + Constants.getPort();
+        String command = "stream.py" + file;
         CmdLine.executeCmd(command, true);
     }
 
