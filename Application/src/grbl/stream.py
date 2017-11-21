@@ -133,11 +133,11 @@ class Streamer(object):
 
         # Wait for user input after streaming is completed
         print ("G-code streaming finished!\n")
-        print ("WARNING: Wait until grbl completes buffered g-code blocks before exiting.")
-        input("  Press <Enter> to exit and disable grbl.") 
+        #print ("WARNING: Wait until grbl completes buffered g-code blocks before exiting.")
+        #input("  Press <Enter> to exit and disable grbl.") 
 
         # Close file and serial port
-        self.f.close()
+        self.file.close()
         self.s.close()
 
 streamer = Streamer()
