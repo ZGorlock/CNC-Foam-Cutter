@@ -55,7 +55,7 @@ public class Main
         Slicer slicer = new Slicer(model.getAbsolutePath(),architecture);
         slicer.slice("--gcode-flavor mach3");
         System.out.println();
-        // still debugging
+
         APIgrbl grbl = new APIgrbl();
         grbl.start("Birds_and_flowers.gcode");
     }

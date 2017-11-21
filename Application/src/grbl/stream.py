@@ -80,7 +80,7 @@ class Streamer(object):
         if self.settings : self.settings_mode = True
 
         # Wake up grbl
-        print ("Initializing grbl...")
+        # print ("Initializing grbl...")
         self.s.write("\r\n\r\n".encode())
 
         # Wait for grbl to initialize and flush startup text in serial input
@@ -133,8 +133,6 @@ class Streamer(object):
 
         # Wait for user input after streaming is completed
         print ("G-code streaming finished!\n")
-        #print ("WARNING: Wait until grbl completes buffered g-code blocks before exiting.")
-        #input("  Press <Enter> to exit and disable grbl.") 
 
         # Close file and serial port
         self.file.close()

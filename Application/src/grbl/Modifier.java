@@ -7,10 +7,11 @@ public class Modifier
 {
     private ArrayList<String> commands;
     private String file;
-
-    Modifier(String file)
+    private String directory;
+    Modifier(String file, String directory)
     {
         this.file = file;
+        this.directory = directory;
         commands = new ArrayList<String>();
     }
 
@@ -18,6 +19,8 @@ public class Modifier
     {
         return this.commands;
     }
+
+    public int getCommandSize(){return this.commands.size();}
 
     private static final String[] ACCEPTABLE_GCODE = new String[]
     {       "G0", "G1", "G2", "G3", "G4", "G10L2", "G10L20", "G17", "G18",
@@ -58,7 +61,7 @@ public class Modifier
     {
         try
         {
-            BufferedReader br = new BufferedReader(new FileReader(this.file));
+            BufferedReader br = new BufferedReader(new FileReader(new File(this.directory, this.file)));
             String st;
             while ((st = br.readLine()) != null)
             {
@@ -80,7 +83,7 @@ public class Modifier
             br.close();
         }catch(IOException e)
         {
-
+            //none
         }
 
     }
@@ -88,7 +91,7 @@ public class Modifier
     private void writeCommands()
     {
         try{
-            BufferedWriter bw = new BufferedWriter(new FileWriter(this.file));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(new File(this.directory,this.file)));
 
             for(String s : commands)
             {
@@ -98,7 +101,7 @@ public class Modifier
             bw.close();
         }catch(IOException e)
         {
-
+            // none
         }
     }
 
