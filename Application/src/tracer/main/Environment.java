@@ -13,6 +13,7 @@ import tracer.objects.base.AbstractObject;
 import tracer.objects.base.BaseObject;
 import tracer.objects.base.ObjectInterface;
 import tracer.objects.polyhedron.regular.platonic.*;
+import tracer.utility.ColorUtility;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,8 +43,8 @@ public class Environment
     /**
      * The dimensions of the Window.
      */
-    public static final int screenX = 720;
-    public static final int screenY = 720;
+    public static final int screenX = 2560;
+    public static final int screenY = 1440;
     public static final int screenZ = 720;
     
     
@@ -94,7 +95,87 @@ public class Environment
     private static void createObjects()
     {
         //Cool Screensaver
+        //Example 3
+//        AtomicBoolean cameraInMotion = new AtomicBoolean(false);
+//        final AtomicInteger[] loop = {new AtomicInteger(1)};
+//        for (int i = 0; i < 200; i++) {
+////            Color c =  new Color(0, 255, 0); //ColorUtility.getRandomColor()
+////            Hexahedron cube = new Hexahedron(Environment.origin, c, .1);
+//
+//            MetatronsCube cube = new MetatronsCube(Environment.origin, Color.BLACK, .1);
+//
+//
+//            tracer.objects.base.Frame frame = new tracer.objects.base.Frame(cube);
+//            Timer waiter = new Timer();
+//            waiter.schedule(new TimerTask()
+//            {
+//                @Override
+//                public void run()
+//                {
+//                    cube.addRotationAnimation((Math.random() * 2 * Math.PI) - Math.PI, (Math.random() * 2 * Math.PI) - Math.PI, (Math.random() * 2 * Math.PI) - Math.PI);
+//                    cube.addMovementAnimation(Math.random() - .5, Math.random() - .5, Math.random() - .5);
+//                    cube.setDisplayMode(AbstractObject.DisplayMode.FACE);
+//                    cube.setFrameColor(new Color(0, 0, 0, 0));
+//                    cube.addProcess(new Runnable() {
+//                        private int count = 0;
+//
+//                        @Override
+//                        public void run()
+//                        {
+//                            count++;
+//
+//                            if (count == 9) {
+//                                if (cameraInMotion.compareAndSet(false, true)) {
+//                                    if ((loop[0].compareAndSet(0, 1)) || (loop[0].compareAndSet(1, 2))) {
+//                                        Camera.getActiveCameraView().addFluidTransition(Math.PI / 4, Math.PI / 2, 0, 10000);
+//                                    } else if ((loop[0].compareAndSet(2, 3)) || (loop[0].compareAndSet(3, 0))) {
+//                                        Camera.getActiveCameraView().addFluidTransition(-Math.PI / 4, Math.PI / 2, 0, 10000);
+//                                    }
+//                                }
+//                            } else if (count == 20) {
+//                                cube.animationTimers.get(1).purge();
+//                                cube.animationTimers.get(1).cancel();
+//                                cube.animationTimers.remove(1);
+//
+//                                double[] values = cube.movementAnimations.get(0);
+//                                cube.movementAnimations.remove(0);
+//
+//                                cube.addMovementAnimation(values[0] * -20, values[1] * -20, values[2] * -20);
+//
+//                            } else if (count == 21) {
+//                                cube.animationTimers.get(1).purge();
+//                                cube.animationTimers.get(1).cancel();
+//                                cube.animationTimers.remove(1);
+//
+//                                cube.movementAnimations.remove(0);
+//
+//                                cube.reposition(Environment.origin);
+//                                cube.registerFrame(frame);
+////                                if (cube.getDisplayMode() == AbstractObject.DisplayMode.EDGE) {
+////                                    cube.setDisplayMode(AbstractObject.DisplayMode.FACE);
+////                                    cube.setFrameColor(Color.BLACK);
+////                                    cube.registerFrame(frame);
+////                                } else {
+////                                    cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
+////                                    cube.setFrameColor(new Color(0, 0, 0, 0));
+////                                }
+//                                cube.addMovementAnimation(Math.random() - .5, Math.random() - .5, Math.random() - .5);
+//
+//                                cameraInMotion.set(false);
+//                                count = 0;
+//                            }
+//                        }
+//                    }, 1000);
+//                }
+//            }, 0);
+//            cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
+//            objects.add(cube);
+//        }
     
+    
+    
+    
+        
         Octahedron diamond = new Octahedron(Environment.origin, new Color(255, 0, 0, 64), 1);
         diamond.addFrame(Color.BLACK);
         objects.add(diamond);
@@ -114,327 +195,333 @@ public class Environment
         Icosahedron d20 = new Icosahedron(Environment.origin, new Color(165, 0, 165, 64), 1);
         d20.addFrame(Color.BLACK);
         objects.add(d20);
-        
-        
-        //Example 3
-        AtomicBoolean cameraInMotion = new AtomicBoolean(false);
-        final AtomicInteger[] loop = {new AtomicInteger(1)};
-        for (int i = 0; i < 100; i++) {
-            Color c =  new Color(0, 255, 0); //ColorUtility.getRandomColor()
-            Hexahedron cube = new Hexahedron(Environment.origin, c, .1);
-            tracer.objects.base.Frame frame = new tracer.objects.base.Frame(cube);
-            Timer waiter = new Timer();
-            waiter.schedule(new TimerTask()
-            {
-                @Override
-                public void run()
+    
+
+
+            //Example 3
+            AtomicBoolean cameraInMotion = new AtomicBoolean(false);
+            final AtomicInteger[] loop = {new AtomicInteger(1)};
+            for (int i = 0; i < 150; i++) {
+                Color c =  new Color(0, 255, 0);
+                c = ColorUtility.getRandomColor();
+                Hexahedron cube = new Hexahedron(Environment.origin, c, .1);
+                tracer.objects.base.Frame frame = new tracer.objects.base.Frame(cube);
+                Timer waiter = new Timer();
+                waiter.schedule(new TimerTask()
                 {
-                    cube.addRotationAnimation((Math.random() * 2 * Math.PI) - Math.PI, (Math.random() * 2 * Math.PI) - Math.PI, (Math.random() * 2 * Math.PI) - Math.PI);
-                    cube.addMovementAnimation(Math.random() - .5, Math.random() - .5, Math.random() - .5);
-                    cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
-                    cube.setFrameColor(new Color(0, 0, 0, 0));
-                    cube.addProcess(new Runnable() {
-                        private int count = 0;
+                    @Override
+                    public void run()
+                    {
+                        cube.addRotationAnimation((Math.random() * 2 * Math.PI) - Math.PI, (Math.random() * 2 * Math.PI) - Math.PI, (Math.random() * 2 * Math.PI) - Math.PI);
+                        cube.addMovementAnimation(Math.random() - .5, Math.random() - .5, Math.random() - .5);
+                        cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
+                        cube.setFrameColor(new Color(0, 0, 0, 0));
+                        cube.addProcess(new Runnable() {
+                            private int count = 0;
 
-                        @Override
-                        public void run()
-                        {
-                            count++;
+                            @Override
+                            public void run()
+                            {
+                                count++;
 
-                            if (count == 9) {
-                                if (cameraInMotion.compareAndSet(false, true)) {
-                                    if ((loop[0].compareAndSet(0, 1)) || (loop[0].compareAndSet(1, 2))) {
-                                        Camera.getActiveCameraView().addFluidTransition(Math.PI / 4, Math.PI / 2, 0, 10000);
-                                    } else if ((loop[0].compareAndSet(2, 3)) || (loop[0].compareAndSet(3, 0))) {
-                                        Camera.getActiveCameraView().addFluidTransition(-Math.PI / 4, Math.PI / 2, 0, 10000);
+                                if (count == 9) {
+                                    if (cameraInMotion.compareAndSet(false, true)) {
+                                        if ((loop[0].compareAndSet(0, 1)) || (loop[0].compareAndSet(1, 2))) {
+                                            Camera.getActiveCameraView().addFluidTransition(Math.PI / 4, Math.PI / 2, 0, 10000);
+                                        } else if ((loop[0].compareAndSet(2, 3)) || (loop[0].compareAndSet(3, 0))) {
+                                            Camera.getActiveCameraView().addFluidTransition(-Math.PI / 4, Math.PI / 2, 0, 10000);
+                                        }
                                     }
-                                }
-                            } else if (count == 20) {
-                                cube.animationTimers.get(1).purge();
-                                cube.animationTimers.get(1).cancel();
-                                cube.animationTimers.remove(1);
+                                } else if (count == 20) {
+                                    cube.animationTimers.get(1).purge();
+                                    cube.animationTimers.get(1).cancel();
+                                    cube.animationTimers.remove(1);
 
-                                double[] values = cube.movementAnimations.get(0);
-                                cube.movementAnimations.remove(0);
+                                    double[] values = cube.movementAnimations.get(0);
+                                    cube.movementAnimations.remove(0);
 
-                                cube.addMovementAnimation(values[0] * -20, values[1] * -20, values[2] * -20);
+                                    cube.addMovementAnimation(values[0] * -20, values[1] * -20, values[2] * -20);
 
-                            } else if (count == 21) {
-                                cube.animationTimers.get(1).purge();
-                                cube.animationTimers.get(1).cancel();
-                                cube.animationTimers.remove(1);
+                                } else if (count == 21) {
+                                    cube.animationTimers.get(1).purge();
+                                    cube.animationTimers.get(1).cancel();
+                                    cube.animationTimers.remove(1);
 
-                                cube.movementAnimations.remove(0);
+                                    cube.movementAnimations.remove(0);
 
-                                cube.reposition(Environment.origin);
-                                cube.registerFrame(frame);
-                                if (cube.getDisplayMode() == AbstractObject.DisplayMode.EDGE) {
-                                    cube.setDisplayMode(AbstractObject.DisplayMode.FACE);
-                                    cube.setFrameColor(Color.BLACK);
+                                    cube.reposition(Environment.origin);
                                     cube.registerFrame(frame);
-                                } else {
-                                    cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
-                                    cube.setFrameColor(new Color(0, 0, 0, 0));
+                                    if (cube.getDisplayMode() == AbstractObject.DisplayMode.EDGE) {
+                                        cube.setDisplayMode(AbstractObject.DisplayMode.FACE);
+                                        cube.setFrameColor(Color.BLACK);
+                                        cube.registerFrame(frame);
+                                    } else {
+                                        cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
+                                        cube.setFrameColor(new Color(0, 0, 0, 0));
+                                    }
+                                    cube.addMovementAnimation(Math.random() - .5, Math.random() - .5, Math.random() - .5);
+
+                                    cameraInMotion.set(false);
+                                    count = 0;
                                 }
-                                cube.addMovementAnimation(Math.random() - .5, Math.random() - .5, Math.random() - .5);
-
-                                cameraInMotion.set(false);
-                                count = 0;
                             }
-                        }
-                    }, 1000);
-                }
-            }, 0);
-            cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
-            objects.add(cube);
-        }
+                        }, 1000);
+                    }
+                }, 0);
+                cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
+                objects.add(cube);
+            }
 
-        for (int i = 0; i < 100; i++) {
-            Color c = new Color(255, 165, 0); //ColorUtility.getRandomColor()
-            Tetrahedron cube = new Tetrahedron(Environment.origin, c, .1);
-            tracer.objects.base.Frame frame = new tracer.objects.base.Frame(cube);
-            Timer waiter = new Timer();
-            waiter.schedule(new TimerTask()
-            {
-                @Override
-                public void run()
+            for (int i = 0; i < 150; i++) {
+                Color c = new Color(255, 165, 0);
+                c = ColorUtility.getRandomColor();
+                Tetrahedron cube = new Tetrahedron(Environment.origin, c, .1);
+                tracer.objects.base.Frame frame = new tracer.objects.base.Frame(cube);
+                Timer waiter = new Timer();
+                waiter.schedule(new TimerTask()
                 {
-                    cube.addRotationAnimation((Math.random() * 2 * Math.PI) - Math.PI, (Math.random() * 2 * Math.PI) - Math.PI, (Math.random() * 2 * Math.PI) - Math.PI);
-                    cube.addMovementAnimation(Math.random() - .5, Math.random() - .5, Math.random() - .5);
-                    cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
-                    cube.setFrameColor(new Color(0, 0, 0, 0));
-                    cube.addProcess(new Runnable() {
-                        private int count = 0;
-                        private boolean loop = false;
+                    @Override
+                    public void run()
+                    {
+                        cube.addRotationAnimation((Math.random() * 2 * Math.PI) - Math.PI, (Math.random() * 2 * Math.PI) - Math.PI, (Math.random() * 2 * Math.PI) - Math.PI);
+                        cube.addMovementAnimation(Math.random() - .5, Math.random() - .5, Math.random() - .5);
+                        cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
+                        cube.setFrameColor(new Color(0, 0, 0, 0));
+                        cube.addProcess(new Runnable() {
+                            private int count = 0;
+                            private boolean loop = false;
 
-                        @Override
-                        public void run()
-                        {
-                            count++;
+                            @Override
+                            public void run()
+                            {
+                                count++;
 
-                            if (count == 20) {
-                                cube.animationTimers.get(1).purge();
-                                cube.animationTimers.get(1).cancel();
-                                cube.animationTimers.remove(1);
+                                if (count == 20) {
+                                    cube.animationTimers.get(1).purge();
+                                    cube.animationTimers.get(1).cancel();
+                                    cube.animationTimers.remove(1);
 
-                                double[] values = cube.movementAnimations.get(0);
-                                cube.movementAnimations.remove(0);
+                                    double[] values = cube.movementAnimations.get(0);
+                                    cube.movementAnimations.remove(0);
 
-                                cube.addMovementAnimation(values[0] * -20, values[1] * -20, values[2] * -20);
+                                    cube.addMovementAnimation(values[0] * -20, values[1] * -20, values[2] * -20);
 
-                            } else if (count == 21) {
-                                cube.animationTimers.get(1).purge();
-                                cube.animationTimers.get(1).cancel();
-                                cube.animationTimers.remove(1);
+                                } else if (count == 21) {
+                                    cube.animationTimers.get(1).purge();
+                                    cube.animationTimers.get(1).cancel();
+                                    cube.animationTimers.remove(1);
 
-                                cube.movementAnimations.remove(0);
+                                    cube.movementAnimations.remove(0);
 
-                                cube.reposition(Environment.origin);
-                                cube.registerFrame(frame);
-                                if (cube.getDisplayMode() == AbstractObject.DisplayMode.EDGE) {
-                                    cube.setDisplayMode(AbstractObject.DisplayMode.FACE);
-                                    cube.setFrameColor(Color.BLACK);
+                                    cube.reposition(Environment.origin);
                                     cube.registerFrame(frame);
-                                } else {
-                                    cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
-                                    cube.setFrameColor(new Color(0, 0, 0, 0));
+                                    if (cube.getDisplayMode() == AbstractObject.DisplayMode.EDGE) {
+                                        cube.setDisplayMode(AbstractObject.DisplayMode.FACE);
+                                        cube.setFrameColor(Color.BLACK);
+                                        cube.registerFrame(frame);
+                                    } else {
+                                        cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
+                                        cube.setFrameColor(new Color(0, 0, 0, 0));
+                                    }
+                                    cube.addMovementAnimation(Math.random() - .5, Math.random() - .5, Math.random() - .5);
+
+                                    count = 0;
                                 }
-                                cube.addMovementAnimation(Math.random() - .5, Math.random() - .5, Math.random() - .5);
-
-                                count = 0;
                             }
-                        }
-                    }, 1000);
-                }
-            }, 0);
-            cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
-            objects.add(cube);
-        }
+                        }, 1000);
+                    }
+                }, 0);
+                cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
+                objects.add(cube);
+            }
 
-        for (int i = 0; i < 100; i++) {
-            Color c = new Color(255, 0, 0); //ColorUtility.getRandomColor()
-            Octahedron cube = new Octahedron(Environment.origin, c, .1);
-            tracer.objects.base.Frame frame = new tracer.objects.base.Frame(cube);
-            Timer waiter = new Timer();
-            waiter.schedule(new TimerTask()
-            {
-                @Override
-                public void run()
+            for (int i = 0; i < 150; i++) {
+                Color c = new Color(255, 0, 0);
+                c = ColorUtility.getRandomColor();
+                Octahedron cube = new Octahedron(Environment.origin, c, .1);
+                tracer.objects.base.Frame frame = new tracer.objects.base.Frame(cube);
+                Timer waiter = new Timer();
+                waiter.schedule(new TimerTask()
                 {
-                    cube.addRotationAnimation((Math.random() * 2 * Math.PI) - Math.PI, (Math.random() * 2 * Math.PI) - Math.PI, (Math.random() * 2 * Math.PI) - Math.PI);
-                    cube.addMovementAnimation(Math.random() - .5, Math.random() - .5, Math.random() - .5);
-                    cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
-                    cube.setFrameColor(new Color(0, 0, 0, 0));
-                    cube.addProcess(new Runnable() {
-                        private int count = 0;
-                        private boolean loop = false;
+                    @Override
+                    public void run()
+                    {
+                        cube.addRotationAnimation((Math.random() * 2 * Math.PI) - Math.PI, (Math.random() * 2 * Math.PI) - Math.PI, (Math.random() * 2 * Math.PI) - Math.PI);
+                        cube.addMovementAnimation(Math.random() - .5, Math.random() - .5, Math.random() - .5);
+                        cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
+                        cube.setFrameColor(new Color(0, 0, 0, 0));
+                        cube.addProcess(new Runnable() {
+                            private int count = 0;
+                            private boolean loop = false;
 
-                        @Override
-                        public void run()
-                        {
-                            count++;
+                            @Override
+                            public void run()
+                            {
+                                count++;
 
-                            if (count == 20) {
-                                cube.animationTimers.get(1).purge();
-                                cube.animationTimers.get(1).cancel();
-                                cube.animationTimers.remove(1);
+                                if (count == 20) {
+                                    cube.animationTimers.get(1).purge();
+                                    cube.animationTimers.get(1).cancel();
+                                    cube.animationTimers.remove(1);
 
-                                double[] values = cube.movementAnimations.get(0);
-                                cube.movementAnimations.remove(0);
+                                    double[] values = cube.movementAnimations.get(0);
+                                    cube.movementAnimations.remove(0);
 
-                                cube.addMovementAnimation(values[0] * -20, values[1] * -20, values[2] * -20);
+                                    cube.addMovementAnimation(values[0] * -20, values[1] * -20, values[2] * -20);
 
-                            } else if (count == 21) {
-                                cube.animationTimers.get(1).purge();
-                                cube.animationTimers.get(1).cancel();
-                                cube.animationTimers.remove(1);
+                                } else if (count == 21) {
+                                    cube.animationTimers.get(1).purge();
+                                    cube.animationTimers.get(1).cancel();
+                                    cube.animationTimers.remove(1);
 
-                                cube.movementAnimations.remove(0);
+                                    cube.movementAnimations.remove(0);
 
-                                cube.reposition(Environment.origin);
-                                cube.registerFrame(frame);
-                                if (cube.getDisplayMode() == AbstractObject.DisplayMode.EDGE) {
-                                    cube.setDisplayMode(AbstractObject.DisplayMode.FACE);
-                                    cube.setFrameColor(Color.BLACK);
+                                    cube.reposition(Environment.origin);
                                     cube.registerFrame(frame);
-                                } else {
-                                    cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
-                                    cube.setFrameColor(new Color(0, 0, 0, 0));
+                                    if (cube.getDisplayMode() == AbstractObject.DisplayMode.EDGE) {
+                                        cube.setDisplayMode(AbstractObject.DisplayMode.FACE);
+                                        cube.setFrameColor(Color.BLACK);
+                                        cube.registerFrame(frame);
+                                    } else {
+                                        cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
+                                        cube.setFrameColor(new Color(0, 0, 0, 0));
+                                    }
+                                    cube.addMovementAnimation(Math.random() - .5, Math.random() - .5, Math.random() - .5);
+
+                                    count = 0;
                                 }
-                                cube.addMovementAnimation(Math.random() - .5, Math.random() - .5, Math.random() - .5);
-
-                                count = 0;
                             }
-                        }
-                    }, 1000);
-                }
-            }, 0);
-            cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
-            objects.add(cube);
-        }
+                        }, 1000);
+                    }
+                }, 0);
+                cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
+                objects.add(cube);
+            }
 
-        for (int i = 0; i < 100; i++) {
-            Color c = new Color(0, 0, 255); //ColorUtility.getRandomColor()
-            Dodecahedron cube = new Dodecahedron(Environment.origin, c, .1);
-            tracer.objects.base.Frame frame = new tracer.objects.base.Frame(cube);
-            Timer waiter = new Timer();
-            waiter.schedule(new TimerTask()
-            {
-                @Override
-                public void run()
+            for (int i = 0; i < 150; i++) {
+                Color c = new Color(0, 0, 255);
+                c = ColorUtility.getRandomColor();
+                Dodecahedron cube = new Dodecahedron(Environment.origin, c, .1);
+                tracer.objects.base.Frame frame = new tracer.objects.base.Frame(cube);
+                Timer waiter = new Timer();
+                waiter.schedule(new TimerTask()
                 {
-                    cube.addRotationAnimation((Math.random() * 2 * Math.PI) - Math.PI, (Math.random() * 2 * Math.PI) - Math.PI, (Math.random() * 2 * Math.PI) - Math.PI);
-                    cube.addMovementAnimation(Math.random() - .5, Math.random() - .5, Math.random() - .5);
-                    cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
-                    cube.setFrameColor(new Color(0, 0, 0, 0));
-                    cube.addProcess(new Runnable() {
-                        private int count = 0;
-                        private boolean loop = false;
+                    @Override
+                    public void run()
+                    {
+                        cube.addRotationAnimation((Math.random() * 2 * Math.PI) - Math.PI, (Math.random() * 2 * Math.PI) - Math.PI, (Math.random() * 2 * Math.PI) - Math.PI);
+                        cube.addMovementAnimation(Math.random() - .5, Math.random() - .5, Math.random() - .5);
+                        cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
+                        cube.setFrameColor(new Color(0, 0, 0, 0));
+                        cube.addProcess(new Runnable() {
+                            private int count = 0;
+                            private boolean loop = false;
 
-                        @Override
-                        public void run()
-                        {
-                            count++;
+                            @Override
+                            public void run()
+                            {
+                                count++;
 
-                            if (count == 20) {
-                                cube.animationTimers.get(1).purge();
-                                cube.animationTimers.get(1).cancel();
-                                cube.animationTimers.remove(1);
+                                if (count == 20) {
+                                    cube.animationTimers.get(1).purge();
+                                    cube.animationTimers.get(1).cancel();
+                                    cube.animationTimers.remove(1);
 
-                                double[] values = cube.movementAnimations.get(0);
-                                cube.movementAnimations.remove(0);
+                                    double[] values = cube.movementAnimations.get(0);
+                                    cube.movementAnimations.remove(0);
 
-                                cube.addMovementAnimation(values[0] * -20, values[1] * -20, values[2] * -20);
+                                    cube.addMovementAnimation(values[0] * -20, values[1] * -20, values[2] * -20);
 
-                            } else if (count == 21) {
-                                cube.animationTimers.get(1).purge();
-                                cube.animationTimers.get(1).cancel();
-                                cube.animationTimers.remove(1);
+                                } else if (count == 21) {
+                                    cube.animationTimers.get(1).purge();
+                                    cube.animationTimers.get(1).cancel();
+                                    cube.animationTimers.remove(1);
 
-                                cube.movementAnimations.remove(0);
+                                    cube.movementAnimations.remove(0);
 
-                                cube.reposition(Environment.origin);
-                                cube.registerFrame(frame);
-                                if (cube.getDisplayMode() == AbstractObject.DisplayMode.EDGE) {
-                                    cube.setDisplayMode(AbstractObject.DisplayMode.FACE);
-                                    cube.setFrameColor(Color.BLACK);
+                                    cube.reposition(Environment.origin);
                                     cube.registerFrame(frame);
-                                } else {
-                                    cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
-                                    cube.setFrameColor(new Color(0, 0, 0, 0));
+                                    if (cube.getDisplayMode() == AbstractObject.DisplayMode.EDGE) {
+                                        cube.setDisplayMode(AbstractObject.DisplayMode.FACE);
+                                        cube.setFrameColor(Color.BLACK);
+                                        cube.registerFrame(frame);
+                                    } else {
+                                        cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
+                                        cube.setFrameColor(new Color(0, 0, 0, 0));
+                                    }
+                                    cube.addMovementAnimation(Math.random() - .5, Math.random() - .5, Math.random() - .5);
+
+                                    count = 0;
                                 }
-                                cube.addMovementAnimation(Math.random() - .5, Math.random() - .5, Math.random() - .5);
-
-                                count = 0;
                             }
-                        }
-                    }, 1000);
-                }
-            }, 0);
-            cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
-            objects.add(cube);
-        }
+                        }, 1000);
+                    }
+                }, 0);
+                cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
+                objects.add(cube);
+            }
 
-        for (int i = 0; i < 100; i++) {
-            Color c = new Color(165, 0, 165); //ColorUtility.getRandomColor()
-            Icosahedron cube = new Icosahedron(Environment.origin, c, .1);
-            tracer.objects.base.Frame frame = new tracer.objects.base.Frame(cube);
-            Timer waiter = new Timer();
-            waiter.schedule(new TimerTask()
-            {
-                @Override
-                public void run()
+            for (int i = 0; i < 150; i++) {
+                Color c = new Color(165, 0, 165);
+                c = ColorUtility.getRandomColor();
+                Icosahedron cube = new Icosahedron(Environment.origin, c, .1);
+                tracer.objects.base.Frame frame = new tracer.objects.base.Frame(cube);
+                Timer waiter = new Timer();
+                waiter.schedule(new TimerTask()
                 {
-                    cube.addRotationAnimation((Math.random() * 2 * Math.PI) - Math.PI, (Math.random() * 2 * Math.PI) - Math.PI, (Math.random() * 2 * Math.PI) - Math.PI);
-                    cube.addMovementAnimation(Math.random() - .5, Math.random() - .5, Math.random() - .5);
-                    cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
-                    cube.setFrameColor(new Color(0, 0, 0, 0));
-                    cube.addProcess(new Runnable() {
-                        private int count = 0;
-                        private boolean loop = false;
+                    @Override
+                    public void run()
+                    {
+                        cube.addRotationAnimation((Math.random() * 2 * Math.PI) - Math.PI, (Math.random() * 2 * Math.PI) - Math.PI, (Math.random() * 2 * Math.PI) - Math.PI);
+                        cube.addMovementAnimation(Math.random() - .5, Math.random() - .5, Math.random() - .5);
+                        cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
+                        cube.setFrameColor(new Color(0, 0, 0, 0));
+                        cube.addProcess(new Runnable() {
+                            private int count = 0;
+                            private boolean loop = false;
 
-                        @Override
-                        public void run()
-                        {
-                            count++;
+                            @Override
+                            public void run()
+                            {
+                                count++;
 
-                            if (count == 20) {
-                                cube.animationTimers.get(1).purge();
-                                cube.animationTimers.get(1).cancel();
-                                cube.animationTimers.remove(1);
+                                if (count == 20) {
+                                    cube.animationTimers.get(1).purge();
+                                    cube.animationTimers.get(1).cancel();
+                                    cube.animationTimers.remove(1);
 
-                                double[] values = cube.movementAnimations.get(0);
-                                cube.movementAnimations.remove(0);
+                                    double[] values = cube.movementAnimations.get(0);
+                                    cube.movementAnimations.remove(0);
 
-                                cube.addMovementAnimation(values[0] * -20, values[1] * -20, values[2] * -20);
+                                    cube.addMovementAnimation(values[0] * -20, values[1] * -20, values[2] * -20);
 
-                            } else if (count == 21) {
-                                cube.animationTimers.get(1).purge();
-                                cube.animationTimers.get(1).cancel();
-                                cube.animationTimers.remove(1);
+                                } else if (count == 21) {
+                                    cube.animationTimers.get(1).purge();
+                                    cube.animationTimers.get(1).cancel();
+                                    cube.animationTimers.remove(1);
 
-                                cube.movementAnimations.remove(0);
+                                    cube.movementAnimations.remove(0);
 
-                                cube.reposition(Environment.origin);
-                                cube.registerFrame(frame);
-                                if (cube.getDisplayMode() == AbstractObject.DisplayMode.EDGE) {
-                                    cube.setDisplayMode(AbstractObject.DisplayMode.FACE);
-                                    cube.setFrameColor(Color.BLACK);
+                                    cube.reposition(Environment.origin);
                                     cube.registerFrame(frame);
-                                } else {
-                                    cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
-                                    cube.setFrameColor(new Color(0, 0, 0, 0));
-                                }
-                                cube.addMovementAnimation(Math.random() - .5, Math.random() - .5, Math.random() - .5);
+                                    if (cube.getDisplayMode() == AbstractObject.DisplayMode.EDGE) {
+                                        cube.setDisplayMode(AbstractObject.DisplayMode.FACE);
+                                        cube.setFrameColor(Color.BLACK);
+                                        cube.registerFrame(frame);
+                                    } else {
+                                        cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
+                                        cube.setFrameColor(new Color(0, 0, 0, 0));
+                                    }
+                                    cube.addMovementAnimation(Math.random() - .5, Math.random() - .5, Math.random() - .5);
 
-                                count = 0;
+                                    count = 0;
+                                }
                             }
-                        }
-                    }, 1000);
-                }
-            }, 0);
-            cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
-            objects.add(cube);
+                        }, 1000);
+                    }
+                }, 0);
+                cube.setDisplayMode(AbstractObject.DisplayMode.EDGE);
+                objects.add(cube);
         }
     }
     

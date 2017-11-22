@@ -426,6 +426,7 @@ public abstract class AbstractObject implements ObjectInterface
      *
      * @param rotation The angles that define the rotation of the Object.
      */
+    @Override
     public void setRotation(Vector rotation)
     {
         setRotationWithoutUpdate(rotation);
