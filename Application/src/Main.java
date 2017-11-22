@@ -36,9 +36,9 @@ public class Main
     //Methods
     
     /**
-     * The main method.
+     * The tracer.main method.
      *
-     * @param args Arguments to the main method.
+     * @param args Arguments to the tracer.main method.
      */
     public static void main(String[] args)
     {
