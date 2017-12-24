@@ -16,7 +16,7 @@ public class Gui extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("Greeting.fxml"));
         primaryStage.setTitle("Greeting screen");
-        primaryStage.setScene(new Scene(root,300,275));
+        primaryStage.setScene(new Scene(root,1200,700));
         primaryStage.show();
     }
 

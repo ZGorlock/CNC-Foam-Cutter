@@ -1,0 +1,29 @@
+.root{
+    -fx-background-color: white;
+    -fx-font-size: 16pt;
+    -fx-font-fill: black;
+
+    /* All backgrounds are white */
+}
+.buttonGrey{
+    -fx-background-color: #BEBFC3;
+    -fx-background-radius: 6;
+    /* This is the soft grey action button */
+}
+.buttonGold{
+    -fx-background-color: #F2C313;
+    -fx-background-radius: 6;
+    /* This is the bright gold button for emergency stops */
+}
+
+.tab{
+    -fx-background-color: #B79A62;
+    /* This is the subtle gold color for all tabs, a header can be considered one big tab */
+}
+
+.h1{
+     -fx-background-color: #B79A62;
+     -fx-text-fill: white;
+     -fx-padding: 10px;
+     /* Main header */
+}
