@@ -1,12 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox prefHeight="400.0" prefWidth="600.0" stylesheets="/gui/style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.GreetingController">
 
-    <fx:include source="header.fxml" />
+    <HBox id="header" centerShape="false" prefHeight="63.0" prefWidth="600.0" stylesheets="/gui/style.css" xmlns="http://javafx.com/javafx/8.0.121">
+
+            <ImageView id="logo" fitHeight="63" fitWidth="63.0" preserveRatio="true" visible="true">
+                <Image url="@images/logo.PNG" />
+            </ImageView>
+            <Label id="header" alignment="CENTER" contentDisplay="RIGHT" maxWidth="Infinity" prefHeight="68.0" prefWidth="537.0"
+                   styleClass="h1" text="3D CNC FOAM CUTTER" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets></Label>
+
+    </HBox>
+
 
     <BorderPane prefHeight="79.0" prefWidth="600.0">
         <right>
