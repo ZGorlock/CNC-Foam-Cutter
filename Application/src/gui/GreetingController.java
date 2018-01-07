@@ -10,6 +10,7 @@ import javax.swing.text.html.ImageView;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class GreetingController
 {
@@ -18,6 +19,7 @@ public class GreetingController
     public Button upload;
     public Button print;
     public ImageView logo;
+    public ArrayList<String> fileNames;
 
     public void uploadFile(ActionEvent actionEvent)
     {
@@ -42,6 +44,11 @@ public class GreetingController
         } catch (IOException ex) {
             fileUpload.setText("File Not Found");
         }
+    }
+
+    public ArrayList<String> getFileNames()
+    {
+        return fileNames;
     }
 
     public void print(ActionEvent actionEvent) {

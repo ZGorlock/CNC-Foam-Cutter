@@ -8,7 +8,7 @@ import grbl.APIgrbl;
 import slicer.Slicer;
 import utils.CmdLine;
 import utils.Constants;
-
+import gui.*;
 import java.io.File;
 
 public class Main
@@ -40,15 +40,19 @@ public class Main
      *
      * @param args Arguments to the tracer.main method.
      */
-    public static void main(String[] args)
+    public static void main(String [] args)
     {
 
         if (!init()) {
             return;
         }
-    
+
+        // Application.launch(Gui.class, args);
+        // get file names from application
+
         File model = new File("resources\\cadfiles\\can.stl");
-        
+
+
 //        Renderer renderer = new Renderer(model);
 //        System.out.println();
         
