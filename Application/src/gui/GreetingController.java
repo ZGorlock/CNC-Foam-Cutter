@@ -1,6 +1,11 @@
 package gui;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
@@ -51,6 +56,20 @@ public class GreetingController
         return fileNames;
     }
 
+
     public void print(ActionEvent actionEvent) {
+
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getResource("Console.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("3D CNC Foam Cutter");
+            stage.setScene(new Scene(root, 1200, 700));
+            stage.show();
+            // Hide this current window (if this is what you want)
+            ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -27,7 +27,7 @@
 
     <BorderPane prefHeight="294.0" prefWidth="600.0">
         <center>
-            <Button id="print" onAction="#uploadFile" styleClass="buttonGrey" text="Print" />
+            <Button id="print" onAction="#print" styleClass="buttonGrey" text="Print" />
         </center>
     </BorderPane>
 
