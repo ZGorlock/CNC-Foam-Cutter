@@ -5,6 +5,8 @@
  */
 
 import grbl.APIgrbl;
+import gui.Interfaces.Greeting.GreetingController;
+import javafx.application.Application;
 import slicer.Slicer;
 import utils.CmdLine;
 import utils.Constants;
@@ -47,10 +49,12 @@ public class Main
             return;
         }
 
-        // Application.launch(Gui.class, args);
-        // get file names from application
+        Application.launch(Gui.class, args);
 
-        File model = new File("resources\\cadfiles\\can.stl");
+        // Move to MainMenu
+        String filename = GreetingController.getFileNames().get(0);
+
+        File model = new File(filename);
 
 
 //        Renderer renderer = new Renderer(model);
