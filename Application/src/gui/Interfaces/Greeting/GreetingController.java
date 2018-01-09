@@ -41,7 +41,7 @@ public class GreetingController
 
         Parent root;
         try {
-            root = FXMLLoader.load(getClass().getResource("MainMenu/MenuController.fxml"));
+            root = FXMLLoader.load(getClass().getResource("../MainMenu/Menu.fxml"));
             Stage stage = new Stage();
             stage.setTitle("3D CNC Foam Cutter");
             stage.setScene(new Scene(root, 1200, 700));
