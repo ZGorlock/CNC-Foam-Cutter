@@ -6,9 +6,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="gui.Interfaces.MainMenu.TraceController"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<?import javafx.embed.swing.SwingNode?>
+<Tab text="Tracer" closable="false">
+    <Pane id="pane" prefHeight="600.0" prefWidth="600.0">
+        <children>
+            <SwingNode id="swingNodeTrace" />
+        </children>
+    </Pane>
+</Tab>

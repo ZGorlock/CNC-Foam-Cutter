@@ -8,6 +8,8 @@
 /* This is the subtle gold color for all tabs, a header can be considered one big tab */
 .tab{
     -fx-background-color: #B79A62;
+    -fx-padding: 10px;
+    -fx-backgroun-radius: 5;
 }
 
 /* Main header */
