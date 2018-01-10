@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 /**
  * Converts an STL file to G-Code.
  */
-public class Slicer
+public final class Slicer
 {
     
     //Constants

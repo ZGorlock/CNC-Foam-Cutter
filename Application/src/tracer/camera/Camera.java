@@ -6,7 +6,7 @@
 
 package tracer.camera;
 
-import tracer.main.Environment;
+import tracer.Tracer;
 import tracer.math.matrix.Matrix3;
 import tracer.math.vector.Vector;
 import tracer.math.vector.Vector3;
@@ -91,8 +91,8 @@ public class Camera
     /**
      * The dimensions of the viewport.
      */
-    private double viewportX = Environment.screenX / 1000.0;
-    private double viewportY = Environment.screenY / 1000.0;
+    private double viewportX = Tracer.screenX / 1000.0;
+    private double viewportY = Tracer.screenY / 1000.0;
     
     /**
      * The normal unit Vector of the Screen.
@@ -144,7 +144,7 @@ public class Camera
         nextCameraId++;
         cameraMap.put(cameraId, this);
         
-        origin = Environment.origin;
+        origin = Tracer.origin;
         
         calculateCamera();
     
@@ -163,7 +163,7 @@ public class Camera
             {
                 calculateCamera();
             }
-        }, 0, 1000 / Environment.FPS);
+        }, 0, 1000 / Tracer.FPS);
     }
     
     
@@ -175,8 +175,8 @@ public class Camera
     public void calculateCamera()
     {
         //determine if update is necessary
-        if (!Environment.origin.equals(origin)) {
-            origin = Environment.origin;
+        if (!Tracer.origin.equals(origin)) {
+            origin = Tracer.origin;
             updateRequired = true;
         }
         if (!updateRequired) {
@@ -343,7 +343,7 @@ public class Camera
      */
     private void setupKeyListener()
     {
-        Environment.frame.addKeyListener(new KeyListener()
+        Tracer.frame.addKeyListener(new KeyListener()
         {
             private final Set<Integer> pressed = new HashSet<>();
             
@@ -469,7 +469,7 @@ public class Camera
                 }
                 
             }
-        }, 0, (long) (1000.0 / Environment.FPS / 2));
+        }, 0, (long) (1000.0 / Tracer.FPS / 2));
     }
     
     public void bindLocation()
@@ -593,9 +593,9 @@ public class Camera
         Camera camera = getActiveCameraView();
         Vector viewportDim = getActiveViewportDim();
         Vector scale = new Vector(
-                Environment.screenX / viewportDim.getX(),
-                Environment.screenY / viewportDim.getY(),
-                Environment.screenZ
+                Tracer.screenX / viewportDim.getX(),
+                Tracer.screenY / viewportDim.getY(),
+                Tracer.screenZ
         );
         
         for (int i = 0; i < vs.size(); i++) {
@@ -668,7 +668,7 @@ public class Camera
      */
     private static void setupStaticKeyListener()
     {
-        Environment.frame.addKeyListener(new KeyListener()
+        Tracer.frame.addKeyListener(new KeyListener()
         {
             
             @Override

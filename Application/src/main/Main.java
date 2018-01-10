@@ -1,20 +1,27 @@
+package main;
+
 /*
  * File:    Main.java
  * Package:
  * Author:  Zachary Gill
  */
 
-import grbl.APIgrbl;
-import gui.Interfaces.Greeting.GreetingController;
+import gui.Gui;
 import javafx.application.Application;
-import slicer.Slicer;
 import utils.CmdLine;
 import utils.Constants;
-import gui.*;
-import java.io.File;
 
 public class Main
 {
+    
+    //TODO find way to specify whether machine is hot wire or cnc
+    //TODO how are we going to store hot wire models?
+    
+    //TODO add error handling to Controller setup pieces
+    //TODO add unit tests for Controller setup pieces
+    
+    //TODO make Trace an instanced class and output a JPanel or something
+    
     
     //Static Fields
     
@@ -35,37 +42,21 @@ public class Main
 
     public static String port;
     
+    
     //Methods
     
     /**
-     * The tracer.main method.
+     * The Main method.
      *
-     * @param args Arguments to the tracer.main method.
+     * @param args Arguments to the Main method.
      */
     public static void main(String [] args)
     {
-
         if (!init()) {
             return;
         }
 
         Application.launch(Gui.class, args);
-
-        // Move to MainMenu
-        String filename = GreetingController.getFileNames().get(0);
-
-        File model = new File(filename);
-
-
-//        Renderer renderer = new Renderer(model);
-//        System.out.println();
-        
-        Slicer slicer = new Slicer(model.getAbsolutePath(),architecture);
-        slicer.slice("--gcode-flavor mach3");
-        System.out.println();
-
-        APIgrbl grbl = new APIgrbl();
-        grbl.start("Birds_and_flowers.gcode");
     }
     
     /**

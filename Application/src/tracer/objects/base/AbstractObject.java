@@ -6,7 +6,7 @@
 
 package tracer.objects.base;
 
-import tracer.main.Environment;
+import tracer.Tracer;
 import tracer.math.matrix.Matrix3;
 import tracer.math.vector.Vector;
 import tracer.utility.ColorUtility;
@@ -160,7 +160,7 @@ public abstract class AbstractObject implements ObjectInterface
                 double scale = timeElapsed / 1000;
                 move(new Vector(xSpeed * scale, ySpeed * scale, zSpeed * scale));
             }
-        }, 0, 1000 / Environment.FPS);
+        }, 0, 1000 / Tracer.FPS);
     }
     
     /**
@@ -194,7 +194,7 @@ public abstract class AbstractObject implements ObjectInterface
                 double scale = timeElapsed / 1000;
                 setRotation(getRotation().plus(new Vector(yawSpeed * scale, pitchSpeed * scale, rollSpeed * scale)));
             }
-        }, 0, 1000 / Environment.FPS);
+        }, 0, 1000 / Tracer.FPS);
     }
     
     /**
@@ -225,7 +225,7 @@ public abstract class AbstractObject implements ObjectInterface
                 float hue = (float) (timeElapsed / period);
                 setColor(ColorUtility.getColorByHue(hue));
             }
-        }, 0, 1000 / Environment.FPS);
+        }, 0, 1000 / Tracer.FPS);
     }
     
     /**

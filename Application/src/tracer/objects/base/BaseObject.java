@@ -6,8 +6,8 @@
 
 package tracer.objects.base;
 
+import tracer.Tracer;
 import tracer.camera.Camera;
-import tracer.main.Environment;
 import tracer.math.vector.Vector;
 
 import java.awt.*;
@@ -104,7 +104,7 @@ public abstract class BaseObject extends AbstractObject
      * @throws ArithmeticException When the vertices are not all of the same spacial dimension.
      */
     public BaseObject(List<Vector> vertices) throws ArithmeticException {
-        this(null, Color.BLACK, Environment.origin, vertices.toArray(new Vector[]{}));
+        this(null, Color.BLACK, Tracer.origin, vertices.toArray(new Vector[]{}));
     }
     
     

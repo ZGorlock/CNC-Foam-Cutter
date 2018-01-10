@@ -19,6 +19,7 @@ public class GreetingController
     public Button print;
     private static ArrayList<String> fileNames;
 
+    
     public void uploadFile(ActionEvent actionEvent)
     {
         FileChooser fileChooser = new FileChooser();
@@ -28,7 +29,10 @@ public class GreetingController
         if(file != null)
         {
             if (file.isDirectory()) {
-                //TODO
+                File[] files = file.listFiles();
+                for (File f : files) {
+                    fileNames.add(f.getAbsolutePath());
+                }
             } else {
                 // this constructs all the file names
                 fileNames.add(file.getAbsolutePath());
@@ -52,10 +56,13 @@ public class GreetingController
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
+        
 
     }
 
     public static ArrayList<String> getFileNames() {
         return fileNames;
     }
+    
 }
