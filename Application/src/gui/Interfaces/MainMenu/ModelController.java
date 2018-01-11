@@ -20,20 +20,22 @@ public class ModelController {
     public Label fileSize;
     public Label fileDesc;
     public Label filePercent;
+    public Label studentNID;
 
     public static Renderer renderer;
 
     public void initialize()
     {
-            fileName.setText("SuperAwesome.gcode");
-            fileDesc.setText("This is a super awesome model");
-            fileSize.setText("54MB");
-            filePercent.setText("100% done");
+        // This can be generated from the file name
+        fileName.setText("SuperAwesome.gcode");
+        fileDesc.setText("This is a super awesome model");
+        fileSize.setText("54MB");
+        filePercent.setText("100% done");
+        studentNID.setText("XX99999");
+
+        // model = new File(GreetingController.getFileNames().get(0));
+        // renderer = new Renderer(model);
     }
-    
-    //public void init(File model)
-    {
-       // renderer = new Renderer(model);
-    }
+
     
 }

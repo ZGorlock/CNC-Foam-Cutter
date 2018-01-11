@@ -17,7 +17,7 @@
             </Pane>
         </center>
         <bottom>
-            <HBox spacing="20" alignment="CENTER">
+            <HBox spacing="20" alignment="CENTER" styleClass="hbox">
                 <Label fx:id="grblX"></Label>
                 <Label fx:id="grblY"></Label>
                 <Label fx:id="grblZ"></Label>

@@ -8,15 +8,16 @@ import java.io.File;
 
 public class GcodeController {
     
-    
-    public void init(File model)
+    public void initialize()
     {
+        /*
+        model = new File(GreetingController.getFileNames().get(0));
         slice(model);
-        
+
         APIgrbl grbl = new APIgrbl();
         grbl.start(getGcodeFile(model));
+        */
     }
-    
     
     public void slice(File model)
     {

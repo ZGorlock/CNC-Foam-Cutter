@@ -41,20 +41,32 @@
     -fx-background-radius: 6;
 }
 
-/* Pane */
+.buttonGold:hover{
+    -fx-text-fill: white
+}
+
+.buttonGold:pressed{
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+
+/* Layouts */
+
 .pane{
     -fx-border-color: #B79A62;
     -fx-border-width: 3;
     -fx-padding: 10px;
 }
 
-/* Pane */
 .borderPane{
+    -fx-padding: 40px;
+}
+
+.hbox{
     -fx-padding: 20px;
 }
 
-/*  Actions */
-#print{
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+.vbox{
+    -fx-padding: 60px;
 }
+
 
