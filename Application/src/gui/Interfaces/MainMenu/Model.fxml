@@ -4,7 +4,9 @@
 <?import javafx.scene.layout.Pane?>
 
 <?import javafx.scene.layout.BorderPane?>
-<BorderPane styleClass="borderPane">
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<BorderPane stylesheets="/gui/style.css" styleClass="borderPane" fx:controller="gui.Interfaces.MainMenu.ModelController" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
     <left>
         <Pane id="paneModel" prefHeight="300.0" prefWidth="300.0" styleClass="pane" stylesheets="/gui/style.css" visible="true" xmlns="http://javafx.com/javafx/8.0.121">
             <children>
@@ -12,4 +14,12 @@
             </children>
         </Pane>
     </left>
+    <right>
+        <VBox>
+            <Label fx:id="fileName"></Label>
+            <Label fx:id="fileSize"></Label>
+            <Label fx:id="fileDesc"></Label>
+            <Label fx:id="filePercent"></Label>
+        </VBox>
+    </right>
 </BorderPane>

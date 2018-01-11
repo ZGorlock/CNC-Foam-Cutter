@@ -7,14 +7,22 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.embed.swing.SwingNode?>
-<Tab text="Tracer" closable="false">
+<Tab text="Tracer" closable="false" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Interfaces.MainMenu.TraceController">
     <BorderPane styleClass="borderPane">
-        <left>
+        <center>
             <Pane id="paneTrace" prefHeight="300.0" prefWidth="300.0" visible="true"  stylesheets="/gui/style.css" styleClass="pane">
                 <children>
                     <SwingNode id="swingNodeTrace" />
                 </children>
             </Pane>
-        </left>
+        </center>
+        <bottom>
+            <HBox spacing="20" alignment="CENTER">
+                <Label fx:id="grblX"></Label>
+                <Label fx:id="grblY"></Label>
+                <Label fx:id="grblZ"></Label>
+                <Label fx:id="grblA"></Label>
+            </HBox>
+        </bottom>
     </BorderPane>
 </Tab>

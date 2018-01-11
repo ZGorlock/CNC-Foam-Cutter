@@ -18,11 +18,12 @@ import java.io.File;
 import java.io.IOException;
 
 public class MenuController{
-
+    // FXML Components
     public TabPane TPane;
     public Tab tabModel;
     public Tab tabGcode;
     private File model = null;
+
     
     private ModelController modelController;
     private GcodeController gcodeController;
@@ -56,6 +57,7 @@ public class MenuController{
         {
             e.printStackTrace();
         }
+
 
         /*
         model = new File(GreetingController.getFileNames().get(0));
