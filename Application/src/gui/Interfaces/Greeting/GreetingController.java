@@ -42,7 +42,7 @@ public class GreetingController
 
 
     public void print(ActionEvent actionEvent) {
-
+        // is it connected?
         Parent root;
         try {
             root = FXMLLoader.load(getClass().getResource("../MainMenu/Menu.fxml"));

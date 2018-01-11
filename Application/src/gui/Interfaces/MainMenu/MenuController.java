@@ -2,11 +2,15 @@ package gui.Interfaces.MainMenu;
 
 import gui.Interfaces.Greeting.GreetingController;
 import javafx.embed.swing.SwingNode;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 import javax.swing.*;
@@ -16,6 +20,8 @@ import java.io.IOException;
 public class MenuController{
 
     public TabPane TPane;
+    public Tab tabModel;
+    public Tab tabGcode;
     private File model = null;
     
     private ModelController modelController;
@@ -40,7 +46,8 @@ public class MenuController{
             Tab tabThird = (FXMLLoader.load(this.getClass().getResource(fxmlToLoad)));
             TPane.getTabs().add(tabThird);
 
-            Pane pane = (Pane)tabThird.getContent();
+            BorderPane borderPane = (BorderPane) tabThird.getContent();
+            Pane pane = (Pane)borderPane.getChildren().get(0);
             SwingNode swingNode = (SwingNode) pane.getChildren().get(0);
             JPanel panel = new JPanel();
             swingNode.setContent(panel);
@@ -57,7 +64,7 @@ public class MenuController{
         gcodeController = new GcodeController();
         traceController = new TraceController();
         rotationController = new RotationController();
-        
+
         modelController.init(model);
         gcodeController.init(model);
         traceController.init();

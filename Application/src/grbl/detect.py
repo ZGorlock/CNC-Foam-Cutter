@@ -21,7 +21,7 @@ class Arduino(object):
         if not arduino_ports:
             raise IOError("No Arduino found")
         if len(arduino_ports) > 1:
-            warnings.warn('Multiple Arduinos found - using the first')
+            warnings.warn('Multiple Arduinos found - using the first')  #Make it a pop up!!!
 
         self.port = serial.Serial(arduino_ports[0]).port
 

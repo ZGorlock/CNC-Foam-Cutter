@@ -8,9 +8,13 @@
 
 <?import javafx.embed.swing.SwingNode?>
 <Tab text="Tracer" closable="false">
-    <Pane id="pane" prefHeight="600.0" prefWidth="600.0">
-        <children>
-            <SwingNode id="swingNodeTrace" />
-        </children>
-    </Pane>
+    <BorderPane styleClass="borderPane">
+        <left>
+            <Pane id="paneTrace" prefHeight="300.0" prefWidth="300.0" visible="true"  stylesheets="/gui/style.css" styleClass="pane">
+                <children>
+                    <SwingNode id="swingNodeTrace" />
+                </children>
+            </Pane>
+        </left>
+    </BorderPane>
 </Tab>

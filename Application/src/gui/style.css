@@ -6,6 +6,7 @@
 }
 
 /* This is the subtle gold color for all tabs, a header can be considered one big tab */
+
 .tab{
     -fx-background-color: #B79A62;
     -fx-padding: 10px;
@@ -40,8 +41,19 @@
     -fx-background-radius: 6;
 }
 
-/*  Actions */
+/* Pane */
+.pane{
+    -fx-border-color: #B79A62;
+    -fx-border-width: 3;
+    -fx-padding: 10px;
+}
 
+/* Pane */
+.borderPane{
+    -fx-padding: 20px;
+}
+
+/*  Actions */
 #print{
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
 }
