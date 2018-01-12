@@ -2,11 +2,14 @@ package gui.Interfaces.MainMenu;
 
 import gui.Interfaces.Greeting.GreetingController;
 import javafx.embed.swing.SwingNode;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -14,6 +17,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.io.File;
@@ -60,7 +64,7 @@ public class MenuController {
         }
     }
 
-    public void print(){
+    public void print(ActionEvent actionEvent){
 
         if(greyButton == null)
         {
@@ -83,6 +87,20 @@ public class MenuController {
             greyButton.setText("Resume");
             hbox.getChildren().add(greyButton);
             goldButton.setText("STOP");
+        }else{
+            Parent root;
+            try {
+                root = FXMLLoader.load(getClass().getResource("../PopUps/JobCompleted.fxml"));
+                Stage stage = new Stage();
+                stage.setTitle("3D CNC Foam Cutter");
+                stage.setScene(new Scene(root, 800, 600));
+                stage.show();
+
+                // Hide the current window
+                ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

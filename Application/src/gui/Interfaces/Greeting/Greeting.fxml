@@ -9,7 +9,8 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.layout.Pane?>
-<VBox prefHeight="400.0" prefWidth="600.0" stylesheets="/gui/style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Interfaces.Greeting.GreetingController">
+<VBox prefHeight="400.0" prefWidth="600.0" stylesheets="/gui/style.css" xmlns="http://javafx.com/javafx/8.0.121"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Interfaces.Greeting.GreetingController">
 
     <HBox id="header" centerShape="false" prefHeight="63.0" prefWidth="600.0" stylesheets="/gui/style.css" xmlns="http://javafx.com/javafx/8.0.121">
             <ImageView id="logo" fitHeight="63" fitWidth="63.0" preserveRatio="true">
@@ -19,19 +20,23 @@
             </Label>
     </HBox>
 
-    <BorderPane prefHeight="79.0" prefWidth="600.0">
-        <right>
-            <Button id="upload" alignment="TOP_RIGHT" onAction="#uploadFile" styleClass="buttonGrey" text="Choose" />
-        </right>
-    </BorderPane>
+    <HBox alignment="TOP_RIGHT" styleClass="hboxShaded">
+        <Button id="upload" alignment="TOP_RIGHT" onAction="#uploadFile" styleClass="buttonGrey" text="+ Choose" />
+    </HBox>
 
-    <BorderPane styleClass="borderPane">
+    <HBox styleClass="hbox" alignment="CENTER" centerShape="false">
+    <BorderPane styleClass="borderPaneGreeting" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+        <top>
+            <Label text="Drop file here..." styleClass="goldText" contentDisplay="LEFT"></Label>
+        </top>
         <center>
-            <Pane prefHeight="300.0" prefWidth="300.0" visible="true"  styleClass="pane" >
-                <Label text="Drag and drop here " alignment="CENTER" textAlignment="CENTER" prefWidth="300.0"></Label>
-            </Pane>
+
+            <ImageView id="knights" fitHeight="200" fitWidth="300.0" preserveRatio="true" HBox.hgrow="ALWAYS">
+                <Image url="@../../images/knight.PNG" />
+            </ImageView>
         </center>
     </BorderPane>
+    </HBox>
 
 
     <BorderPane prefHeight="294.0" prefWidth="600.0">

@@ -61,12 +61,28 @@
     -fx-padding: 40px;
 }
 
+.borderPaneGreeting{
+    -fx-border-color: #B79A62;
+    -fx-border-width: 3;
+    -fx-padding: 20px;
+}
+
 .hbox{
     -fx-padding: 20px;
 }
 
+.hboxShaded{
+    -fx-background-color: #BEBFC3;
+        -fx-background-radius: 6;
+        -fx-position: relative;
+}
+
 .vbox{
     -fx-padding: 60px;
+}
+
+.goldText{
+    -fx-text-fill: #BEBFC3;
 }
 
 
