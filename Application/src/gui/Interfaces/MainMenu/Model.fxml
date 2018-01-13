@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.embed.swing.SwingNode?>
-<?import javafx.scene.layout.Pane?>
-
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <BorderPane stylesheets="/gui/style.css" styleClass="borderPane" fx:controller="gui.Interfaces.MainMenu.ModelController"
             xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
     <center>
-        <Pane id="paneModel" prefHeight="300.0" prefWidth="300.0" styleClass="pane" stylesheets="/gui/style.css" visible="true" xmlns="http://javafx.com/javafx/8.0.121">
-            <children>
-                <SwingNode id="swingNodeModel" />
-            </children>
+        <Pane id="paneModel" prefHeight="300.0" prefWidth="300.0" styleClass="pane" stylesheets="/gui/style.css" xmlns="http://javafx.com/javafx/8.0.121">
+            <SwingNode id="swingNodeModel"/>
         </Pane>
     </center>
     <right>
         <VBox styleClass="vbox">
-            <Label fx:id="fileName"></Label>
-            <Label fx:id="studentNID"></Label>
-            <Label fx:id="fileSize"></Label>
-            <Label fx:id="fileDesc"></Label>
-            <Label fx:id="filePercent"></Label>
+            <Label fx:id="fileName"/>
+            <Label fx:id="studentNID"/>
+            <Label fx:id="fileSize"/>
+            <Label fx:id="fileDesc"/>
+            <Label fx:id="filePercent"/>
         </VBox>
     </right>
 </BorderPane>

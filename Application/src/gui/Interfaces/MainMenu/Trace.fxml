@@ -1,27 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
 <?import javafx.embed.swing.SwingNode?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <Tab text="Tracer" closable="false" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Interfaces.MainMenu.TraceController">
     <BorderPane styleClass="borderPane">
         <center>
-            <Pane id="paneTrace" prefHeight="300.0" prefWidth="300.0" visible="true"  stylesheets="/gui/style.css" styleClass="pane">
-                <children>
-                    <SwingNode id="swingNodeTrace" />
-                </children>
+            <Pane id="paneTrace" prefHeight="600.0" prefWidth="600.0" stylesheets="/gui/style.css" styleClass="pane">
+                <SwingNode fx:id="swingNodeTrace"/>
             </Pane>
         </center>
         <bottom>
             <HBox spacing="20" alignment="CENTER" styleClass="hbox">
-                <Label fx:id="grblX"></Label>
-                <Label fx:id="grblY"></Label>
-                <Label fx:id="grblZ"></Label>
-                <Label fx:id="grblA"></Label>
+                <Label fx:id="grblX"/>
+                <Label fx:id="grblY"/>
+                <Label fx:id="grblZ"/>
+                <Label fx:id="grblA"/>
             </HBox>
         </bottom>
     </BorderPane>

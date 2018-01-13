@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="gui.Interfaces.MainMenu.GcodeController"
             prefHeight="400.0" prefWidth="600.0" stylesheets="/gui/style.css">
     <center>
         <VBox styleClass="vbox">
-            <TextArea text="Send G-code"></TextArea>
-            <TextField text="Optional Response"></TextField>
+            <TextArea text="Send G-code"/>
+            <TextField text="Optional Response"/>
         </VBox>
     </center>
 </BorderPane>
