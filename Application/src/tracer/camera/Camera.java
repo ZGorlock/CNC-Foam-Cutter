@@ -11,8 +11,6 @@ import tracer.math.matrix.Matrix3;
 import tracer.math.vector.Vector;
 import tracer.math.vector.Vector3;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.*;
 
 /**
@@ -343,86 +341,6 @@ public class Camera
      */
     private void setupKeyListener()
     {
-        Tracer.frame.addKeyListener(new KeyListener()
-        {
-            private final Set<Integer> pressed = new HashSet<>();
-            
-            @Override
-            public void keyTyped(KeyEvent e)
-            {
-            }
-            
-            @Override
-            public void keyPressed(KeyEvent e)
-            {
-                if (cameraId != activeCameraControl) {
-                    return;
-                }
-                
-                pressed.add(e.getKeyCode());
-                
-                double oldPhi = phi;
-                double oldTheta = theta;
-                double oldRho = rho;
-                
-                for (Integer key : pressed) {
-                    if (key == KeyEvent.VK_W) {
-                        if (phi < (Math.PI - phiBoundary)) {
-                            if ((phi < (Math.PI / 2) - phiBoundary) && (phi + phiSpeed > (Math.PI / 2) - phiBoundary)) {
-                                phi = (Math.PI / 2) - phiBoundary;
-                            } else {
-                                phi += phiSpeed;
-                            }
-                        } else {
-                            phi = Math.PI - phiBoundary;
-                        }
-                    }
-                    if (key == KeyEvent.VK_S) {
-                        if (phi > phiBoundary) {
-                            if ((phi > (Math.PI / 2) - phiBoundary) && (phi - phiSpeed < (Math.PI / 2) - phiBoundary)) {
-                                phi = (Math.PI / 2) - phiBoundary;
-                            } else {
-                                phi -= phiSpeed;
-                            }
-                        } else {
-                            phi = phiBoundary;
-                        }
-                    }
-                    if (key == KeyEvent.VK_A) {
-                        theta += thetaSpeed;
-                        if (theta > 2 * Math.PI) {
-                            theta -= (2 * Math.PI);
-                        }
-                    }
-                    if (key == KeyEvent.VK_D) {
-                        theta -= thetaSpeed;
-                        if (theta < 0) {
-                            theta += (2 * Math.PI);
-                        }
-                    }
-                    if (key == KeyEvent.VK_Q) {
-                        rho -= zoomSpeed;
-                        if (rho < zoomSpeed) {
-                            rho = zoomSpeed;
-                        }
-                    }
-                    if (key == KeyEvent.VK_Z) {
-                        rho += zoomSpeed;
-                    }
-                }
-                
-                if (phi != oldPhi || theta != oldTheta || rho != oldRho) {
-                    updateRequired = true;
-                }
-            }
-            
-            @Override
-            public void keyReleased(KeyEvent e)
-            {
-                pressed.remove(e.getKeyCode());
-            }
-            
-        });
     }
     
     /**
@@ -668,54 +586,6 @@ public class Camera
      */
     private static void setupStaticKeyListener()
     {
-        Tracer.frame.addKeyListener(new KeyListener()
-        {
-            
-            @Override
-            public void keyTyped(KeyEvent e)
-            {
-            }
-            
-            @Override
-            public void keyPressed(KeyEvent e)
-            {
-                int key = e.getKeyCode();
-    
-                if (key == KeyEvent.VK_1 || key == KeyEvent.VK_NUMPAD1) {
-                    setActiveCamera(0);
-                }
-                if (key == KeyEvent.VK_2 || key == KeyEvent.VK_NUMPAD2) {
-                    setActiveCamera(1);
-                }
-                if (key == KeyEvent.VK_3 || key == KeyEvent.VK_NUMPAD3) {
-                    setActiveCamera(2);
-                }
-                if (key == KeyEvent.VK_4 || key == KeyEvent.VK_NUMPAD4) {
-                    setActiveCameraView(0);
-                }
-                if (key == KeyEvent.VK_5 || key == KeyEvent.VK_NUMPAD5) {
-                    setActiveCameraView(1);
-                }
-                if (key == KeyEvent.VK_6 || key == KeyEvent.VK_NUMPAD6) {
-                    setActiveCameraView(2);
-                }
-                if (key == KeyEvent.VK_7 || key == KeyEvent.VK_NUMPAD7) {
-                    setActiveCameraControl(0);
-                }
-                if (key == KeyEvent.VK_8 || key == KeyEvent.VK_NUMPAD8) {
-                    setActiveCameraControl(1);
-                }
-                if (key == KeyEvent.VK_9 || key == KeyEvent.VK_NUMPAD9) {
-                    setActiveCameraControl(2);
-                }
-            }
-            
-            @Override
-            public void keyReleased(KeyEvent e)
-            {
-            }
-            
-        });
     }
     
 }

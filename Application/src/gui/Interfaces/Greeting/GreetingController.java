@@ -35,8 +35,10 @@ public class GreetingController
         {
             if (file.isDirectory()) {
                 File[] files = file.listFiles();
-                for (File f : files) {
-                    fileNames.add(f.getAbsolutePath());
+                if (files != null) {
+                    for (File f : files) {
+                        fileNames.add(f.getAbsolutePath());
+                    }
                 }
             } else {
                 // this constructs all the file names

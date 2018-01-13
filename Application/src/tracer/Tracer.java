@@ -6,18 +6,16 @@
 
 package tracer;
 
+import javafx.embed.swing.SwingNode;
 import tracer.camera.Camera;
 import tracer.math.matrix.Matrix3;
 import tracer.math.vector.Vector;
-import tracer.objects.base.AbstractObject;
-import tracer.objects.base.BaseObject;
 import tracer.objects.base.ObjectInterface;
 import tracer.objects.base.simple.Vertex;
+import tracer.utility.ColorUtility;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,10 +61,20 @@ public class Tracer
     
     //Static Fields
     
+//    /**
+//     * The Frame of the Window.
+//     */
+//    public JFrame frame;
+    
     /**
-     * The Frame of the Window.
+     * The SwingNode containing the Tracer.
      */
-    public static JFrame frame;
+    public static SwingNode node;
+    
+    /**
+     * The view of the window.
+     */
+    public static JPanel renderPanel;
     
     /**
      * The transformation matrix for pitch and yaw.
@@ -91,21 +99,22 @@ public class Tracer
      */
     private static void createObjects()
     {
+        for (int i = 0; i < 10000; i ++) {
+            objects.add(new Vertex(Color.RED, new Vector(Math.random(), Math.random(), Math.random())));
+        }
     }
     
     
     /**
      * The Main method of of the program.
-     *
-     * @param args Arguments to the Main method.
      */
-    public static void main(String[] args) {
-        frame = new JFrame();
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        Container pane = frame.getContentPane();
-        pane.setLayout(new BorderLayout());
-        frame.setFocusable(true);
-        frame.setFocusTraversalKeysEnabled(false);
+    public static void setup(SwingNode node) {
+//        frame = new JFrame();
+//        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//        Container pane = frame.getContentPane();
+//        pane.setLayout(new BorderLayout());
+//        frame.setFocusable(true);
+//        frame.setFocusTraversalKeysEnabled(false);
         
         
         //add KeyListener for main controls
@@ -114,8 +123,6 @@ public class Tracer
     
         //add cameras
         Camera camera = new Camera();
-        Camera camera2 = new Camera();
-        camera2.setLocation(Math.PI * 3 / 4, Math.PI * 3 / 4, 20);
         Camera.setActiveCamera(0);
         
         
@@ -125,38 +132,40 @@ public class Tracer
         
         
         // panel to display render results
-        JPanel renderPanel = new JPanel() {
+        renderPanel = new JPanel() {
             public void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g;
-                g2.setColor(Color.WHITE);
+                g2.setColor(ColorUtility.getRandomColor());
                 g2.fillRect(0, 0, getWidth(), getHeight());
                 BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
                 
                 
-                List<BaseObject> preparedBases = new ArrayList<>();
-                for (ObjectInterface object : objects) {
-                    preparedBases.addAll(object.prepare());
-                }
-    
-                preparedBases.sort((o1, o2) -> {
-                    double d1 = o1.calculatePreparedDistance();
-                    double d2 = o2.calculatePreparedDistance();
-                    return Double.compare(d2, d1);
-                });
-                
-                for (BaseObject preparedBase : preparedBases) {
-                    preparedBase.render(g2);
-                }
+//                List<BaseObject> preparedBases = new ArrayList<>();
+//                for (ObjectInterface object : objects) {
+//                    preparedBases.addAll(object.prepare());
+//                }
+//
+//                preparedBases.sort((o1, o2) -> {
+//                    double d1 = o1.calculatePreparedDistance();
+//                    double d2 = o2.calculatePreparedDistance();
+//                    return Double.compare(d2, d1);
+//                });
+//
+//                for (BaseObject preparedBase : preparedBases) {
+//                    preparedBase.render(g2);
+//                }
                 
                 
                 g2.drawImage(img, 0, 0, null);
             }
         };
-        pane.add(renderPanel, BorderLayout.CENTER);
         
-        
-        frame.setSize(screenX, screenY);
-        frame.setVisible(true);
+        node.setContent(renderPanel);
+//        pane.add(renderPanel, BorderLayout.CENTER);
+//
+//
+//        frame.setSize(screenX, screenY);
+//        frame.setVisible(true);
         
         
         Timer renderTimer = new Timer();
@@ -175,42 +184,87 @@ public class Tracer
      */
     private static void setupMainKeyListener()
     {
-        Tracer.frame.addKeyListener(new KeyListener()
-        {
-            
-            @Override
-            public void keyTyped(KeyEvent e)
-            {
-            }
-            
-            @Override
-            public void keyPressed(KeyEvent e)
-            {
-                int key = e.getKeyCode();
-                
-                if (key == KeyEvent.VK_DIVIDE) {
-                    for (ObjectInterface object : objects) {
-                        object.setDisplayMode(AbstractObject.DisplayMode.EDGE);
-                    }
-                }
-                if (key == KeyEvent.VK_MULTIPLY) {
-                    for (ObjectInterface object : objects) {
-                        object.setDisplayMode(AbstractObject.DisplayMode.VERTEX);
-                    }
-                }
-                if (key == KeyEvent.VK_SUBTRACT) {
-                    for (ObjectInterface object : objects) {
-                        object.setDisplayMode(AbstractObject.DisplayMode.FACE);
-                    }
-                }
-            }
-            
-            @Override
-            public void keyReleased(KeyEvent e)
-            {
-            }
-            
-        });
+        //TODO make this work with the Pane
+//        Tracer.frame.addKeyListener(new KeyListener()
+//        {
+//            private final Set<Integer> pressed = new HashSet<>();
+//
+//            @Override
+//            public void keyTyped(KeyEvent e)
+//            {
+//            }
+//
+//            @Override
+//            public void keyPressed(KeyEvent e)
+//            {
+//                if (cameraId != activeCameraControl) {
+//                    return;
+//                }
+//
+//                pressed.add(e.getKeyCode());
+//
+//                double oldPhi = phi;
+//                double oldTheta = theta;
+//                double oldRho = rho;
+//
+//                for (Integer key : pressed) {
+//                    if (key == KeyEvent.VK_W) {
+//                        if (phi < (Math.PI - phiBoundary)) {
+//                            if ((phi < (Math.PI / 2) - phiBoundary) && (phi + phiSpeed > (Math.PI / 2) - phiBoundary)) {
+//                                phi = (Math.PI / 2) - phiBoundary;
+//                            } else {
+//                                phi += phiSpeed;
+//                            }
+//                        } else {
+//                            phi = Math.PI - phiBoundary;
+//                        }
+//                    }
+//                    if (key == KeyEvent.VK_S) {
+//                        if (phi > phiBoundary) {
+//                            if ((phi > (Math.PI / 2) - phiBoundary) && (phi - phiSpeed < (Math.PI / 2) - phiBoundary)) {
+//                                phi = (Math.PI / 2) - phiBoundary;
+//                            } else {
+//                                phi -= phiSpeed;
+//                            }
+//                        } else {
+//                            phi = phiBoundary;
+//                        }
+//                    }
+//                    if (key == KeyEvent.VK_A) {
+//                        theta += thetaSpeed;
+//                        if (theta > 2 * Math.PI) {
+//                            theta -= (2 * Math.PI);
+//                        }
+//                    }
+//                    if (key == KeyEvent.VK_D) {
+//                        theta -= thetaSpeed;
+//                        if (theta < 0) {
+//                            theta += (2 * Math.PI);
+//                        }
+//                    }
+//                    if (key == KeyEvent.VK_Q) {
+//                        rho -= zoomSpeed;
+//                        if (rho < zoomSpeed) {
+//                            rho = zoomSpeed;
+//                        }
+//                    }
+//                    if (key == KeyEvent.VK_Z) {
+//                        rho += zoomSpeed;
+//                    }
+//                }
+//
+//                if (phi != oldPhi || theta != oldTheta || rho != oldRho) {
+//                    updateRequired = true;
+//                }
+//            }
+//
+//            @Override
+//            public void keyReleased(KeyEvent e)
+//            {
+//                pressed.remove(e.getKeyCode());
+//            }
+//
+//        });
     }
     
     

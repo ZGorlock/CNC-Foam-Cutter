@@ -14,13 +14,8 @@ import utils.Constants;
 public class Main
 {
     
-    //TODO find way to specify whether machine is hot wire or cnc
-    //TODO how are we going to store hot wire models?
-    
     //TODO add error handling to Controller setup pieces
     //TODO add unit tests for Controller setup pieces
-    
-    //TODO make Trace an instanced class and output a JPanel or something
     
     
     //Static Fields

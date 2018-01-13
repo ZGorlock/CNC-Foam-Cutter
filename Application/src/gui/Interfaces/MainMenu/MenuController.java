@@ -51,7 +51,6 @@ public class MenuController {
         }
     }
 
-    public boolean paused = false;
     public void print(ActionEvent actionEvent){
 
         if (greyButton == null) {
@@ -91,6 +90,7 @@ public class MenuController {
         }
     }
     
+    public boolean paused = false;
     private void playPauseButtonClicked()
     {
         greyButton.setStyle("-fx-background-color: #91918f; "+
