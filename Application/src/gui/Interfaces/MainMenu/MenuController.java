@@ -13,9 +13,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import tracer.Tracer;
 import utils.MachineDetector;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -42,15 +42,16 @@ public class MenuController {
 
             BorderPane borderPane = (BorderPane) tabThird.getContent();
             Pane pane = (Pane)borderPane.getChildren().get(0);
+            
             SwingNode swingNode = (SwingNode) pane.getChildren().get(0);
-            JPanel panel = new JPanel();
-            swingNode.setContent(panel);
+            Tracer.setup(swingNode);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public boolean paused = false;
     public void print(ActionEvent actionEvent){
 
         if (greyButton == null) {
@@ -60,9 +61,8 @@ public class MenuController {
                     " -fx-background-radius: 6;" +
                     " -fx-position: relative;");
 
-            greyButton.setOnMouseClicked(e -> greyButton.setStyle("-fx-background-color: #91918f; "+
-                            "-fx-background-radius: 6; " +
-                            "-fx-position: relative;"));
+            greyButton.setOnMouseClicked(e -> playPauseButtonClicked());
+            
             greyButton.setOnMouseEntered(e -> greyButton.setStyle("-fx-text-fill: white; "+
                     "-fx-background-radius: 6; " +
                     "-fx-position: relative; -fx-background-color: #BEBFC3;"));
@@ -70,7 +70,7 @@ public class MenuController {
                     "-fx-background-radius: 6; " +
                     "-fx-position: relative;"));
 
-            greyButton.setText("Resume");
+            greyButton.setText("Pause");
             hbox.getChildren().add(greyButton);
             goldButton.setText("STOP");
             
@@ -89,6 +89,33 @@ public class MenuController {
                 e.printStackTrace();
             }
         }
+    }
+    
+    private void playPauseButtonClicked()
+    {
+        greyButton.setStyle("-fx-background-color: #91918f; "+
+                "-fx-background-radius: 6; " +
+                "-fx-position: relative;");
+        
+        if (paused) {
+            paused = false;
+            greyButton.setText("Pause");
+            initiatePause();
+        } else {
+            paused = true;
+            greyButton.setText("Resume");
+            initiateResume();
+        }
+    }
+    
+    private void initiatePause()
+    {
+        //TODO handle the user clicking the pause button
+    }
+    
+    private void initiateResume()
+    {
+        //TODO handle the user clicking the resume button
     }
 
     public File getModel()
