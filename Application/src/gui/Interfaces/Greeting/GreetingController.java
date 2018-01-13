@@ -20,12 +20,17 @@ public class GreetingController
     private static ArrayList<String> fileNames;
 
     
+    public void initialize()
+    {
+        fileNames = new ArrayList<>();
+    }
+    
     public void uploadFile(ActionEvent actionEvent)
     {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select File(s)");
         File file = fileChooser.showOpenDialog(new Stage());
-
+    
         if(file != null)
         {
             if (file.isDirectory()) {

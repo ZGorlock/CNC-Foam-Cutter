@@ -1,23 +1,19 @@
 package gui.Interfaces.MainMenu;
 
-import gui.Interfaces.Greeting.GreetingController;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import utils.MachineDetector;
 
 import javax.swing.*;
 import java.io.File;
@@ -34,21 +30,13 @@ public class MenuController {
     // Model to Execute
     private File model = null;
     
+    
     public void initialize()
     {
-        // We assume it is the router system
+        String fxmlToLoad = MachineDetector.isCncMachine() ? "Trace.fxml" : "Rotation.fxml";
 
-        boolean isHotWire = false;
-
-        String fxmlToLoad = "Trace.fxml";
-        if(isHotWire)
-        {
-            fxmlToLoad = "Rotation.fxml";
-        }
-
-       // We add a tab dynamically depending on which fxml file we will load
+        // We add a tab dynamically depending on which fxml file we will load
         try {
-
             Tab tabThird = (FXMLLoader.load(this.getClass().getResource(fxmlToLoad)));
             TPane.getTabs().add(tabThird);
 
@@ -58,16 +46,14 @@ public class MenuController {
             JPanel panel = new JPanel();
             swingNode.setContent(panel);
 
-        }catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void print(ActionEvent actionEvent){
 
-        if(greyButton == null)
-        {
+        if (greyButton == null) {
             greyButton = new Button();
 
             greyButton.setStyle(" -fx-background-color: #BEBFC3;" +
@@ -87,7 +73,8 @@ public class MenuController {
             greyButton.setText("Resume");
             hbox.getChildren().add(greyButton);
             goldButton.setText("STOP");
-        }else{
+            
+        } else {
             Parent root;
             try {
                 root = FXMLLoader.load(getClass().getResource("../PopUps/JobCompleted.fxml"));
