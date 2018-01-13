@@ -1,17 +1,7 @@
 package gui.Interfaces.MainMenu;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
-import javafx.embed.swing.SwingNode;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import renderer.Renderer;
-
-import javax.swing.*;
-import java.io.File;
-import java.io.IOException;
 
 public class ModelController {
 
@@ -21,21 +11,49 @@ public class ModelController {
     public Label fileDesc;
     public Label filePercent;
     public Label studentNID;
+    
+    public static ModelController controller;
 
     public static Renderer renderer;
 
     public void initialize()
     {
+        controller = this;
+        
         // This can be generated from the file name
-        fileName.setText("SuperAwesome.gcode");
-        fileDesc.setText("This is a super awesome model");
-        fileSize.setText("54MB");
-        filePercent.setText("100% done");
-        studentNID.setText("XX99999");
+        //TODO these are just temporary
+        setFileName("SuperAwesome.gcode");
+        setDesc("This is a super awesome model");
+        setFileSize("54MB");
+        setPercentage("100% done");
+        setStudentNid("XX99999");
 
         // model = new File(GreetingController.getFileNames().get(0));
         // renderer = new Renderer(model);
     }
+    
+    
+    public static void setFileName(String fileName) {
+        controller.fileName.setText(fileName);
+    }
+    
+    public static void setDesc(String desc) {
+        controller.fileDesc.setText(desc);
+    }
+    
+    public static void setFileSize(String fileSize) {
+        controller.fileSize.setText(fileSize);
+    }
+    
+    public static void setPercentage(String percentage) {
+        controller.filePercent.setText(percentage);
+    }
+    
+    public static void setStudentNid(String studentNid) {
+        controller.studentNID.setText(studentNid);
+    }
+    
+    
 
     
 }
