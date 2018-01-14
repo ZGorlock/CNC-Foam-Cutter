@@ -2,6 +2,7 @@ package gui.Interfaces.MainMenu;
 
 import javafx.embed.swing.SwingNode;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import tracer.Tracer;
 
 public class TraceController {

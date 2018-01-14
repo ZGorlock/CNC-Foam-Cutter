@@ -9,7 +9,7 @@
     <BorderPane styleClass="borderPane">
         <center>
             <Pane id="paneTrace" prefHeight="600.0" prefWidth="600.0" stylesheets="/gui/style.css" styleClass="pane">
-                <SwingNode fx:id="swingNodeTrace"/>
+                <SwingNode fx:id="swingNodeTrace" visible="true" scaleX="113" scaleY="38" translateY="190" translateX="546"  styleClass="swingNode"/>
             </Pane>
         </center>
         <bottom>

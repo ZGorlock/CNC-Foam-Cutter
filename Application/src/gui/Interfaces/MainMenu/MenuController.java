@@ -42,7 +42,7 @@ public class MenuController {
 
             BorderPane borderPane = (BorderPane) tabThird.getContent();
             Pane pane = (Pane)borderPane.getChildren().get(0);
-            
+
             SwingNode swingNode = (SwingNode) pane.getChildren().get(0);
             Tracer.setup(swingNode);
 
