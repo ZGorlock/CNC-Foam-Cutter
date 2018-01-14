@@ -10,9 +10,9 @@ import javafx.embed.swing.SwingNode;
 import tracer.camera.Camera;
 import tracer.math.matrix.Matrix3;
 import tracer.math.vector.Vector;
+import tracer.objects.base.BaseObject;
 import tracer.objects.base.ObjectInterface;
 import tracer.objects.base.simple.Vertex;
-import tracer.utility.ColorUtility;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,15 +38,15 @@ public class Tracer
     /**
      * The dimensions of the Window.
      */
-    public static final int screenX = 2560;
-    public static final int screenY = 1440;
-    public static final int screenZ = 720;
+    public static final int screenX = 200;
+    public static final int screenY = 200;
+    public static final int screenZ = 200;
     
     
     /**
      * The border from the edge of the Window.
      */
-    public static final int screenBorder = 50;
+    public static final int screenBorder = 10;
     
     /**
      * The min and max coordinate values to render.
@@ -99,8 +99,8 @@ public class Tracer
      */
     private static void createObjects()
     {
-        for (int i = 0; i < 10000; i ++) {
-            objects.add(new Vertex(Color.RED, new Vector(Math.random(), Math.random(), Math.random())));
+        for (int i = 0; i < 100000; i ++) {
+            objects.add(new Vertex(Color.RED, new Vector(Math.random()  * (xMax * 2) - xMax, Math.random() * (yMax * 2) - yMax, Math.random() * (zMax * 2) - zMax)));
         }
     }
     
@@ -135,25 +135,25 @@ public class Tracer
         renderPanel = new JPanel() {
             public void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g;
-                g2.setColor(ColorUtility.getRandomColor());
+                g2.setColor(Color.WHITE);
                 g2.fillRect(0, 0, getWidth(), getHeight());
                 BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
                 
                 
-//                List<BaseObject> preparedBases = new ArrayList<>();
-//                for (ObjectInterface object : objects) {
-//                    preparedBases.addAll(object.prepare());
-//                }
-//
-//                preparedBases.sort((o1, o2) -> {
-//                    double d1 = o1.calculatePreparedDistance();
-//                    double d2 = o2.calculatePreparedDistance();
-//                    return Double.compare(d2, d1);
-//                });
-//
-//                for (BaseObject preparedBase : preparedBases) {
-//                    preparedBase.render(g2);
-//                }
+                List<BaseObject> preparedBases = new ArrayList<>();
+                for (ObjectInterface object : objects) {
+                    preparedBases.addAll(object.prepare());
+                }
+
+                preparedBases.sort((o1, o2) -> {
+                    double d1 = o1.calculatePreparedDistance();
+                    double d2 = o2.calculatePreparedDistance();
+                    return Double.compare(d2, d1);
+                });
+
+                for (BaseObject preparedBase : preparedBases) {
+                    preparedBase.render(g2);
+                }
                 
                 
                 g2.drawImage(img, 0, 0, null);
