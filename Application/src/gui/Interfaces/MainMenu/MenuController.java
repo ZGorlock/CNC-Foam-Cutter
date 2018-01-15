@@ -1,6 +1,5 @@
 package gui.Interfaces.MainMenu;
 
-import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -9,11 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import tracer.Tracer;
 import utils.MachineDetector;
 
 import java.io.File;
@@ -39,12 +35,6 @@ public class MenuController {
         try {
             Tab tabThird = (FXMLLoader.load(this.getClass().getResource(fxmlToLoad)));
             TPane.getTabs().add(tabThird);
-
-            BorderPane borderPane = (BorderPane) tabThird.getContent();
-            Pane pane = (Pane)borderPane.getChildren().get(0);
-
-            SwingNode swingNode = (SwingNode) pane.getChildren().get(0);
-            Tracer.setup(swingNode);
 
         } catch (IOException e) {
             e.printStackTrace();

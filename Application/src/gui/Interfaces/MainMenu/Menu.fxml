@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<VBox prefHeight="400.0" prefWidth="600.0" stylesheets="/gui/style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Interfaces.MainMenu.MenuController">
+<VBox prefHeight="720.0" prefWidth="1080.0" stylesheets="/gui/style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Interfaces.MainMenu.MenuController">
     <TabPane fx:id="TPane">
         <Tab id="tabModel" closable="false" styleClass="tab" text="Model">
             <fx:include source="Model.fxml" />

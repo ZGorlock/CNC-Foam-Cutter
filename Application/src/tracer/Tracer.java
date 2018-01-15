@@ -17,10 +17,10 @@ import tracer.objects.base.simple.Vertex;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * The Main Environment.
@@ -38,15 +38,15 @@ public class Tracer
     /**
      * The dimensions of the Window.
      */
-    public static final int screenX = 200;
-    public static final int screenY = 200;
-    public static final int screenZ = 200;
+    public static final int screenX = 1170;
+    public static final int screenY = 640;
+    public static final int screenZ = 480;
     
     
     /**
      * The border from the edge of the Window.
      */
-    public static final int screenBorder = 10;
+    public static final int screenBorder = 0;
     
     /**
      * The min and max coordinate values to render.
@@ -61,10 +61,6 @@ public class Tracer
     
     //Static Fields
     
-//    /**
-//     * The Frame of the Window.
-//     */
-//    public JFrame frame;
     
     /**
      * The SwingNode containing the Tracer.
@@ -99,9 +95,30 @@ public class Tracer
      */
     private static void createObjects()
     {
-        for (int i = 0; i < 100000; i ++) {
-            objects.add(new Vertex(Color.RED, new Vector(Math.random()  * (xMax * 2) - xMax, Math.random() * (yMax * 2) - yMax, Math.random() * (zMax * 2) - zMax)));
-        }
+        TimerTask traceTask = new TimerTask()
+        {
+            double phi = 0.0;
+            double theta = 0.0;
+            double rho = 2.0;
+        
+            @Override
+            public void run()
+            {
+                phi += .01556;
+                theta += .01256;
+            
+                double x = rho * Math.sin(phi) * Math.cos(theta);
+                double y = rho * Math.cos(phi);
+                double z = rho * Math.sin(phi) * Math.sin(theta);
+                objects.add(new Vertex(Color.RED, new Vector(x, y, z)));
+            }
+        };
+        Timer traceTimer = new Timer();
+        traceTimer.scheduleAtFixedRate(traceTask, 0, 20);
+
+//        for (int i = 0; i < 100000; i ++) {
+//            objects.add(new Vertex(Color.RED, new Vector(Math.random()  * (xMax * 2) - xMax, Math.random() * (yMax * 2) - yMax, Math.random() * (zMax * 2) - zMax)));
+//        }
     }
     
     
@@ -109,12 +126,12 @@ public class Tracer
      * The Main method of of the program.
      */
     public static void setup(SwingNode node) {
-//        frame = new JFrame();
-//        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//        Container pane = frame.getContentPane();
-//        pane.setLayout(new BorderLayout());
-//        frame.setFocusable(true);
-//        frame.setFocusTraversalKeysEnabled(false);
+        
+        //initialize the Tracer
+        if (Tracer.node != null) {
+            return;
+        }
+        Tracer.node = node;
         
         
         //add KeyListener for main controls
@@ -131,42 +148,47 @@ public class Tracer
         createObjects();
         
         
-        // panel to display render results
+        //panel to display render results
         renderPanel = new JPanel() {
+            private AtomicBoolean running = new AtomicBoolean(false);
+            
             public void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D) g;
-                g2.setColor(Color.WHITE);
-                g2.fillRect(0, 0, getWidth(), getHeight());
-                BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
-                
-                
-                List<BaseObject> preparedBases = new ArrayList<>();
-                for (ObjectInterface object : objects) {
-                    preparedBases.addAll(object.prepare());
+                if (running.compareAndSet(false, true)) {
+    
+                    List<BaseObject> preparedBases = new ArrayList<>();
+                    try {
+                        for (ObjectInterface object : objects) {
+                            preparedBases.addAll(object.prepare());
+                        }
+                    } catch (ConcurrentModificationException ignored) {
+                        running.set(false);
+                        return;
+                    }
+                    
+                    preparedBases.sort((o1, o2) -> {
+                        double d1 = o1.calculatePreparedDistance();
+                        double d2 = o2.calculatePreparedDistance();
+                        return Double.compare(d2, d1);
+                    });
+                    
+                    
+                    Graphics2D g2 = (Graphics2D) g;
+                    g2.setColor(Color.WHITE);
+                    g2.fillRect(0, 0, screenX, screenY);
+                    BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+    
+    
+                    for (BaseObject preparedBase : preparedBases) {
+                        preparedBase.render(g2);
+                    }
+    
+    
+                    g2.drawImage(img, 0, 0, null);
+                    running.set(false);
                 }
-
-                preparedBases.sort((o1, o2) -> {
-                    double d1 = o1.calculatePreparedDistance();
-                    double d2 = o2.calculatePreparedDistance();
-                    return Double.compare(d2, d1);
-                });
-
-                for (BaseObject preparedBase : preparedBases) {
-                    preparedBase.render(g2);
-                }
-                
-                
-                g2.drawImage(img, 0, 0, null);
             }
         };
-        
         node.setContent(renderPanel);
-//        pane.add(renderPanel, BorderLayout.CENTER);
-//
-//
-//        frame.setSize(screenX, screenY);
-//        frame.setVisible(true);
-        
         
         Timer renderTimer = new Timer();
         renderTimer.scheduleAtFixedRate(new TimerTask()
@@ -176,7 +198,7 @@ public class Tracer
             {
                 renderPanel.repaint();
             }
-        }, 0, 1000 / FPS);
+        }, 0, (int)(1000 / (double)FPS));
     }
     
     /**
@@ -184,7 +206,7 @@ public class Tracer
      */
     private static void setupMainKeyListener()
     {
-        //TODO make this work with the Pane
+        //TODO make this work with the fx tab
 //        Tracer.frame.addKeyListener(new KeyListener()
 //        {
 //            private final Set<Integer> pressed = new HashSet<>();

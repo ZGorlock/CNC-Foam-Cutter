@@ -55,7 +55,7 @@ public class GreetingController
             root = FXMLLoader.load(getClass().getResource("../MainMenu/Menu.fxml"));
             Stage stage = new Stage();
             stage.setTitle("3D CNC Foam Cutter");
-            stage.setScene(new Scene(root, 1200, 700));
+            stage.setScene(new Scene(root, 1280, 960));
             stage.show();
 
             // Hide the current window
