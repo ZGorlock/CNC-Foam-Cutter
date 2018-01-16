@@ -12,6 +12,7 @@ import tracer.math.matrix.Matrix3;
 import tracer.math.vector.Vector;
 import tracer.objects.base.BaseObject;
 import tracer.objects.base.ObjectInterface;
+import tracer.objects.base.simple.Edge;
 import tracer.objects.base.simple.Vertex;
 
 import javax.swing.*;
@@ -38,7 +39,7 @@ public class Tracer
     /**
      * The dimensions of the Window.
      */
-    public static final int screenX = 1170;
+    public static final int screenX = 1080;
     public static final int screenY = 640;
     public static final int screenZ = 480;
     
@@ -60,7 +61,6 @@ public class Tracer
     
     
     //Static Fields
-    
     
     /**
      * The SwingNode containing the Tracer.
@@ -95,6 +95,18 @@ public class Tracer
      */
     private static void createObjects()
     {
+        //axes
+        objects.add(new Edge(Color.BLACK,
+                new Vector(-2, 0, 0),
+                new Vector(2, 0, 0)));
+        objects.add(new Edge(Color.BLACK,
+                new Vector(0, -2, 0),
+                new Vector(0, 2, 0)));
+        objects.add(new Edge(Color.BLACK,
+                new Vector(0, 0, -2),
+                new Vector(0, 0, 2)));
+        
+        //animation
         TimerTask traceTask = new TimerTask()
         {
             double phi = 0.0;
@@ -114,16 +126,11 @@ public class Tracer
             }
         };
         Timer traceTimer = new Timer();
-        traceTimer.scheduleAtFixedRate(traceTask, 0, 20);
-
-//        for (int i = 0; i < 100000; i ++) {
-//            objects.add(new Vertex(Color.RED, new Vector(Math.random()  * (xMax * 2) - xMax, Math.random() * (yMax * 2) - yMax, Math.random() * (zMax * 2) - zMax)));
-//        }
+        traceTimer.scheduleAtFixedRate(traceTask, 0, 10);
     }
     
-    
     /**
-     * The Main method of of the program.
+     * The setup method of the Tracer
      */
     public static void setup(SwingNode node) {
         
@@ -133,10 +140,6 @@ public class Tracer
         }
         Tracer.node = node;
         
-        
-        //add KeyListener for main controls
-        setupMainKeyListener();
-    
     
         //add cameras
         Camera camera = new Camera();
@@ -173,7 +176,7 @@ public class Tracer
                     
                     
                     Graphics2D g2 = (Graphics2D) g;
-                    g2.setColor(Color.WHITE);
+                    g2.setColor(new Color(230, 230, 230));
                     g2.fillRect(0, 0, screenX, screenY);
                     BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
     
@@ -202,91 +205,26 @@ public class Tracer
     }
     
     /**
-     * Adds the KeyListener for the Camera main environment controls.
+     * Handles movement of the camera.
+     *
+     * @param deltaX The movement in the x direction.
+     * @param deltaY The movement in the y direction.
      */
-    private static void setupMainKeyListener()
+    public static void handleCameraControl(double deltaX, double deltaY)
     {
-        //TODO make this work with the fx tab
-//        Tracer.frame.addKeyListener(new KeyListener()
-//        {
-//            private final Set<Integer> pressed = new HashSet<>();
-//
-//            @Override
-//            public void keyTyped(KeyEvent e)
-//            {
-//            }
-//
-//            @Override
-//            public void keyPressed(KeyEvent e)
-//            {
-//                if (cameraId != activeCameraControl) {
-//                    return;
-//                }
-//
-//                pressed.add(e.getKeyCode());
-//
-//                double oldPhi = phi;
-//                double oldTheta = theta;
-//                double oldRho = rho;
-//
-//                for (Integer key : pressed) {
-//                    if (key == KeyEvent.VK_W) {
-//                        if (phi < (Math.PI - phiBoundary)) {
-//                            if ((phi < (Math.PI / 2) - phiBoundary) && (phi + phiSpeed > (Math.PI / 2) - phiBoundary)) {
-//                                phi = (Math.PI / 2) - phiBoundary;
-//                            } else {
-//                                phi += phiSpeed;
-//                            }
-//                        } else {
-//                            phi = Math.PI - phiBoundary;
-//                        }
-//                    }
-//                    if (key == KeyEvent.VK_S) {
-//                        if (phi > phiBoundary) {
-//                            if ((phi > (Math.PI / 2) - phiBoundary) && (phi - phiSpeed < (Math.PI / 2) - phiBoundary)) {
-//                                phi = (Math.PI / 2) - phiBoundary;
-//                            } else {
-//                                phi -= phiSpeed;
-//                            }
-//                        } else {
-//                            phi = phiBoundary;
-//                        }
-//                    }
-//                    if (key == KeyEvent.VK_A) {
-//                        theta += thetaSpeed;
-//                        if (theta > 2 * Math.PI) {
-//                            theta -= (2 * Math.PI);
-//                        }
-//                    }
-//                    if (key == KeyEvent.VK_D) {
-//                        theta -= thetaSpeed;
-//                        if (theta < 0) {
-//                            theta += (2 * Math.PI);
-//                        }
-//                    }
-//                    if (key == KeyEvent.VK_Q) {
-//                        rho -= zoomSpeed;
-//                        if (rho < zoomSpeed) {
-//                            rho = zoomSpeed;
-//                        }
-//                    }
-//                    if (key == KeyEvent.VK_Z) {
-//                        rho += zoomSpeed;
-//                    }
-//                }
-//
-//                if (phi != oldPhi || theta != oldTheta || rho != oldRho) {
-//                    updateRequired = true;
-//                }
-//            }
-//
-//            @Override
-//            public void keyReleased(KeyEvent e)
-//            {
-//                pressed.remove(e.getKeyCode());
-//            }
-//
-//        });
+        Camera c = Camera.getActiveCameraView();
+        c.handleMovement(deltaX, deltaY);
+    }
+    
+    /**
+     * Handles zooming of the camera.
+     *
+     * @param deltaZ The zoom amount.
+     */
+    public static void handleCameraZoom(double deltaZ)
+    {
+        Camera c = Camera.getActiveCameraView();
+        c.handleZoom(deltaZ);
     }
     
     

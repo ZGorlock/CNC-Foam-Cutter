@@ -26,6 +26,11 @@ public class Camera
      */
     private double phiBoundary = .1;
     
+    /**
+     * The minimum distance from the center of the scene.
+     */
+    private double rhoMinimum = 5;
+    
     
     //Static Fields
     
@@ -82,9 +87,9 @@ public class Camera
     /**
      * The current movement speed of the Camera.
      */
-    private double phiSpeed = .05;
-    private double thetaSpeed = .05;
-    private double zoomSpeed = 1;
+    private double phiSpeed = .005;
+    private double thetaSpeed = .005;
+    private double zoomSpeed = .05;
     
     /**
      * The dimensions of the viewport.
@@ -149,9 +154,6 @@ public class Camera
         if (activeCameraView == -1 || activeCameraControl == -1 ) {
             setActiveCamera(cameraId);
         }
-        
-        setupKeyListener();
-        setupStaticKeyListener();
         
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask()
@@ -337,10 +339,40 @@ public class Camera
     }
     
     /**
-     * Adds a KeyListener for the Camera controls.
+     * Handles movement of the camera.
+     *
+     * @param deltaX The movement in the x direction.
+     * @param deltaY The movement in the y direction.
      */
-    private void setupKeyListener()
+    public void handleMovement(double deltaX, double deltaY)
     {
+        double oldPhi = phi;
+        double oldTheta = theta;
+        
+        theta -= thetaSpeed * deltaX;
+        phi -= phiSpeed * deltaY;
+        bindLocation();
+        
+        if (phi != oldPhi || theta != oldTheta) {
+            updateRequired = true;
+        }
+    }
+    
+    /**
+     * Handles zooming of the camera.
+     *
+     * @param deltaZ The zoom amount
+     */
+    public void handleZoom(double deltaZ)
+    {
+        double oldRho = rho;
+        
+        rho -= zoomSpeed * deltaZ;
+        bindLocation();
+        
+        if (rho != oldRho) {
+            updateRequired = true;
+        }
     }
     
     /**
@@ -399,6 +431,10 @@ public class Camera
         }
         
         theta %= (Math.PI * 2);
+        
+        if (rho < rhoMinimum) {
+            rho = rhoMinimum;
+        }
     }
     
     
@@ -579,13 +615,6 @@ public class Camera
     {
         Camera camera = getActiveCameraView();
         return new Vector(camera.viewportX, camera.viewportY);
-    }
-    
-    /**
-     * Adds the static KeyListener for the Camera system controls.
-     */
-    private static void setupStaticKeyListener()
-    {
     }
     
 }

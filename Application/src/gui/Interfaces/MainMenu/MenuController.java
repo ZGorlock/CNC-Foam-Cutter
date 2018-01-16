@@ -6,7 +6,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -29,16 +28,7 @@ public class MenuController {
     
     public void initialize()
     {
-        String fxmlToLoad = MachineDetector.isCncMachine() ? "Trace.fxml" : "Rotation.fxml";
-
-        // We add a tab dynamically depending on which fxml file we will load
-        try {
-            Tab tabThird = (FXMLLoader.load(this.getClass().getResource(fxmlToLoad)));
-            TPane.getTabs().add(tabThird);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        TPane.getTabs().add(MachineDetector.isCncMachine() ? TraceController.setup() : RotationController.setup());
     }
 
     public void print(ActionEvent actionEvent){

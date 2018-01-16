@@ -1,8 +1,18 @@
 package gui.Interfaces.MainMenu;
 
 import javafx.embed.swing.SwingNode;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import tracer.Tracer;
+import tracer.math.Delta;
+
+import java.io.IOException;
 
 public class TraceController {
 
@@ -27,6 +37,45 @@ public class TraceController {
         setGrblY(8.15465422);
         setGrblZ(1.57);
         setGrblA(55.0);
+    }
+    
+    public static Tab setup()
+    {
+        try {
+            Tab tabThird = (FXMLLoader.load(TraceController.class.getResource("Trace.fxml")));
+        
+            BorderPane pane = (BorderPane) tabThird.getContent();
+            AnchorPane anchor = (AnchorPane) pane.getChildren().get(0);
+            BorderPane anchorPane = (BorderPane) anchor.getChildren().get(0);
+            SwingNode node = (SwingNode) anchorPane.getChildren().get(0);
+            
+            final Delta delta = new Delta();
+            node.setOnMousePressed(mouseEvent -> {
+                delta.x = mouseEvent.getSceneX();
+                delta.y = mouseEvent.getSceneY();
+                node.setCursor(Cursor.MOVE);
+            });
+            node.setOnMouseReleased(mouseEvent -> node.setCursor(Cursor.HAND));
+            node.setOnMouseDragged(mouseEvent -> {
+                Tracer.handleCameraControl(mouseEvent.getSceneX() - delta.x, mouseEvent.getSceneY() - delta.y);
+                delta.x = mouseEvent.getSceneX();
+                delta.y = mouseEvent.getSceneY();
+            });
+            node.setOnMouseEntered(mouseEvent -> node.setCursor(Cursor.HAND));
+            node.setOnScroll(
+                    new EventHandler<ScrollEvent>() {
+                        @Override
+                        public void handle(ScrollEvent event) {
+                            Tracer.handleCameraZoom(event.getDeltaY());
+                        }
+                    });
+            
+            return tabThird;
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
     
     

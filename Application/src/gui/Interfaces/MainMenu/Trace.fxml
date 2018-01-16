@@ -6,18 +6,14 @@
 <Tab text="Tracer" closable="false" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Interfaces.MainMenu.TraceController">
     <BorderPane styleClass="borderPane">
         <center>
-            <AnchorPane id="traceAnchorPane" prefHeight="640.0" prefWidth="1170.0" styleClass="pane">
+            <AnchorPane id="traceAnchorPane" prefHeight="640.0" prefWidth="1080.0" styleClass="pane">
                 <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <center>
-                        <SwingNode fx:id="swingNodeTrace"/>
+                        <SwingNode fx:id="swingNodeTrace"/> <!-- TODO get this to be centered in the anchor even if the screen changes dimensions (fullscreen) -->
                     </center>
                 </BorderPane>
             </AnchorPane>
         </center>
-        <!--<center>-->
-            <!--<Pane id="paneTrace" prefHeight="600.0" prefWidth="600.0" stylesheets="/gui/style.css" styleClass="pane">-->
-            <!--</Pane>-->
-        <!--</center>-->
         <bottom>
             <HBox spacing="20" alignment="CENTER" styleClass="hbox">
                 <Label fx:id="grblX"/>
