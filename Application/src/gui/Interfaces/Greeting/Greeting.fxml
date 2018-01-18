@@ -9,39 +9,44 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.TextField?>
 <VBox prefHeight="400.0" prefWidth="600.0" stylesheets="/gui/style.css" xmlns="http://javafx.com/javafx/8.0.121"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Interfaces.Greeting.GreetingController">
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Interfaces.Greeting.GreetingController" styleClass="vGreet" >
 
     <HBox id="header" centerShape="false" prefHeight="63.0" prefWidth="600.0" stylesheets="/gui/style.css" xmlns="http://javafx.com/javafx/8.0.121">
-            <ImageView id="logo" fitHeight="63" fitWidth="63.0" preserveRatio="true">
+            <ImageView fx:id="logo" preserveRatio="true" fitHeight="100">
                 <Image url="@../../images/logo.PNG" />
             </ImageView>
-            <Label id="header" alignment="CENTER" contentDisplay="RIGHT" maxWidth="Infinity" prefHeight="68.0" prefWidth="537.0" styleClass="h1" text="3D CNC FOAM CUTTER" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+            <Label fx:id="header" alignment="CENTER" contentDisplay="RIGHT" maxWidth="Infinity" prefHeight="100.0"
+                   prefWidth="537.0" styleClass="h1" text="3D CNC FOAM CUTTER                 " textAlignment="CENTER" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
             </Label>
     </HBox>
 
-    <HBox alignment="TOP_RIGHT" styleClass="hboxShaded">
-        <Button id="upload" alignment="TOP_RIGHT" onAction="#uploadFile" styleClass="buttonGrey" text="+ Choose" />
+    <HBox alignment="CENTER" styleClass="hboxShaded" prefWidth="600" prefHeight="70">
+        <TextField fx:id="textFieldPath" text = "Paste Path" HBox.hgrow="ALWAYS" prefWidth="580"></TextField>
+        <Button fx:id="chooseButton" alignment="TOP_RIGHT" onAction="#chooseFile" styleClass="buttonGrey" text="+ Choose"/>
     </HBox>
 
-    <HBox styleClass="hbox" alignment="CENTER" centerShape="false">
+    <HBox styleClass="hbox" alignment="CENTER" centerShape="false" VBox.vgrow="ALWAYS">
     <BorderPane styleClass="borderPaneGreeting" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
         <top>
             <Label text="Drop file here..." styleClass="goldText" contentDisplay="LEFT"></Label>
         </top>
         <center>
 
-            <ImageView id="knights" fitHeight="200" fitWidth="300.0" preserveRatio="true" HBox.hgrow="ALWAYS">
-                <Image url="@../../images/knight.PNG" />
+            <ImageView id="knights" preserveRatio="true" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                <Image url="@../../images/knight.PNG"/>
             </ImageView>
         </center>
     </BorderPane>
     </HBox>
 
 
-    <BorderPane prefHeight="294.0" prefWidth="600.0">
+    <BorderPane prefHeight="100.0" prefWidth="600.0">
         <center>
-            <Button id="print" onAction="#print" styleClass="buttonGrey" text="Print" />
+            <HBox styleClass="h1" alignment="CENTER">
+            <Button fx:id="greyButton" onAction="#upload" styleClass="buttonGrey" text="Upload"/>
+            </HBox>
         </center>
     </BorderPane>
 

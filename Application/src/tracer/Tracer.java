@@ -168,13 +168,6 @@ public class Tracer
                         return;
                     }
                     
-                    preparedBases.sort((o1, o2) -> {
-                        double d1 = o1.calculatePreparedDistance();
-                        double d2 = o2.calculatePreparedDistance();
-                        return Double.compare(d2, d1);
-                    });
-                    
-                    
                     Graphics2D g2 = (Graphics2D) g;
                     g2.setColor(new Color(230, 230, 230));
                     g2.fillRect(0, 0, screenX, screenY);

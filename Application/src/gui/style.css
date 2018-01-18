@@ -3,6 +3,7 @@
     -fx-background-color: white;
     -fx-font-size: 16pt;
     -fx-font-fill: black;
+    -fx-padding: 0;
 }
 
 /* This is the subtle gold color for all tabs, a header can be considered one big tab */
@@ -17,7 +18,9 @@
 .h1{
      -fx-background-color: #B79A62;
      -fx-text-fill: white;
-     -fx-padding: 10px;
+}
+.vGreet {
+    -fx-padding: 0;
 }
 
 /*  Grey Button CSS*/
@@ -68,13 +71,14 @@
 }
 
 .hbox{
-    -fx-padding: 20px;
+    -fx-padding: 40px;
 }
 
 .hboxShaded{
     -fx-background-color: #BEBFC3;
         -fx-background-radius: 6;
         -fx-position: relative;
+        -fx-padding: 10px;
 }
 
 .vbox{
