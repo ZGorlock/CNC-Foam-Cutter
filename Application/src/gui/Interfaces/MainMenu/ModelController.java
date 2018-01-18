@@ -1,7 +1,14 @@
 package gui.Interfaces.MainMenu;
 
+import gui.Interfaces.Greeting.InputController;
 import javafx.scene.control.Label;
+import jdk.internal.util.xml.impl.Input;
 import renderer.Renderer;
+
+import java.io.File;
+import java.util.ArrayList;
+
+import static gui.Interfaces.Greeting.GreetingController.getFileNames;
 
 public class ModelController {
 
@@ -19,19 +26,49 @@ public class ModelController {
     public void initialize()
     {
         controller = this;
-        
-        // This can be generated from the file name
-        //TODO these are just temporary
-        setFileName("SuperAwesome.gcode");
-        setDesc("This is a super awesome model");
-        setFileSize("54MB");
+
+        ArrayList<String> fileNames = getFileNames();
+        for(String str : fileNames)
+        {
+            File file = new File(str);
+            setFileName(file.getName());
+            calculateFileSize(file);
+            setStudentNid(InputController.getNidFromText());
+            setStudentNid(InputController.getDescFromText());
+        }
+
         setPercentage("100% done");
-        setStudentNid("XX99999");
 
         // model = new File(GreetingController.getFileNames().get(0));
         // renderer = new Renderer(model);
     }
-    
+
+    public static void calculateFileSize(File file)
+    {
+        double size = file.length();
+        int i = 0;
+
+        while(size / 100 > 10)
+        {
+            size /= 1024;
+            i++;
+        }
+        String bytes = "";
+        switch(i){
+            case 0:
+                bytes = "B";
+                break;
+            case 1:
+                bytes = "KB";
+                break;
+            case 2:
+                bytes = "MB";
+                break;
+            default: bytes = "B";
+                break;
+        }
+        setFileSize(Double.toString(size) + bytes);
+    }
     
     public static void setFileName(String fileName) {
         controller.fileName.setText(fileName);

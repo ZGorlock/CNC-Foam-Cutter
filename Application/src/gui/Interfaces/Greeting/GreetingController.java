@@ -96,9 +96,6 @@ public class GreetingController
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
-        
-
     }
 
     public static ArrayList<String> getFileNames() {

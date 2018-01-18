@@ -14,9 +14,9 @@ public class Gui extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("Interfaces/Greeting/Greeting.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Interfaces/Greeting/Input.fxml"));
         primaryStage.setTitle("3D CNC Foam Cutter");
-        primaryStage.setScene(new Scene(root,1280,960));
+        primaryStage.setScene(new Scene(root,800, 600));
         primaryStage.show();
     }
 
