@@ -4,23 +4,24 @@
     -fx-font-size: 16pt;
     -fx-font-fill: black;
     -fx-padding: 0;
+
 }
 
 /* This is the subtle gold color for all tabs, a header can be considered one big tab */
-
-.tab{
-    -fx-background-color: #B79A62;
-    -fx-padding: 10px;
-    -fx-backgroun-radius: 5;
-    -fx-alignment: CENTER;
-}
-
 .tabPane{
     -fx-tab-min-width:400px;
 }
 
+.tab{
+    -fx-background-color: #c5ae81;
+    -fx-padding: 10px;
+    -fx-background-radius: 5;
+    -fx-alignment: CENTER;
+    -fx-focus-color: none;
+}
+
 .tab:selected{
-    /* todo */
+   -fx-background-color: #B79A62;
 }
 
 /* Main header */
