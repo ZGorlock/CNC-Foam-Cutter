@@ -12,6 +12,15 @@
     -fx-background-color: #B79A62;
     -fx-padding: 10px;
     -fx-backgroun-radius: 5;
+    -fx-alignment: CENTER;
+}
+
+.tabPane{
+    -fx-tab-min-width:400px;
+}
+
+.tab:selected{
+    /* todo */
 }
 
 /* Main header */

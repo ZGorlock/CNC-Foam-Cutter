@@ -34,7 +34,7 @@ public class ModelController {
             setFileName(file.getName());
             calculateFileSize(file);
             setStudentNid(InputController.getNidFromText());
-            setStudentNid(InputController.getDescFromText());
+            setDesc(InputController.getDescFromText());
         }
 
         setPercentage("100% done");

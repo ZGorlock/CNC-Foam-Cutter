@@ -5,6 +5,8 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
 <BorderPane stylesheets="/gui/style.css" styleClass="borderPane" fx:controller="gui.Interfaces.MainMenu.ModelController"
             xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
     <center>
@@ -14,11 +16,26 @@
     </center>
     <right>
         <VBox styleClass="vbox">
-            <Label fx:id="fileName"/>
-            <Label fx:id="studentNID"/>
-            <Label fx:id="fileSize"/>
-            <Label fx:id="fileDesc"/>
-            <Label fx:id="filePercent"/>
+            <HBox spacing="25">
+                <Text>Student NID</Text>
+                <Label fx:id="studentNID"/>
+            </HBox>
+            <HBox spacing="35">
+                <Text>Description</Text>
+                <Label fx:id="fileDesc"/>
+            </HBox>
+            <HBox spacing="110">
+                <Text>File   </Text>
+                <Label fx:id="fileName" alignment="TOP_RIGHT"/>
+            </HBox>
+            <HBox spacing="106">
+                <Text>Size    </Text>
+                <Label fx:id="fileSize" alignment="TOP_RIGHT"/>
+            </HBox>
+            <HBox spacing="36">
+                <Text>Percentage   </Text>
+                <Label fx:id="filePercent" alignment="TOP_RIGHT"/>
+            </HBox>
         </VBox>
     </right>
 </BorderPane>

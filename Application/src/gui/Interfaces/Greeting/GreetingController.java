@@ -80,7 +80,7 @@ public class GreetingController
             chooseButton.setStyle(" -fx-background-color: #BEBFC3;" +
                     " -fx-background-radius: 6;" +
                     " -fx-position: relative;" +
-                    "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
+                    "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, .8, 0, 0);");
             return;
         }
         Parent root;

@@ -5,8 +5,9 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.BorderPane?>
 <VBox prefHeight="720.0" prefWidth="1080.0" stylesheets="/gui/style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Interfaces.MainMenu.MenuController">
-    <TabPane fx:id="TPane">
+    <TabPane fx:id="TPane" styleClass="tabPane">
         <Tab id="tabModel" closable="false" styleClass="tab" text="Model">
             <fx:include source="Model.fxml" />
         </Tab>
@@ -15,7 +16,11 @@
         </Tab>
     </TabPane>
 
-    <HBox fx:id="hbox" alignment="CENTER" styleClass="hbox" spacing="80">
-        <Button text = "PRINT" styleClass="buttonGold" fx:id="goldButton" onAction="#print" />
-    </HBox>
+    <BorderPane prefHeight="100.0" prefWidth="600.0">
+        <center>
+            <HBox fx:id="hbox" alignment="CENTER" styleClass="h1" spacing="80">
+                <Button text = "PRINT" styleClass="buttonGold" fx:id="goldButton" onAction="#print" />
+            </HBox>
+        </center>
+    </BorderPane>
 </VBox>
