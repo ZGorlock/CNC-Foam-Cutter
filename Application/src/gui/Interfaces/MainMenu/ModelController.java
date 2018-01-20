@@ -1,5 +1,6 @@
 package gui.Interfaces.MainMenu;
 
+import grbl.APIgrbl;
 import gui.Interfaces.Greeting.InputController;
 import javafx.scene.control.Label;
 import jdk.internal.util.xml.impl.Input;
@@ -26,6 +27,7 @@ public class ModelController {
     public void initialize()
     {
         controller = this;
+        APIgrbl apIgrbl = new APIgrbl();
 
         ArrayList<String> fileNames = getFileNames();
         for(String str : fileNames)
@@ -37,7 +39,7 @@ public class ModelController {
             setDesc(InputController.getDescFromText());
         }
 
-        setPercentage("100% done");
+        setPercentage(Double.toString(APIgrbl.grbl.getPercentage()) + "%");
 
         // model = new File(GreetingController.getFileNames().get(0));
         // renderer = new Renderer(model);
