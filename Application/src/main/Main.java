@@ -34,7 +34,10 @@ public class Main
      * The Java runtime version.
      */
     public static String javaVersion;
-
+    
+    /**
+     * The port connected to the Arduino UNO.
+     */
     public static String port;
     
     
