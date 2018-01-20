@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
@@ -31,15 +32,18 @@ public class GreetingController
     public Button chooseButton;
     public Label dropFileText;
     public BorderPane contentPane;
+    public ImageView knights;
     private String prompt;
     private boolean chosen;
 
     public void initialize()
     {
+
         chosen = false;
         prompt = textFieldPath.getText();
         fileNames = new ArrayList<>();
 
+        knights.setOpacity(.5);
         greyButton.setStyle(" -fx-background-color: #BEBFC3;" +
                 " -fx-background-radius: 6;" +
                 " -fx-position: relative;" +
@@ -80,6 +84,9 @@ public class GreetingController
             chosen = true;
         }
         // Animations and Stylings
+        knights.setOpacity(1.0);
+        knights.setScaleX(1.18);
+        knights.setScaleY(1.18);
         greyButton.setStyle(" -fx-background-color: #BEBFC3;" +
                 " -fx-background-radius: 6;" +
                 " -fx-position: relative;");
@@ -117,7 +124,7 @@ public class GreetingController
         }
     }
 
-    /* Drag and Drop handling*/
+    /* Drag and Drop handling */
     public void dragOver(DragEvent dragEvent) {
         if(dragEvent.getDragboard().hasFiles()) {
             dragEvent.acceptTransferModes(TransferMode.ANY);
@@ -131,8 +138,19 @@ public class GreetingController
         handleFile(file);
     }
 
+    /* Copy paste handling */
+    public void checkPaste(KeyEvent keyEvent) {
+        if(textFieldPath.getText().compareTo(prompt) != 0 && !chosen){
+            File file = new File(textFieldPath.getText());
+            if(file != null){
+                handleFile(file);
+            }
+        }
+    }
+
     /* Getter */
     public static ArrayList<String> getFileNames() {
         return fileNames;
     }
+
 }

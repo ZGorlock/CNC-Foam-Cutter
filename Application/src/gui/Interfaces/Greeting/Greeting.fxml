@@ -24,7 +24,7 @@
     </HBox>
 
     <HBox alignment="CENTER" styleClass="hboxShaded" prefWidth="600" prefHeight="70">
-        <TextField fx:id="textFieldPath" text = "Paste Path" HBox.hgrow="ALWAYS" prefWidth="580"></TextField>
+        <TextField fx:id="textFieldPath" text = "Paste Path" HBox.hgrow="ALWAYS" prefWidth="580" onKeyReleased="#checkPaste"></TextField>
         <Button fx:id="chooseButton" alignment="TOP_RIGHT" onAction="#chooseFile" styleClass="buttonGrey" text="+ Choose"/>
     </HBox>
 
@@ -36,7 +36,7 @@
                 <Label text="Drop file here..." styleClass="goldText" contentDisplay="LEFT" fx:id="dropFileText"></Label>
             </top>
             <center>
-                <ImageView id="knights" preserveRatio="true">
+                <ImageView fx:id="knights" preserveRatio="true">
                     <Image url="@../../images/knight.PNG"/>
                 </ImageView>
             </center>

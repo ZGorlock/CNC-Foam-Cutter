@@ -13,7 +13,8 @@
 }
 
 .tab{
-    -fx-background-color: #c5ae81;
+    -fx-background-color: #B79A62;
+    -fx-opacity: .7;
     -fx-padding: 10px;
     -fx-background-radius: 5;
     -fx-alignment: CENTER;
@@ -23,6 +24,7 @@
 
 .tab:selected{
    -fx-background-color: #B79A62;
+   -fx-opacity: 1;
 }
 
 .bold{
