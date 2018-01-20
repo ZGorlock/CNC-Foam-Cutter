@@ -1,12 +1,10 @@
 package gui.Interfaces.MainMenu;
 
 import javafx.embed.swing.SwingNode;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import tracer.Tracer;
@@ -62,13 +60,7 @@ public class TraceController {
                 delta.y = mouseEvent.getSceneY();
             });
             node.setOnMouseEntered(mouseEvent -> node.setCursor(Cursor.HAND));
-            node.setOnScroll(
-                    new EventHandler<ScrollEvent>() {
-                        @Override
-                        public void handle(ScrollEvent event) {
-                            Tracer.handleCameraZoom(event.getDeltaY());
-                        }
-                    });
+            node.setOnScroll(event -> Tracer.handleCameraZoom(event.getDeltaY()));
             
             return tabThird;
             
@@ -86,19 +78,19 @@ public class TraceController {
     
     
     public static void setGrblX(double x) {
-        controller.grblX.setText(String.format("X Position: %.2f", x));
+        controller.grblX.setText(String.format("%.2f", x));
     }
     
     public static void setGrblY(double y) {
-        controller.grblY.setText(String.format("Y Position: %.2f", y));
+        controller.grblY.setText(String.format("%.2f", y));
     }
     
     public static void setGrblZ(double z) {
-        controller.grblZ.setText(String.format("Z Position: %.2f", z));
+        controller.grblZ.setText(String.format("%.2f", z));
     }
     
     public static void setGrblA(double a) {
-        controller.grblA.setText(String.format("Acceleration: %.2f", a));
+        controller.grblA.setText(String.format("%.2f", a));
     }
     
     

@@ -23,6 +23,10 @@
     /* todo */
 }
 
+.bold{
+    -fx-font-weight: bold
+}
+
 /* Main header */
 .h1{
      -fx-background-color: #B79A62;

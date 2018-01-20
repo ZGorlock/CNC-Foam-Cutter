@@ -3,6 +3,7 @@
 <?import javafx.embed.swing.SwingNode?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
 <Tab text="Tracer" closable="false" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Interfaces.MainMenu.TraceController">
     <BorderPane styleClass="borderPane">
         <center>
@@ -16,10 +17,25 @@
         </center>
         <bottom>
             <HBox spacing="20" alignment="CENTER" styleClass="hbox">
-                <Label fx:id="grblX"/>
-                <Label fx:id="grblY"/>
-                <Label fx:id="grblZ"/>
-                <Label fx:id="grblA"/>
+                <HBox spacing="5">
+                    <Text styleClass="bold">X Position: </Text>
+                    <Label fx:id="grblX"/>
+                </HBox>
+                <HBox spacing="25"/>
+                <HBox spacing="5">
+                    <Text styleClass="bold">Y Position: </Text>
+                    <Label fx:id="grblY"/>
+                </HBox>
+                <HBox spacing="25"/>
+                <HBox spacing="5">
+                    <Text styleClass="bold">Z Position: </Text>
+                    <Label fx:id="grblZ"/>
+                </HBox>
+                <HBox spacing="25"/>
+                <HBox spacing="5">
+                    <Text styleClass="bold">Acceleration: </Text>
+                    <Label fx:id="grblA"/>
+                </HBox>
             </HBox>
         </bottom>
     </BorderPane>

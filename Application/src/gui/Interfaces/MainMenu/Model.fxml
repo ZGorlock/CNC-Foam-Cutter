@@ -2,11 +2,8 @@
 
 <?import javafx.embed.swing.SwingNode?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <BorderPane stylesheets="/gui/style.css" styleClass="borderPane" fx:controller="gui.Interfaces.MainMenu.ModelController"
             xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
     <center>
@@ -17,23 +14,23 @@
     <right>
         <VBox styleClass="vbox">
             <HBox spacing="25">
-                <Text>Student NID</Text>
+                <Text styleClass="bold">Student NID:</Text>
                 <Label fx:id="studentNID"/>
             </HBox>
             <HBox spacing="35">
-                <Text>Description</Text>
+                <Text styleClass="bold">Description:</Text>
                 <Label fx:id="fileDesc"/>
             </HBox>
-            <HBox spacing="110">
-                <Text>File   </Text>
+            <HBox spacing="115">
+                <Text styleClass="bold">File:</Text>
                 <Label fx:id="fileName" alignment="TOP_RIGHT"/>
             </HBox>
-            <HBox spacing="106">
-                <Text>Size    </Text>
+            <HBox spacing="110">
+                <Text styleClass="bold">Size:</Text>
                 <Label fx:id="fileSize" alignment="TOP_RIGHT"/>
             </HBox>
             <HBox spacing="36">
-                <Text>Percentage   </Text>
+                <Text styleClass="bold">Percentage:</Text>
                 <Label fx:id="filePercent" alignment="TOP_RIGHT"/>
             </HBox>
         </VBox>
