@@ -1,6 +1,8 @@
 package gui.Interfaces.Greeting;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -9,12 +11,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GreetingController
 {
@@ -22,6 +29,8 @@ public class GreetingController
     public TextField textFieldPath;
     public Button greyButton;
     public Button chooseButton;
+    public Label dropFileText;
+    public BorderPane contentPane;
     private String prompt;
     private boolean chosen;
 
@@ -48,7 +57,11 @@ public class GreetingController
             fileChooser.setTitle("Select File(s)");
             file = fileChooser.showOpenDialog(new Stage());
         }
+        handleFile(file);
+    }
 
+    private void handleFile(File file)
+    {
         if(file != null)
         {
             textFieldPath.setText(file.getAbsolutePath());
@@ -66,15 +79,16 @@ public class GreetingController
             }
             chosen = true;
         }
-
+        // Animations and Stylings
         greyButton.setStyle(" -fx-background-color: #BEBFC3;" +
                 " -fx-background-radius: 6;" +
                 " -fx-position: relative;");
+        dropFileText.setText("");
     }
 
 
-    public void upload(ActionEvent actionEvent) {
-
+    public void upload(ActionEvent actionEvent)
+    {
         if(!chosen) // must upload a file to continue
         {
             chooseButton.setStyle(" -fx-background-color: #BEBFC3;" +
@@ -83,6 +97,11 @@ public class GreetingController
                     "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, .8, 0, 0);");
             return;
         }
+        nextStage(actionEvent);
+    }
+
+    private void nextStage(ActionEvent actionEvent)
+    {
         Parent root;
         try {
             root = FXMLLoader.load(getClass().getResource("../MainMenu/Menu.fxml"));
@@ -98,8 +117,22 @@ public class GreetingController
         }
     }
 
+    /* Drag and Drop handling*/
+    public void dragOver(DragEvent dragEvent) {
+        if(dragEvent.getDragboard().hasFiles()) {
+            dragEvent.acceptTransferModes(TransferMode.ANY);
+        }
+    }
+
+    public void dropFile(DragEvent dragEvent) {
+        final Dragboard db = dragEvent.getDragboard();
+        File file = db.getFiles().get(0);
+
+        handleFile(file);
+    }
+
+    /* Getter */
     public static ArrayList<String> getFileNames() {
         return fileNames;
     }
-    
 }

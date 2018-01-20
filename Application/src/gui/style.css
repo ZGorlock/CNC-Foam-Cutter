@@ -17,7 +17,8 @@
     -fx-padding: 10px;
     -fx-background-radius: 5;
     -fx-alignment: CENTER;
-    -fx-focus-color: none;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: #B79A62;
 }
 
 .tab:selected{
@@ -29,6 +30,7 @@
      -fx-background-color: #B79A62;
      -fx-text-fill: white;
 }
+
 .vGreet {
     -fx-padding: 0;
 }
@@ -78,6 +80,10 @@
     -fx-border-color: #B79A62;
     -fx-border-width: 3;
     -fx-padding: 20px;
+}
+
+.stackpane {
+    -fx-padding: 40px;
 }
 
 .hbox{
