@@ -17,5 +17,17 @@
         <jarDirectory url="file://$MODULE_DIR$/lib/Java3D" recursive="false" />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/lib/JFX3DModelImporters" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="file://$MODULE_DIR$/lib/JFX3DModelImporters/apidoc" />
+        </JAVADOC>
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/lib/JFX3DModelImporters" recursive="false" />
+      </library>
+    </orderEntry>
   </component>
 </module>
