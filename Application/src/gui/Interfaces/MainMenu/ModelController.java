@@ -17,7 +17,7 @@ public class ModelController {
     public Label fileName;
     public Label fileSize;
     public Label fileDesc;
-    public Label filePercent;
+    public Label filePercentage;
     public Label studentNID;
     
     public static ModelController controller;
@@ -27,19 +27,21 @@ public class ModelController {
     public void initialize()
     {
         controller = this;
-        APIgrbl apIgrbl = new APIgrbl();
 
         ArrayList<String> fileNames = getFileNames();
         for(String str : fileNames)
         {
             File file = new File(str);
+
+            APIgrbl apIgrbl = new APIgrbl(file.getName());
+            new Thread(apIgrbl).start();     //<--- comment out if no arduino
+
             setFileName(file.getName());
             calculateFileSize(file);
             setStudentNid(InputController.getNidFromText());
             setDesc(InputController.getDescFromText());
         }
-
-        setPercentage(Double.toString(APIgrbl.grbl.getPercentage()) + "%");
+        updatePercentage();
 
         // model = new File(GreetingController.getFileNames().get(0));
         // renderer = new Renderer(model);
@@ -69,7 +71,7 @@ public class ModelController {
             default: bytes = "B";
                 break;
         }
-        setFileSize(Double.toString(size) + bytes);
+        setFileSize(String.format("%.2f",size) + bytes);
     }
     
     public static void setFileName(String fileName) {
@@ -84,15 +86,14 @@ public class ModelController {
         controller.fileSize.setText(fileSize);
     }
     
-    public static void setPercentage(String percentage) {
-        controller.filePercent.setText(percentage);
+    public void updatePercentage()
+    {
+        BackgroundProcessUI taskPercentage = new BackgroundProcessUI(4);
+        filePercentage.textProperty().bind(taskPercentage.messageProperty());
+        new Thread(taskPercentage).start();
     }
     
     public static void setStudentNid(String studentNid) {
         controller.studentNID.setText(studentNid);
     }
-    
-    
-
-    
 }

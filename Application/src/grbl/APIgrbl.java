@@ -5,22 +5,24 @@ import java.io.*;
 import java.nio.file.Paths;
 import java.util.*;
 
-public class APIgrbl {
-
+public class APIgrbl extends Thread
+{
     private double x;
     private double y;
     private double z;
     private double percentage;
     private String status;
+    private String filename;
     public static APIgrbl grbl;
 
-    public APIgrbl(){
-        percentage = x = y = z = 1.0;
-        status = "";
+    public APIgrbl(String filename){
+        percentage = x = y = z = 0.0;
+        status = "Off";
         grbl = this;
+        this.filename = filename;
     }
 
-    public void start(String filename)
+    public void run()
     {
         String thisPath = Paths.get("").toAbsolutePath().toString();
         // directory to grbl package
@@ -35,9 +37,8 @@ public class APIgrbl {
         // Modifies to gbrl acceptable gcode
         Modifier m = new Modifier(filename, directoryGcode);
         m.modify();
-        System.out.println("Command size " + m.getCommandSize());
         // api needs grbl, gcode, temp
-        run(filename,directoryGrbl, directoryGcode, directoryTemp, m.getCommandSize());
+        partitionAndStream(filename,directoryGrbl, directoryGcode, directoryTemp, m.getCommandSize());
     }
 
     public double getCoordinateX() {
@@ -64,13 +65,12 @@ public class APIgrbl {
 
     private void setStatus(String status){ this.status = status;}
 
-    public void run(String filename, String directoryGrbl, String directoryGcode, String directoryTemp, int size)
+    private void partitionAndStream(String filename, String directoryGrbl, String directoryGcode, String directoryTemp, int size)
     {
         try{
 
             BufferedReader in = new BufferedReader(new FileReader(new File(directoryGcode, filename)));  // gcode
             int commandsRead = 0;
-            StringBuilder response = new StringBuilder();
 
             // will stop at end of file
             while(commandsRead < size)
@@ -136,11 +136,11 @@ public class APIgrbl {
                 while (true)
                 {
                     line = r.readLine();
+
                     if (line == null) {
                         break;
                     }
                     updateCoordinates(line);
-                    response.append(line).append(System.lineSeparator());
                 }
                 // set percentage done
                 percentage = ((double)commandsRead / (double) size) * 100.00;

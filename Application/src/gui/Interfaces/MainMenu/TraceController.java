@@ -9,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import tracer.Tracer;
 import tracer.math.Delta;
 
@@ -36,29 +35,24 @@ public class TraceController {
 
     private void updateCoordinates()
     {
-        /*
-        runInTaskButton.setOnAction(event -> {
-            Task<Void> task = new Task<Void>() {
-                @Override
-                public Void call() throws Exception {
-                    for (int i=1; i<=10; i++) {
-                        Thread.sleep(250);
-                    }
-                    return null;
-                }
-            };
-            task.messageProperty().addListener((obs, oldMessage, newMessage) -> label.setText(newMessage));
-            new Thread(task).start();
-        });
-        */
-        setGrblX(APIgrbl.grbl.getCoordinateX());
-        setGrblY(APIgrbl.grbl.getCoordinateY());
-        setGrblZ(APIgrbl.grbl.getCoordinateZ());
-        setGrblStatus(APIgrbl.grbl.getStatus());
+        BackgroundProcessUI taskX = new BackgroundProcessUI(0);
+        BackgroundProcessUI taskY = new BackgroundProcessUI(1);
+        BackgroundProcessUI taskZ = new BackgroundProcessUI(2);
+        BackgroundProcessUI taskStatus = new BackgroundProcessUI(3);
+
+        grblStatus.textProperty().bind(taskStatus.messageProperty());
+        grblX.textProperty().bind(taskX.messageProperty());
+        grblY.textProperty().bind(taskY.messageProperty());
+        grblZ.textProperty().bind(taskZ.messageProperty());
+
+        new Thread(taskStatus).start();
+        new Thread(taskX).start();
+        new Thread(taskY).start();
+        new Thread(taskZ).start();
     }
     
     public static Tab setup()
-    {   // Tab tabThird = (FXMLLoader.load(TraceController.class.getResource("Trace.fxml"))); <--- this was causing an exception
+    {
         try {
             Tab tabThird = (FXMLLoader.load(TraceController.class.getResource("Trace.fxml")));
         
@@ -90,27 +84,8 @@ public class TraceController {
         }
     }
     
-    
     public static void addTrace(double x, double y, double z)
     {
         Tracer.addTrace(x, y, z);
     }
-
-    public static void setGrblX(double x) {
-        controller.grblX.setText(String.format("%.2f", x));
-    }
-    
-    public static void setGrblY(double y) {
-        controller.grblY.setText(String.format("%.2f", y));
-    }
-    
-    public static void setGrblZ(double z) {
-        controller.grblZ.setText(String.format("%.2f", z));
-    }
-    
-    public static void setGrblStatus(String status) {
-        controller.grblStatus.setText(status);
-    }
-    
-    
 }

@@ -31,7 +31,7 @@
             </HBox>
             <HBox spacing="36">
                 <Text styleClass="bold">Percentage:</Text>
-                <Label fx:id="filePercent" alignment="TOP_RIGHT"/>
+                <Label fx:id="filePercentage" text="0.00%" alignment="TOP_RIGHT"/>
             </HBox>
         </VBox>
     </right>
