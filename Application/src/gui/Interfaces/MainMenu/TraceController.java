@@ -21,7 +21,7 @@ public class TraceController {
     public Label grblX;
     public Label grblY;
     public Label grblZ;
-    public Label grblA;
+    public Label grblStatus;
     public SwingNode swingNodeTrace;
     
     public static TraceController controller;
@@ -54,11 +54,11 @@ public class TraceController {
         setGrblX(APIgrbl.grbl.getCoordinateX());
         setGrblY(APIgrbl.grbl.getCoordinateY());
         setGrblZ(APIgrbl.grbl.getCoordinateZ());
-        setGrblA(APIgrbl.grbl.getCoordinateA());
+        setGrblStatus(APIgrbl.grbl.getStatus());
     }
     
     public static Tab setup()
-    {
+    {   // Tab tabThird = (FXMLLoader.load(TraceController.class.getResource("Trace.fxml"))); <--- this was causing an exception
         try {
             Tab tabThird = (FXMLLoader.load(TraceController.class.getResource("Trace.fxml")));
         
@@ -108,8 +108,8 @@ public class TraceController {
         controller.grblZ.setText(String.format("%.2f", z));
     }
     
-    public static void setGrblA(double a) {
-        controller.grblA.setText(String.format("%.2f", a));
+    public static void setGrblStatus(String status) {
+        controller.grblStatus.setText(status);
     }
     
     

@@ -98,10 +98,8 @@ class Streamer(object):
                 l_count += 1 # Iterate line counter    
                 # l_block = re.sub('\s|\(.*?\)','',line).upper() # Strip comments/spaces/new line and capitalize
                 l_block = line.strip() # Strip all EOL characters for consistency
-                if self.verbose: print ('SND: ' + str(l_count) + ':' + l_block),
                 self.s.write((l_block + '\n').encode()) # Send g-code block to grbl
                 grbl_out = self.s.readline().strip() # Wait for grbl response with carriage return
-                if self.verbose: print ('REC:',grbl_out)
         else:    
             # Send g-code program via a more agressive streaming protocol that forces characters into
             # Grbl's serial read buffer to ensure Grbl has immediate access to the next g-code command
@@ -126,15 +124,12 @@ class Streamer(object):
                         g_count += 1 # Iterate g-code counter
                         grbl_out += str(g_count); # Add line finished indicator
                         del c_line[0] # Delete the block character count corresponding to the last 'ok'
-                if self.verbose: print ("SND: " + str(l_count) + " : " + l_block),
                 self.s.write((l_block + '\n').encode()) # Send g-code block to grbl
                 grbl_out = self.s.readline().decode()
-                if self.verbose : print ("BUF:",str(sum(c_line)),"REC:",grbl_out)
-
-        # Wait for user input after streaming is completed
-        print ("G-code streaming finished!\n")
 
         # Close file and serial port
+        self.s.write("?/n".encode())
+        print(self.s.readline().decode())
         self.file.close()
         self.s.close()
 

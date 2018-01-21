@@ -83,6 +83,10 @@ public class GreetingController
             }
             chosen = true;
         }
+        handleUploadedAnimation();
+    }
+
+    private void handleUploadedAnimation(){
         // Animations and Stylings
         knights.setOpacity(1.0);
         knights.setScaleX(1.18);

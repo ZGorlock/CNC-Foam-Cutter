@@ -10,31 +10,32 @@ public class APIgrbl {
     private double x;
     private double y;
     private double z;
-    private double a;
     private double percentage;
-
+    private String status;
     public static APIgrbl grbl;
 
     public APIgrbl(){
-        percentage = x = y = z = a = 0.0;
+        percentage = x = y = z = 1.0;
+        status = "";
         grbl = this;
     }
 
     public void start(String filename)
     {
+        String thisPath = Paths.get("").toAbsolutePath().toString();
         // directory to grbl package
-        String directoryGrbl = Paths.get("").toAbsolutePath().toString() +"\\src\\grbl\\";
+        String directoryGrbl =  thisPath +"\\src\\grbl\\";
 
         // directory to gcode package
-        String directoryGcode = Paths.get("").toAbsolutePath().toString() +"\\resources\\gcode\\";
+        String directoryGcode = thisPath +"\\resources\\gcode\\";
 
         // directory to temp file
-        String directoryTemp = Paths.get("").toAbsolutePath().toString() +"\\src\\grbl\\temp\\";
+        String directoryTemp = thisPath +"\\src\\grbl\\temp\\";
 
         // Modifies to gbrl acceptable gcode
         Modifier m = new Modifier(filename, directoryGcode);
         m.modify();
-
+        System.out.println("Command size " + m.getCommandSize());
         // api needs grbl, gcode, temp
         run(filename,directoryGrbl, directoryGcode, directoryTemp, m.getCommandSize());
     }
@@ -47,17 +48,21 @@ public class APIgrbl {
         return y;
     }
 
-    public double getCoordinateZ() {
-        return z;
-    }
+    public double getCoordinateZ() { return z; }
 
-    public double getCoordinateA() {
-        return a;
-    }
+    public String getStatus( ){return status; }
 
     public double getPercentage() {
         return percentage;
     }
+
+    private void setX(double x){ this.x = x; }
+
+    private void setY(double y){ this.y = y; }
+
+    private void setZ(double z){ this.z = z; }
+
+    private void setStatus(String status){ this.status = status;}
 
     public void run(String filename, String directoryGrbl, String directoryGcode, String directoryTemp, int size)
     {
@@ -70,8 +75,6 @@ public class APIgrbl {
             // will stop at end of file
             while(commandsRead < size)
             {
-                updateCoordinates();
-
                 // read every 127 characters and create a file with them for stream.py to use
                 BufferedWriter bw = new BufferedWriter(new FileWriter(new File(directoryTemp,"tempfile.txt")));
                 Queue<String> carryOver = new ArrayDeque<>();
@@ -136,6 +139,7 @@ public class APIgrbl {
                     if (line == null) {
                         break;
                     }
+                    updateCoordinates(line);
                     response.append(line).append(System.lineSeparator());
                 }
                 // set percentage done
@@ -146,24 +150,15 @@ public class APIgrbl {
         }
     }
 
-    private void updateCoordinates() { //TODO ask grbl for coordinates in real time
-        /*
-        Process process = CmdLine.executeCmdAsThread("?\n");
-        BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-        try {
-            String line;
-            while (true) {
-                line = r.readLine();
-                if (line == null) {
-                    break;
-                }
-                // do something with the line
-            }
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-        */
+    private void updateCoordinates(String line)
+    {
+        String [] decomposed = line.split(",");
+        if(decomposed[0].compareTo("") == 0) return;
+        setStatus(decomposed[0].substring(1));
+        String [] first = decomposed[1].split(":");
+        setX(Double.parseDouble(first[1]));
+        setY(Double.parseDouble(decomposed[2]));
+        setZ(Double.parseDouble(decomposed[3]));
     }
 }
     
