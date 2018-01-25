@@ -1,5 +1,7 @@
 package gui.Interfaces.Greeting;
 
+import gui.Interfaces.MainMenu.RotationController;
+import gui.Interfaces.MainMenu.TraceController;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -18,6 +20,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import utils.MachineDetector;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +41,6 @@ public class GreetingController
 
     public void initialize()
     {
-
         chosen = false;
         prompt = textFieldPath.getText();
         fileNames = new ArrayList<>();
@@ -56,8 +58,14 @@ public class GreetingController
         if(textFieldPath.getText().compareTo(prompt) != 0)
         {
             file = new File(textFieldPath.getText());
+            if(badExtension(file)) return;
         }else {
             FileChooser fileChooser = new FileChooser();
+            if(MachineDetector.isCncMachine())
+            {
+                FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("3D models", "*.stl", "*.gcode");
+                fileChooser.getExtensionFilters().add(extFilter);
+            }
             fileChooser.setTitle("Select File(s)");
             file = fileChooser.showOpenDialog(new Stage());
         }
@@ -69,7 +77,6 @@ public class GreetingController
         if(file != null)
         {
             textFieldPath.setText(file.getAbsolutePath());
-
             if (file.isDirectory()) {
                 File[] files = file.listFiles();
                 if (files != null) {
@@ -82,8 +89,8 @@ public class GreetingController
                 fileNames.add(file.getAbsolutePath());
             }
             chosen = true;
+            handleUploadedAnimation();
         }
-        handleUploadedAnimation();
     }
 
     private void handleUploadedAnimation(){
@@ -138,7 +145,7 @@ public class GreetingController
     public void dropFile(DragEvent dragEvent) {
         final Dragboard db = dragEvent.getDragboard();
         File file = db.getFiles().get(0);
-
+        if(badExtension(file)){ return; }
         handleFile(file);
     }
 
@@ -146,10 +153,31 @@ public class GreetingController
     public void checkPaste(KeyEvent keyEvent) {
         if(textFieldPath.getText().compareTo(prompt) != 0 && !chosen){
             File file = new File(textFieldPath.getText());
-            if(file != null){
+            if(file != null && !badExtension(file)){
                 handleFile(file);
             }
         }
+    }
+
+    private boolean badExtension(File file)
+    {
+        String [] allowed ={"gcode","stl"};
+        boolean ext = true;
+        if(MachineDetector.isCncMachine() && file != null)
+        {   // check the ending of the string for the extension
+            String extension = "";
+            int i = file.getAbsolutePath().lastIndexOf('.');
+
+            if (i > 0) { extension = file.getAbsolutePath().substring(i + 1); }
+
+            for(String s : allowed){
+                if(extension.compareTo(s) == 0)
+                {
+                    ext = false;
+                }
+            }
+        }
+        return ext;
     }
 
     /* Getter */
