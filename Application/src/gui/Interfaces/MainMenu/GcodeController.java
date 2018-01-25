@@ -1,12 +1,30 @@
 package gui.Interfaces.MainMenu;
 
-import grbl.APIgrbl;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Tab;
 import main.Main;
 import slicer.Slicer;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
 public class GcodeController {
+    
+    public static Tab setup()
+    {
+        try {
+            URL fxml = GcodeController.class.getResource("G-code.fxml");
+            Tab tab = (FXMLLoader.load(fxml));
+            
+            return tab;
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
     
     public void initialize()
     {

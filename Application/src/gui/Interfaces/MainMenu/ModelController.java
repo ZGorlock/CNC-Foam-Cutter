@@ -1,78 +1,84 @@
 package gui.Interfaces.MainMenu;
 
-import grbl.APIgrbl;
-import gui.Interfaces.Greeting.InputController;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.SubScene;
 import javafx.scene.control.Label;
-import jdk.internal.util.xml.impl.Input;
+import javafx.scene.control.Tab;
 import renderer.Renderer;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.net.URL;
 
-import static gui.Interfaces.Greeting.GreetingController.getFileNames;
 
 public class ModelController {
-
+    
+    //TODO comments
+    
     //FXML
+    
     public Label fileName;
     public Label fileSize;
     public Label fileDesc;
     public Label filePercentage;
     public Label studentNID;
+    public SubScene subSceneRenderer;
+    
+    
+    //Static Fields
     
     public static ModelController controller;
-
     public static Renderer renderer;
-
+    
+    
+    //Static Methods
+    
+    public static Tab setup()
+    {
+        try {
+            URL fxml = ModelController.class.getResource("Model.fxml");
+            Tab tab = (FXMLLoader.load(fxml));
+            
+            return tab;
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    
+    //Methods
+    
     public void initialize()
     {
         controller = this;
+        renderer = Renderer.setup(subSceneRenderer);
+    
 
-        ArrayList<String> fileNames = getFileNames();
-        for(String str : fileNames)
-        {
-            File file = new File(str);
+        //TODO this needs to be moved to the GcodeController, get model from GreetingController
+//        ArrayList<String> fileNames = getFileNames();
+//        for(String str : fileNames)
+//        {
+//            File file = new File(str);
+//
+//            APIgrbl apIgrbl = new APIgrbl(file.getName());
+//            new Thread(apIgrbl).start();     //<--- comment out if no arduino
+//
+//            setFileName(file.getName());
+//            setFileSize(calculateFileSize(file));
+//            setStudentNid(InputController.getNidFromText());
+//            setDesc(InputController.getDescFromText());
+//        }
 
-            APIgrbl apIgrbl = new APIgrbl(file.getName());
-            new Thread(apIgrbl).start();     //<--- comment out if no arduino
 
-            setFileName(file.getName());
-            calculateFileSize(file);
-            setStudentNid(InputController.getNidFromText());
-            setDesc(InputController.getDescFromText());
-        }
-        updatePercentage();
 
-        // model = new File(GreetingController.getFileNames().get(0));
-        // renderer = new Renderer(model);
+
+//        updatePercentage();
     }
-
-    public static void calculateFileSize(File file)
-    {
-        double size = file.length();
-        int i = 0;
-
-        while(size / 100 > 10)
-        {
-            size /= 1024;
-            i++;
-        }
-        String bytes = "";
-        switch(i){
-            case 0:
-                bytes = "B";
-                break;
-            case 1:
-                bytes = "KB";
-                break;
-            case 2:
-                bytes = "MB";
-                break;
-            default: bytes = "B";
-                break;
-        }
-        setFileSize(String.format("%.2f",size) + bytes);
-    }
+    
+    
+    //Setters
     
     public static void setFileName(String fileName) {
         controller.fileName.setText(fileName);
@@ -96,4 +102,22 @@ public class ModelController {
     public static void setStudentNid(String studentNid) {
         controller.studentNID.setText(studentNid);
     }
+    
+    
+    //Functions
+    
+    public static String calculateFileSize(File file)
+    {
+        double size = file.length();
+        int i = 0;
+        
+        while (size / 100 > 10) {
+            size /= 1024;
+            i++;
+        }
+    
+        return String.valueOf(size) +
+                (i == 1 ? "KB" : (i == 2 ? "MB" : "B"));
+    }
+    
 }

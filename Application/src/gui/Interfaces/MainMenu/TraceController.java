@@ -1,7 +1,5 @@
 package gui.Interfaces.MainMenu;
 
-import grbl.APIgrbl;
-import javafx.concurrent.Task;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -13,23 +11,70 @@ import tracer.Tracer;
 import tracer.math.Delta;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class TraceController {
 
+    //TODO comments
+    
     //FXML
+    
     public Label grblX;
     public Label grblY;
     public Label grblZ;
     public Label grblStatus;
     public SwingNode swingNodeTrace;
     
-    public static TraceController controller;
     
+    //Static Fields
+    
+    public static TraceController controller;
+    public static Tracer tracer;
+    
+    
+    //Static Methods
+    
+    public static Tab setup()
+    {
+        try {
+            URL fxml = TraceController.class.getResource("Trace.fxml");
+            Tab tab = (FXMLLoader.load(fxml));
+            
+            BorderPane pane = (BorderPane) tab.getContent();
+            AnchorPane anchor = (AnchorPane) pane.getChildren().get(0);
+            BorderPane anchorPane = (BorderPane) anchor.getChildren().get(0);
+            SwingNode node = (SwingNode) anchorPane.getChildren().get(0);
+            
+            final Delta delta = new Delta();
+            node.setOnMousePressed(mouseEvent -> {
+                delta.x = mouseEvent.getSceneX();
+                delta.y = mouseEvent.getSceneY();
+                node.setCursor(Cursor.MOVE);
+            });
+            node.setOnMouseReleased(mouseEvent -> node.setCursor(Cursor.HAND));
+            node.setOnMouseDragged(mouseEvent -> {
+                tracer.handleCameraControl(mouseEvent.getSceneX() - delta.x, mouseEvent.getSceneY() - delta.y);
+                delta.x = mouseEvent.getSceneX();
+                delta.y = mouseEvent.getSceneY();
+            });
+            node.setOnMouseEntered(mouseEvent -> node.setCursor(Cursor.HAND));
+            node.setOnScroll(event -> Tracer.handleCameraZoom(event.getDeltaY()));
+            
+            return tab;
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    
+    //Methods
     
     public void initialize()
     {
         controller = this;
-        Tracer.setup(swingNodeTrace);
+        tracer = Tracer.setup(swingNodeTrace);
         updateCoordinates();
     }
 
@@ -51,38 +96,8 @@ public class TraceController {
         new Thread(taskZ).start();
     }
     
-    public static Tab setup()
-    {
-        try {
-            Tab tabThird = (FXMLLoader.load(TraceController.class.getResource("Trace.fxml")));
-        
-            BorderPane pane = (BorderPane) tabThird.getContent();
-            AnchorPane anchor = (AnchorPane) pane.getChildren().get(0);
-            BorderPane anchorPane = (BorderPane) anchor.getChildren().get(0);
-            SwingNode node = (SwingNode) anchorPane.getChildren().get(0);
-            
-            final Delta delta = new Delta();
-            node.setOnMousePressed(mouseEvent -> {
-                delta.x = mouseEvent.getSceneX();
-                delta.y = mouseEvent.getSceneY();
-                node.setCursor(Cursor.MOVE);
-            });
-            node.setOnMouseReleased(mouseEvent -> node.setCursor(Cursor.HAND));
-            node.setOnMouseDragged(mouseEvent -> {
-                Tracer.handleCameraControl(mouseEvent.getSceneX() - delta.x, mouseEvent.getSceneY() - delta.y);
-                delta.x = mouseEvent.getSceneX();
-                delta.y = mouseEvent.getSceneY();
-            });
-            node.setOnMouseEntered(mouseEvent -> node.setCursor(Cursor.HAND));
-            node.setOnScroll(event -> Tracer.handleCameraZoom(event.getDeltaY()));
-            
-            return tabThird;
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+    
+    //Functions
     
     public static void addTrace(double x, double y, double z)
     {

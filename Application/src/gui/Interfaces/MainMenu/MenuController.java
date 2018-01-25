@@ -1,6 +1,5 @@
 package gui.Interfaces.MainMenu;
 
-import grbl.APIgrbl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -12,7 +11,6 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import utils.MachineDetector;
 
-import java.io.File;
 import java.io.IOException;
 
 public class MenuController {
@@ -22,13 +20,12 @@ public class MenuController {
     public Button goldButton;
     public HBox hbox;
     private Button greyButton;
-
-    // Model to Execute
-    private File model = null;
     
     
     public void initialize()
     {
+        TPane.getTabs().add(ModelController.setup());
+        TPane.getTabs().add(GcodeController.setup());
         TPane.getTabs().add(MachineDetector.isCncMachine() ? TraceController.setup() : RotationController.setup());
     }
 
@@ -97,11 +94,6 @@ public class MenuController {
     private void initiateResume()
     {
         //TODO handle the user clicking the resume button
-    }
-
-    public File getModel()
-    {
-        return model;
     }
     
 }

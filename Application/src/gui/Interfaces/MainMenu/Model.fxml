@@ -1,38 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.embed.swing.SwingNode?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.SubScene?>
 <?import javafx.scene.text.*?>
-<BorderPane stylesheets="/gui/style.css" styleClass="borderPane" fx:controller="gui.Interfaces.MainMenu.ModelController"
-            xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
-    <center>
-        <Pane id="paneModel" prefHeight="300.0" prefWidth="300.0" styleClass="pane" stylesheets="/gui/style.css" xmlns="http://javafx.com/javafx/8.0.121">
-            <SwingNode id="swingNodeModel"/>
-        </Pane>
-    </center>
-    <right>
-        <VBox styleClass="vbox">
-            <HBox spacing="25">
-                <Text styleClass="bold">Student NID:</Text>
-                <Label fx:id="studentNID"/>
-            </HBox>
-            <HBox spacing="35">
-                <Text styleClass="bold">Description:</Text>
-                <Label fx:id="fileDesc"/>
-            </HBox>
-            <HBox spacing="115">
-                <Text styleClass="bold">File:</Text>
-                <Label fx:id="fileName" alignment="TOP_RIGHT"/>
-            </HBox>
-            <HBox spacing="110">
-                <Text styleClass="bold">Size:</Text>
-                <Label fx:id="fileSize" alignment="TOP_RIGHT"/>
-            </HBox>
-            <HBox spacing="36">
-                <Text styleClass="bold">Percentage:</Text>
-                <Label fx:id="filePercentage" text="0.00%" alignment="TOP_RIGHT"/>
-            </HBox>
-        </VBox>
-    </right>
-</BorderPane>
+<Tab id="tabModel" text="Model" closable="false" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Interfaces.MainMenu.ModelController">
+    <BorderPane styleClass="borderPane">
+        <center>
+            <AnchorPane id="renderAnchorPane" prefHeight="300.0" prefWidth="300.0" styleClass="pane">
+                <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <center>
+                        <SubScene fx:id="subSceneRenderer" height="300.0" width="300.0" />
+                    </center>
+                </BorderPane>
+            </AnchorPane>
+        </center>
+
+        <right>
+            <VBox styleClass="vbox">
+                <HBox spacing="25">
+                    <Text styleClass="bold">Student NID:</Text>
+                    <Label fx:id="studentNID"/>
+                </HBox>
+                <HBox spacing="35">
+                    <Text styleClass="bold">Description:</Text>
+                    <Label fx:id="fileDesc"/>
+                </HBox>
+                <HBox spacing="115">
+                    <Text styleClass="bold">File:</Text>
+                    <Label fx:id="fileName" alignment="TOP_RIGHT"/>
+                </HBox>
+                <HBox spacing="110">
+                    <Text styleClass="bold">Size:</Text>
+                    <Label fx:id="fileSize" alignment="TOP_RIGHT"/>
+                </HBox>
+                <HBox spacing="36">
+                    <Text styleClass="bold">Percentage:</Text>
+                    <Label fx:id="filePercentage" text="0.00%" alignment="TOP_RIGHT"/>
+                </HBox>
+            </VBox>
+        </right>
+    </BorderPane>
+</Tab>

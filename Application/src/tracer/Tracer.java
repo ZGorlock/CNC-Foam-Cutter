@@ -43,7 +43,6 @@ public class Tracer
     public static final int screenY = 640;
     public static final int screenZ = 480;
     
-    
     /**
      * The border from the edge of the Window.
      */
@@ -59,42 +58,150 @@ public class Tracer
     public static double zMin = -100.0;
     public static double zMax = 100.0;
     
+    /**
+     * Color constants for the Tracer.
+     */
+    public static Color backgroundColor = new Color(230, 230, 230);
+    
+    /**
+     * A flag indicating whether or not to display the Tracer demo.
+     */
+    public static boolean displayDemo = true;
+    
     
     //Static Fields
     
     /**
+     * The singleton instance of the Tracer.
+     */
+    private static Tracer instance;
+    
+    
+    //Fields
+    
+    /**
      * The SwingNode containing the Tracer.
      */
-    public static SwingNode node;
+    public SwingNode node;
     
     /**
      * The view of the window.
      */
-    public static JPanel renderPanel;
+    public JPanel renderPanel;
     
     /**
      * The transformation matrix for pitch and yaw.
      */
-    public static Matrix3 transform;
+    public Matrix3 transform;
     
     /**
      * The list of Objects to be rendered in the Environment.
      */
-    private static List<ObjectInterface> objects = new ArrayList<>();
+    private List<ObjectInterface> objects = new ArrayList<>();
     
     /**
      * The coordinates to center the Environment at.
      */
-    public static Vector origin = new Vector(0, 0, 0);
+    public Vector origin = new Vector(0, 0, 0);
+    
+    
+    //Constructors
+    
+    /**
+     * The private constructor for a Tracer.
+     *
+     * @param node The SwingNode containing the Tracer.
+     */
+    private Tracer(SwingNode node)
+    {
+        this.node = node;
+    }
     
     
     // Static Methods
     
     /**
+     * The setup method of the Tracer.
+     *
+     * @param node The SwingNode containing the Tracer.
+     * @return The new Tracer instance or null.
+     */
+    public static Tracer setup(SwingNode node) {
+        
+        //initialize the Tracer
+        if (instance != null) {
+            return null;
+        }
+        instance = new Tracer(node);
+        
+    
+        //add cameras
+        Camera camera = new Camera();
+        Camera.setActiveCamera(0);
+        
+        
+        //add objects
+        instance.objects.clear();
+        instance.createObjects();
+        
+        
+        //panel to display render results
+        instance.renderPanel = new JPanel() {
+            private AtomicBoolean running = new AtomicBoolean(false);
+            
+            public void paintComponent(Graphics g) {
+                if (running.compareAndSet(false, true)) {
+    
+                    List<BaseObject> preparedBases = new ArrayList<>();
+                    try {
+                        for (ObjectInterface object : instance.objects) {
+                            preparedBases.addAll(object.prepare());
+                        }
+                    } catch (ConcurrentModificationException ignored) {
+                        running.set(false);
+                        return;
+                    }
+                    
+                    Graphics2D g2 = (Graphics2D) g;
+                    g2.setColor(backgroundColor);
+                    g2.fillRect(0, 0, screenX, screenY);
+                    BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+    
+    
+                    for (BaseObject preparedBase : preparedBases) {
+                        preparedBase.render(g2);
+                    }
+    
+    
+                    g2.drawImage(img, 0, 0, null);
+                    running.set(false);
+                }
+            }
+        };
+        node.setContent(instance.renderPanel);
+        
+        Timer renderTimer = new Timer();
+        renderTimer.scheduleAtFixedRate(new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                instance.renderPanel.repaint();
+            }
+        }, 0, (int)(1000 / (double)FPS));
+        
+        return instance;
+    }
+    
+    /**
      * Creates objects in the Environment.
      */
-    private static void createObjects()
+    private void createObjects()
     {
+        if (!displayDemo) {
+            return;
+        }
+        
         //axes
         objects.add(new Edge(Color.BLACK,
                 new Vector(-2, 0, 0),
@@ -112,13 +219,13 @@ public class Tracer
             double phi = 0.0;
             double theta = 0.0;
             double rho = 2.0;
-        
+            
             @Override
             public void run()
             {
                 phi += .01556;
                 theta += .01256;
-            
+                
                 double x = rho * Math.sin(phi) * Math.cos(theta);
                 double y = rho * Math.cos(phi);
                 double z = rho * Math.sin(phi) * Math.sin(theta);
@@ -130,80 +237,12 @@ public class Tracer
     }
     
     /**
-     * The setup method of the Tracer
-     */
-    public static void setup(SwingNode node) {
-        
-        //initialize the Tracer
-        if (Tracer.node != null) {
-            return;
-        }
-        Tracer.node = node;
-        
-    
-        //add cameras
-        Camera camera = new Camera();
-        Camera.setActiveCamera(0);
-        
-        
-        //add objects
-        objects.clear();
-        createObjects();
-        
-        
-        //panel to display render results
-        renderPanel = new JPanel() {
-            private AtomicBoolean running = new AtomicBoolean(false);
-            
-            public void paintComponent(Graphics g) {
-                if (running.compareAndSet(false, true)) {
-    
-                    List<BaseObject> preparedBases = new ArrayList<>();
-                    try {
-                        for (ObjectInterface object : objects) {
-                            preparedBases.addAll(object.prepare());
-                        }
-                    } catch (ConcurrentModificationException ignored) {
-                        running.set(false);
-                        return;
-                    }
-                    
-                    Graphics2D g2 = (Graphics2D) g;
-                    g2.setColor(new Color(230, 230, 230));
-                    g2.fillRect(0, 0, screenX, screenY);
-                    BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
-    
-    
-                    for (BaseObject preparedBase : preparedBases) {
-                        preparedBase.render(g2);
-                    }
-    
-    
-                    g2.drawImage(img, 0, 0, null);
-                    running.set(false);
-                }
-            }
-        };
-        node.setContent(renderPanel);
-        
-        Timer renderTimer = new Timer();
-        renderTimer.scheduleAtFixedRate(new TimerTask()
-        {
-            @Override
-            public void run()
-            {
-                renderPanel.repaint();
-            }
-        }, 0, (int)(1000 / (double)FPS));
-    }
-    
-    /**
      * Handles movement of the camera.
      *
      * @param deltaX The movement in the x direction.
      * @param deltaY The movement in the y direction.
      */
-    public static void handleCameraControl(double deltaX, double deltaY)
+    public void handleCameraControl(double deltaX, double deltaY)
     {
         Camera c = Camera.getActiveCameraView();
         c.handleMovement(deltaX, deltaY);
@@ -221,18 +260,31 @@ public class Tracer
     }
     
     
+    //Getter
+    
+    /**
+     * Returns the origin for the Tracer instance.
+     *
+     * @return The origin for the Tracer instance.
+     */
+    public static Vector getOrigin()
+    {
+        return instance.origin;
+    }
+    
+    
     //Functions
     
     /**
      * Adds a new trace point to the tracer.
      *
-     * @param x
-     * @param y
-     * @param z
+     * @param x The x coordinate of the trace.
+     * @param y The y coordinate of the trace.
+     * @param z The z coordinate of the trace.
      */
     public static void addTrace(double x, double y, double z)
     {
-        objects.add(new Vertex(Color.RED, new Vector(x, y, z)));
+        instance.objects.add(new Vertex(Color.RED, new Vector(x, y, z)));
     }
     
     /**
@@ -242,7 +294,7 @@ public class Tracer
      */
     public static void addObject(ObjectInterface object)
     {
-        objects.add(object);
+        instance.objects.add(object);
     }
     
     /**
@@ -252,7 +304,7 @@ public class Tracer
      */
     public static void removeObject(ObjectInterface object)
     {
-        objects.remove(object);
+        instance.objects.remove(object);
     }
     
 }

@@ -147,7 +147,7 @@ public class Camera
         nextCameraId++;
         cameraMap.put(cameraId, this);
         
-        origin = Tracer.origin;
+        origin = Tracer.getOrigin();
         
         calculateCamera();
     
@@ -175,8 +175,8 @@ public class Camera
     public void calculateCamera()
     {
         //determine if update is necessary
-        if (!Tracer.origin.equals(origin)) {
-            origin = Tracer.origin;
+        if (!Tracer.getOrigin().equals(origin)) {
+            origin = Tracer.getOrigin();
             updateRequired = true;
         }
         if (!updateRequired) {

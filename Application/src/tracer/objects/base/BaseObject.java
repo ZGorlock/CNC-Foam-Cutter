@@ -104,7 +104,7 @@ public abstract class BaseObject extends AbstractObject
      * @throws ArithmeticException When the vertices are not all of the same spacial dimension.
      */
     public BaseObject(List<Vector> vertices) throws ArithmeticException {
-        this(null, Color.BLACK, Tracer.origin, vertices.toArray(new Vector[]{}));
+        this(null, Color.BLACK, Tracer.getOrigin(), vertices.toArray(new Vector[]{}));
     }
     
     

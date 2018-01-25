@@ -1,10 +1,6 @@
 package gui.Interfaces.Greeting;
 
-import gui.Interfaces.MainMenu.RotationController;
-import gui.Interfaces.MainMenu.TraceController;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -25,7 +21,6 @@ import utils.MachineDetector;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class GreetingController
 {
@@ -153,12 +148,12 @@ public class GreetingController
     public void checkPaste(KeyEvent keyEvent) {
         if(textFieldPath.getText().compareTo(prompt) != 0 && !chosen){
             File file = new File(textFieldPath.getText());
-            if(file != null && !badExtension(file)){
+            if(!badExtension(file)){
                 handleFile(file);
             }
         }
     }
-
+    
     private boolean badExtension(File file)
     {
         String [] allowed ={"gcode","stl"};
@@ -179,10 +174,21 @@ public class GreetingController
         }
         return ext;
     }
-
-    /* Getter */
-    public static ArrayList<String> getFileNames() {
-        return fileNames;
+    
+    
+    //Getters
+    
+    /**
+     * Returns the STL model that was uploaded.
+     *
+     * @return The STL model file or an empty string if none.
+     */
+    public static String getModel()
+    {
+        if (fileNames.size() > 0 && fileNames.get(0).endsWith(".stl")) {
+            return fileNames.get(0);
+        }
+        return "";
     }
-
+    
 }
