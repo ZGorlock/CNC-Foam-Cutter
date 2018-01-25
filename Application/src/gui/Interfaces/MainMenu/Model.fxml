@@ -10,7 +10,7 @@
             <AnchorPane id="renderAnchorPane" prefHeight="300.0" prefWidth="300.0" styleClass="pane">
                 <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <center>
-                        <SubScene fx:id="subSceneRenderer" height="300.0" width="300.0" />
+                        <SubScene fx:id="subSceneRenderer"></SubScene>
                     </center>
                 </BorderPane>
             </AnchorPane>

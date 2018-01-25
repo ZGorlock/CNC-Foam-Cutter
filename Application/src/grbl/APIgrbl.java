@@ -160,5 +160,10 @@ public class APIgrbl extends Thread
         setY(Double.parseDouble(decomposed[2]));
         setZ(Double.parseDouble(decomposed[3]));
     }
+
+    public void sendCommand(String command)
+    {
+
+    }
 }
     

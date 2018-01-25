@@ -37,7 +37,7 @@ public class ModelController {
     {
         try {
             URL fxml = ModelController.class.getResource("Model.fxml");
-            Tab tab = (FXMLLoader.load(fxml));
+            Tab tab = (Tab) (FXMLLoader.load(fxml));
             
             return tab;
             
@@ -54,7 +54,6 @@ public class ModelController {
     {
         controller = this;
         renderer = Renderer.setup(subSceneRenderer);
-    
 
         //TODO this needs to be moved to the GcodeController, get model from GreetingController
 //        ArrayList<String> fileNames = getFileNames();
@@ -70,10 +69,6 @@ public class ModelController {
 //            setStudentNid(InputController.getNidFromText());
 //            setDesc(InputController.getDescFromText());
 //        }
-
-
-
-
 //        updatePercentage();
     }
     
