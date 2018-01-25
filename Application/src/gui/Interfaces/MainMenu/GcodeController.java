@@ -15,7 +15,7 @@ public class GcodeController {
     {
         try {
             URL fxml = GcodeController.class.getResource("G-code.fxml");
-            Tab tab = (FXMLLoader.load(fxml));
+            Tab tab = FXMLLoader.load(fxml);
             
             return tab;
             

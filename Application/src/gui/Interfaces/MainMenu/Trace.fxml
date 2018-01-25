@@ -15,6 +15,7 @@
                 </BorderPane>
             </AnchorPane>
         </center>
+
         <bottom>
             <HBox spacing="20" alignment="CENTER" styleClass="hbox">
                 <HBox spacing="5">

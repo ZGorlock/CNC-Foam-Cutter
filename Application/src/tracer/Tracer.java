@@ -276,7 +276,7 @@ public class Tracer
     //Functions
     
     /**
-     * Adds a new trace point to the tracer.
+     * Adds a new trace point to the Tracer.
      *
      * @param x The x coordinate of the trace.
      * @param y The y coordinate of the trace.

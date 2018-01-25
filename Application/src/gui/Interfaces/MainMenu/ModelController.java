@@ -1,7 +1,7 @@
 package gui.Interfaces.MainMenu;
 
+import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.SubScene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import renderer.Renderer;
@@ -10,34 +10,50 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-
-public class ModelController {
-    
-    //TODO comments
+/**
+ * The controller for the Model tab.
+ */
+public class ModelController
+{
     
     //FXML
     
+    /**
+     * The FXML elements of the tab.
+     */
     public Label fileName;
     public Label fileSize;
     public Label fileDesc;
     public Label filePercentage;
     public Label studentNID;
-    public SubScene subSceneRenderer;
+    public SwingNode swingNodeModel;
     
     
     //Static Fields
     
+    /**
+     * The singleton instance of the ModelController.
+     */
     public static ModelController controller;
+    
+    /**
+     * The singleton instance of the Renderer.
+     */
     public static Renderer renderer;
     
     
     //Static Methods
     
+    /**
+     * Creates the Model tab.
+     *
+     * @return The Model tab.
+     */
     public static Tab setup()
     {
         try {
             URL fxml = ModelController.class.getResource("Model.fxml");
-            Tab tab = (Tab) (FXMLLoader.load(fxml));
+            Tab tab = FXMLLoader.load(fxml);
             
             return tab;
             
@@ -50,10 +66,13 @@ public class ModelController {
     
     //Methods
     
+    /**
+     * Initializes the ModelController and sets up the Renderer.
+     */
     public void initialize()
     {
         controller = this;
-        renderer = Renderer.setup(subSceneRenderer);
+        renderer = Renderer.setup(swingNodeModel);
 
         //TODO this needs to be moved to the GcodeController, get model from GreetingController
 //        ArrayList<String> fileNames = getFileNames();
@@ -69,24 +88,13 @@ public class ModelController {
 //            setStudentNid(InputController.getNidFromText());
 //            setDesc(InputController.getDescFromText());
 //        }
-//        updatePercentage();
+        
+        updatePercentage();
     }
     
-    
-    //Setters
-    
-    public static void setFileName(String fileName) {
-        controller.fileName.setText(fileName);
-    }
-    
-    public static void setDesc(String desc) {
-        controller.fileDesc.setText(desc);
-    }
-    
-    public static void setFileSize(String fileSize) {
-        controller.fileSize.setText(fileSize);
-    }
-    
+    /**
+     * Starts the percentage monitoring thread.
+     */
     public void updatePercentage()
     {
         BackgroundProcessUI taskPercentage = new BackgroundProcessUI(4);
@@ -94,6 +102,41 @@ public class ModelController {
         new Thread(taskPercentage).start();
     }
     
+    
+    //Setters
+    
+    /**
+     * Sets the filename on the Model tab.
+     *
+     * @param fileName The filename.
+     */
+    public static void setFileName(String fileName) {
+        controller.fileName.setText(fileName);
+    }
+    
+    /**
+     * Sets the description on the Model tab.
+     *
+     * @param desc The description.
+     */
+    public static void setDesc(String desc) {
+        controller.fileDesc.setText(desc);
+    }
+    
+    /**
+     * Sets the file size on the Model tab.
+     *
+     * @param fileSize The file size.
+     */
+    public static void setFileSize(String fileSize) {
+        controller.fileSize.setText(fileSize);
+    }
+    
+    /**
+     * Sets the student NID on the Model tab.
+     *
+     * @param studentNid The student's NID.
+     */
     public static void setStudentNid(String studentNid) {
         controller.studentNID.setText(studentNid);
     }
@@ -101,6 +144,12 @@ public class ModelController {
     
     //Functions
     
+    /**
+     * Calculates the filesize string for a file.
+     *
+     * @param file The file to measure.
+     * @return The filesize string.
+     */
     public static String calculateFileSize(File file)
     {
         double size = file.length();

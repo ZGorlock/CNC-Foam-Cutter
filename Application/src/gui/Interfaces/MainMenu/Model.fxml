@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.embed.swing.SwingNode?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.SubScene?>
 <?import javafx.scene.text.*?>
 <Tab id="tabModel" text="Model" closable="false" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Interfaces.MainMenu.ModelController">
     <BorderPane styleClass="borderPane">
         <center>
-            <AnchorPane id="renderAnchorPane" prefHeight="300.0" prefWidth="300.0" styleClass="pane">
+            <AnchorPane id="renderAnchorPane" prefHeight="680.0" prefWidth="680.0" styleClass="pane">
                 <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <center>
-                        <SubScene fx:id="subSceneRenderer"></SubScene>
+                        <SwingNode fx:id="swingNodeModel" /> <!-- TODO get this to be centered in the anchor even if the screen changes dimensions (fullscreen) -->
                     </center>
                 </BorderPane>
             </AnchorPane>

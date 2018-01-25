@@ -10,6 +10,8 @@ import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.embed.swing.JFXPanel;
+import javafx.embed.swing.SwingNode;
 import javafx.scene.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
@@ -19,6 +21,7 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
+import javax.swing.*;
 import java.io.File;
 
 /**
@@ -37,7 +40,7 @@ public class Renderer
     /**
      * The size of the view.
      */
-    private static final int VIEWPORT_SIZE = 300;
+    private static final int VIEWPORT_SIZE = 680;
     
     /**
      * Color constants for rendering the model.
@@ -59,9 +62,9 @@ public class Renderer
     //Fields
     
     /**
-     * The SubScene containing the Renderer.
+     * The SwingNode containing the Renderer.
      */
-    public SubScene subScene;
+    public SwingNode node;
     
     /**
      * The view of the model.
@@ -91,11 +94,11 @@ public class Renderer
     /**
      * The private constructor for a Renderer.
      *
-     * @param subScene The SubScene containing the Renderer.
+     * @param node The SwingNode containing the Renderer.
      */
-    private Renderer(SubScene subScene)
+    private Renderer(SwingNode node)
     {
-        this.subScene = subScene;
+        this.node = node;
     }
     
     
@@ -104,16 +107,16 @@ public class Renderer
     /**
      * The setup method of the Renderer.
      *
-     * @param subScene The SubScene containing the Renderer.
+     * @param node The SwingNode containing the Renderer.
      * @return The new Renderer instance or null.
      */
-    public static Renderer setup(SubScene subScene) {
+    public static Renderer setup(SwingNode node) {
         
         //initialize the Renderer
         if (instance != null) {
             return null;
         }
-        instance = new Renderer(subScene);
+        instance = new Renderer(node);
     
         
         //render the model
@@ -126,8 +129,14 @@ public class Renderer
             instance.scene = new Scene(group, VIEWPORT_SIZE, VIEWPORT_SIZE, true);
             instance.scene.setFill(fillColor);
             instance.addCamera();
+    
+            JPanel panel = new JPanel();
+            JFXPanel jfxPanel = new JFXPanel();
+            panel.add(jfxPanel);
+            panel.setVisible(true);
+            jfxPanel.setScene(instance.scene);
+            node.setContent(panel);
             
-            //TODO add to tab
             return instance;
         }
         

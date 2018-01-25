@@ -13,12 +13,17 @@ import tracer.math.Delta;
 import java.io.IOException;
 import java.net.URL;
 
-public class TraceController {
-
-    //TODO comments
+/**
+ * The controller for the Trace tab.
+ */
+public class TraceController
+{
     
     //FXML
     
+    /**
+     * The FXML elements of the tab.
+     */
     public Label grblX;
     public Label grblY;
     public Label grblZ;
@@ -28,17 +33,29 @@ public class TraceController {
     
     //Static Fields
     
+    /**
+     * The singleton instance fo the TraceController.
+     */
     public static TraceController controller;
+    
+    /**
+     * The singleton instance of the Tracer.
+     */
     public static Tracer tracer;
     
     
     //Static Methods
     
+    /**
+     * Creates the Trace tab.
+     *
+     * @return The Trace tab.
+     */
     public static Tab setup()
     {
         try {
             URL fxml = TraceController.class.getResource("Trace.fxml");
-            Tab tab = (FXMLLoader.load(fxml));
+            Tab tab = FXMLLoader.load(fxml);
             
             BorderPane pane = (BorderPane) tab.getContent();
             AnchorPane anchor = (AnchorPane) pane.getChildren().get(0);
@@ -71,13 +88,19 @@ public class TraceController {
     
     //Methods
     
+    /**
+     * Initializes the TraceController and sets up the Tracer.
+     */
     public void initialize()
     {
         controller = this;
         tracer = Tracer.setup(swingNodeTrace);
         updateCoordinates();
     }
-
+    
+    /**
+     * Starts the coordinate monitoring thread.
+     */
     private void updateCoordinates()
     {
         BackgroundProcessUI taskX = new BackgroundProcessUI(0);
@@ -99,6 +122,13 @@ public class TraceController {
     
     //Functions
     
+    /**
+     * Adds a new trace point to the Tracer.
+     *
+     * @param x The x coordinate of the trace.
+     * @param y The y coordinate of the trace.
+     * @param z The z coordinate of the trace.
+     */
     public static void addTrace(double x, double y, double z)
     {
         Tracer.addTrace(x, y, z);

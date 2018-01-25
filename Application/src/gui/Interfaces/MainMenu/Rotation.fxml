@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.ScrollBar?>
-<?import javafx.scene.layout.Pane?>
-
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="gui.Interfaces.MainMenu.RotationController"
@@ -21,13 +15,13 @@
                 <center>
                     <Pane>
                         <ImageView>
-                            <Image url="@../../images/logo.PNG"></Image>
+                            <Image url="@../../images/logo.PNG"/>
                         </ImageView>
-                        <Label fx:id="imageLabel"></Label>
+                        <Label fx:id="imageLabel"/>
                     </Pane>
                 </center>
                 <bottom>
-                    <ScrollBar fx:id="scrollBar"  HBox.hgrow="ALWAYS"  ></ScrollBar>
+                    <ScrollBar fx:id="scrollBar" HBox.hgrow="ALWAYS"/>
                 </bottom>
             </BorderPane>
         </HBox>

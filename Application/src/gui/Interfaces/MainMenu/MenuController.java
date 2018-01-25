@@ -13,22 +13,47 @@ import utils.MachineDetector;
 
 import java.io.IOException;
 
+/**
+ * The controller for the Menu.
+ */
 public class MenuController {
 
-    // FXML Components
+    // FXML
+    
+    /**
+     * The FXML elements of the menu.
+     */
     public TabPane TPane;
     public Button goldButton;
     public HBox hbox;
     private Button greyButton;
     
     
+    //Fields
+    
+    /**
+     * A flag indicating whether the state is paused or not.
+     */
+    public boolean paused = false;
+    
+    
+    //Methods
+    
+    /**
+     * Initializes the MenuController and loads the tabs.
+     */
     public void initialize()
     {
         TPane.getTabs().add(ModelController.setup());
         TPane.getTabs().add(GcodeController.setup());
         TPane.getTabs().add(MachineDetector.isCncMachine() ? TraceController.setup() : RotationController.setup());
     }
-
+    
+    /**
+     * The EventHandler for the Print button.
+     *
+     * @param actionEvent The action event that triggered the handler.
+     */
     public void print(ActionEvent actionEvent){
 
         if (greyButton == null) {
@@ -68,7 +93,9 @@ public class MenuController {
         }
     }
     
-    public boolean paused = false;
+    /**
+     * The EventHandler for the Pause/Resume button.
+     */
     private void playPauseButtonClicked()
     {
         greyButton.setStyle("-fx-background-color: #91918f; "+
@@ -86,11 +113,17 @@ public class MenuController {
         }
     }
     
+    /**
+     * Handles a Pause event.
+     */
     private void initiatePause()
     {
         //TODO handle the user clicking the pause button
     }
     
+    /**
+     * Handles a Resume event.
+     */
     private void initiateResume()
     {
         //TODO handle the user clicking the resume button
