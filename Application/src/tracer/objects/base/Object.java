@@ -137,7 +137,6 @@ public class Object extends AbstractObject
                 ((Object) component).hide();
                 component.setVisible(false);
             } else {
-                //TODO
             }
         }
     }
@@ -155,7 +154,6 @@ public class Object extends AbstractObject
                 ((Object) component).show();
                 component.setVisible(true);
             } else {
-                //TODO
             }
         }
     }
@@ -258,7 +256,6 @@ public class Object extends AbstractObject
             } else if (component instanceof Object){
                 baseComponents.addAll(((Object) component).getBaseComponents());
             } else {
-                //TODO
             }
         }
         return baseComponents;
@@ -278,7 +275,6 @@ public class Object extends AbstractObject
             } else if (component instanceof Object){
                 vectors.addAll(((Object) component).getVectors());
             } else {
-                //TODO
             }
         }
         return vectors;

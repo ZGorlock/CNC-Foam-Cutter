@@ -71,7 +71,6 @@ public abstract class AbstractObject implements ObjectInterface
      */
     protected boolean clippingEnabled = true;
     
-    //TODO make protected
     /**
      * The animations timers of the Object.
      */

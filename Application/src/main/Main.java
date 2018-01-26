@@ -11,6 +11,9 @@ import javafx.application.Application;
 import utils.CmdLine;
 import utils.Constants;
 
+/**
+ * The launching class for our Application.
+ */
 public class Main
 {
     
@@ -21,24 +24,32 @@ public class Main
     //Static Fields
     
     /**
+     * The singleton instance of the Main class.
+     */
+    public static Main main;
+    
+    
+    //Fields
+    
+    /**
      * The name of the operating system.
      */
-    public static String operatingSystem;
+    public String operatingSystem;
     
     /**
      * The architecture level of the operating system; either "x64" or "x86".
      */
-    public static String architecture;
+    public String architecture;
     
     /**
      * The Java runtime version.
      */
-    public static String javaVersion;
+    public String javaVersion;
     
     /**
      * The port connected to the Arduino UNO.
      */
-    public static String port;
+    public String port;
     
     
     //Methods
@@ -50,10 +61,11 @@ public class Main
      */
     public static void main(String [] args)
     {
-        if (!init()) {
+        main = new Main();
+        if (!main.init()) {
             return;
         }
-
+        
         Application.launch(Gui.class, args);
     }
     
@@ -62,7 +74,7 @@ public class Main
      *
      * @return Whether the system setup is valid or not.
      */
-    private static boolean init()
+    protected boolean init()
     {
         operatingSystem = System.getProperty("os.name").toUpperCase();
         

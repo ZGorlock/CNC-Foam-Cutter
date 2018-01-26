@@ -35,16 +35,19 @@ public class GreetingController
     private String prompt;
     private boolean chosen;
     
-    private static final ArrayList<String> fileNames = new ArrayList<>();
-
-    public GreetingController(String file)
+    private ArrayList<String> fileNames = new ArrayList<>();
+    
+    private static GreetingController controller;
+    
+    public void setup()
     {
-        fileNames.clear();
-        fileNames.add(file);
+        controller = this;
     }
 
     public void initialize()
     {
+        setup();
+        
         chosen = false;
         prompt = textFieldPath.getText();
         fileNames.clear();
@@ -194,8 +197,8 @@ public class GreetingController
      */
     public static String getModel()
     {
-        if (fileNames.size() == 1 && fileNames.get(0).endsWith(".stl")) {
-            return fileNames.get(0);
+        if (controller.fileNames.size() == 1 && controller.fileNames.get(0).endsWith(".stl")) {
+            return controller.fileNames.get(0);
         }
         return "";
     }
@@ -207,8 +210,8 @@ public class GreetingController
      */
     public static String getGcode()
     {
-        if (fileNames.size() == 1 && fileNames.get(0).endsWith(".gcode")) {
-            return fileNames.get(0);
+        if (controller.fileNames.size() == 1 && controller.fileNames.get(0).endsWith(".gcode")) {
+            return controller.fileNames.get(0);
         }
         return "";
     }
@@ -221,12 +224,25 @@ public class GreetingController
     public static List<String> getSlices()
     {
         List<String> slices = new ArrayList<>();
-        fileNames.forEach(e -> {
+        controller.fileNames.forEach(e -> {
             if (e.endsWith(".gcode")) {
                 slices.add(e);
             }
         });
         return slices;
+    }
+    
+    
+    //Setters
+    
+    /**
+     * Sets the list of uploaded files, for Debug mode.
+     *
+     * @param filenames The list of files.
+     */
+    public static void setFileNames(ArrayList<String> filenames)
+    {
+        controller.fileNames = filenames;
     }
     
 }

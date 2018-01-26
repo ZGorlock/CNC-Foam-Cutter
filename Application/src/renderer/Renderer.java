@@ -7,6 +7,7 @@
 package renderer;
 
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
+import gui.Interfaces.Greeting.GreetingController;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -120,8 +121,7 @@ public class Renderer
     
         
         //render the model
-        instance.model = "resources/cadfiles/CylinderHead-binary.stl";
-        //TODO instance.model = GreetingController.getModel();
+        instance.model = GreetingController.getModel();
 
         if (!instance.model.isEmpty()) {
             Group group = instance.renderModel();

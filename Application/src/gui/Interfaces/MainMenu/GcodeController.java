@@ -44,7 +44,7 @@ public class GcodeController {
     
     public void slice(File model)
     {
-        Slicer slicer = new Slicer(model.getAbsolutePath(), Main.architecture);
+        Slicer slicer = new Slicer(model.getAbsolutePath(), Main.main.architecture);
         slicer.slice("--gcode-flavor mach3");
     }
     

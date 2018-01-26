@@ -6,8 +6,6 @@
 
 package utils;
 
-import gui.Debugger;
-
 public final class MachineDetector
 {
     
@@ -22,7 +20,7 @@ public final class MachineDetector
     
     public static void detectMachine()
     {
-        //TODO
+        //TODO actually detect which machine is being used
         machine = Machine.CNC;
     }
     

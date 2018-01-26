@@ -4,9 +4,6 @@ import tracer.math.vector.Vector;
 
 public class Matrix3 {
     
-    //TODO document
-    //TODO throw Arithmetic exceptions for Vectors of bad length
-    
     public double[] values;
     
     public Matrix3(double[] values) {
