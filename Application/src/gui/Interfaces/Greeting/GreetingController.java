@@ -21,10 +21,11 @@ import utils.MachineDetector;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GreetingController
 {
-    private static ArrayList<String> fileNames;
+    
     public TextField textFieldPath;
     public Button greyButton;
     public Button chooseButton;
@@ -33,10 +34,12 @@ public class GreetingController
     public ImageView knights;
     private String prompt;
     private boolean chosen;
+    
+    private static final ArrayList<String> fileNames = new ArrayList<>();
 
     public GreetingController(String file)
     {
-        fileNames = new ArrayList<>();
+        fileNames.clear();
         fileNames.add(file);
     }
 
@@ -44,7 +47,7 @@ public class GreetingController
     {
         chosen = false;
         prompt = textFieldPath.getText();
-        fileNames = new ArrayList<>();
+        fileNames.clear();
 
         knights.setOpacity(.5);
         greyButton.setStyle(" -fx-background-color: #BEBFC3;" +
@@ -191,10 +194,39 @@ public class GreetingController
      */
     public static String getModel()
     {
-        if (fileNames.size() > 0 && fileNames.get(0).endsWith(".stl")) {
+        if (fileNames.size() == 1 && fileNames.get(0).endsWith(".stl")) {
             return fileNames.get(0);
         }
         return "";
+    }
+    
+    /**
+     * Returns the G-code files that was uploaded.
+     *
+     * @return The G-code file or an empty string if none.
+     */
+    public static String getGcode()
+    {
+        if (fileNames.size() == 1 && fileNames.get(0).endsWith(".gcode")) {
+            return fileNames.get(0);
+        }
+        return "";
+    }
+    
+    /**
+     * Returns the list of G-code files for the hot-wire slices that were uploaded.
+     *
+     * @return The List of G-code files for the hot-wire slices that were uploaded, or an empty list if none.
+     */
+    public static List<String> getSlices()
+    {
+        List<String> slices = new ArrayList<>();
+        fileNames.forEach(e -> {
+            if (e.endsWith(".gcode")) {
+                slices.add(e);
+            }
+        });
+        return slices;
     }
     
 }
