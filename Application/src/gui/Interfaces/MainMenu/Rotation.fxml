@@ -5,11 +5,9 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="gui.Interfaces.MainMenu.RotationController"
-            prefHeight="400.0" prefWidth="600.0" stylesheets="/gui/style.css">
-    <center>
+<?import javafx.scene.control.Tab?>
+<Tab id="tabRotation" text="Rotation" closable="false" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
+     fx:controller="gui.Interfaces.MainMenu.RotationController">
         <HBox styleClass="hbox" spacing="20" prefWidth="Infinity">
             <BorderPane styleClass="=borderPane">
                 <center>
@@ -21,9 +19,8 @@
                     </Pane>
                 </center>
                 <bottom>
-                    <ScrollBar fx:id="scrollBar" HBox.hgrow="ALWAYS"/>
+                    <ScrollBar fx:id="scrollBar" HBox.hgrow="ALWAYS" prefWidth="Infinity"/>
                 </bottom>
             </BorderPane>
         </HBox>
-    </center>
-</BorderPane>
+</Tab>

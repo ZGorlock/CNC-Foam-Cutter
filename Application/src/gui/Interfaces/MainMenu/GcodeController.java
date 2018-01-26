@@ -52,6 +52,4 @@ public class GcodeController {
     {
         return model.getAbsolutePath().substring(0, model.getAbsolutePath().lastIndexOf('.')) + ".gcode";
     }
-    
-    
 }

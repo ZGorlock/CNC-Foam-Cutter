@@ -15,7 +15,7 @@ public class Gui extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        Debugger db = new Debugger(true);
+        Debugger db = new Debugger(true,true);
 
         Parent root = FXMLLoader.load(getClass().getResource(db.getFXML()));
         primaryStage.setTitle("3D CNC Foam Cutter");

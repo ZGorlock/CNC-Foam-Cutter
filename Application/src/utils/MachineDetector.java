@@ -6,6 +6,8 @@
 
 package utils;
 
+import gui.Debugger;
+
 public final class MachineDetector
 {
     

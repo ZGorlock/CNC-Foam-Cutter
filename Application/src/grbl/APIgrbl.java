@@ -41,30 +41,6 @@ public class APIgrbl extends Thread
         partitionAndStream(filename,directoryGrbl, directoryGcode, directoryTemp, m.getCommandSize());
     }
 
-    public double getCoordinateX() {
-        return x;
-    }
-
-    public double getCoordinateY() {
-        return y;
-    }
-
-    public double getCoordinateZ() { return z; }
-
-    public String getStatus( ){return status; }
-
-    public double getPercentage() {
-        return percentage;
-    }
-
-    private void setX(double x){ this.x = x; }
-
-    private void setY(double y){ this.y = y; }
-
-    private void setZ(double z){ this.z = z; }
-
-    private void setStatus(String status){ this.status = status;}
-
     private void partitionAndStream(String filename, String directoryGrbl, String directoryGcode, String directoryTemp, int size)
     {
         try{
@@ -165,5 +141,30 @@ public class APIgrbl extends Thread
     {
 
     }
+
+    // Getters and Setters
+    public double getCoordinateX() {
+        return x;
+    }
+
+    public double getCoordinateY() {
+        return y;
+    }
+
+    public double getCoordinateZ() { return z; }
+
+    public String getStatus( ){return status; }
+
+    public double getPercentage() {
+        return percentage;
+    }
+
+    private void setX(double x){ this.x = x; }
+
+    private void setY(double y){ this.y = y; }
+
+    private void setZ(double z){ this.z = z; }
+
+    private void setStatus(String status){ this.status = status;}
 }
     

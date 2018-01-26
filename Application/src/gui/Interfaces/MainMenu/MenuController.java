@@ -1,5 +1,6 @@
 package gui.Interfaces.MainMenu;
 
+import gui.Debugger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -46,7 +47,11 @@ public class MenuController {
     {
         TPane.getTabs().add(ModelController.setup());
         TPane.getTabs().add(GcodeController.setup());
-        TPane.getTabs().add(MachineDetector.isCncMachine() ? TraceController.setup() : RotationController.setup());
+        if(Debugger.debugger.getRotation()){
+            TPane.getTabs().add(RotationController.setup());
+        }else{
+            TPane.getTabs().add(MachineDetector.isCncMachine() ? TraceController.setup() : RotationController.setup());
+        }
     }
     
     /**
