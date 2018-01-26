@@ -34,6 +34,12 @@ public class GreetingController
     private String prompt;
     private boolean chosen;
 
+    public GreetingController(String file)
+    {
+        fileNames = new ArrayList<>();
+        fileNames.add(file);
+    }
+
     public void initialize()
     {
         chosen = false;

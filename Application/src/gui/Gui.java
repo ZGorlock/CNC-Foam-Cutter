@@ -14,12 +14,12 @@ public class Gui extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        String normal = "Interfaces/Greeting/Input.fxml";
-        String debug = "Interfaces/MainMenu/Menu.fxml";
 
-        Parent root = FXMLLoader.load(getClass().getResource(normal));
+        Debugger db = new Debugger(true);
+
+        Parent root = FXMLLoader.load(getClass().getResource(db.getFXML()));
         primaryStage.setTitle("3D CNC Foam Cutter");
-        primaryStage.setScene(new Scene(root,800, 600));
+        primaryStage.setScene(new Scene(root,db.getWidth(), db.getHeight()));
         primaryStage.show();
     }
 

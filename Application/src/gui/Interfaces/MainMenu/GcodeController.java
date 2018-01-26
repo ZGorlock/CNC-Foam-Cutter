@@ -1,5 +1,7 @@
 package gui.Interfaces.MainMenu;
 
+import grbl.APIgrbl;
+import gui.Interfaces.Greeting.GreetingController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Tab;
 import main.Main;
@@ -8,6 +10,7 @@ import slicer.Slicer;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class GcodeController {
     
@@ -25,16 +28,18 @@ public class GcodeController {
         }
     }
     
-    
     public void initialize()
     {
-        /*
-        model = new File(GreetingController.getFileNames().get(0));
-        slice(model);
+        ArrayList<String> fileNames = new ArrayList<>();
+        fileNames.add(GreetingController.getModel());
 
-        APIgrbl grbl = new APIgrbl();
-        grbl.start(getGcodeFile(model));
-        */
+        for(String str : fileNames)
+        {
+            File file = new File(str);
+            slice(file);
+            APIgrbl apIgrbl = new APIgrbl(getGcodeFile(file));
+            //new Thread(apIgrbl).start();     //<--- comment out if no arduino
+        }
     }
     
     public void slice(File model)

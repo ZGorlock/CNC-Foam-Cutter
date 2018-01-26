@@ -1,5 +1,7 @@
 package gui.Interfaces.MainMenu;
 
+import gui.Interfaces.Greeting.GreetingController;
+import gui.Interfaces.Greeting.InputController;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -73,22 +75,11 @@ public class ModelController
     {
         controller = this;
         renderer = Renderer.setup(swingNodeModel);
-
-        //TODO this needs to be moved to the GcodeController, get model from GreetingController
-//        ArrayList<String> fileNames = getFileNames();
-//        for(String str : fileNames)
-//        {
-//            File file = new File(str);
-//
-//            APIgrbl apIgrbl = new APIgrbl(file.getName());
-//            new Thread(apIgrbl).start();     //<--- comment out if no arduino
-//
-//            setFileName(file.getName());
-//            setFileSize(calculateFileSize(file));
-//            setStudentNid(InputController.getNidFromText());
-//            setDesc(InputController.getDescFromText());
-//        }
-        
+        File file = new File(GreetingController.getModel());
+        setFileName(file.getName());
+        setFileSize(calculateFileSize(file));
+        setStudentNid(InputController.getNidFromText());
+        setDesc(InputController.getDescFromText());
         updatePercentage();
     }
     
@@ -160,7 +151,7 @@ public class ModelController
             i++;
         }
     
-        return String.valueOf(size) +
+        return String.format("%.2f",size) +
                 (i == 1 ? "KB" : (i == 2 ? "MB" : "B"));
     }
     
