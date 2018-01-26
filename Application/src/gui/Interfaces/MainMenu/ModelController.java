@@ -75,6 +75,7 @@ public class ModelController
     {
         controller = this;
         renderer = Renderer.setup(swingNodeModel);
+        
         File file = new File(GreetingController.getModel());
         setFileName(file.getName());
         setFileSize(calculateFileSize(file));

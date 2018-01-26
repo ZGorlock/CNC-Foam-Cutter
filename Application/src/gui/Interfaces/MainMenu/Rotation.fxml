@@ -2,10 +2,12 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.Tab?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <Tab id="tabRotation" text="Rotation" closable="false" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
      fx:controller="gui.Interfaces.MainMenu.RotationController">
         <HBox styleClass="hbox" spacing="20" prefWidth="Infinity">

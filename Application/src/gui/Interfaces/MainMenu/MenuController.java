@@ -47,9 +47,10 @@ public class MenuController {
     {
         TPane.getTabs().add(ModelController.setup());
         TPane.getTabs().add(GcodeController.setup());
-        if(Debugger.debugger.getRotation()){
+        
+        if (Debugger.debugger.getRotation()) { //TODO why are we doing this?
             TPane.getTabs().add(RotationController.setup());
-        }else{
+        } else {
             TPane.getTabs().add(MachineDetector.isCncMachine() ? TraceController.setup() : RotationController.setup());
         }
     }

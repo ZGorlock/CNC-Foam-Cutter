@@ -10,11 +10,12 @@ public class Debugger {
     private int width;
     private int height;
     boolean rotation;
+    
     public static Debugger debugger;
-    Debugger(boolean mode, boolean rotation)
+    
+    public Debugger(boolean mode, boolean rotation)
     {
-        if(mode)
-        {
+        if (mode) {
             width = 1280;
             height = 960;
             fxml = "Interfaces/MainMenu/Menu.fxml";
@@ -25,19 +26,25 @@ public class Debugger {
             String stlVersion = "\\resources\\cadfiles\\Birds_and_flowers.stl";
 
             GreetingController g = new GreetingController(thisPath + stlVersion);
-        }else
-        {
+            
+        } else {
             width = 800;
             height = 600;
             fxml = "Interfaces/Greeting/Input.fxml";
         }
+        
         debugger = this;
         this.rotation = rotation;
     }
+    
+    
+    //Getters
+    
     public boolean getRotation(){return rotation;}
     public String getFXML() {
         return fxml;
     }
     public int getWidth(){return width;}
     public int getHeight(){return height;}
+    
 }

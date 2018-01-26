@@ -38,7 +38,7 @@ public class GcodeController {
             File file = new File(str);
             slice(file);
             APIgrbl apIgrbl = new APIgrbl(getGcodeFile(file));
-            //new Thread(apIgrbl).start();     //<--- comment out if no arduino
+            //new Thread(apIgrbl).start();     //<--- comment out if no arduino TODO
         }
     }
     
