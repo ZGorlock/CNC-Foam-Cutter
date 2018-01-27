@@ -2,13 +2,15 @@ package gui.Interfaces.MainMenu;
 
 import grbl.APIgrbl;
 import gui.Interfaces.Greeting.GreetingController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import main.Main;
 import slicer.Slicer;
+import sun.misc.Request;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +21,9 @@ public class GcodeController {
 
     public TextField textFieldCommand;
     public TextArea textAreaResponse;
-    private ArrayList<String> requests;
+    public Label responseLabel;
+
+    public static GcodeController controller;
 
     public static Tab setup()
     {
@@ -39,7 +43,7 @@ public class GcodeController {
     {
         ArrayList<String> fileNames = new ArrayList<>();
         fileNames.add(GreetingController.getModel());
-
+        controller = this;
         for(String str : fileNames)
         {
             File file = new File(str);
@@ -48,8 +52,8 @@ public class GcodeController {
             new Thread(apIgrbl).start();     //<--- comment out if no arduino TODO
         }
 
-        textFieldCommand.setPromptText("Send Command...");
-        requests = new ArrayList<>();
+        textFieldCommand.setPromptText("Send Command...");;
+        updateUI();
     }
     
     public void slice(File model)
@@ -64,13 +68,14 @@ public class GcodeController {
 
     public void sendCommand(ActionEvent actionEvent)
     {
-        if(textFieldCommand.getText() == textFieldCommand.getPromptText())
-        {
-            return;
-        }
+        if(textFieldCommand.getText().compareTo(textFieldCommand.getPromptText()) == 0){ return; }
+        APIgrbl.grbl.sendRequest(textFieldCommand.getText());
+    }
 
-        RequestHandler request = new RequestHandler(textFieldCommand.getText());
-        textAreaResponse.textProperty().bind(request.messageProperty());
+    private void updateUI()
+    {
+        RequestHandler request = new RequestHandler();
+        responseLabel.textProperty().bind(request.messageProperty());
         new Thread(request).start();
     }
 }

@@ -1,30 +1,44 @@
 package gui.Interfaces.MainMenu;
 
 import grbl.APIgrbl;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class RequestHandler extends Task<Void>
 {
+    private ArrayList<String> response;
+    private HashSet<String> viewed;
+
     private String request;
-    RequestHandler(String command)
+
+    RequestHandler()
     {
-        this.request = command;
+        this.response = new ArrayList<>();
+        this.viewed = new HashSet<>();
     }
 
     @Override
-    protected Void call() throws Exception
+    public Void call() throws Exception
     {
-        ArrayList<String> response;
-        APIgrbl.grbl.sendRequest(request);
-        response = APIgrbl.grbl.getResponse();
-
-        for(String str : response)
+        while(true)
         {
-            updateMessage(str);
-        }
+            response = APIgrbl.grbl.getResponse();
+            if(response.size() > 0 && !viewed.contains(response.get(0)))
+            {
+                for(String s : response)
+                {
+                    updateMessage(s);
+                    viewed.add(s);
+                    Thread.sleep(1000000);
+                }
+            }
 
-        return null;
+            if(isCancelled())
+                return null;
+        }
     }
 }

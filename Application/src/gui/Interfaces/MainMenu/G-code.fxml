@@ -9,12 +9,14 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.Label?>
 <Tab id="tabGcode" closable="false" text="G-Code" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Interfaces.MainMenu.GcodeController">
     <BorderPane prefHeight="400.0" prefWidth="600.0" styleClass="borderPane">
         <center>
             <VBox spacing="10" styleClass="vbox">
                 <TextArea fx:id="textAreaResponse" text="" />
                 <TextField fx:id="textFieldCommand" text="Send Command..." />
+                <Label fx:id="responseLabel" text = "HELLO WORLD"></Label>
                 <HBox alignment="TOP_RIGHT">
                 <Button fx:id="sendButton" alignment="CENTER_RIGHT"
                         onAction="#sendCommand" styleClass="buttonGold" text="Send" HBox.hgrow="ALWAYS">

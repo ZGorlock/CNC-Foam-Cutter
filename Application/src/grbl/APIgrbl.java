@@ -1,5 +1,6 @@
 package grbl;
 
+import gui.Interfaces.MainMenu.GcodeController;
 import utils.*;
 import java.io.*;
 import java.nio.file.Paths;
@@ -111,6 +112,8 @@ public class APIgrbl extends Thread
                 bw.write(gcode);
                 bw.close();
 
+                checkForCommand(directoryGrbl,directoryTemp);
+
                 // execute stream.py with the file created, get input stream as a response
                 Process process = CmdLine.executeCmdAsThread("py " +  directoryGrbl + "stream.py "+ directoryTemp + "tempfile.txt\n");
                 BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -124,20 +127,23 @@ public class APIgrbl extends Thread
                         break;
                     }
                     updateCoordinates(line);
-
-                    // check for commands from UI
-                    if(commandFromUI.size() > 0)
-                    {
-                        System.out.println("A REQUEST HAS BEEN MADE");
-                        //create new process and add to the response for UI
-                        handleRequest(directoryGrbl);
-                    }
+                    checkForCommand(directoryGrbl,directoryTemp);
                 }
                 // set percentage done
                 percentage = ((double)commandsRead / (double) size) * 100.00;
             }
         }catch(IOException e){
             e.printStackTrace();
+        }
+    }
+
+    private void checkForCommand(String directoryGrbl, String directoryTemp)
+    {
+        // check for commands from UI
+        if(commandFromUI.size() > 0)
+        {
+            //create new process and add to the response for UI
+            handleRequest(directoryGrbl,directoryTemp);
         }
     }
 
@@ -162,28 +168,32 @@ public class APIgrbl extends Thread
         commandFromUI.add(command);
     }
 
-    private void handleRequest(String directoryGrbl)
+    private void handleRequest(String directoryGrbl, String directoryTemp)
     {
-        // execute stream.py with the command being sent, get input stream as a response
-        Process process = CmdLine.executeCmdAsThread("py " +  directoryGrbl + "stream.py "+ commandFromUI.get(0) +"\n");
-        BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-        String line;
         try {
-        while (true)
-        {
-            line = r.readLine();
-            if (line == null)
+            BufferedWriter bw = new BufferedWriter(new FileWriter(new File(directoryTemp,"tempCommand.txt")));
+            bw.write(commandFromUI.get(0));
+            bw.close();
+
+            // execute stream.py with the command being sent, get input stream as a response
+            Process process = CmdLine.executeCmdAsThread("py " +  directoryGrbl + "stream.py "+ directoryTemp + "tempCommand.txt\n");
+            BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+            String line;
+
+            while (true)
             {
-                break;
+                line = r.readLine();
+                if (line == null)
+                {
+                    break;
+                }
+                responseForUI.add(line);
             }
-            System.out.println(line);
-            responseForUI.add(line);
-        }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         commandFromUI.remove(0);
     }
 
