@@ -13,6 +13,7 @@
 <Tab id="tabRotation" text="Rotation" closable="false" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
      fx:controller="gui.Interfaces.MainMenu.RotationController">
     <VBox fx:id="vBox" prefWidth="1200" spacing="40" styleClass="vbox">
+    <Label fx:id="fileName"/>
     <TextField text="Enter degrees..." fx:id="textFieldDegrees"/>
     </VBox>
 </Tab>
