@@ -14,17 +14,23 @@ public class APIgrbl extends Thread
     private String status;
     private String filename;
     public static APIgrbl grbl;
+    private ArrayList<String> commandFromUI;
+    private ArrayList<String> responseForUI;
 
     public APIgrbl(String filename){
         percentage = x = y = z = 0.0;
         status = "Off";
         grbl = this;
         this.filename = filename;
+        commandFromUI = new ArrayList<>();
+        responseForUI = new ArrayList<>();
     }
 
     public void run()
     {
+        // path to directory
         String thisPath = Paths.get("").toAbsolutePath().toString();
+
         // directory to grbl package
         String directoryGrbl =  thisPath +"\\src\\grbl\\";
 
@@ -37,6 +43,7 @@ public class APIgrbl extends Thread
         // Modifies to gbrl acceptable gcode
         Modifier m = new Modifier(filename, directoryGcode);
         m.modify();
+
         // api needs grbl, gcode, temp
         partitionAndStream(filename,directoryGrbl, directoryGcode, directoryTemp, m.getCommandSize());
     }
@@ -117,6 +124,14 @@ public class APIgrbl extends Thread
                         break;
                     }
                     updateCoordinates(line);
+
+                    // check for commands from UI
+                    if(commandFromUI.size() > 0)
+                    {
+                        System.out.println("A REQUEST HAS BEEN MADE");
+                        //create new process and add to the response for UI
+                        handleRequest(directoryGrbl);
+                    }
                 }
                 // set percentage done
                 percentage = ((double)commandsRead / (double) size) * 100.00;
@@ -137,9 +152,39 @@ public class APIgrbl extends Thread
         setZ(Double.parseDouble(decomposed[3]));
     }
 
-    public void sendCommand(String command)
+    public ArrayList<String> getResponse()
     {
+        return responseForUI;
+    }
 
+    public void sendRequest(String command)
+    {
+        commandFromUI.add(command);
+    }
+
+    private void handleRequest(String directoryGrbl)
+    {
+        // execute stream.py with the command being sent, get input stream as a response
+        Process process = CmdLine.executeCmdAsThread("py " +  directoryGrbl + "stream.py "+ commandFromUI.get(0) +"\n");
+        BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+        String line;
+        try {
+        while (true)
+        {
+            line = r.readLine();
+            if (line == null)
+            {
+                break;
+            }
+            System.out.println(line);
+            responseForUI.add(line);
+        }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        commandFromUI.remove(0);
     }
 
     // Getters and Setters

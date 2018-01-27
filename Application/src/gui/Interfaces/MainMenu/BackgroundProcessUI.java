@@ -6,7 +6,6 @@ import javafx.concurrent.Task;
 public class BackgroundProcessUI extends Task<Void>
 {
     private int index;
-    private String filename;
 
     BackgroundProcessUI(int index)
     {

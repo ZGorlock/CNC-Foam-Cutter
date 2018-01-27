@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<Tab id="tabGcode" text="G-Code" closable="false" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Interfaces.MainMenu.GcodeController">
+
+<Tab id="tabGcode" closable="false" text="G-Code" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Interfaces.MainMenu.GcodeController">
     <BorderPane prefHeight="400.0" prefWidth="600.0" styleClass="borderPane">
         <center>
-            <VBox styleClass="vbox">
-                <TextArea text="Send G-code"/>
-                <TextField text="Optional Response"/>
+            <VBox spacing="10" styleClass="vbox">
+                <TextArea fx:id="textAreaResponse" text="" />
+                <TextField fx:id="textFieldCommand" text="Send Command..." />
+                <HBox alignment="TOP_RIGHT">
+                <Button fx:id="sendButton" alignment="CENTER_RIGHT"
+                        onAction="#sendCommand" styleClass="buttonGold" text="Send" HBox.hgrow="ALWAYS">
+                 </Button>
+                </HBox>
             </VBox>
         </center>
     </BorderPane>

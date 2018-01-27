@@ -8,21 +8,11 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TextField?>
 <Tab id="tabRotation" text="Rotation" closable="false" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
      fx:controller="gui.Interfaces.MainMenu.RotationController">
-        <HBox styleClass="hbox" spacing="20" prefWidth="Infinity">
-            <BorderPane styleClass="=borderPane">
-                <center>
-                    <Pane>
-                        <ImageView>
-                            <Image url="@../../images/logo.PNG"/>
-                        </ImageView>
-                        <Label fx:id="imageLabel"/>
-                    </Pane>
-                </center>
-                <bottom>
-                    <ScrollBar fx:id="scrollBar" HBox.hgrow="ALWAYS" prefWidth="Infinity"/>
-                </bottom>
-            </BorderPane>
-        </HBox>
+    <VBox fx:id="vBox" prefWidth="1200" spacing="40" styleClass="vbox">
+    <TextField text="Enter degrees..." fx:id="textFieldDegrees"/>
+    </VBox>
 </Tab>
