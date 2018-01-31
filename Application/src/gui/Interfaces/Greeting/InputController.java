@@ -24,8 +24,6 @@ public class InputController {
 
     public void initialize()
     {
-        nid.setOnMouseClicked(e -> nid.setText(""));
-        desc.setOnMouseClicked(e -> desc.setText(""));
         nid.setPromptText("Please input your NID...");
         desc.setPromptText("Brief Description here...");
     }

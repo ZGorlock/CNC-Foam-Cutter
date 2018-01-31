@@ -90,7 +90,6 @@ public class RotationController
         gcodeTraces = gcodeTracer.traceGcodeSet(GreetingController.getSlices());
         index = 0;
         renderImages();
-        textFieldDegrees.setOnMouseClicked(e -> textFieldDegrees.setText(""));
         textFieldDegrees.setPromptText("Enter degrees...");
     }
 

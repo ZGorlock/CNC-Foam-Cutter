@@ -54,7 +54,6 @@ public class GcodeController {
 
         textFieldCommand.setPromptText("Send Command...");
         updateUI();
-        textFieldCommand.setOnMouseClicked(e -> textFieldCommand.setText(""));
     }
     
     public void slice(File model)
