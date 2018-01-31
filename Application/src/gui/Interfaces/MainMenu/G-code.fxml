@@ -14,8 +14,8 @@
     <BorderPane prefHeight="400.0" prefWidth="600.0" styleClass="borderPane">
         <center>
             <VBox spacing="10" styleClass="vbox">
-                <TextArea fx:id="textAreaResponse" text="" />
-                <TextField fx:id="textFieldCommand" text="Send Command..." />
+                <TextArea fx:id="textAreaResponse"/>
+                <TextField fx:id="textFieldCommand"/>
                 <Label fx:id="responseLabel" text = "HELLO WORLD"></Label>
                 <HBox alignment="TOP_RIGHT">
                 <Button fx:id="sendButton" alignment="CENTER_RIGHT"

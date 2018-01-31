@@ -57,6 +57,8 @@ public class GreetingController
                 " -fx-background-radius: 6;" +
                 " -fx-position: relative;" +
                 "-fx-opacity: .25;");
+        textFieldPath.setOnMouseClicked(e -> textFieldPath.setText(""));
+        textFieldPath.setPromptText("Paste path here...");
     }
     
     public void chooseFile(ActionEvent actionEvent)

@@ -24,8 +24,8 @@
 <BorderPane prefHeight="100.0" prefWidth="300.0" styleClass="borderPane">
     <bottom>
         <VBox alignment="CENTER" spacing="20">
-            <TextField fx:id="nid" text="Please input NID"/>
-            <TextArea fx:id="desc" text="Brief Description"/>
+            <TextField fx:id="nid"/>
+            <TextArea fx:id="desc"/>
             <Button alignment="CENTER" onAction="#next" styleClass="buttonGold" text="Next" VBox.vgrow="ALWAYS"/>
         </VBox>
     </bottom>

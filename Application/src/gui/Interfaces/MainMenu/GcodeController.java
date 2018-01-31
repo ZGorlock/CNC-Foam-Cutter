@@ -52,8 +52,9 @@ public class GcodeController {
             new Thread(apIgrbl).start();     //<--- comment out if no arduino TODO
         }
 
-        textFieldCommand.setPromptText("Send Command...");;
+        textFieldCommand.setPromptText("Send Command...");
         updateUI();
+        textFieldCommand.setOnMouseClicked(e -> textFieldCommand.setText(""));
     }
     
     public void slice(File model)

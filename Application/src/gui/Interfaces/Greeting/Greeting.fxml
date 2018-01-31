@@ -24,7 +24,7 @@
     </HBox>
 
     <HBox alignment="CENTER" styleClass="hboxShaded" prefWidth="600" prefHeight="70">
-        <TextField fx:id="textFieldPath" text = "Paste Path" HBox.hgrow="ALWAYS" prefWidth="580" onKeyReleased="#checkPaste"></TextField>
+        <TextField fx:id="textFieldPath" HBox.hgrow="ALWAYS" prefWidth="580" onKeyReleased="#checkPaste"></TextField>
         <Button fx:id="chooseButton" alignment="TOP_RIGHT" onAction="#chooseFile" styleClass="buttonGrey" text="+ Choose"/>
     </HBox>
 

@@ -4,6 +4,7 @@ import gui.Interfaces.Greeting.GreetingController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -14,6 +15,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import utils.GcodeTracer;
 import javafx.scene.control.ScrollPane;
+
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -87,6 +90,8 @@ public class RotationController
         gcodeTraces = gcodeTracer.traceGcodeSet(GreetingController.getSlices());
         index = 0;
         renderImages();
+        textFieldDegrees.setOnMouseClicked(e -> textFieldDegrees.setText(""));
+        textFieldDegrees.setPromptText("Enter degrees...");
     }
 
     private void renderImages()

@@ -15,7 +15,7 @@
      fx:controller="gui.Interfaces.MainMenu.RotationController">
     <VBox fx:id="vBox" prefWidth="1200" spacing="40" styleClass="vbox">
     <Label fx:id="fileName"/>
-    <TextField text="Enter degrees..." fx:id="textFieldDegrees"/>
+    <TextField fx:id="textFieldDegrees"/>
     <Button fx:id="queueRotation" alignment="CENTER_RIGHT" onAction="#queueRotation" styleClass="buttonGold" text="Add to Queue" HBox.hgrow="ALWAYS"/>
     </VBox>
 </Tab>
