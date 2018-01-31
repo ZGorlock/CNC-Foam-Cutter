@@ -7,6 +7,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -31,6 +32,8 @@ public class RotationController
      */
     public VBox vBox;
     public Label fileName;
+    public TextField textFieldDegrees;
+    private ScrollPane sp;
     
     //Static Fields
     
@@ -46,8 +49,12 @@ public class RotationController
      * The list of BufferedImages corresponding to the uploaded gcode files.
      */
     public List<BufferedImage> gcodeTraces;
-    
-    
+
+    /**
+     *  index of current image being viewed
+     */
+    private int index;
+
     //Static Methods
     
     /**
@@ -78,13 +85,14 @@ public class RotationController
         //produce gcode traces to display to the user
         GcodeTracer gcodeTracer = new GcodeTracer();
         gcodeTraces = gcodeTracer.traceGcodeSet(GreetingController.getSlices());
-
+        index = 0;
         renderImages();
     }
 
     private void renderImages()
     {
-        ScrollPane sp = new ScrollPane();
+        sp = new ScrollPane();
+        sp.setPrefSize(600, 270);
         HBox hbox = new HBox();
         hbox.setSpacing(20);
         hbox.setStyle("-fx-padding: 40px;");
@@ -98,7 +106,6 @@ public class RotationController
             hbox.getChildren().add(pic);
         }
 
-        sp.setPrefSize(600, 270);
         sp.setContent(hbox);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setHmax(9.0); // set to the size of the arraylist aka gcodeTraces to keep track of current one
@@ -106,7 +113,9 @@ public class RotationController
         sp.hvalueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> ov,
                                 Number old_val, Number new_val) {
-                fileName.setText(String.valueOf((new_val.intValue())));
+
+                index = new_val.intValue();
+                handleSPAnimation();
             }
         });
 
@@ -121,6 +130,35 @@ public class RotationController
             hbox.getChildren().add(pic);
         }
         */
+    }
+
+    public void queueRotation()
+    {
+        //Todo send instructions
+    }
+
+    private void handleSPAnimation()
+    {
+        HBox temp = (HBox)sp.getContent();
+        temp.getChildren().get(index).setScaleX(1.18);
+        temp.getChildren().get(index).setScaleY(1.18);
+
+        ImageView iv = (ImageView) temp.getChildren().get(index);
+        Image im = iv.getImage();
+        fileName.setText(im.impl_getUrl());
+
+        // Prevent index out of bounds and return other images to normal size
+        if(index + 1 < temp.getChildren().size())
+        {
+            temp.getChildren().get(index + 1).setScaleX(1);
+            temp.getChildren().get(index + 1).setScaleY(1);
+        }
+
+        if(index - 1 >= 0)
+        {
+            temp.getChildren().get(index - 1).setScaleX(1);
+            temp.getChildren().get(index - 1).setScaleY(1);
+        }
     }
     
 }
