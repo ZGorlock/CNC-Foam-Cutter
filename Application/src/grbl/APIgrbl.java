@@ -1,6 +1,7 @@
 package grbl;
 
 import gui.Interfaces.MainMenu.GcodeController;
+import sun.misc.GC;
 import utils.*;
 import java.io.*;
 import java.nio.file.Paths;
@@ -15,8 +16,9 @@ public class APIgrbl extends Thread
     private String status;
     private String filename;
     public static APIgrbl grbl;
-    private ArrayList<String> commandFromUI;
-    private ArrayList<String> responseForUI;
+    private List<String> commandFromUI;
+    private List<String> responseForUI;
+    private List<String> cmdBlock;
 
     public APIgrbl(String filename){
         percentage = x = y = z = 0.0;
@@ -25,6 +27,7 @@ public class APIgrbl extends Thread
         this.filename = filename;
         commandFromUI = new ArrayList<>();
         responseForUI = new ArrayList<>();
+        cmdBlock = new ArrayList<>();
     }
 
     public void run()
@@ -158,7 +161,7 @@ public class APIgrbl extends Thread
         setZ(Double.parseDouble(decomposed[3]));
     }
 
-    public ArrayList<String> getResponse()
+    public List<String> getResponse()
     {
         return responseForUI;
     }
@@ -184,11 +187,12 @@ public class APIgrbl extends Thread
             while (true)
             {
                 line = r.readLine();
-                if (line == null)
+                if (line == null || line.isEmpty())
                 {
                     break;
                 }
                 responseForUI.add(line);
+                GcodeController.commandBlock.add(' ' + line);
             }
 
         } catch (IOException e) {

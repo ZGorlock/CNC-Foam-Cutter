@@ -8,6 +8,7 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import main.Main;
 import slicer.Slicer;
 import sun.misc.Request;
@@ -16,12 +17,20 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static java.awt.TextArea.SCROLLBARS_VERTICAL_ONLY;
 
 public class GcodeController {
 
     public TextField textFieldCommand;
     public TextArea textAreaResponse;
-    public Label responseLabel;
+    public VBox vBox;
+
+    public static List<String> commandBlock = new ArrayList<>();
+    public static String commandBlockText = "";
 
     public static GcodeController controller;
 
@@ -53,6 +62,10 @@ public class GcodeController {
         }
 
         textFieldCommand.setPromptText("Send Command...");
+
+        textAreaResponse = new TextArea();
+        vBox.getChildren().add(0,textAreaResponse);
+
         updateUI();
     }
     
@@ -69,13 +82,34 @@ public class GcodeController {
     public void sendCommand(ActionEvent actionEvent)
     {
         if(textFieldCommand.getText().compareTo(textFieldCommand.getPromptText()) == 0){ return; }
-        APIgrbl.grbl.sendRequest(textFieldCommand.getText());
+        String userCommand = textFieldCommand.getText();
+        APIgrbl.grbl.sendRequest(userCommand);
+        commandBlock.add('>'+ userCommand);
     }
 
     private void updateUI()
     {
-        RequestHandler request = new RequestHandler();
-        responseLabel.textProperty().bind(request.messageProperty());
-        new Thread(request).start();
+        TimerTask updateUI = new TimerTask() {
+            private int l;
+
+            @Override
+            public void run() {
+                if (commandBlock.size() != l) {
+                    l = commandBlock.size();
+                    commandBlockText = "";
+                    for (int i = 0; i < 10; i++) {
+                        commandBlockText += System.lineSeparator();
+                    }
+                    for (String command : commandBlock) {
+                        commandBlockText += command + System.lineSeparator();
+                    }
+                    textAreaResponse.textProperty().set(commandBlockText);
+                    textAreaResponse.setScrollTop(1000000);
+                }
+            }
+        };
+        Timer t = new Timer();
+        t.scheduleAtFixedRate(updateUI,0, 100);
     }
+
 }
