@@ -42,6 +42,7 @@ public class RotationController
     public Label fileName;
     public TextField textFieldDegrees;
     private ScrollPane sp;
+    private boolean firstScroll = true;
     
     //Static Fields
     
@@ -117,8 +118,8 @@ public class RotationController
                 public void handle(javafx.scene.input.MouseEvent event) {
 
                     int newIndex = Integer.parseInt(pic.getId());
-                    if(newIndex < 1)
-                        sp.setHvalue(newIndex);
+                    if(newIndex == 0 && firstScroll)
+                        handleSPAnimation();
                     else
                         slowScrollToImage(sp,newIndex);
 
@@ -146,6 +147,7 @@ public class RotationController
                                 Number old_val, Number new_val) {
 
                 index = new_val.intValue();
+                firstScroll = false;
                 handleSPAnimation();
             }
         });
@@ -164,10 +166,13 @@ public class RotationController
 
     public void queueRotation()
     {
-        Double d = Double.parseDouble(textFieldDegrees.getText());
-        //TODO handle invalid input
-
+        String input = textFieldDegrees.getText();
         textFieldDegrees.setText("");
+
+        // Handle valid input
+        if(!isNumeric(input)) return;
+
+        Double d = Double.parseDouble(input);
 
         HBox temp = (HBox)sp.getContent();
 
@@ -181,6 +186,19 @@ public class RotationController
         String padding = "          ";
         String symbol = "°";
         text.setText(padding + deg + symbol);
+    }
+
+    private static boolean isNumeric(String str)
+    {
+        try
+        {
+            double d = Double.parseDouble(str);
+        }
+        catch(NumberFormatException nfe)
+        {
+            return false;
+        }
+        return true;
     }
 
     private void handleSPAnimation()
