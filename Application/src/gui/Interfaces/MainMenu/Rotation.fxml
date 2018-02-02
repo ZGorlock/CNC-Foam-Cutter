@@ -14,7 +14,7 @@
 <Tab id="tabRotation" text="Rotation" closable="false" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
      fx:controller="gui.Interfaces.MainMenu.RotationController">
     <VBox fx:id="vBox" prefWidth="1200" spacing="40" styleClass="vbox">
-    <Label fx:id="fileName"/>
+    <Label fx:id="fileName" alignment="CENTER"/>
     <TextField fx:id="textFieldDegrees"/>
     <Button fx:id="queueRotation" alignment="CENTER_RIGHT" onAction="#queueRotation" styleClass="buttonGold" text="Add to Queue" HBox.hgrow="ALWAYS"/>
     </VBox>

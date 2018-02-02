@@ -1,20 +1,25 @@
 package gui.Interfaces.MainMenu;
 
 import gui.Interfaces.Greeting.GreetingController;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.util.Duration;
 import utils.GcodeTracer;
-import javafx.scene.control.ScrollPane;
 
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -96,18 +101,40 @@ public class RotationController
     private void renderImages()
     {
         sp = new ScrollPane();
-        sp.setPrefSize(600, 270);
+        sp.setPrefSize(600, 340);
         HBox hbox = new HBox();
         hbox.setSpacing(20);
         hbox.setStyle("-fx-padding: 40px;");
-        int size = 1;
         for (int i = 0; i < 10; i++)
         {
             Image image = new Image("file:src/gui/images/logo.PNG");
             ImageView pic = new ImageView(image);
-            size = (int)pic.getFitWidth();
             pic.setPreserveRatio(true);
-            hbox.getChildren().add(pic);
+            pic.setId(String.valueOf(i));
+
+            pic.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
+                @Override
+                public void handle(javafx.scene.input.MouseEvent event) {
+
+                    int newIndex = Integer.parseInt(pic.getId());
+                    if(newIndex < 1)
+                        sp.setHvalue(newIndex);
+                    else
+                        slowScrollToImage(sp,newIndex);
+
+                }
+            });
+
+            VBox vbox = new VBox();
+            vbox.getChildren().add(pic);
+            String padding = "          ";
+            String symbol = "°";
+            Double d = (360 / 10) * 1.0;
+            String deg = String.format("%.2f",d); // TODO change 10 to size
+            Text text = new Text(padding + deg + symbol);
+
+            vbox.getChildren().add(text);
+            hbox.getChildren().add(vbox);
         }
 
         sp.setContent(hbox);
@@ -123,7 +150,6 @@ public class RotationController
             }
         });
 
-
         vBox.getChildren().add(0,sp);
 
         /* TODO once there are images to render
@@ -138,18 +164,37 @@ public class RotationController
 
     public void queueRotation()
     {
-        //Todo send instructions
+        Double d = Double.parseDouble(textFieldDegrees.getText());
+        //TODO handle invalid input
+
+        textFieldDegrees.setText("");
+
+        HBox temp = (HBox)sp.getContent();
+
+        temp.getChildren().get(index).setScaleX(1.18);
+        temp.getChildren().get(index).setScaleY(1.18);
+
+        VBox vbox = (VBox) temp.getChildren().get(index);
+        Text text = (Text)vbox.getChildren().get(1);
+
+        String deg = String.format("%.2f",d);
+        String padding = "          ";
+        String symbol = "°";
+        text.setText(padding + deg + symbol);
     }
 
     private void handleSPAnimation()
     {
         HBox temp = (HBox)sp.getContent();
+
         temp.getChildren().get(index).setScaleX(1.18);
         temp.getChildren().get(index).setScaleY(1.18);
 
-        ImageView iv = (ImageView) temp.getChildren().get(index);
+        VBox vbox = (VBox) temp.getChildren().get(index);
+
+        ImageView iv = (ImageView)vbox.getChildren().get(0);
         Image im = iv.getImage();
-        fileName.setText(im.impl_getUrl());
+        fileName.setText(im.impl_getUrl() + " " + iv.getId());
 
         // Prevent index out of bounds and return other images to normal size
         if(index + 1 < temp.getChildren().size())
@@ -164,5 +209,13 @@ public class RotationController
             temp.getChildren().get(index - 1).setScaleY(1);
         }
     }
-    
+
+    private static void slowScrollToImage(ScrollPane scrollPane, int value) {
+        Animation animation = new Timeline(
+                new KeyFrame(Duration.seconds(0.8),
+                        new KeyValue(scrollPane.hvalueProperty(), value)));
+        animation.play();
+    }
+
+
 }
