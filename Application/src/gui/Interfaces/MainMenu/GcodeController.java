@@ -25,13 +25,20 @@ import static java.awt.TextArea.SCROLLBARS_VERTICAL_ONLY;
 
 public class GcodeController {
 
+    // FXML variables
     public TextField textFieldCommand;
     public TextArea textAreaResponse;
+    public TextArea textAreaCodeSent;
     public VBox vBox;
 
+    // UI-dependent variables
     public static List<String> commandBlock = new ArrayList<>();
     public static String commandBlockText = "";
 
+    public static List<String> codeBlock = new ArrayList<>();
+    public static String codeBlockText = "";
+
+    // This
     public static GcodeController controller;
 
     public static Tab setup()
@@ -64,11 +71,15 @@ public class GcodeController {
         textFieldCommand.setPromptText("Send Command...");
 
         textAreaResponse = new TextArea();
+        textAreaCodeSent = new TextArea();
+
         vBox.getChildren().add(0,textAreaResponse);
+        vBox.getChildren().add(0,textAreaCodeSent);
 
         updateUI();
     }
-    
+
+
     public void slice(File model)
     {
         if (model.getAbsolutePath().endsWith(".gcode")) {
@@ -89,17 +100,54 @@ public class GcodeController {
 
     private void updateUI()
     {
+        updateUICommand();
+        updateUICodeCurrentlyProcessed();
+    }
+
+    private void updateUICodeCurrentlyProcessed()
+    {
+        TimerTask updateUICodeSent = new TimerTask() {
+            private int state;
+
+            @Override
+            public void run() {
+                if (codeBlock.size() != state)
+                {
+                    state = codeBlock.size();
+                    codeBlockText = "";
+
+                    for (int i = 0; i < 10; i++) {
+                        codeBlockText += System.lineSeparator();
+                    }
+
+                    for (String command : codeBlock) {
+                        codeBlockText += command + System.lineSeparator();
+                    }
+                    textAreaCodeSent.textProperty().set(codeBlockText);
+                    textAreaCodeSent.setScrollTop(1000000);
+                }
+            }
+        };
+        Timer t2 = new Timer();
+        t2.scheduleAtFixedRate(updateUICodeSent,0, 100);
+    }
+
+    private void updateUICommand()
+    {
         TimerTask updateUI = new TimerTask() {
             private int l;
 
             @Override
             public void run() {
-                if (commandBlock.size() != l) {
+                if (commandBlock.size() != l)
+                {
                     l = commandBlock.size();
                     commandBlockText = "";
+
                     for (int i = 0; i < 10; i++) {
                         commandBlockText += System.lineSeparator();
                     }
+
                     for (String command : commandBlock) {
                         commandBlockText += command + System.lineSeparator();
                     }

@@ -1,6 +1,8 @@
 package grbl;
 
 import gui.Interfaces.MainMenu.GcodeController;
+import gui.Interfaces.MainMenu.ModelController;
+import gui.Interfaces.MainMenu.TraceController;
 import sun.misc.GC;
 import utils.*;
 import java.io.*;
@@ -9,25 +11,44 @@ import java.util.*;
 
 public class APIgrbl extends Thread
 {
+    // GUI elements
     private double x;
     private double y;
     private double z;
     private double percentage;
     private String status;
-    private String filename;
-    public static APIgrbl grbl;
+
     private List<String> commandFromUI;
-    private List<String> responseForUI;
     private List<String> cmdBlock;
 
-    public APIgrbl(String filename){
+    private List<String> updateCodeSent;
+    private List<String> codeBlock;
+
+    // Process elements
+    private String filename;
+
+    // Controller
+    public static APIgrbl grbl;
+
+    public APIgrbl(String filename)
+    {
+        // Init GUI variables
         percentage = x = y = z = 0.0;
         status = "Off";
+
+        // Init grbl controller
         grbl = this;
+
+        // Init file to process
         this.filename = filename;
+
+        // Init variables for user request
         commandFromUI = new ArrayList<>();
-        responseForUI = new ArrayList<>();
         cmdBlock = new ArrayList<>();
+
+        // Init variables for visual update on the code being sent
+        updateCodeSent = new ArrayList<>();
+        codeBlock = new ArrayList<>();
     }
 
     public void run()
@@ -112,9 +133,14 @@ public class APIgrbl extends Thread
 
                 // create string to be printed
                 String gcode = sb.toString();
+
                 bw.write(gcode);
                 bw.close();
 
+                // Update UI
+                GcodeController.codeBlock.add(gcode);
+
+                // Check for User Input
                 checkForCommand(directoryGrbl,directoryTemp);
 
                 // execute stream.py with the file created, get input stream as a response
@@ -130,10 +156,15 @@ public class APIgrbl extends Thread
                         break;
                     }
                     updateCoordinates(line);
+
+                    // Check for User Input
                     checkForCommand(directoryGrbl,directoryTemp);
                 }
                 // set percentage done
                 percentage = ((double)commandsRead / (double) size) * 100.00;
+
+                // Update UI
+                ModelController.percentage = String.format("%.2f", percentage) + " %";
             }
         }catch(IOException e){
             e.printStackTrace();
@@ -152,6 +183,7 @@ public class APIgrbl extends Thread
 
     private void updateCoordinates(String line)
     {
+        // Parse line into coordinates
         String [] decomposed = line.split(",");
         if(decomposed[0].compareTo("") == 0) return;
         setStatus(decomposed[0].substring(1));
@@ -159,11 +191,17 @@ public class APIgrbl extends Thread
         setX(Double.parseDouble(first[1]));
         setY(Double.parseDouble(decomposed[2]));
         setZ(Double.parseDouble(decomposed[3]));
-    }
 
-    public List<String> getResponse()
-    {
-        return responseForUI;
+        String x = String.format("%.2f", getCoordinateX());
+        String y = String.format("%.2f", getCoordinateY());
+        String z = String.format("%.2f", getCoordinateZ());
+        String status = getStatus();
+
+        TraceController.coordinateBlock.clear();
+        TraceController.coordinateBlock.add(0,x);
+        TraceController.coordinateBlock.add(1,y);
+        TraceController.coordinateBlock.add(2,z);
+        TraceController.coordinateBlock.add(3,status);
     }
 
     public void sendRequest(String command)
@@ -191,7 +229,6 @@ public class APIgrbl extends Thread
                 {
                     break;
                 }
-                responseForUI.add(line);
                 GcodeController.commandBlock.add(' ' + line);
             }
 

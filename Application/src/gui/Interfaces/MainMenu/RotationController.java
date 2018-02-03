@@ -101,11 +101,14 @@ public class RotationController
 
     private void renderImages()
     {
+        // Create display area
         sp = new ScrollPane();
         sp.setPrefSize(600, 340);
         HBox hbox = new HBox();
         hbox.setSpacing(20);
         hbox.setStyle("-fx-padding: 40px;");
+
+        // Add images as a row
         for (int i = 0; i < 10; i++)
         {
             Image image = new Image("file:src/gui/images/logo.PNG");
@@ -113,6 +116,7 @@ public class RotationController
             pic.setPreserveRatio(true);
             pic.setId(String.valueOf(i));
 
+            // Let images be selected
             pic.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
                 @Override
                 public void handle(javafx.scene.input.MouseEvent event) {
@@ -134,6 +138,7 @@ public class RotationController
             String deg = String.format("%.2f",d); // TODO change 10 to size
             Text text = new Text(padding + deg + symbol);
 
+            // Add to the parent
             vbox.getChildren().add(text);
             hbox.getChildren().add(vbox);
         }
@@ -142,6 +147,7 @@ public class RotationController
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setHmax(9.0); // set to the size of the arraylist aka gcodeTraces to keep track of current one
 
+        // Change the view when something is selected.
         sp.hvalueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> ov,
                                 Number old_val, Number new_val) {
@@ -169,11 +175,12 @@ public class RotationController
         String input = textFieldDegrees.getText();
         textFieldDegrees.setText("");
 
-        // Handle valid input
+        // Handle invalid input
         if(!isNumeric(input)) return;
 
         Double d = Double.parseDouble(input);
 
+        // Set new selected value
         HBox temp = (HBox)sp.getContent();
 
         temp.getChildren().get(index).setScaleX(1.18);
@@ -212,7 +219,7 @@ public class RotationController
 
         ImageView iv = (ImageView)vbox.getChildren().get(0);
         Image im = iv.getImage();
-        fileName.setText(im.impl_getUrl() + " " + iv.getId());
+        fileName.setText("File Selected: "+im.impl_getUrl() + " " + iv.getId());
 
         // Prevent index out of bounds and return other images to normal size
         if(index + 1 < temp.getChildren().size())
@@ -234,6 +241,4 @@ public class RotationController
                         new KeyValue(scrollPane.hvalueProperty(), value)));
         animation.play();
     }
-
-
 }

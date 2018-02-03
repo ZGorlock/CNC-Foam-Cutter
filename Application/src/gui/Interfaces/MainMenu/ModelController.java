@@ -2,15 +2,20 @@ package gui.Interfaces.MainMenu;
 
 import gui.Interfaces.Greeting.GreetingController;
 import gui.Interfaces.Greeting.InputController;
+import javafx.application.Platform;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.layout.HBox;
 import renderer.Renderer;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * The controller for the Model tab.
@@ -26,9 +31,14 @@ public class ModelController
     public Label fileName;
     public Label fileSize;
     public Label fileDesc;
-    public Label filePercentage;
+    public HBox hp;
     public Label studentNID;
     public SwingNode swingNodeModel;
+
+    // UI dependent components
+    public Label filePercentage;
+    public static String percentage = "";
+
     
     
     //Static Fields
@@ -89,9 +99,28 @@ public class ModelController
      */
     public void updatePercentage()
     {
-        BackgroundProcessUI taskPercentage = new BackgroundProcessUI(4);
-        filePercentage.textProperty().bind(taskPercentage.messageProperty());
-        new Thread(taskPercentage).start();
+        filePercentage = new Label();
+        filePercentage.setText("0.00%");
+        filePercentage.setAlignment(Pos.TOP_RIGHT);
+        hp.getChildren().add(filePercentage);
+
+        TimerTask updateCoordinates = new TimerTask()
+        {
+            private String state = "";
+            @Override
+            public void run()
+            {
+                Platform.runLater(() -> {
+                    if(percentage.compareTo(state) != 0){
+                        filePercentage.textProperty().set(percentage);
+                        state = percentage;
+                    }
+                });
+            }
+        };
+
+        Timer t = new Timer();
+        t.scheduleAtFixedRate(updateCoordinates,0, 100);
     }
     
     

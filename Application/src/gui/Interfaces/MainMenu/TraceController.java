@@ -1,5 +1,11 @@
 package gui.Interfaces.MainMenu;
 
+import grbl.APIgrbl;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -7,11 +13,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import tracer.Tracer;
 import tracer.math.Delta;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * The controller for the Trace tab.
@@ -24,13 +35,20 @@ public class TraceController
     /**
      * The FXML elements of the tab.
      */
+    public HBox hx;
+    public HBox hy;
+    public HBox hz;
+    public HBox hStatus;
+    public SwingNode swingNodeTrace;
+
+    // UI-dependent variables
     public Label grblX;
     public Label grblY;
     public Label grblZ;
     public Label grblStatus;
-    public SwingNode swingNodeTrace;
-    
-    
+    public static List<String> coordinateBlock = new ArrayList<>();
+
+
     //Static Fields
     
     /**
@@ -95,30 +113,45 @@ public class TraceController
     {
         controller = this;
         tracer = Tracer.setup(swingNodeTrace);
+
+        grblX = new Label();
+        grblY = new Label();
+        grblZ = new Label();
+        grblStatus = new Label();
+
+        hx.getChildren().add(grblX);
+        hy.getChildren().add(grblY);
+        hz.getChildren().add(grblZ);
+        hStatus.getChildren().add(grblStatus);
+
         updateCoordinates();
     }
     
     /**
      * Starts the coordinate monitoring thread.
      */
-    private void updateCoordinates()
+    public void updateCoordinates()
     {
-        BackgroundProcessUI taskX = new BackgroundProcessUI(0);
-        BackgroundProcessUI taskY = new BackgroundProcessUI(1);
-        BackgroundProcessUI taskZ = new BackgroundProcessUI(2);
-        BackgroundProcessUI taskStatus = new BackgroundProcessUI(3);
+        TimerTask updateCoordinates = new TimerTask()
+        {
+            private int state;
+            @Override
+            public void run()
+            {
+                Platform.runLater(() -> {
+                    if (coordinateBlock.size() > 0) {
+                        grblX.textProperty().set(coordinateBlock.get(0));
+                        grblY.textProperty().set(coordinateBlock.get(1));
+                        grblZ.textProperty().set(coordinateBlock.get(2));
+                        grblStatus.textProperty().set(coordinateBlock.get(3));
+                    }
+                });
+            }
+        };
 
-        grblStatus.textProperty().bind(taskStatus.messageProperty());
-        grblX.textProperty().bind(taskX.messageProperty());
-        grblY.textProperty().bind(taskY.messageProperty());
-        grblZ.textProperty().bind(taskZ.messageProperty());
-
-        new Thread(taskStatus).start();
-        new Thread(taskX).start();
-        new Thread(taskY).start();
-        new Thread(taskZ).start();
+        Timer t = new Timer();
+        t.scheduleAtFixedRate(updateCoordinates,0, 100);
     }
-    
     
     //Functions
     

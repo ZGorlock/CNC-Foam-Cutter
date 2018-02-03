@@ -34,9 +34,8 @@
                     <Text styleClass="bold">Size:</Text>
                     <Label fx:id="fileSize" alignment="TOP_RIGHT"/>
                 </HBox>
-                <HBox spacing="36">
+                <HBox fx:id="hp" spacing="36">
                     <Text styleClass="bold">Percentage:</Text>
-                    <Label fx:id="filePercentage" text="0.00%" alignment="TOP_RIGHT"/>
                 </HBox>
             </VBox>
         </right>
