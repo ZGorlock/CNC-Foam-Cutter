@@ -7,8 +7,6 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -17,11 +15,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 import utils.GcodeTracer;
 
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -41,8 +37,13 @@ public class RotationController
     public VBox vBox;
     public Label fileName;
     public TextField textFieldDegrees;
+
+    // UI components
+    /**
+     * UI components that are created through code instead of xml
+     */
     private ScrollPane sp;
-    private boolean firstScroll = true;
+
     
     //Static Fields
     
@@ -64,6 +65,11 @@ public class RotationController
      */
     private int index;
 
+    /**
+     * Variable to determine if the first scroll is to the first element
+     */
+    private boolean firstScroll = true;
+
     //Static Methods
     
     /**
@@ -82,8 +88,8 @@ public class RotationController
             return null;
         }
     }
-    
-    
+
+
     //Methods
     
     /**
@@ -94,9 +100,14 @@ public class RotationController
         //produce gcode traces to display to the user
         GcodeTracer gcodeTracer = new GcodeTracer();
         gcodeTraces = gcodeTracer.traceGcodeSet(GreetingController.getSlices());
+
+        // Init index
         index = 0;
-        renderImages();
+
+        // Set prompt text
         textFieldDegrees.setPromptText("Enter degrees...");
+
+        renderImages();
     }
 
     private void renderImages()
@@ -108,8 +119,10 @@ public class RotationController
         hbox.setSpacing(20);
         hbox.setStyle("-fx-padding: 40px;");
 
+        int size = 10; //TODO change to size of array
+
         // Add images as a row
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < size; i++)
         {
             Image image = new Image("file:src/gui/images/logo.PNG");
             ImageView pic = new ImageView(image);
@@ -126,26 +139,27 @@ public class RotationController
                         handleSPAnimation();
                     else
                         slowScrollToImage(sp,newIndex);
-
                 }
             });
 
             VBox vbox = new VBox();
             vbox.getChildren().add(pic);
-            String padding = "          ";
-            String symbol = "°";
-            Double d = (360 / 10) * 1.0;
-            String deg = String.format("%.2f",d); // TODO change 10 to size
-            Text text = new Text(padding + deg + symbol);
+
+            // Initialize all evenly spaced degrees
+            Double d = (360 / size) * 1.0;
+
+            // Setting the new degree
+            Text text = new Text(formatDegree(d));
 
             // Add to the parent
             vbox.getChildren().add(text);
             hbox.getChildren().add(vbox);
         }
 
+        // Adding to the scrollpane
         sp.setContent(hbox);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        sp.setHmax(9.0); // set to the size of the arraylist aka gcodeTraces to keep track of current one
+        sp.setHmax((size - 1)*1.0); // TODO set to the size of the arraylist aka gcodeTraces to keep track of current one
 
         // Change the view when something is selected.
         sp.hvalueProperty().addListener(new ChangeListener<Number>() {
@@ -189,10 +203,16 @@ public class RotationController
         VBox vbox = (VBox) temp.getChildren().get(index);
         Text text = (Text)vbox.getChildren().get(1);
 
+        text.setText(formatDegree(d));
+    }
+
+    private String formatDegree(Double d)
+    {
+        // String formatting
         String deg = String.format("%.2f",d);
         String padding = "          ";
         String symbol = "°";
-        text.setText(padding + deg + symbol);
+        return padding + deg + symbol;
     }
 
     private static boolean isNumeric(String str)

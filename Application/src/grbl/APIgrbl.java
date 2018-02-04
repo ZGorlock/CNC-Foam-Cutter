@@ -3,11 +3,12 @@ package grbl;
 import gui.Interfaces.MainMenu.GcodeController;
 import gui.Interfaces.MainMenu.ModelController;
 import gui.Interfaces.MainMenu.TraceController;
-import sun.misc.GC;
 import utils.*;
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.*;
+
+import static gui.Interfaces.MainMenu.MenuController.paused;
 
 public class APIgrbl extends Thread
 {
@@ -143,6 +144,18 @@ public class APIgrbl extends Thread
                 // Check for User Input
                 checkForCommand(directoryGrbl,directoryTemp);
 
+                // Check for pause/resume/stop
+                synchronized(this) {
+                    while (paused) {
+                        try{
+                            wait();
+                        }catch (InterruptedException e){
+                            e.printStackTrace();
+                        }
+                        // The current thread will be blocked until some else calls notify()
+                    }
+                }
+
                 // execute stream.py with the file created, get input stream as a response
                 Process process = CmdLine.executeCmdAsThread("py " +  directoryGrbl + "stream.py "+ directoryTemp + "tempfile.txt\n");
                 BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -179,6 +192,15 @@ public class APIgrbl extends Thread
             //create new process and add to the response for UI
             handleRequest(directoryGrbl,directoryTemp);
         }
+    }
+
+    /**
+     * Handles a Resume event.
+     */
+    public synchronized void initiateResume()
+    {
+        notify();
+        //TODO handle the user clicking the resume button
     }
 
     private void updateCoordinates(String line)

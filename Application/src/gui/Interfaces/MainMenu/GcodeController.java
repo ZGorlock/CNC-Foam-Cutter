@@ -2,16 +2,12 @@ package gui.Interfaces.MainMenu;
 
 import grbl.APIgrbl;
 import gui.Interfaces.Greeting.GreetingController;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import main.Main;
 import slicer.Slicer;
-import sun.misc.Request;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,8 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import static java.awt.TextArea.SCROLLBARS_VERTICAL_ONLY;
 
 public class GcodeController {
 
@@ -120,8 +114,8 @@ public class GcodeController {
                         codeBlockText += System.lineSeparator();
                     }
 
-                    for (String command : codeBlock) {
-                        codeBlockText += command + System.lineSeparator();
+                    for (String code : codeBlock) {
+                        codeBlockText += code + System.lineSeparator();
                     }
                     textAreaCodeSent.textProperty().set(codeBlockText);
                     textAreaCodeSent.setScrollTop(1000000);

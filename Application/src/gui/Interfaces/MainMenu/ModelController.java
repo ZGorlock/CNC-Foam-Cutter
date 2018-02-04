@@ -28,12 +28,12 @@ public class ModelController
     /**
      * The FXML elements of the tab.
      */
+    public SwingNode swingNodeModel;
     public Label fileName;
     public Label fileSize;
     public Label fileDesc;
-    public HBox hp;
     public Label studentNID;
-    public SwingNode swingNodeModel;
+    public HBox hp;
 
     // UI dependent components
     public Label filePercentage;

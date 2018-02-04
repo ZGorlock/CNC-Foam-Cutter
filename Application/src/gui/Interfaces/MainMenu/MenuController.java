@@ -1,7 +1,11 @@
 package gui.Interfaces.MainMenu;
 
+import grbl.APIgrbl;
 import gui.Gui;
+import gui.Interfaces.PopUps.SystemNotificationController;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -13,6 +17,7 @@ import javafx.stage.Stage;
 import utils.MachineDetector;
 
 import java.io.IOException;
+import java.net.URL;
 
 /**
  * The controller for the Menu.
@@ -28,15 +33,15 @@ public class MenuController {
     public Button goldButton;
     public HBox hbox;
     private Button greyButton;
-    
-    
+
     //Fields
     
     /**
      * A flag indicating whether the state is paused or not.
      */
-    public boolean paused = false;
-    
+    public static boolean paused = false;
+    public static MenuController controller;
+    private ActionEvent event;
     
     //Methods
     
@@ -45,6 +50,8 @@ public class MenuController {
      */
     public void initialize()
     {
+        controller = this;
+
         TPane.getTabs().add(ModelController.setup());
         TPane.getTabs().add(GcodeController.setup());
         
@@ -70,7 +77,7 @@ public class MenuController {
                     " -fx-background-radius: 6;" +
                     " -fx-position: relative;");
 
-            greyButton.setOnMouseClicked(e -> playPauseButtonClicked());
+            greyButton.setOnMouseClicked(e -> playPauseButtonClicked(actionEvent));
             
             greyButton.setOnMouseEntered(e -> greyButton.setStyle("-fx-text-fill: white; "+
                     "-fx-background-radius: 6; " +
@@ -81,7 +88,14 @@ public class MenuController {
 
             greyButton.setText("Pause");
             hbox.getChildren().add(greyButton);
+
             goldButton.setText("STOP");
+            goldButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    stop(event);
+                }
+            });
             
         } else {
             Parent root;
@@ -103,37 +117,69 @@ public class MenuController {
     /**
      * The EventHandler for the Pause/Resume button.
      */
-    private void playPauseButtonClicked()
+    private void playPauseButtonClicked(ActionEvent actionEvent)
     {
+        paused = !paused;
+
         greyButton.setStyle("-fx-background-color: #91918f; "+
                 "-fx-background-radius: 6; " +
                 "-fx-position: relative;");
         
         if (paused) {
-            paused = false;
-            greyButton.setText("Pause");
-            initiatePause();
-        } else {
-            paused = true;
+            initiatePause(actionEvent);
             greyButton.setText("Resume");
-            initiateResume();
+        } else {
+            greyButton.setText("Pause");
+            initiateResume(actionEvent);
         }
     }
     
     /**
      * Handles a Pause event.
      */
-    private void initiatePause()
+    public void initiatePause(ActionEvent actionEvent)
     {
-        //TODO handle the user clicking the pause button
+        // Hide the current window
+        ((Node) (actionEvent.getSource())).getScene().getWindow().setOpacity(.5);
     }
     
     /**
      * Handles a Resume event.
      */
-    private void initiateResume()
+    public void initiateResume(ActionEvent actionEvent)
     {
-        //TODO handle the user clicking the resume button
+        // TODO do the same for model camera rotation
+
+        // Pause streaming
+        APIgrbl.grbl.initiateResume();
+
+        // Set opacity back to normal
+        if(event == null) event = actionEvent;
+        ((Node) (this.event.getSource())).getScene().getWindow().setOpacity(1.0);
     }
-    
+
+    private void stop(ActionEvent actionEvent)
+    {
+        // Todo should this exit application?
+        Parent root;
+        try {
+            URL fxml = SystemNotificationController.class.getResource("../PopUps/SystemNotification.fxml");
+            root = FXMLLoader.load(fxml);
+            Stage stage = new Stage();
+            stage.setTitle("3D CNC Foam Cutter");
+            stage.setScene(new Scene(root, 800, 600));
+            stage.show();
+
+            paused = true;
+            event = actionEvent;
+            // Hide the current window
+            ((Node) (actionEvent.getSource())).getScene().getWindow().setOpacity(.5);
+
+            // Set notification
+            SystemNotificationController.controller.raise("Full Stop");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

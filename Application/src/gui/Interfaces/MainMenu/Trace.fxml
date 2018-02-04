@@ -21,23 +21,18 @@
             <HBox spacing="20" alignment="CENTER" styleClass="hbox">
                 <HBox fx:id="hx" spacing="5">
                     <Text styleClass="bold">X Position: </Text>
-
                 </HBox>
-
                 <HBox spacing="25"/>
                 <HBox fx:id="hy" spacing="5">
                     <Text styleClass="bold">Y Position: </Text>
-
                 </HBox>
                 <HBox spacing="25"/>
                 <HBox fx:id="hz" spacing="5">
                     <Text styleClass="bold">Z Position: </Text>
-
                 </HBox>
                 <HBox spacing="25"/>
                 <HBox fx:id="hStatus" spacing="5">
                     <Text styleClass="bold">Status: </Text>
-
                 </HBox>
             </HBox>
         </bottom>
