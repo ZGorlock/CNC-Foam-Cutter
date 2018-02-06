@@ -26,6 +26,7 @@ public class Main
     //TODO center "3D CNC FOAM CUTTER"
     //TODO set the gcode text boxes height to evently line up with the rows of text
     //TODO let Enter send the gcode command
+    //TODO Grbl API starts when it is initialized, not when the Print button is pushed
     
     
     //Static Fields

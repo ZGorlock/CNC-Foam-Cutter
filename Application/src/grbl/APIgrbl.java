@@ -187,6 +187,13 @@ public class APIgrbl extends Thread
 
                 // Update UI
                 ModelController.percentage = String.format("%.2f", percentage) + " %";
+                
+                //Temporary sleep for demo
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
             }
         } catch(IOException e){
             e.printStackTrace();
@@ -250,7 +257,7 @@ public class APIgrbl extends Thread
             bw.close();
 
             // execute stream.py with the command being sent, get input stream as a response
-            Process process = CmdLine.executeCmdAsThread("py " +  directoryGrbl + "stream.py "+ directoryTemp + "tempCommand.txt\n");
+            Process process = CmdLine.executeCmdAsThread("python.exe " +  directoryGrbl + "stream.py "+ directoryTemp + "tempCommand.txt\n");
             BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
             String line;
