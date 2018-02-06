@@ -143,7 +143,12 @@ public class APIgrbl extends Thread
                 bw.close();
 
                 // Update UI
-                GcodeController.codeBlock.add(gcode);
+                while (gcode.contains("\n\n")) {
+                    gcode = gcode.replaceAll("\\n\\n", "\n");
+                }
+                if (!gcode.isEmpty()) {
+                    GcodeController.codeBlock.add(gcode);
+                }
 
                 // Check for User Input
                 checkForCommand(directoryGrbl,directoryTemp);

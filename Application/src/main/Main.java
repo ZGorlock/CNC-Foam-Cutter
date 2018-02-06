@@ -23,6 +23,11 @@ public class Main
     //TODO add python 3 as a dependency
     
     
+    //TODO center "3D CNC FOAM CUTTER"
+    //TODO set the gcode text boxes height to evently line up with the rows of text
+    //TODO let Enter send the gcode command
+    
+    
     //Static Fields
     
     /**

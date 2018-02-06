@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
 <Tab id="tabGcode" closable="false" text="G-Code" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Interfaces.MainMenu.GcodeController">
     <BorderPane prefHeight="400.0" prefWidth="600.0" styleClass="borderPane">
         <center>
             <VBox spacing="10" styleClass="vbox" fx:id="vBox">
-                <TextField fx:id="textFieldCommand"/>
+                <TextArea fx:id="textAreaCodeSent" styleClass="console" />
+
+                <TextArea fx:id="textAreaResponse" styleClass="console" />
+                <TextField fx:id="textFieldCommand" styleClass="console" />
                 <HBox alignment="TOP_RIGHT">
                 <Button fx:id="sendButton" alignment="CENTER_RIGHT"
                         onAction="#sendCommand" styleClass="buttonGold" text="Send" HBox.hgrow="ALWAYS">

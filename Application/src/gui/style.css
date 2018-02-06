@@ -111,3 +111,8 @@
     -fx-text-fill: #BEBFC3;
 }
 
+.console{
+    -fx-control-inner-background: black;
+    -fx-text-fill: green;
+}
+

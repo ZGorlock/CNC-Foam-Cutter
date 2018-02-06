@@ -4,7 +4,10 @@ import grbl.APIgrbl;
 import gui.Interfaces.Greeting.GreetingController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import main.Main;
 import slicer.Slicer;
@@ -24,6 +27,7 @@ public class GcodeController {
     public TextArea textAreaResponse;
     public TextArea textAreaCodeSent;
     public VBox vBox;
+    public Button sendButton;
 
     // UI-dependent variables
     public static List<String> commandBlock = new ArrayList<>();
@@ -63,13 +67,6 @@ public class GcodeController {
         }
 
         textFieldCommand.setPromptText("Send Command...");
-
-        textAreaResponse = new TextArea();
-        textAreaCodeSent = new TextArea();
-
-        vBox.getChildren().add(0,textAreaResponse);
-        vBox.getChildren().add(0,textAreaCodeSent);
-
         updateUI();
     }
 
@@ -108,17 +105,25 @@ public class GcodeController {
                 if (codeBlock.size() != state)
                 {
                     state = codeBlock.size();
-                    codeBlockText = "";
-
-                    for (int i = 0; i < 10; i++) {
-                        codeBlockText += System.lineSeparator();
+    
+                    StringBuilder codeBlockTextBuilder = new StringBuilder();
+                    double height = textAreaCodeSent.getHeight() / (textAreaCodeSent.getFont().getSize() * 2);
+    
+                    for (int i = 0; i < height - codeBlock.size() + 1; i++) {
+                        codeBlockTextBuilder.append(System.lineSeparator());
                     }
-
-                    for (String code : codeBlock) {
-                        codeBlockText += code + System.lineSeparator();
+                    for (int i = 0; i < codeBlock.size(); i++) {
+                        if (i == codeBlock.size() - 1) {
+                            codeBlockTextBuilder.append(codeBlock.get(i).substring(0, codeBlock.get(i).length() - 1));
+                        } else {
+                            codeBlockTextBuilder.append(codeBlock.get(i));
+                        }
                     }
+                    
+                    codeBlockText = codeBlockTextBuilder.toString();
                     textAreaCodeSent.textProperty().set(codeBlockText);
-                    textAreaCodeSent.setScrollTop(1000000);
+                    textAreaCodeSent.appendText("");
+                    textAreaCodeSent.setScrollTop(Double.MAX_VALUE);
                 }
             }
         };
@@ -133,20 +138,26 @@ public class GcodeController {
 
             @Override
             public void run() {
-                if (commandBlock.size() != l)
-                {
+                if (commandBlock.size() != l) {
                     l = commandBlock.size();
-                    commandBlockText = "";
-
-                    for (int i = 0; i < 10; i++) {
-                        commandBlockText += System.lineSeparator();
+                    
+                    StringBuilder commandBlockTextBuilder = new StringBuilder();
+                    double height = textAreaResponse.getHeight() / (textAreaResponse.getFont().getSize() * 2);
+    
+                    for (int i = 0; i < height - commandBlock.size() + 1; i++) {
+                        commandBlockTextBuilder.append(System.lineSeparator());
                     }
-
-                    for (String command : commandBlock) {
-                        commandBlockText += command + System.lineSeparator();
+                    for (int i = 0; i < commandBlock.size(); i++) {
+                        commandBlockTextBuilder.append(commandBlock.get(i));
+                        if (i != commandBlock.size() - 1) {
+                            commandBlockTextBuilder.append(System.lineSeparator());
+                        }
                     }
+                    
+                    commandBlockText = commandBlockTextBuilder.toString();
                     textAreaResponse.textProperty().set(commandBlockText);
-                    textAreaResponse.setScrollTop(1000000);
+                    textAreaResponse.appendText("");
+                    textAreaResponse.setScrollTop(Double.MAX_VALUE);
                 }
             }
         };
