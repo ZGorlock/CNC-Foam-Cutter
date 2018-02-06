@@ -3,10 +3,14 @@ package grbl;
 import gui.Interfaces.MainMenu.GcodeController;
 import gui.Interfaces.MainMenu.ModelController;
 import gui.Interfaces.MainMenu.TraceController;
-import utils.*;
+import utils.CmdLine;
+
 import java.io.*;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
 
 import static gui.Interfaces.MainMenu.MenuController.paused;
 
@@ -157,7 +161,7 @@ public class APIgrbl extends Thread
                 }
 
                 // execute stream.py with the file created, get input stream as a response
-                Process process = CmdLine.executeCmdAsThread("py " +  directoryGrbl + "stream.py "+ directoryTemp + "tempfile.txt\n");
+                Process process = CmdLine.executeCmdAsThread("py " +  directoryGrbl + "stream.py "+ directoryTemp + "tempfile.txt\n"); //TODO need to handle if this returns null, retry / throw exception
                 BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
                 String line;
@@ -179,7 +183,7 @@ public class APIgrbl extends Thread
                 // Update UI
                 ModelController.percentage = String.format("%.2f", percentage) + " %";
             }
-        }catch(IOException e){
+        } catch(IOException e){
             e.printStackTrace();
         }
     }
@@ -207,12 +211,14 @@ public class APIgrbl extends Thread
     {
         // Parse line into coordinates
         String [] decomposed = line.split(",");
-        if(decomposed[0].compareTo("") == 0) return;
-        setStatus(decomposed[0].substring(1));
-        String [] first = decomposed[1].split(":");
-        setX(Double.parseDouble(first[1]));
-        setY(Double.parseDouble(decomposed[2]));
-        setZ(Double.parseDouble(decomposed[3]));
+        
+        if (decomposed.length == 4) {
+            setStatus(decomposed[0].substring(1));
+            String[] first = decomposed[1].split(":");
+            setX(Double.parseDouble(first[1]));
+            setY(Double.parseDouble(decomposed[2]));
+            setZ(Double.parseDouble(decomposed[3]));
+        }
 
         String x = String.format("%.2f", getCoordinateX());
         String y = String.format("%.2f", getCoordinateY());

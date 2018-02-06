@@ -36,7 +36,9 @@ public class TraceController
     public HBox hStatus;
     public SwingNode swingNodeTrace;
 
-    // UI-dependent variables
+    
+    // UI-Dependent Variables
+    
     public Label grblX;
     public Label grblY;
     public Label grblZ;

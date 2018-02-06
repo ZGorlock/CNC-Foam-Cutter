@@ -34,12 +34,13 @@ public class ModelController
     public Label fileDesc;
     public Label studentNID;
     public HBox hp;
+    
 
-    // UI dependent components
+    //UI-Dependent Components
+    
     public Label filePercentage;
     public static String percentage = "";
 
-    
     
     //Static Fields
     

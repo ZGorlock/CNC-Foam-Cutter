@@ -9,7 +9,10 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -38,7 +41,9 @@ public class RotationController
     public Label fileName;
     public TextField textFieldDegrees;
 
-    // UI components
+    
+    // UI Components
+    
     /**
      * UI components that are created through code instead of xml
      */
@@ -70,6 +75,7 @@ public class RotationController
      */
     private boolean firstScroll = true;
 
+    
     //Static Methods
     
     /**
@@ -118,9 +124,21 @@ public class RotationController
         HBox hbox = new HBox();
         hbox.setSpacing(20);
         hbox.setStyle("-fx-padding: 40px;");
+        
 
-        int size = 10; //TODO change to size of array
-
+        
+        
+        /* TODO once there are images to render
+        for (int i = 0; i < gcodeTraces.size(); i++)
+        {
+            Image image = SwingFXUtils.toFXImage(gcodeTraces.get(i), null );
+            ImageView pic = new ImageView(image);
+            hbox.getChildren().add(pic);
+        }
+        */
+    
+        int size = 10;
+        
         // Add images as a row
         for (int i = 0; i < size; i++)
         {
@@ -135,10 +153,11 @@ public class RotationController
                 public void handle(javafx.scene.input.MouseEvent event) {
 
                     int newIndex = Integer.parseInt(pic.getId());
-                    if(newIndex == 0 && firstScroll)
+                    if(newIndex == 0 && firstScroll) {
                         handleSPAnimation();
-                    else
-                        slowScrollToImage(sp,newIndex);
+                    } else {
+                        slowScrollToImage(sp, newIndex);
+                    }
                 }
             });
 
@@ -173,15 +192,6 @@ public class RotationController
         });
 
         vBox.getChildren().add(0,sp);
-
-        /* TODO once there are images to render
-        for (int i = 0; i < gcodeTraces.size(); i++)
-        {
-            Image image = SwingFXUtils.toFXImage(gcodeTraces.get(i), null );
-            ImageView pic = new ImageView(image);
-            hbox.getChildren().add(pic);
-        }
-        */
     }
 
     public void queueRotation()

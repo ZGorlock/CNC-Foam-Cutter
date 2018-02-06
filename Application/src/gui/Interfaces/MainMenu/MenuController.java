@@ -3,7 +3,6 @@ package gui.Interfaces.MainMenu;
 import grbl.APIgrbl;
 import gui.Gui;
 import gui.Interfaces.PopUps.SystemNotificationController;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -140,7 +139,7 @@ public class MenuController {
     public void initiatePause(ActionEvent actionEvent)
     {
         // Hide the current window
-        ((Node) (actionEvent.getSource())).getScene().getWindow().setOpacity(.5);
+        //((Node) (actionEvent.getSource())).getScene().getWindow().setOpacity(.5);
     }
     
     /**
@@ -148,19 +147,19 @@ public class MenuController {
      */
     public void initiateResume(ActionEvent actionEvent)
     {
-        // TODO do the same for model camera rotation
+        // Pause Model Animation
+        
 
         // Pause streaming
         APIgrbl.grbl.initiateResume();
 
         // Set opacity back to normal
-        if(event == null) event = actionEvent;
-        ((Node) (this.event.getSource())).getScene().getWindow().setOpacity(1.0);
+        //if(event == null) event = actionEvent;
+        //((Node) (this.event.getSource())).getScene().getWindow().setOpacity(1.0);
     }
 
     private void stop(ActionEvent actionEvent)
     {
-        // Todo should this exit application?
         Parent root;
         try {
             URL fxml = SystemNotificationController.class.getResource("../PopUps/SystemNotification.fxml");
@@ -173,7 +172,7 @@ public class MenuController {
             paused = true;
             event = actionEvent;
             // Hide the current window
-            ((Node) (actionEvent.getSource())).getScene().getWindow().setOpacity(.5);
+            //((Node) (actionEvent.getSource())).getScene().getWindow().setOpacity(.5);
 
             // Set notification
             SystemNotificationController.controller.raise("Full Stop");
@@ -182,4 +181,5 @@ public class MenuController {
             e.printStackTrace();
         }
     }
+    
 }
