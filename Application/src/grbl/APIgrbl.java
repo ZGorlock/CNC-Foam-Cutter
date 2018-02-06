@@ -154,14 +154,17 @@ public class APIgrbl extends Thread
                 checkForCommand(directoryGrbl,directoryTemp);
 
                 // Check for pause/resume/stop
-                synchronized(this) {
-                    while (paused) {
-                        try{
-                            wait();
-                        }catch (InterruptedException e){
-                            e.printStackTrace();
+                if(paused)
+                {
+                    synchronized(this) {
+                        while (paused) {
+                            try{
+                                wait();
+                            }catch (InterruptedException e){
+                                e.printStackTrace();
+                            }
+                            // The current thread will be blocked until some else calls notify()
                         }
-                        // The current thread will be blocked until some else calls notify()
                     }
                 }
 
@@ -216,7 +219,6 @@ public class APIgrbl extends Thread
     public synchronized void initiateResume()
     {
         notify();
-        //TODO handle the user clicking the resume button
     }
 
     private void updateCoordinates(String line)

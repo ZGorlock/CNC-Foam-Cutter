@@ -96,7 +96,10 @@ public class MenuController {
                     stop(event);
                 }
             });
-            
+
+            GcodeController.startGrbl();
+
+
         } else {
             Parent root;
             try {

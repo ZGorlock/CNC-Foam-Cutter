@@ -62,12 +62,17 @@ public class GcodeController {
         {
             File file = new File(str);
             slice(file);
-            APIgrbl apIgrbl = new APIgrbl("can.gcode"); //todo change to file.getName() instead of can.gcode
-            new Thread(apIgrbl).start();     //<--- comment out if no arduino TODO
+
         }
 
         textFieldCommand.setPromptText("Send Command...");
         updateUI();
+    }
+
+    public static void startGrbl()
+    {
+        APIgrbl apIgrbl = new APIgrbl("can.gcode"); //todo change to file.getName() instead of can.gcode
+        new Thread(apIgrbl).start();     //<--- comment out if no arduino TODO
     }
 
 

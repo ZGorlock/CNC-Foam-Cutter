@@ -23,6 +23,7 @@ public class SystemNotificationController{
     public void raise(String error)
     {
         this.error = error;
+        errorType.setText(error);
     }
 
     public void initialize()
