@@ -59,6 +59,11 @@ public class Renderer
      */
     private static Renderer instance;
     
+    /**
+     * The model rotation animation timeline.
+     */
+    private static Timeline timeline;
+    
     
     //Fields
     
@@ -88,6 +93,7 @@ public class Renderer
     private Rotate rotateX = new Rotate(0, Rotate.X_AXIS);
     private Rotate rotateY = new Rotate(0, Rotate.Y_AXIS);
     private Rotate rotateZ = new Rotate(0, Rotate.Z_AXIS);
+    
     
     
     //Constructors
@@ -158,7 +164,7 @@ public class Renderer
             PhongMaterial sample = new PhongMaterial(modelColor);
             sample.setDiffuseColor(modelColor);
             sample.setSpecularColor(lightColor);
-            sample.setSpecularPower(8);
+            sample.setSpecularPower(5);
             meshView.setMaterial(sample);
             
             meshView.setScaleX(MODEL_SCALE);
@@ -223,7 +229,7 @@ public class Renderer
         perspectiveCamera.setNearClip(0.1);
         perspectiveCamera.setFieldOfView(30.0);
         
-        Timeline timeline = new Timeline(
+        timeline = new Timeline(
                 new KeyFrame(Duration.seconds(0),  new KeyValue(rotateY.angleProperty(), 0)),
                 new KeyFrame(Duration.seconds(15), new KeyValue(rotateY.angleProperty(), 360))
         );
@@ -231,6 +237,25 @@ public class Renderer
         timeline.play();
         
         scene.setCamera(perspectiveCamera);
+    }
+    
+    
+    //Static Methods
+    
+    /**
+     * Pauses the model animation.
+     */
+    public static void pauseModelAnimation()
+    {
+        timeline.pause();
+    }
+    
+    /**
+     * Resumes the model animation.
+     */
+    public static void resumeModelAnimation()
+    {
+        timeline.play();
     }
     
 }

@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import renderer.Renderer;
 import utils.MachineDetector;
 
 import java.io.IOException;
@@ -135,29 +136,41 @@ public class MenuController {
     
     /**
      * Handles a Pause event.
+     *
+     * @param actionEvent The event that triggered the call.
      */
     public void initiatePause(ActionEvent actionEvent)
     {
         // Hide the current window
         //((Node) (actionEvent.getSource())).getScene().getWindow().setOpacity(.5);
+    
+        //Pause Model Animation
+        Renderer.pauseModelAnimation();
     }
     
     /**
      * Handles a Resume event.
+     *
+     * @param actionEvent The event that triggered the call.
      */
     public void initiateResume(ActionEvent actionEvent)
     {
-        // Pause Model Animation
-        
-
         // Pause streaming
         APIgrbl.grbl.initiateResume();
 
         // Set opacity back to normal
         //if(event == null) event = actionEvent;
         //((Node) (this.event.getSource())).getScene().getWindow().setOpacity(1.0);
+        
+        //Resume Model Animation
+        Renderer.resumeModelAnimation();
     }
-
+    
+    /**
+     * Handles a Stop event.
+     *
+     * @param actionEvent The event that triggered the call.
+     */
     private void stop(ActionEvent actionEvent)
     {
         Parent root;
