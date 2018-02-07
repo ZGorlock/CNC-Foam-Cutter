@@ -27,6 +27,8 @@ public class Main
     //TODO let Enter send the gcode command and clear textfield
     //TODO On full stop come back to greeting screen & if its hot wire machine show rotation tab first.
     
+    //TODO you cannot upload folders
+    
     
     //Static Fields
     

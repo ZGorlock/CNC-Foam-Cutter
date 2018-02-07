@@ -20,6 +20,8 @@ import utils.MachineDetector;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,23 +85,31 @@ public class GreetingController
 
     private void handleFile(File file)
     {
-        if(file != null)
-        {
-            textFieldPath.setText(file.getAbsolutePath());
-            if (file.isDirectory()) {
-                File[] files = file.listFiles();
-                if (files != null) {
-                    for (File f : files) {
-                        fileNames.add(f.getAbsolutePath());
-                    }
-                }
-            } else {
-                // this constructs all the file names
-                fileNames.add(file.getAbsolutePath());
-            }
+        //Rotation Demo
+        controller.fileNames.clear();
+        try {
+            Files.list(Paths.get(new File("resources/jedicut files/rotation demo").getAbsolutePath())).forEach(e -> controller.fileNames.add(e.toString()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+//        if(file != null)
+//        {
+//            textFieldPath.setText(file.getAbsolutePath());
+//            if (file.isDirectory()) {
+//                File[] files = file.listFiles();
+//                if (files != null) {
+//                    for (File f : files) {
+//                        fileNames.add(f.getAbsolutePath());
+//                    }
+//                }
+//            } else {
+//                // this constructs all the file names
+//                fileNames.add(file.getAbsolutePath());
+//            }
             chosen = true;
             handleUploadedAnimation();
-        }
+//        }
     }
 
     private void handleUploadedAnimation(){

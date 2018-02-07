@@ -5,9 +5,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -24,7 +22,9 @@ import utils.GcodeTracer;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The controller for the Rotation tab.
@@ -64,6 +64,7 @@ public class RotationController
      * The list of BufferedImages corresponding to the uploaded gcode files.
      */
     public List<BufferedImage> gcodeTraces;
+    private Map<BufferedImage, String> gcodeTraceFileMap;
 
     /**
      *  index of current image being viewed
@@ -105,7 +106,8 @@ public class RotationController
     {
         //produce gcode traces to display to the user
         GcodeTracer gcodeTracer = new GcodeTracer();
-        gcodeTraces = gcodeTracer.traceGcodeSet(GreetingController.getSlices());
+        gcodeTraceFileMap = new HashMap<>();
+        gcodeTraces = gcodeTracer.traceGcodeSet(GreetingController.getSlices(), gcodeTraceFileMap);
 
         // Init index
         index = 0;
@@ -125,39 +127,23 @@ public class RotationController
         hbox.setSpacing(20);
         hbox.setStyle("-fx-padding: 40px;");
         
-
-        
-        
-        /* TODO once there are images to render
+        // Add images as a row
         for (int i = 0; i < gcodeTraces.size(); i++)
         {
-            Image image = SwingFXUtils.toFXImage(gcodeTraces.get(i), null );
+//            Image image = new Image("file:src/gui/images/logo.PNG");
+            Image image = SwingFXUtils.toFXImage(gcodeTraces.get(i), null);
             ImageView pic = new ImageView(image);
-            hbox.getChildren().add(pic);
-        }
-        */
-    
-        int size = 10;
-        
-        // Add images as a row
-        for (int i = 0; i < size; i++)
-        {
-            Image image = new Image("file:src/gui/images/logo.PNG");
-            ImageView pic = new ImageView(image);
+            
             pic.setPreserveRatio(true);
             pic.setId(String.valueOf(i));
 
             // Let images be selected
-            pic.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
-                @Override
-                public void handle(javafx.scene.input.MouseEvent event) {
-
-                    int newIndex = Integer.parseInt(pic.getId());
-                    if(newIndex == 0 && firstScroll) {
-                        handleSPAnimation();
-                    } else {
-                        slowScrollToImage(sp, newIndex);
-                    }
+            pic.setOnMouseClicked(event -> {
+                int newIndex = Integer.parseInt(pic.getId());
+                if(newIndex == 0 && firstScroll) {
+                    handleSPAnimation();
+                } else {
+                    slowScrollToImage(sp, newIndex);
                 }
             });
 
@@ -165,7 +151,7 @@ public class RotationController
             vbox.getChildren().add(pic);
 
             // Initialize all evenly spaced degrees
-            Double d = (360 / size) * 1.0;
+            Double d = (360 / gcodeTraces.size()) * 1.0;
 
             // Setting the new degree
             Text text = new Text(formatDegree(d));
@@ -178,17 +164,13 @@ public class RotationController
         // Adding to the scrollpane
         sp.setContent(hbox);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        sp.setHmax((size - 1)*1.0); // TODO set to the size of the arraylist aka gcodeTraces to keep track of current one
+        sp.setHmax((gcodeTraces.size() - 1) * 1.0); // TODO set to the size of the arraylist aka gcodeTraces to keep track of current one
 
         // Change the view when something is selected.
-        sp.hvalueProperty().addListener(new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> ov,
-                                Number old_val, Number new_val) {
-
-                index = new_val.intValue();
-                firstScroll = false;
-                handleSPAnimation();
-            }
+        sp.hvalueProperty().addListener((ov, old_val, new_val) -> {
+            index = new_val.intValue();
+            firstScroll = false;
+            handleSPAnimation();
         });
 
         vBox.getChildren().add(0,sp);
@@ -249,7 +231,7 @@ public class RotationController
 
         ImageView iv = (ImageView)vbox.getChildren().get(0);
         Image im = iv.getImage();
-        fileName.setText("File Selected: "+im.impl_getUrl() + " " + iv.getId());
+        fileName.setText("File Selected: "+ gcodeTraceFileMap.get(im) + " - Profile #" + (Integer.valueOf(iv.getId()) + 1));
 
         // Prevent index out of bounds and return other images to normal size
         if(index + 1 < temp.getChildren().size())

@@ -4,14 +4,6 @@ package slicer;/*
  * Author:  Zachary Gill
  */
 
-import utils.CmdLine;
-import utils.Constants;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 /**
  * Converts an STL file to G-Code.
  */
@@ -58,51 +50,51 @@ public final class Slicer
      */
     public boolean slice(String arguments)
     {
-        File modelFile = new File(model);
-        if (!modelFile.exists()) {
-            System.err.println("The file: " + model + " does not exist.");
-            return false;
-        }
-        if (!isSupportedModelFormat(model)) {
-            System.err.println("The file: " + model + " is not of a supported model file type.");
-            
-            StringBuilder formatList = new StringBuilder();
-            for (String fileExtension : validFileExtensions) {
-                formatList.append((formatList.toString().isEmpty()) ? "" : ", ");
-                formatList.append(fileExtension.toUpperCase());
-            }
-            System.err.println("Please use one of the following file formats: " + formatList.toString());
-            
-            return false;
-        }
-        
-        String sliceModel = Constants.SLIC3R_DIRECTORY + "win-" + architecture + File.separator +
-                Constants.SLIC3R_EXECUTABLE_FILENAME +
-                " " + model +
-                (arguments.isEmpty() ? "" : " " + arguments);
-    
-        Process process = CmdLine.executeCmdAsThread(sliceModel);
-        if (process == null) {
-            System.err.println("There was an error starting Slic3r.");
-            return false;
-        }
-    
-        BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
-    
-        try {
-            String line;
-            while (true) {
-                line = r.readLine();
-                if (line == null) {
-                    break;
-                }
-                System.out.println(line);
-            }
-        } catch (IOException ignored) {
-            System.err.println("Lost communication with Slic3r.");
-            return false;
-        }
-        
+//        File modelFile = new File(model);
+//        if (!modelFile.exists()) {
+//            System.err.println("The file: " + model + " does not exist.");
+//            return false;
+//        }
+//        if (!isSupportedModelFormat(model)) {
+//            System.err.println("The file: " + model + " is not of a supported model file type.");
+//
+//            StringBuilder formatList = new StringBuilder();
+//            for (String fileExtension : validFileExtensions) {
+//                formatList.append((formatList.toString().isEmpty()) ? "" : ", ");
+//                formatList.append(fileExtension.toUpperCase());
+//            }
+//            System.err.println("Please use one of the following file formats: " + formatList.toString());
+//
+//            return false;
+//        }
+//
+//        String sliceModel = Constants.SLIC3R_DIRECTORY + "win-" + architecture + File.separator +
+//                Constants.SLIC3R_EXECUTABLE_FILENAME +
+//                " " + model +
+//                (arguments.isEmpty() ? "" : " " + arguments);
+//
+//        Process process = CmdLine.executeCmdAsThread(sliceModel);
+//        if (process == null) {
+//            System.err.println("There was an error starting Slic3r.");
+//            return false;
+//        }
+//
+//        BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
+//
+//        try {
+//            String line;
+//            while (true) {
+//                line = r.readLine();
+//                if (line == null) {
+//                    break;
+//                }
+//                System.out.println(line);
+//            }
+//        } catch (IOException ignored) {
+//            System.err.println("Lost communication with Slic3r.");
+//            return false;
+//        }
+//
         return true;
     }
     
