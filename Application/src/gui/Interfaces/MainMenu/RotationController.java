@@ -7,6 +7,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
@@ -14,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -125,7 +127,8 @@ public class RotationController
         sp.setPrefSize(600, 340);
         HBox hbox = new HBox();
         hbox.setSpacing(20);
-        hbox.setStyle("-fx-padding: 40px;");
+        hbox.setStyle("-fx-padding: 40px; -fx-alignment: CENTER;");
+        hbox.setAlignment(Pos.CENTER);
         
         // Add images as a row
         for (int i = 0; i < gcodeTraces.size(); i++)
@@ -133,9 +136,10 @@ public class RotationController
 //            Image image = new Image("file:src/gui/images/logo.PNG");
             Image image = SwingFXUtils.toFXImage(gcodeTraces.get(i), null);
             ImageView pic = new ImageView(image);
-            
+
             pic.setPreserveRatio(true);
             pic.setId(String.valueOf(i));
+            pic.setFitHeight(230);
 
             // Let images be selected
             pic.setOnMouseClicked(event -> {
@@ -149,7 +153,6 @@ public class RotationController
 
             VBox vbox = new VBox();
             vbox.getChildren().add(pic);
-
             // Initialize all evenly spaced degrees
             Double d = (360 / gcodeTraces.size()) * 1.0;
 
@@ -158,10 +161,13 @@ public class RotationController
 
             // Add to the parent
             vbox.getChildren().add(text);
+            vbox.setAlignment(Pos.CENTER);
+            HBox.setHgrow(vbox, Priority.ALWAYS);
             hbox.getChildren().add(vbox);
         }
 
         // Adding to the scrollpane
+        if(gcodeTraces.size() <= 4) sp.setFitToWidth(true);
         sp.setContent(hbox);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setHmax((gcodeTraces.size() - 1) * 1.0); // TODO set to the size of the arraylist aka gcodeTraces to keep track of current one
@@ -174,6 +180,8 @@ public class RotationController
         });
 
         vBox.getChildren().add(0,sp);
+        vBox.setAlignment(Pos.CENTER);
+
     }
 
     public void queueRotation()
@@ -202,9 +210,8 @@ public class RotationController
     {
         // String formatting
         String deg = String.format("%.2f",d);
-        String padding = "          ";
         String symbol = "°";
-        return padding + deg + symbol;
+        return deg + symbol;
     }
 
     private static boolean isNumeric(String str)
@@ -247,9 +254,11 @@ public class RotationController
         }
     }
 
-    private static void slowScrollToImage(ScrollPane scrollPane, int value) {
+    private void slowScrollToImage(ScrollPane scrollPane, int value) {
+        double speed = .8;
+        if(gcodeTraces.size() < 5) speed = .4;
         Animation animation = new Timeline(
-                new KeyFrame(Duration.seconds(0.8),
+                new KeyFrame(Duration.seconds(speed),
                         new KeyValue(scrollPane.hvalueProperty(), value)));
         animation.play();
     }
