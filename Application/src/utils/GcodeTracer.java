@@ -15,7 +15,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,18 +48,14 @@ public class GcodeTracer
     /**
      * Traces a list of gcode files and produces a list of BufferedImages.
      *
-     * @param gcodeFiles   The list of gcode files to trace.
-     * @param gcodeFileMap The map from the generated BufferedImages back to the gcode file path.
+     * @param gcodeFiles The list of gcode files to trace.
      * @return The list of BufferedImages produced from the gcode files.
      */
-    public synchronized List<BufferedImage> traceGcodeSet(List<String> gcodeFiles, Map<BufferedImage, String> gcodeFileMap)
+    public synchronized List<BufferedImage> traceGcodeSet(List<String> gcodeFiles)
     {
         List<BufferedImage> traces = new ArrayList<>();
         for (String gcode : gcodeFiles) {
-            BufferedImage i = traceGcode(gcode);
-            traces.add(i);
-            gcodeFileMap.put(i, gcode);
-            saveImage(i, "png", new File(gcode + ".png"));
+            traces.add(traceGcode(gcode));
         }
         return traces;
     }

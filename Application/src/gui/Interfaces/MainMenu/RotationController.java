@@ -22,6 +22,7 @@ import javafx.util.Duration;
 import utils.GcodeTracer;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -66,7 +67,7 @@ public class RotationController
      * The list of BufferedImages corresponding to the uploaded gcode files.
      */
     public List<BufferedImage> gcodeTraces;
-    private Map<BufferedImage, String> gcodeTraceFileMap;
+    private Map<Image, String> gcodeTraceFileMap;
 
     /**
      *  index of current image being viewed
@@ -109,7 +110,7 @@ public class RotationController
         //produce gcode traces to display to the user
         GcodeTracer gcodeTracer = new GcodeTracer();
         gcodeTraceFileMap = new HashMap<>();
-        gcodeTraces = gcodeTracer.traceGcodeSet(GreetingController.getSlices(), gcodeTraceFileMap);
+        gcodeTraces = gcodeTracer.traceGcodeSet(GreetingController.getSlices());
 
         // Init index
         index = 0;
@@ -136,6 +137,7 @@ public class RotationController
 //            Image image = new Image("file:src/gui/images/logo.PNG");
             Image image = SwingFXUtils.toFXImage(gcodeTraces.get(i), null);
             ImageView pic = new ImageView(image);
+            gcodeTraceFileMap.put(image, new File(GreetingController.getSlices().get(i)).getName());
 
             pic.setPreserveRatio(true);
             pic.setId(String.valueOf(i));
