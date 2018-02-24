@@ -109,6 +109,7 @@ public class GcodeController {
         String userCommand = textFieldCommand.getText();
         APIgrbl.grbl.sendRequest(userCommand);
         commandBlock.add('>'+ userCommand);
+        textFieldCommand.clear();
     }
 
     private void updateUI()
