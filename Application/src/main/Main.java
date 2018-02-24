@@ -11,6 +11,9 @@ import javafx.application.Application;
 import utils.CmdLine;
 import utils.Constants;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * The launching class for our Application.
  */
@@ -20,18 +23,15 @@ public class Main
     //TODO add error handling to Controller setup pieces
     //TODO add unit tests for Controller setup pieces
     
-    //TODO add python 3 as a dependency
+    //TODO set true dimensions for Model Renderer / Gcode Tracer
     
     //TODO center "3D CNC FOAM CUTTER"
     //TODO set the gcode text boxes height to evently line up with the rows of text
     //TODO let Enter send the gcode command and clear textfield
     //TODO On full stop come back to greeting screen & if its hot wire machine show rotation tab first.
-
+    
     //TODO you cannot upload folders
-    //TODO calculate total distance gcode APIgrbl Modifier
-    //TODO add time remaining
-    //TODO input blocksize
-    //TODO add a timer (for job completed)
+    //TODO add trigger for printing complete and throw popup
     
     
     //Static Fields
@@ -58,6 +58,11 @@ public class Main
      * The Java runtime version.
      */
     public String javaVersion;
+    
+    /**
+     * The Python runtime version.
+     */
+    public String pythonVersion;
     
     /**
      * The port connected to the Arduino UNO.
@@ -125,10 +130,54 @@ public class Main
                 return false;
             }
         }
+        
+        String pythonCheck = CmdLine.executeCmd("py -V");
+        boolean installPython = false;
+        if (pythonCheck.isEmpty() || pythonCheck.matches("'py' is not recognized .*")) {
+            installPython = true;
+        } else {
+            Pattern p = Pattern.compile("Python\\s(?<version>.+)\\r\\n");
+            Matcher m = p.matcher(pythonCheck);
+            if (m.matches()) {
+                pythonVersion = m.group("version");
+                if (!pythonVersion.startsWith("3")) {
+                    installPython = true;
+                }
+            } else {
+                installPython = true;
+            }
+        }
+        if (installPython) {
+            System.err.println("You must have Python 3 installed on your system to use this application.");
+            System.out.println("Attempting to install Python 3...");
+            
+            String pythonInstallCmd = Constants.PYTHON_DIRECTORY + Constants.PYTHON_FILENAME;
+            CmdLine.executeCmd(pythonInstallCmd, true);
+    
+            pythonCheck = CmdLine.executeCmd("py -V");
+            if (pythonCheck.isEmpty() || pythonCheck.matches("'py' is not recognized .*")) {
+                System.out.println("Please install Python 3 and try again.");
+                return false;
+            } else {
+                Pattern p = Pattern.compile("Python\\s(?<version>.+)\\r\\n");
+                Matcher m = p.matcher(pythonCheck);
+                if (m.matches()) {
+                    pythonVersion = m.group("version");
+                    if (!pythonVersion.startsWith("3")) {
+                        System.out.println("Please install Python 3 and try again.");
+                        return false;
+                    }
+                } else {
+                    System.out.println("Please install Python 3 and try again.");
+                    return false;
+                }
+            }
+        }
 
-        System.out.println(operatingSystem);
-        System.out.println(architecture);
-        System.out.println(javaVersion);
+        System.out.println("OS:           " + operatingSystem);
+        System.out.println("Architecture: " + architecture);
+        System.out.println("Java:         " + javaVersion);
+        System.out.println("Python:       " + pythonVersion);
         
         return true;
     }

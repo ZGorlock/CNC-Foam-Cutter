@@ -5,8 +5,6 @@ package utils;/*
  */
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashSet;
 
 /**
  * Contains constants for the application.
@@ -60,4 +58,15 @@ public class Constants
      * The filename suffix for the Java3D installer for a 32-bit system.
      */
     public static final String JAVA3D_FILENAME_SUFFIX_86 = "-i586.exe";
+    
+    /**
+     * The path to the Python library directory.
+     */
+    public static final String PYTHON_DIRECTORY = "lib" + File.separator + "Python" + File.separator;
+    
+    /**
+     * The path to the Python library directory.
+     */
+    public static final String PYTHON_FILENAME = "python-3.6.4.exe";
+    
 }
