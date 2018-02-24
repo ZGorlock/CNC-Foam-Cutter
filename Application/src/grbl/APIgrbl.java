@@ -259,7 +259,10 @@ public class APIgrbl extends Thread
             bw.close();
 
             // execute stream.py with the command being sent, get input stream as a response
-            Process process = CmdLine.executeCmdAsThread("python.exe " +  directoryGrbl + "stream.py "+ directoryTemp + "tempCommand.txt\n");
+            Process process = CmdLine.executeCmdAsThread("py -3 " +  directoryGrbl + "stream.py "+ directoryTemp + "tempCommand.txt\n");
+            if (process == null) {
+                return;
+            }
             BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
             String line;

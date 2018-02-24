@@ -11,6 +11,9 @@ import javafx.application.Application;
 import utils.CmdLine;
 import utils.Constants;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * The launching class for our Application.
  */
@@ -57,6 +60,11 @@ public class Main
      * The Java runtime version.
      */
     public String javaVersion;
+    
+    /**
+     * The Python runtime version.
+     */
+    public String pythonVersion;
     
     /**
      * The port connected to the Arduino UNO.
@@ -124,10 +132,54 @@ public class Main
                 return false;
             }
         }
+        
+        String pythonCheck = CmdLine.executeCmd("py -V");
+        boolean installPython = false;
+        if (pythonCheck.isEmpty() || pythonCheck.matches("'py' is not recognized .*")) {
+            installPython = true;
+        } else {
+            Pattern p = Pattern.compile("Python\\s(?<version>.+)\\r\\n");
+            Matcher m = p.matcher(pythonCheck);
+            if (m.matches()) {
+                pythonVersion = m.group("version");
+                if (!pythonVersion.startsWith("3")) {
+                    installPython = true;
+                }
+            } else {
+                installPython = true;
+            }
+        }
+        if (installPython) {
+            System.err.println("You must have Python 3 installed on your system to use this application.");
+            System.out.println("Attempting to install Python 3...");
+            
+            String pythonInstallCmd = Constants.PYTHON_DIRECTORY + Constants.PYTHON_FILENAME;
+            CmdLine.executeCmd(pythonInstallCmd, true);
+    
+            pythonCheck = CmdLine.executeCmd("py -V");
+            if (pythonCheck.isEmpty() || pythonCheck.matches("'py' is not recognized .*")) {
+                System.out.println("Please install Python 3 and try again.");
+                return false;
+            } else {
+                Pattern p = Pattern.compile("Python\\s(?<version>.+)\\r\\n");
+                Matcher m = p.matcher(pythonCheck);
+                if (m.matches()) {
+                    pythonVersion = m.group("version");
+                    if (!pythonVersion.startsWith("3")) {
+                        System.out.println("Please install Python 3 and try again.");
+                        return false;
+                    }
+                } else {
+                    System.out.println("Please install Python 3 and try again.");
+                    return false;
+                }
+            }
+        }
 
-        System.out.println(operatingSystem);
-        System.out.println(architecture);
-        System.out.println(javaVersion);
+        System.out.println("OS:           " + operatingSystem);
+        System.out.println("Architecture: " + architecture);
+        System.out.println("Java:         " + javaVersion);
+        System.out.println("Python:       " + pythonVersion);
         
         return true;
     }
