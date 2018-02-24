@@ -32,6 +32,10 @@ public class Main
     
     //TODO you cannot upload folders
     //TODO add trigger for printing complete and throw popup
+    //TODO calculate total distance gcode APIgrbl Modifier
+    //TODO add time remaining
+    //TODO input blocksize
+    //TODO add a timer (for job completed)
     
     
     //Static Fields
