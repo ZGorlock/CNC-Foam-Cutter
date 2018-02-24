@@ -23,8 +23,6 @@ public class Main
     //TODO add error handling to Controller setup pieces
     //TODO add unit tests for Controller setup pieces
     
-    //TODO add python 3 as a dependency
-    
     //TODO set true dimensions for Model Renderer / Gcode Tracer
     
     //TODO center "3D CNC FOAM CUTTER"

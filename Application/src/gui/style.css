@@ -36,6 +36,11 @@
      -fx-background-color: #B79A62;
      -fx-text-fill: white;
 }
+.title{
+     -fx-background-color: #B79A62;
+     -fx-text-fill: white;
+     -fx-font-size: 28px;
+}
 
 .vGreet {
     -fx-padding: 0;
