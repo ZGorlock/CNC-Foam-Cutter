@@ -35,7 +35,7 @@ public class Gui extends Application
         if (!debug) {
             Parent root = FXMLLoader.load(getClass().getResource("Interfaces/Greeting/Input.fxml"));
             primaryStage.setTitle("3D CNC Foam Cutter");
-            primaryStage.setScene(new Scene(root, 800, 600));
+            primaryStage.setScene(new Scene(root, 800, 800));
             primaryStage.show();
             
         } else { //Debug Mode

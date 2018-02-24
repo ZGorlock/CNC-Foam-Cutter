@@ -21,11 +21,14 @@
     </ImageView>
 </HBox>
 
-<BorderPane prefHeight="100.0" prefWidth="300.0" styleClass="borderPane">
+<BorderPane prefHeight="500.0" prefWidth="300.0" styleClass="borderPane">
     <bottom>
         <VBox alignment="CENTER" spacing="20">
             <TextField fx:id="nid"/>
             <TextArea fx:id="desc"/>
+            <TextField fx:id="length"/>
+            <TextField fx:id="width"/>
+            <TextField fx:id="height"/>
             <Button alignment="CENTER" onAction="#next" styleClass="buttonGold" text="Next" VBox.vgrow="ALWAYS"/>
         </VBox>
     </bottom>

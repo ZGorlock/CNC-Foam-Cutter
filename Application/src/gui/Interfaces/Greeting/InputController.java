@@ -17,20 +17,31 @@ import javax.jws.WebParam;
 public class InputController {
 
     public TextField nid;
+    public TextField length;
+    public TextField width;
+    public TextField height;
     public TextArea desc;
 
     private static String nidText;
     private static String descText;
+    private static String heightText;
+    private static String lengthText;
+    private static String widthText;
 
     public void initialize()
     {
         nid.setPromptText("Please input your NID...");
         desc.setPromptText("Brief Description here...");
+        length.setPromptText("Set the length of the foam...");
+        width.setPromptText("Set the width of the foam...");
+        height.setPromptText("Set the height of the foam...");
     }
 
     public void next(ActionEvent actionEvent) {
 
         setInput();
+
+        if(invalidInput()) return;
 
         Parent root;
         try {
@@ -51,6 +62,18 @@ public class InputController {
     {
         nidText = nid.getText();
         descText = desc.getText();
+        lengthText = length.getText();
+        heightText = height.getText();
+        widthText = width.getText();
+    }
+
+    private boolean invalidInput()
+    {
+        if(lengthText.isEmpty() || heightText.isEmpty() || widthText.isEmpty())
+        {
+            return true;
+        }
+        return false;
     }
 
     public static String getNidFromText()
@@ -62,4 +85,10 @@ public class InputController {
     {
         return descText;
     }
+
+    public static String getLengthFromText() { return lengthText; }
+
+    public static String getWidthFromText() { return widthText; }
+
+    public static String getHeightFromText() { return heightText; }
 }

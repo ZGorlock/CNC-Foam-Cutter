@@ -33,9 +33,7 @@ public class Main
     //TODO you cannot upload folders
     //TODO add trigger for printing complete and throw popup
     //TODO calculate total distance gcode APIgrbl Modifier
-    //TODO add time remaining
-    //TODO input blocksize
-    //TODO add a timer (for job completed)
+    //TODO after fixing apigrbl make sure time remaining estimate works
     
     
     //Static Fields
@@ -44,6 +42,8 @@ public class Main
      * The singleton instance of the Main class.
      */
     public static Main main;
+
+    public static long startTime;
     
     
     //Fields
@@ -87,7 +87,7 @@ public class Main
         if (!main.init()) {
             return;
         }
-        
+        startTime = System.currentTimeMillis();
         Application.launch(Gui.class, args);
     }
     

@@ -37,6 +37,9 @@
                 <HBox fx:id="hp" spacing="36">
                     <Text styleClass="bold">Percentage:</Text>
                 </HBox>
+                <HBox fx:id="time" spacing="36">
+                    <Text styleClass="bold">Time Remaining:</Text>
+                </HBox>
             </VBox>
         </right>
     </BorderPane>

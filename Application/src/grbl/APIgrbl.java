@@ -5,6 +5,7 @@ import gui.Interfaces.MainMenu.ModelController;
 import gui.Interfaces.MainMenu.TraceController;
 import utils.CmdLine;
 
+import javax.jws.WebParam;
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayDeque;
@@ -190,7 +191,7 @@ public class APIgrbl extends Thread
 
                 // Update UI
                 ModelController.percentage = String.format("%.2f", percentage) + " %";
-                
+                ModelController.timerem = "5 years";
                 //Temporary sleep for demo
 //                try {
 //                    Thread.sleep(1000);

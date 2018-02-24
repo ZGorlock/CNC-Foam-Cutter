@@ -34,12 +34,16 @@ public class ModelController
     public Label fileDesc;
     public Label studentNID;
     public HBox hp;
+    public HBox time;
     
 
     //UI-Dependent Components
     
     public Label filePercentage;
     public static String percentage = "";
+
+    public Label timeRemaining;
+    public static String timerem = "";
 
     
     //Static Fields
@@ -93,6 +97,7 @@ public class ModelController
         setStudentNid(InputController.getNidFromText());
         setDesc(InputController.getDescFromText());
         updatePercentage();
+        updateTime();
     }
     
     /**
@@ -122,6 +127,32 @@ public class ModelController
 
         Timer t = new Timer();
         t.scheduleAtFixedRate(updateCoordinates,0, 100);
+    }
+
+    public void updateTime()
+    {
+        timeRemaining = new Label();
+        timeRemaining.setText("00:00:00");
+        timeRemaining.setAlignment(Pos.TOP_RIGHT);
+        time.getChildren().add(timeRemaining);
+
+        TimerTask updateTime = new TimerTask()
+        {
+            private String state = "";
+            @Override
+            public void run()
+            {
+                Platform.runLater(() -> {
+                    if(timerem.compareTo(state) != 0){
+                        timeRemaining.textProperty().set(timerem);
+                        state = timerem;
+                    }
+                });
+            }
+        };
+
+        Timer t = new Timer();
+        t.scheduleAtFixedRate(updateTime,0, 100);
     }
     
     
