@@ -223,7 +223,7 @@ public class Renderer
     private void addCamera() {
         PerspectiveCamera perspectiveCamera = new PerspectiveCamera(true);
         perspectiveCamera.getTransforms().addAll(rotateX, rotateY, rotateZ,
-                new Translate(0, -100, -750)); //TODO get camera to center model
+                new Translate(0, 0, -750)); //TODO get camera to center model
         
         perspectiveCamera.setFarClip(2000); //TODO
         perspectiveCamera.setNearClip(0.1);

@@ -201,6 +201,7 @@ public class APIgrbl extends Thread
         } catch(IOException e){
             e.printStackTrace();
         }
+        //TODO stopping
     }
 
     private void checkForCommand(String directoryGrbl, String directoryTemp)

@@ -146,7 +146,7 @@ public class MenuController {
     {
         // Hide the current window
         //((Node) (actionEvent.getSource())).getScene().getWindow().setOpacity(.5);
-    
+        paused = true;
         //Pause Model Animation
         Renderer.pauseModelAnimation();
     }

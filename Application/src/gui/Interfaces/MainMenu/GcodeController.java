@@ -71,8 +71,11 @@ public class GcodeController {
 
     public static void startGrbl()
     {
-        APIgrbl apIgrbl = new APIgrbl("can.gcode"); //todo change to file.getName() instead of can.gcode
-        new Thread(apIgrbl).start();     //<--- comment out if no arduino TODO
+        APIgrbl apIgrbl = new APIgrbl("test.gcode"); //todo change to file.getName() instead of can.gcode
+        //Thread grblThread = new Thread(apIgrbl);     //<--- comment out if no arduino TODO
+        //grblThread.start();
+        //grblThread.interrupt();
+        new Thread(apIgrbl).start();
     }
 
 
@@ -88,7 +91,7 @@ public class GcodeController {
 
     public void sendCommand(ActionEvent actionEvent)
     {
-        if(textFieldCommand.getText().compareTo(textFieldCommand.getPromptText()) == 0){ return; }
+        if(textFieldCommand.getText().compareTo(textFieldCommand.getPromptText()) == 0 || APIgrbl.grbl == null){ return; }
         String userCommand = textFieldCommand.getText();
         APIgrbl.grbl.sendRequest(userCommand);
         commandBlock.add('>'+ userCommand);
