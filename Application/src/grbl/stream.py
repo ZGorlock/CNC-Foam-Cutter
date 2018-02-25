@@ -34,11 +34,8 @@ THE SOFTWARE.
 """
 
 import serial
-import re
 import time
-import sys
 import argparse
-import warnings
 import detect
 # import threading
  
@@ -67,18 +64,11 @@ class Streamer(object):
         help='g-code filename to be streamed')
         args = parser.parse_args()
         self.file = args.gcode_file
-        self.quiet = quiet
-        self.settings = settings
-        self.RX_BUFFER_SIZE = 128
 
     def startUp(self):
         # Initialize
         self.s = serial.Serial(self.port,115200)
-        self.verbose = True
-        if self.quiet : self.verbose = False
-        self.settings_mode = False
-        if self.settings : self.settings_mode = True
-
+        
         # Wake up grbl
         # print ("Initializing grbl...")
         self.s.write("\r\n\r\n".encode())
@@ -88,48 +78,19 @@ class Streamer(object):
         self.s.flushInput()
 
     def main(self):         
-        # Stream g-code to grbl
-        l_count = 0
-        if self.settings_mode:
-            # Send settings file via simple call-response streaming method. Settings must be streamed
-            # in this manner since the EEPROM accessing cycles shut-off the serial interrupt.
-            print ("SETTINGS MODE: Streaming", self.file, " to ", self.port)
-            for line in self.file:
-                l_count += 1 # Iterate line counter    
-                # l_block = re.sub('\s|\(.*?\)','',line).upper() # Strip comments/spaces/new line and capitalize
-                l_block = line.strip() # Strip all EOL characters for consistency
-                self.s.write((l_block + '\n').encode()) # Send g-code block to grbl
-                grbl_out = self.s.readline().strip() # Wait for grbl response with carriage return
-        else:    
-            # Send g-code program via a more agressive streaming protocol that forces characters into
-            # Grbl's serial read buffer to ensure Grbl has immediate access to the next g-code command
-            # rather than wait for the call-response serial protocol to finish. This is done by careful
-            # counting of the number of characters sent by the streamer to Grbl and tracking Grbl's 
-            # responses, such that we never overflow Grbl's serial read buffer. 
-            g_count = 0
-            c_line = []
-            # periodic() # Start status report periodic timer
-            for line in self.file:
-                l_count += 1 # Iterate line counter
-                l_block = re.sub('\s|\(.*?\)','',line).upper() # Strip comments/spaces/new line and capitalize
-                l_block = line.strip()
-                c_line.append(len(l_block)+1) # Track number of characters in grbl serial read buffer
-                grbl_out = ''
-                while sum(c_line) >= self.RX_BUFFER_SIZE-1 | self.s.inWaiting() :
-                    out_temp = self.s.readline().strip() # Wait for grbl response
-                    if out_temp.find('ok'.encode()) < 0 and out_temp.find('error'.encode()) < 0 :
-                        print ("  Debug: ",out_temp) # Debug response
-                    else :
-                        grbl_out += out_temp.decode()
-                        g_count += 1 # Iterate g-code counter
-                        grbl_out += str(g_count); # Add line finished indicator
-                        del c_line[0] # Delete the block character count corresponding to the last 'ok'
-                self.s.write((l_block + '\n').encode()) # Send g-code block to grbl
-                grbl_out = self.s.readline().decode()
+        
+        for line in self.file:
+            l = line.strip()
+            self.s.write((l + '\n').encode())
+            time.sleep(1)
+            self.s.write(('?\n').encode())
+            time.sleep(1)
+            response = ''
+            while(len(response) < 6):
+                response = self.s.readline().decode()
+            print(response)
 
         # Close file and serial port
-        self.s.write("?/n".encode())
-        print(self.s.readline().decode())
         self.file.close()
         self.s.close()
 

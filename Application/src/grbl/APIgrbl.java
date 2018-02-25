@@ -173,19 +173,19 @@ public class APIgrbl extends Thread
                 Process process = CmdLine.executeCmdAsThread("py " +  directoryGrbl + "stream.py "+ directoryTemp + "tempfile.txt\n"); //TODO need to handle if this returns null, retry / throw exception
                 BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
-                String line;
-                while (true)
-                {
+                String line = "";
+                while (line.isEmpty() || line == null) {
                     line = r.readLine();
 
-                    if (line == null) {
-                        break;
-                    }
-                    updateCoordinates(line);
-
-                    // Check for User Input
-                    checkForCommand(directoryGrbl,directoryTemp);
+                    if(!line.isEmpty())
+                        updateCoordinates(line);
                 }
+//
+
+
+                // Check for User Input
+                checkForCommand(directoryGrbl,directoryTemp);
+
                 // set percentage done
                 percentage = ((double)commandsRead / (double) size) * 100.00;
 
