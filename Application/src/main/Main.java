@@ -20,19 +20,19 @@ import java.util.regex.Pattern;
 public class Main
 {
     
-    //TODO add error handling to Controller setup pieces
     //TODO add unit tests for Controller setup pieces
     
+    //Zack
+    //TODO add error handling to Controller setup pieces
+    
     //TODO set true dimensions for Model Renderer / Gcode Tracer
-    
-    //TODO center "3D CNC FOAM CUTTER"
-    //TODO set the gcode text boxes height to evently line up with the rows of text
-    //TODO On full stop come back to greeting screen & if its hot wire machine show rotation tab first.
-    
-    //TODO you cannot upload folders
-    //TODO add trigger for printing complete and throw popup
     //TODO calculate total distance gcode APIgrbl Modifier
     //TODO after fixing apigrbl make sure time remaining estimate works
+    
+    //Nick
+    //TODO On full stop come back to greeting screen & if its hot wire machine show rotation tab first.
+    //TODO you cannot upload folders
+    //TODO add trigger for printing complete and throw popup
     
     
     //Static Fields

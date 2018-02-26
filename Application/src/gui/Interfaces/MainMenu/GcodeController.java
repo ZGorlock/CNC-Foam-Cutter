@@ -5,8 +5,6 @@ import gui.Interfaces.Greeting.GreetingController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
@@ -105,7 +103,10 @@ public class GcodeController {
 
     public void sendCommand(ActionEvent actionEvent)
     {
-        if(textFieldCommand.getText().compareTo(textFieldCommand.getPromptText()) == 0 || APIgrbl.grbl == null){ return; }
+        if (textFieldCommand.getText().equals(textFieldCommand.getPromptText()) || textFieldCommand.getText().isEmpty() || APIgrbl.grbl == null) {
+            return;
+        }
+        
         String userCommand = textFieldCommand.getText();
         APIgrbl.grbl.sendRequest(userCommand);
         commandBlock.add('>'+ userCommand);

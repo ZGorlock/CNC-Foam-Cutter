@@ -10,9 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import gui.Interfaces.MainMenu.ModelController;
-
-import javax.jws.WebParam;
 
 public class InputController {
 
@@ -32,9 +29,6 @@ public class InputController {
     {
         nid.setPromptText("Please input your NID...");
         desc.setPromptText("Brief Description here...");
-        length.setPromptText("Set the length of the foam...");
-        width.setPromptText("Set the width of the foam...");
-        height.setPromptText("Set the height of the foam...");
     }
 
     public void next(ActionEvent actionEvent) {
