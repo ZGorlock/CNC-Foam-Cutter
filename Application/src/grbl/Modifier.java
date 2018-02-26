@@ -34,6 +34,12 @@ public class Modifier
 
     private static final HashSet<String> ACCEPTABLE_SET = new HashSet<>(Arrays.asList(ACCEPTABLE_GCODE));
 
+    private static final Character[] UNACCEPTABLE_PARAMETERS = new Character[]
+            {       'E', 'A'
+            };
+
+    private static final HashSet<Character> UNACCEPTABLE_PARAMETERS_SET = new HashSet<>(Arrays.asList(UNACCEPTABLE_PARAMETERS));
+
     private void removeBadCommands()
     {
         for(int index = 0; index < commands.size(); index++)
@@ -88,6 +94,96 @@ public class Modifier
 
     }
 
+    private void convertBadParameters()
+    {
+        for(int index = 0; index < commands.size(); index++)
+        {
+            String s = commands.get(index);
+            char [] cbuf = s.toCharArray();
+            int i = 0;
+            boolean removed = false;
+            while(i < cbuf.length)
+            {
+                if(UNACCEPTABLE_PARAMETERS_SET.contains(cbuf[i]))
+                {
+                    cbuf[i] = 'F';
+                    int j = i + 1;
+                    while(j < cbuf.length)
+                    {
+                        if(cbuf[j++] == 'F')
+                        {
+                            // must remove instead of convert
+                            removed = removeBadParameters(s,index);
+                        }
+                    }
+                    if(!removed)
+                    {
+                        commands.remove(index);
+                        StringBuilder newsb = new StringBuilder();
+                        boolean nonEmpty = false;
+
+                        for(char c : cbuf)
+                        {
+                            if((c != ' ' || c != '\n') && !s.isEmpty())
+                                nonEmpty = true;
+                            newsb.append(c);
+                        }
+                        String news = newsb.toString();
+
+                        if(nonEmpty)
+                            commands.add(index, news);
+                    }
+                }
+                i++;
+            }
+        }
+    }
+
+    private boolean removeBadParameters(String s, int index)
+    {
+        char [] cbuf = s.toCharArray();
+        int i = 0;
+
+        while(i < cbuf.length)
+        {
+            if(UNACCEPTABLE_PARAMETERS_SET.contains(cbuf[i]))
+            {
+                // i will be the starting index, j will be the ending index
+                int j = i;
+                while(j < cbuf.length && cbuf[j++] != ' ') {}
+                StringBuilder newSB = new StringBuilder(s.substring(0,i));
+                newSB.append(s.substring(j));
+                // make sure it ends in a new line
+                if(!s.contains("\n"))
+                    newSB.append('\n');
+
+
+                commands.remove(index);
+
+                String news = newSB.toString();
+                //  Make sure you didn't elimintate the whole command
+                boolean continueOnThisCommand = false;
+                for(char c : news.toCharArray()) {
+                    if (c != ' ' || c != '\n')
+                        continueOnThisCommand = true;
+                        break;
+                }
+
+                // Reset the command you're looking at
+                if(continueOnThisCommand)
+                {
+                    commands.add(index, news);
+                    cbuf = news.toCharArray();
+                }else{
+                    return true;
+                }
+                i = j;
+            }
+            i++;
+        }
+        return true;
+    }
+
     private void writeCommands()
     {
         try{
@@ -117,6 +213,7 @@ public class Modifier
     {
         removeComments();
         removeBadCommands();
+        convertBadParameters();
         writeCommands();
     }
 }
