@@ -29,6 +29,9 @@ public class InputController {
     {
         nid.setPromptText("Please input your NID...");
         desc.setPromptText("Brief Description here...");
+        width.setPromptText("Enter X...");
+        length.setPromptText("Enter Y...");
+        height.setPromptText("Enter Z...");
     }
 
     public void next(ActionEvent actionEvent) {
