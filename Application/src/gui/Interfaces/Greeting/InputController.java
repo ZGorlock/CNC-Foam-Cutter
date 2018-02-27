@@ -1,5 +1,6 @@
 package gui.Interfaces.Greeting;
 
+import gui.Interfaces.MainMenu.ModelController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -8,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import renderer.Renderer;
+import utils.MachineDetector;
 
 import java.io.IOException;
 
@@ -38,7 +41,9 @@ public class InputController {
 
         setInput();
 
-        if(invalidInput()) return;
+        if (invalidInput()) {
+            return;
+        }
 
         Parent root;
         try {
@@ -59,17 +64,42 @@ public class InputController {
     {
         nidText = nid.getText();
         descText = desc.getText();
+        
+        widthText = width.getText();
         lengthText = length.getText();
         heightText = height.getText();
-        widthText = width.getText();
     }
 
     private boolean invalidInput()
     {
-        if(lengthText.isEmpty() || heightText.isEmpty() || widthText.isEmpty())
-        {
+        if (nidText.isEmpty() || widthText.isEmpty() || lengthText.isEmpty() || heightText.isEmpty()) {
             return true;
         }
+        
+        try {
+            Renderer.foamWidth = Double.parseDouble(widthText);
+            Renderer.foamLength = Double.parseDouble(lengthText);
+            Renderer.foamHeight = Double.parseDouble(heightText);
+        } catch (NumberFormatException e) {
+            return true;
+        }
+        
+        if (MachineDetector.isCncMachine()) {
+            if (Renderer.foamWidth <= 0 || Renderer.foamWidth > ModelController.MAX_WIDTH_CNC ||
+                    Renderer.foamLength <= 0 || Renderer.foamLength > ModelController.MAX_LENGTH_CNC ||
+                    Renderer.foamHeight <= 0 || Renderer.foamHeight > ModelController.MAX_HEIGHT_CNC) {
+                return true;
+            }
+        } else if (MachineDetector.isHotWireMachine()) {
+            if (Renderer.foamWidth <= 0 || Renderer.foamWidth > ModelController.MAX_WIDTH_HOTWIRE ||
+                    Renderer.foamLength <= 0 || Renderer.foamLength > ModelController.MAX_LENGTH_HOTWIRE ||
+                    Renderer.foamHeight <= 0 || Renderer.foamHeight > ModelController.MAX_HEIGHT_HOTWIRE) {
+                return true;
+            }
+        } else {
+            return true;
+        }
+        
         return false;
     }
 

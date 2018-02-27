@@ -16,9 +16,12 @@ import javafx.embed.swing.SwingNode;
 import javafx.scene.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
+import javafx.scene.shape.Box;
+import javafx.scene.shape.DrawMode;
 import javafx.scene.shape.Mesh;
 import javafx.scene.shape.MeshView;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
@@ -39,6 +42,13 @@ public class Renderer
     private static final double MODEL_SCALE = 1;
     
     /**
+     * The rotations to apply to the model.
+     */
+    private static final Transform MODEL_ROTATE_X = new Rotate(90, Rotate.X_AXIS);
+    private static final Transform MODEL_ROTATE_Y = new Rotate(0, Rotate.Y_AXIS);
+    private static final Transform MODEL_ROTATE_Z = new Rotate(0, Rotate.Z_AXIS);
+    
+    /**
      * The size of the view.
      */
     private static final int VIEWPORT_SIZE = 680;
@@ -49,7 +59,13 @@ public class Renderer
     private static final Color lightColor = Color.WHITE;
     private static final Color ambientColor = Color.rgb(28, 28, 28);
     private static final Color modelColor = Color.rgb(48,  48, 48);
+    private static final Color borderColor = Color.rgb(128,  128, 128);
     private static final Color fillColor = Color.rgb(192, 192, 192);
+    
+    /**
+     * The number of millimeters in an inch.
+     */
+    public static final double MILLIMETERS_IN_INCH = 25.4;
     
     
     //Static Fields
@@ -63,6 +79,13 @@ public class Renderer
      * The model rotation animation timeline.
      */
     private static Timeline timeline;
+    
+    /**
+     * The dimensions of the block of foam (in inches).
+     */
+    public static double foamWidth;
+    public static double foamLength;
+    public static double foamHeight;
     
     
     //Fields
@@ -86,13 +109,6 @@ public class Renderer
      * The STL model file to render.
      */
     private String model;
-    
-    /**
-     * The rotation values for the Camera.
-     */
-    private Rotate rotateX = new Rotate(0, Rotate.X_AXIS);
-    private Rotate rotateY = new Rotate(0, Rotate.Y_AXIS);
-    private Rotate rotateZ = new Rotate(0, Rotate.Z_AXIS);
     
     
     
@@ -170,11 +186,12 @@ public class Renderer
             meshView.setScaleX(MODEL_SCALE);
             meshView.setScaleY(MODEL_SCALE);
             meshView.setScaleZ(MODEL_SCALE);
-            meshView.getTransforms().setAll(new Rotate(0, Rotate.X_AXIS), new Rotate(0, Rotate.Y_AXIS), new Rotate(0, Rotate.Z_AXIS));
-        }
+            meshView.getTransforms().setAll(MODEL_ROTATE_X, MODEL_ROTATE_Y, MODEL_ROTATE_Z);
+    }
         
         root = new Group(meshViews);
         root.getChildren().add(new AmbientLight(ambientColor));
+        addBorder();
         addLightSources();
         
         return root;
@@ -201,16 +218,16 @@ public class Renderer
      */
     private void addLightSources()
     {
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                for (int k = -1; k <= 1; k++) {
+        for (double i = -1; i <= 1; i+=2) {
+            for (double j = -1; j <= 1; j+=2) {
+                for (double k = -1; k <= 1; k+=2) {
                     if (i == 0 && j == 0 && k == 0) {
                         continue;
                     }
                     PointLight pointLight = new PointLight(lightColor);
-                    pointLight.setTranslateX(1000 * i); //TODO set lights relative to max size of model
-                    pointLight.setTranslateY(1000 * j);
-                    pointLight.setTranslateZ(1000 * k);
+                    pointLight.setTranslateX(i * foamLength * MODEL_SCALE * MILLIMETERS_IN_INCH);
+                    pointLight.setTranslateY(j * foamHeight * MODEL_SCALE * MILLIMETERS_IN_INCH - ((foamHeight / 2) * MODEL_SCALE * MILLIMETERS_IN_INCH));
+                    pointLight.setTranslateZ(k * foamWidth * MODEL_SCALE * MILLIMETERS_IN_INCH);
                     root.getChildren().add(pointLight);
                 }
             }
@@ -220,12 +237,21 @@ public class Renderer
     /**
      * Sets up the Camera for the Scene.
      */
-    private void addCamera() {
+    private void addCamera()
+    {
+        double translateX = 0;
+        double translateY = (foamHeight / -2) * MODEL_SCALE * MILLIMETERS_IN_INCH;
+        double translateZ = ((Math.max(foamWidth, foamLength) + foamHeight) / 2 * -3) * MODEL_SCALE * MILLIMETERS_IN_INCH;
+
+        Rotate rotateX = new Rotate(0, Rotate.X_AXIS);
+        Rotate rotateY = new Rotate(0, Rotate.Y_AXIS);
+        Rotate rotateZ = new Rotate(0, Rotate.Z_AXIS);
+        
         PerspectiveCamera perspectiveCamera = new PerspectiveCamera(true);
         perspectiveCamera.getTransforms().addAll(rotateX, rotateY, rotateZ,
-                new Translate(0, 0, -750)); //TODO get camera to center model
+                new Translate(translateX, translateY, translateZ));
         
-        perspectiveCamera.setFarClip(2000); //TODO
+        perspectiveCamera.setFarClip(5000);
         perspectiveCamera.setNearClip(0.1);
         perspectiveCamera.setFieldOfView(30.0);
         
@@ -237,6 +263,25 @@ public class Renderer
         timeline.play();
         
         scene.setCamera(perspectiveCamera);
+    }
+    
+    private void addBorder()
+    {
+        Box border = new Box(foamWidth, foamLength, foamHeight);
+        PhongMaterial sample = new PhongMaterial(borderColor);
+        sample.setSpecularColor(borderColor);
+        sample.setSpecularPower(100);
+        border.setMaterial(sample);
+        border.setDrawMode(DrawMode.LINE);
+        
+        border.setScaleX(MODEL_SCALE * MILLIMETERS_IN_INCH);
+        border.setScaleY(MODEL_SCALE * MILLIMETERS_IN_INCH);
+        border.setScaleZ(MODEL_SCALE * MILLIMETERS_IN_INCH);
+        border.getTransforms().setAll(MODEL_ROTATE_X, MODEL_ROTATE_Y, MODEL_ROTATE_Z);
+        
+        border.setTranslateY((foamHeight / -2) * MODEL_SCALE * MILLIMETERS_IN_INCH);
+        
+        root.getChildren().add(border);
     }
     
     

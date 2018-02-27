@@ -51,12 +51,12 @@ public class ModelController
     /**
      * The maximum dimensions of the foam block, in inches.
      */
-//    public static final int MAX_LENGTH_HOTWIRE = ;
-//    public static final int MAX_WIDTH_HOTWIRE = ;
-//    public static final int MAX_HEIGHT_HOTWIRE = ;
-//    public static final int MAX_LENGTH_CNC = ;
-//    public static final int MAX_WIDTH_CNC = ;
-//    public static final int MAX_HEIGHT_CNC = ;
+    public static final double MAX_WIDTH_CNC = 20;
+    public static final double MAX_LENGTH_CNC = 40;
+    public static final double MAX_HEIGHT_CNC = 10;
+    public static final double MAX_WIDTH_HOTWIRE = 66;
+    public static final double MAX_LENGTH_HOTWIRE = 66;
+    public static final double MAX_HEIGHT_HOTWIRE = 66;
 
     
     //Static Fields

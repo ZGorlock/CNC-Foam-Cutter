@@ -9,6 +9,7 @@ package main;
 import gui.Gui;
 import gui.Interfaces.Greeting.GreetingController;
 import javafx.application.Application;
+import renderer.Renderer;
 
 import java.util.ArrayList;
 
@@ -48,6 +49,14 @@ public class Debug extends Main
         ArrayList<String> filenames = new ArrayList<>();
         filenames.add(stlVersion); //set the files here
         GreetingController.setFileNames(filenames);
+    
+        Renderer.foamWidth = 10;
+        Renderer.foamLength = 10;
+        Renderer.foamHeight = 10;
+        
+//        Renderer.foamWidth = ModelController.MAX_WIDTH_CNC;
+//        Renderer.foamLength = ModelController.MAX_LENGTH_CNC;
+//        Renderer.foamHeight = ModelController.MAX_HEIGHT_CNC;
         
         Gui.debug = true;
         Application.launch(Gui.class, args);

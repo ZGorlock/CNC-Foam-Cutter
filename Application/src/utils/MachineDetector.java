@@ -20,7 +20,6 @@ public final class MachineDetector
     
     public static void detectMachine()
     {
-        //TODO actually detect which machine is being used
         machine = Machine.CNC;
     }
     

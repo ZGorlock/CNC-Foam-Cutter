@@ -25,7 +25,6 @@ public class Main
     //Zack
     //TODO add error handling to Controller setup pieces
     
-    //TODO set true dimensions for Model Renderer / Gcode Tracer
     //TODO calculate total distance gcode APIgrbl Modifier
     //TODO after fixing apigrbl make sure time remaining estimate works
     
@@ -33,6 +32,9 @@ public class Main
     //TODO On full stop come back to greeting screen & if its hot wire machine show rotation tab first.
     //TODO you cannot upload folders
     //TODO add trigger for printing complete and throw popup
+    
+    //TODO actually detect which machine is being used
+    //TODO throw warnings in invalidInput() when user input is incorrect so they know what to change
     
     
     //Static Fields
