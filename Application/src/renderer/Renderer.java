@@ -59,7 +59,7 @@ public class Renderer
     private static final Color lightColor = Color.WHITE;
     private static final Color ambientColor = Color.rgb(28, 28, 28);
     private static final Color modelColor = Color.rgb(48,  48, 48);
-    private static final Color borderColor = Color.rgb(128,  128, 128);
+    private static final Color borderColor = Color.rgb(128,  128, 128, .2);
     private static final Color fillColor = Color.rgb(192, 192, 192);
     
     /**
@@ -271,6 +271,7 @@ public class Renderer
         PhongMaterial sample = new PhongMaterial(borderColor);
         sample.setSpecularColor(borderColor);
         sample.setSpecularPower(100);
+        sample.setDiffuseColor(borderColor);
         border.setMaterial(sample);
         border.setDrawMode(DrawMode.LINE);
         
