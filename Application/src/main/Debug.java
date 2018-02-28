@@ -8,6 +8,7 @@ package main;
 
 import gui.Gui;
 import gui.Interfaces.Greeting.GreetingController;
+import gui.Interfaces.MainMenu.ModelController;
 import javafx.application.Application;
 import renderer.Renderer;
 
@@ -50,13 +51,13 @@ public class Debug extends Main
         filenames.add(stlVersion); //set the files here
         GreetingController.setFileNames(filenames);
     
-        Renderer.foamWidth = 10;
-        Renderer.foamLength = 10;
-        Renderer.foamHeight = 10;
+//        Renderer.foamWidth = 10;
+//        Renderer.foamLength = 10;
+//        Renderer.foamHeight = 10;
         
-//        Renderer.foamWidth = ModelController.MAX_WIDTH_CNC;
-//        Renderer.foamLength = ModelController.MAX_LENGTH_CNC;
-//        Renderer.foamHeight = ModelController.MAX_HEIGHT_CNC;
+        Renderer.foamWidth = ModelController.MAX_WIDTH_CNC;
+        Renderer.foamLength = ModelController.MAX_LENGTH_CNC;
+        Renderer.foamHeight = ModelController.MAX_HEIGHT_CNC;
         
         Gui.debug = true;
         Application.launch(Gui.class, args);

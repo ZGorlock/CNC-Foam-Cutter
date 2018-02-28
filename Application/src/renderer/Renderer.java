@@ -241,7 +241,7 @@ public class Renderer
     {
         double translateX = 0;
         double translateY = (foamHeight / -2) * MODEL_SCALE * MILLIMETERS_IN_INCH;
-        double translateZ = ((Math.max(foamWidth, foamLength) + foamHeight) / 2 * -3) * MODEL_SCALE * MILLIMETERS_IN_INCH;
+        double translateZ = ((Math.max(foamWidth, foamLength) + foamHeight) * -2) * MODEL_SCALE * MILLIMETERS_IN_INCH;
 
         Rotate rotateX = new Rotate(0, Rotate.X_AXIS);
         Rotate rotateY = new Rotate(0, Rotate.Y_AXIS);

@@ -7,13 +7,15 @@
 package tracer;
 
 import javafx.embed.swing.SwingNode;
+import renderer.Renderer;
 import tracer.camera.Camera;
 import tracer.math.matrix.Matrix3;
 import tracer.math.vector.Vector;
+import tracer.objects.base.AbstractObject;
 import tracer.objects.base.BaseObject;
 import tracer.objects.base.ObjectInterface;
+import tracer.objects.base.polygon.Rectangle;
 import tracer.objects.base.simple.Edge;
-import tracer.objects.base.simple.Vertex;
 
 import javax.swing.*;
 import java.awt.*;
@@ -51,22 +53,22 @@ public class Tracer
     /**
      * The min and max coordinate values to render.
      */
-    public static double xMin = -100.0;
-    public static double xMax = 100.0;
-    public static double yMin = -100.0;
-    public static double yMax = 100.0;
-    public static double zMin = -100.0;
-    public static double zMax = 100.0;
+    public static final double xMin = -100.0;
+    public static final double xMax = 100.0;
+    public static final double yMin = -100.0;
+    public static final double yMax = 100.0;
+    public static final double zMin = -100.0;
+    public static final double zMax = 100.0;
     
     /**
      * Color constants for the Tracer.
      */
-    public static Color backgroundColor = new Color(230, 230, 230);
+    public static final Color backgroundColor = new Color(230, 230, 230);
     
     /**
-     * A flag indicating whether or not to display the Tracer demo.
+     * The maximum number of traces to display before old traces begin to disappear.
      */
-    public static boolean displayDemo = true;
+    public static final int MAX_TRACES = 360;
     
     
     //Static Fields
@@ -75,6 +77,16 @@ public class Tracer
      * The singleton instance of the Tracer.
      */
     private static Tracer instance;
+    
+    /**
+     * The last trace that was hit.
+     */
+    private static Vector lastTrace;
+    
+    /**
+     * The list of traces currently being rendered.
+     */
+    private static List<Edge> traces = new ArrayList<>();
     
     
     //Fields
@@ -137,6 +149,7 @@ public class Tracer
     
         //add cameras
         Camera camera = new Camera();
+        camera.setLocation(Math.PI / 2, Math.PI, ((Math.max(Renderer.foamWidth, Renderer.foamWidth) + Renderer.foamHeight) * 2) * Renderer.MILLIMETERS_IN_INCH);
         Camera.setActiveCamera(0);
         
         
@@ -198,42 +211,75 @@ public class Tracer
      */
     private void createObjects()
     {
-        if (!displayDemo) {
-            return;
-        }
+        double w = (Renderer.foamWidth * Renderer.MILLIMETERS_IN_INCH) / 2;
+        double l = (Renderer.foamLength * Renderer.MILLIMETERS_IN_INCH) / 2;
+        double h = (Renderer.foamHeight * Renderer.MILLIMETERS_IN_INCH) / 2;
+    
+        Vector c1 = new Vector(-w, -h, -l);
+        Vector c2 = new Vector(-w, -h, l);
+        Vector c3 = new Vector(w, -h, -l);
+        Vector c4 = new Vector(w, -h, l);
+        Vector c5 = new Vector(-w, h, -l);
+        Vector c6 = new Vector(-w, h, l);
+        Vector c7 = new Vector(w, h, -l);
+        Vector c8 = new Vector(w, h, l);
+    
+        Rectangle r1 = new Rectangle(Color.BLACK, c1, c5, c6, c2);
+        Rectangle r2 = new Rectangle(Color.BLACK, c1, c5, c7, c3);
+        Rectangle r3 = new Rectangle(Color.BLACK, c2, c6, c8, c4);
+        Rectangle r4 = new Rectangle(Color.BLACK, c1, c2, c4, c3);
+        Rectangle r5 = new Rectangle(Color.BLACK, c5, c6, c8, c7);
+        Rectangle r6 = new Rectangle(Color.BLACK, c3, c4, c8, c7);
+    
+        r1.setDisplayMode(AbstractObject.DisplayMode.EDGE);
+        r2.setDisplayMode(AbstractObject.DisplayMode.EDGE);
+        r3.setDisplayMode(AbstractObject.DisplayMode.EDGE);
+        r4.setDisplayMode(AbstractObject.DisplayMode.EDGE);
+        r5.setDisplayMode(AbstractObject.DisplayMode.EDGE);
+        r6.setDisplayMode(AbstractObject.DisplayMode.EDGE);
         
-        //axes
-        objects.add(new Edge(Color.BLACK,
-                new Vector(-2, 0, 0),
-                new Vector(2, 0, 0)));
-        objects.add(new Edge(Color.BLACK,
-                new Vector(0, -2, 0),
-                new Vector(0, 2, 0)));
-        objects.add(new Edge(Color.BLACK,
-                new Vector(0, 0, -2),
-                new Vector(0, 0, 2)));
-        
+        objects.add(r1);
+        objects.add(r2);
+        objects.add(r3);
+        objects.add(r4);
+        objects.add(r5);
+        objects.add(r6);
+
+
         //animation
         TimerTask traceTask = new TimerTask()
         {
             double phi = 0.0;
             double theta = 0.0;
-            double rho = 2.0;
+            double rho = ((Math.max(Renderer.foamWidth, Renderer.foamWidth) + Renderer.foamHeight) / 4) * Renderer.MILLIMETERS_IN_INCH;
+
+            boolean startTrace = false;
+            double lastX, lastY, lastZ;
             
             @Override
             public void run()
             {
-                phi += .01556;
-                theta += .01256;
-                
+                phi += .1556;
+                theta += .1256;
+
                 double x = rho * Math.sin(phi) * Math.cos(theta);
                 double y = rho * Math.cos(phi);
                 double z = rho * Math.sin(phi) * Math.sin(theta);
-                objects.add(new Vertex(Color.RED, new Vector(x, y, z)));
+                
+                if (!startTrace) {
+                    setStartTrace(x, y, z);
+                    startTrace = true;
+                } else {
+                    addTrace(x - lastX, y - lastY, z - lastZ);
+                }
+                
+                lastX = x;
+                lastY = y;
+                lastZ = z;
             }
         };
         Timer traceTimer = new Timer();
-        traceTimer.scheduleAtFixedRate(traceTask, 0, 10);
+        traceTimer.scheduleAtFixedRate(traceTask, 0, 100);
     }
     
     /**
@@ -278,13 +324,41 @@ public class Tracer
     /**
      * Adds a new trace point to the Tracer.
      *
-     * @param x The x coordinate of the trace.
-     * @param y The y coordinate of the trace.
-     * @param z The z coordinate of the trace.
+     * @param x The relative x movement of the trace.
+     * @param y The relative y movement of the trace.
+     * @param z The relative z movement of the trace.
      */
-    public static void addTrace(double x, double y, double z)
+    public static synchronized void addTrace(double x, double y, double z)
     {
-        instance.objects.add(new Vertex(Color.RED, new Vector(x, y, z)));
+        if (lastTrace != null) {
+            Vector trace = new Vector(x + lastTrace.getX(), y + lastTrace.getY(), z + lastTrace.getZ());
+            Edge edge = new Edge(Color.RED, lastTrace, trace);
+            
+            traces.add(0, edge);
+            addObject(edge);
+            lastTrace = trace;
+            
+            if (traces.size() > MAX_TRACES) {
+                removeObject(traces.get(MAX_TRACES - 1));
+                traces.remove(MAX_TRACES - 1);
+            }
+            
+            for (int i = 0; i < traces.size(); i++) {
+                traces.get(i).setColor(new Color(1, 0, 0, 1 - (i / (float)MAX_TRACES)));
+            }
+        }
+    }
+    
+    /**
+     * Sets the starting trace point of the Tracer.
+     *
+     * @param x The starting x coordinate.
+     * @param y The starting y coordinate.
+     * @param z The starting z coordinate.
+     */
+    public static void setStartTrace(double x, double y, double z)
+    {
+        lastTrace = new Vector(x, y + (Renderer.foamHeight / 2 * Renderer.MILLIMETERS_IN_INCH), z);
     }
     
     /**
