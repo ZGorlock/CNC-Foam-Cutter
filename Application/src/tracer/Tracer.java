@@ -70,6 +70,11 @@ public class Tracer
      */
     public static final int MAX_TRACES = 360;
     
+    /**
+     * Whether or not to display the trace demo.
+     */
+    public static final boolean traceDemo = true;
+    
     
     //Static Fields
     
@@ -246,40 +251,42 @@ public class Tracer
         objects.add(r6);
 
 
-        //animation
-        TimerTask traceTask = new TimerTask()
-        {
-            double phi = 0.0;
-            double theta = 0.0;
-            double rho = ((Math.max(Renderer.foamWidth, Renderer.foamWidth) + Renderer.foamHeight) / 4) * Renderer.MILLIMETERS_IN_INCH;
-
-            boolean startTrace = false;
-            double lastX, lastY, lastZ;
-            
-            @Override
-            public void run()
+        if (traceDemo) {
+            //animation
+            TimerTask traceTask = new TimerTask()
             {
-                phi += .1556;
-                theta += .1256;
-
-                double x = rho * Math.sin(phi) * Math.cos(theta);
-                double y = rho * Math.cos(phi);
-                double z = rho * Math.sin(phi) * Math.sin(theta);
-                
-                if (!startTrace) {
-                    setStartTrace(x, y, z);
-                    startTrace = true;
-                } else {
-                    addTrace(x - lastX, y - lastY, z - lastZ);
+                double phi = 0.0;
+                double theta = 0.0;
+                double rho = ((Math.max(Renderer.foamWidth, Renderer.foamWidth) + Renderer.foamHeight) / 4) * Renderer.MILLIMETERS_IN_INCH;
+        
+                boolean startTrace = false;
+                double lastX, lastY, lastZ;
+        
+                @Override
+                public void run()
+                {
+                    phi += .02556;
+                    theta += .02256;
+            
+                    double x = rho * Math.sin(phi) * Math.cos(theta);
+                    double y = rho * Math.cos(phi);
+                    double z = rho * Math.sin(phi) * Math.sin(theta);
+            
+                    if (!startTrace) {
+                        setStartTrace(x, y, z);
+                        startTrace = true;
+                    } else {
+                        addTrace(x - lastX, y - lastY, z - lastZ);
+                    }
+            
+                    lastX = x;
+                    lastY = y;
+                    lastZ = z;
                 }
-                
-                lastX = x;
-                lastY = y;
-                lastZ = z;
-            }
-        };
-        Timer traceTimer = new Timer();
-        traceTimer.scheduleAtFixedRate(traceTask, 0, 40);
+            };
+            Timer traceTimer = new Timer();
+            traceTimer.scheduleAtFixedRate(traceTask, 0, 20);
+        }
     }
     
     /**
