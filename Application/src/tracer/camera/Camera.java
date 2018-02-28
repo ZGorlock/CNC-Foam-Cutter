@@ -89,7 +89,7 @@ public class Camera
      */
     private double phiSpeed = .005;
     private double thetaSpeed = .005;
-    private double zoomSpeed = .05;
+    private double zoomSpeed = 1;
     
     /**
      * The dimensions of the viewport.

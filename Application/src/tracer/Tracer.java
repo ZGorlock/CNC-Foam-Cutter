@@ -279,7 +279,7 @@ public class Tracer
             }
         };
         Timer traceTimer = new Timer();
-        traceTimer.scheduleAtFixedRate(traceTask, 0, 100);
+        traceTimer.scheduleAtFixedRate(traceTask, 0, 40);
     }
     
     /**
