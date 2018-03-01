@@ -1,6 +1,8 @@
 package gui.Interfaces.Greeting;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -16,6 +18,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import utils.MachineDetector;
 
 import java.io.File;
@@ -146,6 +149,14 @@ public class GreetingController
             stage.setTitle("3D CNC Foam Cutter");
             stage.setScene(new Scene(root, 1280, 960));
             stage.show();
+
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent t) {
+                    Platform.exit();
+                    System.exit(0);
+                }
+            });
 
             // Hide the current window
             ((Node) (actionEvent.getSource())).getScene().getWindow().hide();

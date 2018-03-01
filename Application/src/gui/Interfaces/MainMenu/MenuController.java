@@ -3,6 +3,7 @@ package gui.Interfaces.MainMenu;
 import grbl.APIgrbl;
 import gui.Gui;
 import gui.Interfaces.PopUps.SystemNotificationController;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -13,11 +14,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import renderer.Renderer;
 import utils.MachineDetector;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * The controller for the Menu.
@@ -42,7 +46,9 @@ public class MenuController {
     public static boolean paused = false;
     public static MenuController controller;
     private ActionEvent event;
-    
+    public static boolean stopped = false;
+    private Thread appThread = Thread.currentThread();
+    private Stage stage;
     //Methods
     
     /**
@@ -54,13 +60,18 @@ public class MenuController {
 
         TPane.getTabs().add(ModelController.setup());
         TPane.getTabs().add(GcodeController.setup());
-        
+
         if (Gui.debug) {
             TPane.getTabs().add(TraceController.setup());
             TPane.getTabs().add(RotationController.setup());
         } else {
             TPane.getTabs().add(MachineDetector.isCncMachine() ? TraceController.setup() : RotationController.setup());
         }
+    }
+
+    public void setCurrentStage(Stage stage)
+    {
+        this.stage = stage;
     }
     
     /**
@@ -101,6 +112,7 @@ public class MenuController {
 
 
         } else {
+            // This code never happens? TODO
             Parent root;
             try {
                 root = FXMLLoader.load(getClass().getResource("../PopUps/JobCompleted.fxml"));
@@ -144,8 +156,6 @@ public class MenuController {
      */
     public void initiatePause(ActionEvent actionEvent)
     {
-        // Hide the current window
-        //((Node) (actionEvent.getSource())).getScene().getWindow().setOpacity(.5);
         paused = true;
         //Pause Model Animation
         Renderer.pauseModelAnimation();
@@ -160,10 +170,6 @@ public class MenuController {
     {
         // Pause streaming
         APIgrbl.grbl.initiateResume();
-
-        // Set opacity back to normal
-        //if(event == null) event = actionEvent;
-        //((Node) (this.event.getSource())).getScene().getWindow().setOpacity(1.0);
         
         //Resume Model Animation
         Renderer.resumeModelAnimation();
@@ -185,17 +191,64 @@ public class MenuController {
             stage.setScene(new Scene(root, 800, 600));
             stage.show();
 
-            paused = true;
+            stopped = true;
             event = actionEvent;
-            // Hide the current window
-            //((Node) (actionEvent.getSource())).getScene().getWindow().setOpacity(.5);
 
             // Set notification
-            SystemNotificationController.controller.raise("Full Stop");
+            SystemNotificationController.controller.raise("Full Stop",stopped);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * This method is called when the job is finished
+     */
+    public void completed()
+    {
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getResource("../PopUps/JobCompleted.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("3D CNC Foam Cutter");
+            stage.setScene(new Scene(root, 800, 600));
+            stage.show();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method resets the application back to the starting screen.
+     */
+    public void reset()
+    {
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getResource("../Greeting/Input.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("3D CNC Foam Cutter");
+            stage.setScene(new Scene(root, 800, 800));
+            stage.show();
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent t) {
+                    Platform.exit();
+                    System.exit(0);
+                }
+            });
+
+            // Hide the current window
+            (goldButton).getScene().getWindow().hide();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //TODO reset grbl
     }
     
 }

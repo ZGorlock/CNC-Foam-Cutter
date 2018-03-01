@@ -1,6 +1,7 @@
 package grbl;
 
 import gui.Interfaces.MainMenu.GcodeController;
+import gui.Interfaces.MainMenu.MenuController;
 import gui.Interfaces.MainMenu.ModelController;
 import gui.Interfaces.MainMenu.TraceController;
 import utils.CmdLine;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Queue;
 
 import static gui.Interfaces.MainMenu.MenuController.paused;
+import static gui.Interfaces.MainMenu.MenuController.stopped;
 
 public class APIgrbl extends Thread
 {
@@ -29,7 +31,7 @@ public class APIgrbl extends Thread
 
     private List<String> updateCodeSent;
     private List<String> codeBlock;
-
+    public static Thread grblThread;
     // Process elements
     private String filename;
 
@@ -55,8 +57,12 @@ public class APIgrbl extends Thread
         // Init variables for visual update on the code being sent
         updateCodeSent = new ArrayList<>();
         codeBlock = new ArrayList<>();
+
+        grblThread = Thread.currentThread();
     }
 
+    /*
+    *   Main method of the class, grabs appropriate directories and sets up code to be streamed*/
     public void run()
     {
         // path to directory
@@ -77,8 +83,14 @@ public class APIgrbl extends Thread
 
         // api needs grbl, gcode, temp
         partitionAndStream(filename,directoryGrbl, directoryGcode, directoryTemp, m.getCommandSize());
+
+        // show we're done
+        stopped = true;
     }
 
+    /*
+    *   Method in charge of separating the full file into packets of gcode and streaming them via Command Line
+    */
     private void partitionAndStream(String filename, String directoryGrbl, String directoryGcode, String directoryTemp, int size)
     {
         try{
@@ -169,6 +181,11 @@ public class APIgrbl extends Thread
                     }
                 }
 
+                if(stopped)
+                {   // Just a break needed to end this cycle
+                    break;
+                }
+
                 // execute stream.py with the file created, get input stream as a response
                 Process process = CmdLine.executeCmdAsThread("py " +  directoryGrbl + "stream.py "+ directoryTemp + "tempfile.txt\n"); //TODO need to handle if this returns null, retry / throw exception
                 BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -180,8 +197,6 @@ public class APIgrbl extends Thread
                     if(!line.isEmpty())
                         updateCoordinates(line);
                 }
-//
-
 
                 // Check for User Input
                 checkForCommand(directoryGrbl,directoryTemp);
@@ -205,6 +220,9 @@ public class APIgrbl extends Thread
         //TODO stopping
     }
 
+    /**
+     * Check Command Queue
+     */
     private void checkForCommand(String directoryGrbl, String directoryTemp)
     {
         // check for commands from UI
@@ -223,6 +241,9 @@ public class APIgrbl extends Thread
         notify();
     }
 
+    /*
+     *  Updates coordinates from grbl feedback
+     */
     private void updateCoordinates(String line)
     {
         // Parse line into coordinates
@@ -248,11 +269,17 @@ public class APIgrbl extends Thread
         TraceController.coordinateBlock.add(3,status);
     }
 
+    /*
+     *  Access point for UI/Anywhere else
+     */
     public void sendRequest(String command)
     {
         commandFromUI.add(command);
     }
 
+    /*
+    *   Handles outside request
+    */
     private void handleRequest(String directoryGrbl, String directoryTemp)
     {
         try {

@@ -83,6 +83,11 @@ public class GcodeController {
 
     public static void startGrbl()
     {
+        if(APIgrbl.grbl != null && APIgrbl.grblThread.isAlive())
+        {
+            APIgrbl.grblThread.interrupt();
+        }
+
         APIgrbl apIgrbl = new APIgrbl("can.gcode"); //todo change to file.getName() instead of can.gcode
         //Thread grblThread = new Thread(apIgrbl);     //<--- comment out if no arduino TODO
         //grblThread.start();

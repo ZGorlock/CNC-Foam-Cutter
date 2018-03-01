@@ -1,7 +1,9 @@
 package gui.Interfaces.Greeting;
 
 import gui.Interfaces.MainMenu.ModelController;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -9,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import renderer.Renderer;
 import utils.MachineDetector;
 
@@ -52,6 +55,14 @@ public class InputController {
             stage.setTitle("3D CNC Foam Cutter");
             stage.setScene(new Scene(root, 1280, 960));
             stage.show();
+
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent t) {
+                    Platform.exit();
+                    System.exit(0);
+                }
+            });
 
             // Hide the current window
             ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
