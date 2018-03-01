@@ -24,16 +24,15 @@ public class Main
     
     //Zack
     //TODO add error handling to Controller setup pieces
-    
+
     //TODO calculate total distance gcode APIgrbl Modifier
     //TODO after fixing apigrbl make sure time remaining estimate works
+
+    //TODO when application restarts, restart renderer (it's already initialized, that's why it won't restart)
     
     //Nick
     //TODO you cannot upload folders
-    //TODO add trigger for printing complete and throw popup
-    
     //TODO actually detect which machine is being used
-    //TODO throw warnings in invalidInput() when user input is incorrect so they know what to change
     
     
     //Static Fields

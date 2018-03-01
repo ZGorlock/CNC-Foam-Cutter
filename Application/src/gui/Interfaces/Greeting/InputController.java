@@ -16,6 +16,9 @@ import renderer.Renderer;
 import utils.MachineDetector;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class InputController {
 
@@ -75,7 +78,7 @@ public class InputController {
     {
         nidText = nid.getText();
         descText = desc.getText();
-        
+
         widthText = width.getText();
         lengthText = length.getText();
         heightText = height.getText();
@@ -83,35 +86,118 @@ public class InputController {
 
     private boolean invalidInput()
     {
-        if (nidText.isEmpty() || widthText.isEmpty() || lengthText.isEmpty() || heightText.isEmpty()) {
-            return true;
+        String redHighlight = "-fx-background-color:rgba(255,0,0,0.2);";
+        String invalidMsg = "Invalid Number Format";
+        boolean invalid = false;
+
+        if(nidText.isEmpty())
+        {
+            nid.setStyle(redHighlight);
+            invalid = true;
         }
+
+        if(widthText.isEmpty())
+        {
+            width.setStyle(redHighlight);
+            invalid = true;
+        }
+
+        if(lengthText.isEmpty())
+        {
+            length.setStyle(redHighlight);
+            invalid = true;
+        }
+
+        if(heightText.isEmpty())
+        {
+            height.setStyle(redHighlight);
+            invalid = true;
+        }
+
+        // First reset for emptyness
+        if(invalid) return invalid;
+
+        // Check number formats
         
         try {
             Renderer.foamWidth = Double.parseDouble(widthText);
+        } catch (NumberFormatException e) {
+            width.setStyle(redHighlight);
+            width.setPromptText(invalidMsg);
+            invalid = true;
+        }
+
+        try {
             Renderer.foamLength = Double.parseDouble(lengthText);
+        } catch (NumberFormatException e) {
+            length.setStyle(redHighlight);
+            length.setPromptText(invalidMsg);
+            invalid = true;
+        }
+
+        try {
             Renderer.foamHeight = Double.parseDouble(heightText);
         } catch (NumberFormatException e) {
-            return true;
+            height.setStyle(redHighlight);
+            height.setPromptText(invalidMsg);
+            invalid = true;
         }
+
+        // reset for bad number formats
+        if(invalid) return invalid;
         
-        if (MachineDetector.isCncMachine()) {
-            if (Renderer.foamWidth <= 0 || Renderer.foamWidth > ModelController.MAX_WIDTH_CNC ||
-                    Renderer.foamLength <= 0 || Renderer.foamLength > ModelController.MAX_LENGTH_CNC ||
-                    Renderer.foamHeight <= 0 || Renderer.foamHeight > ModelController.MAX_HEIGHT_CNC) {
-                return true;
+        if (MachineDetector.isCncMachine())
+        {
+            if (Renderer.foamWidth <= 0 || Renderer.foamWidth > ModelController.MAX_WIDTH_CNC){
+                width.clear();
+                width.setPromptText("0 - " + ModelController.MAX_WIDTH_CNC);
+                width.setStyle(redHighlight);
+                invalid = true;
             }
-        } else if (MachineDetector.isHotWireMachine()) {
-            if (Renderer.foamWidth <= 0 || Renderer.foamWidth > ModelController.MAX_WIDTH_HOTWIRE ||
-                    Renderer.foamLength <= 0 || Renderer.foamLength > ModelController.MAX_LENGTH_HOTWIRE ||
-                    Renderer.foamHeight <= 0 || Renderer.foamHeight > ModelController.MAX_HEIGHT_HOTWIRE) {
-                return true;
+
+            if(Renderer.foamLength <= 0 || Renderer.foamLength > ModelController.MAX_LENGTH_CNC){
+                length.clear();
+                length.setPromptText("0 - " + ModelController.MAX_LENGTH_CNC);
+                length.setStyle(redHighlight);
+                invalid = true;
+            }
+
+            if(Renderer.foamHeight <= 0 || Renderer.foamHeight > ModelController.MAX_HEIGHT_CNC) {
+                height.clear();
+                height.setPromptText("0 - " + ModelController.MAX_HEIGHT_CNC);
+                height.setStyle(redHighlight);
+                invalid = true;
+            }
+        } else if (MachineDetector.isHotWireMachine())
+        {
+            if (Renderer.foamWidth <= 0 || Renderer.foamWidth > ModelController.MAX_WIDTH_HOTWIRE){
+                width.clear();
+                width.setPromptText("0 - " + ModelController.MAX_WIDTH_HOTWIRE);
+                width.setStyle(redHighlight);
+                invalid = true;
+            }
+
+            if(Renderer.foamLength <= 0 || Renderer.foamLength > ModelController.MAX_LENGTH_HOTWIRE){
+                length.clear();
+                length.setPromptText("0 - " + ModelController.MAX_LENGTH_HOTWIRE);
+                length.setStyle(redHighlight);
+                invalid = true;
+            }
+
+            if(Renderer.foamHeight <= 0 || Renderer.foamHeight > ModelController.MAX_HEIGHT_HOTWIRE) {
+                height.clear();
+                height.setPromptText("0 - " + ModelController.MAX_HEIGHT_HOTWIRE);
+                height.setStyle(redHighlight);
+                invalid = true;
             }
         } else {
             return true;
         }
-        
-        return false;
+
+        if(descText.isEmpty())
+            desc.setText("No description available");
+
+        return invalid;
     }
 
     public static String getNidFromText()
