@@ -2,8 +2,10 @@ package gui.Interfaces.MainMenu;
 
 import grbl.APIgrbl;
 import gui.Gui;
+import gui.Interfaces.PopUps.JobCompletedController;
 import gui.Interfaces.PopUps.SystemNotificationController;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -41,14 +43,17 @@ public class MenuController {
     //Fields
     
     /**
-     * A flag indicating whether the state is paused or not.
+     * A flag indicating whether the state is paused/stopped or not.
      */
     public static boolean paused = false;
-    public static MenuController controller;
-    private ActionEvent event;
     public static boolean stopped = false;
-    private Thread appThread = Thread.currentThread();
-    private Stage stage;
+
+    //Instance
+    /*
+     *  Instance of the controller
+     */
+    public static MenuController controller;
+
     //Methods
     
     /**
@@ -57,23 +62,29 @@ public class MenuController {
     public void initialize()
     {
         controller = this;
+        stopped = false;
 
-        TPane.getTabs().add(ModelController.setup());
-        TPane.getTabs().add(GcodeController.setup());
-
-        if (Gui.debug) {
+        if(MachineDetector.isCncMachine())
+        {
+            TPane.getTabs().add(ModelController.setup());
+            TPane.getTabs().add(GcodeController.setup());
             TPane.getTabs().add(TraceController.setup());
+
+            if (Gui.debug) {
+                TPane.getTabs().add(RotationController.setup());
+            }
+
+        }else{
             TPane.getTabs().add(RotationController.setup());
-        } else {
-            TPane.getTabs().add(MachineDetector.isCncMachine() ? TraceController.setup() : RotationController.setup());
+            TPane.getTabs().add(ModelController.setup());
+            TPane.getTabs().add(GcodeController.setup());
+
+            if (Gui.debug) {
+                TPane.getTabs().add(TraceController.setup());
+            }
         }
     }
 
-    public void setCurrentStage(Stage stage)
-    {
-        this.stage = stage;
-    }
-    
     /**
      * The EventHandler for the Print button.
      *
@@ -109,23 +120,6 @@ public class MenuController {
             });
 
             GcodeController.startGrbl();
-
-
-        } else {
-            // This code never happens? TODO
-            Parent root;
-            try {
-                root = FXMLLoader.load(getClass().getResource("../PopUps/JobCompleted.fxml"));
-                Stage stage = new Stage();
-                stage.setTitle("3D CNC Foam Cutter");
-                stage.setScene(new Scene(root, 800, 600));
-                stage.show();
-
-                // Hide the current window
-                ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
     
@@ -157,6 +151,7 @@ public class MenuController {
     public void initiatePause(ActionEvent actionEvent)
     {
         paused = true;
+
         //Pause Model Animation
         Renderer.pauseModelAnimation();
     }
@@ -168,7 +163,7 @@ public class MenuController {
      */
     public void initiateResume(ActionEvent actionEvent)
     {
-        // Pause streaming
+        // Resume streaming
         APIgrbl.grbl.initiateResume();
         
         //Resume Model Animation
@@ -190,9 +185,15 @@ public class MenuController {
             stage.setTitle("3D CNC Foam Cutter");
             stage.setScene(new Scene(root, 800, 600));
             stage.show();
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent t) {
+                    Platform.exit();
+                    System.exit(0);
+                }
+            });
 
             stopped = true;
-            event = actionEvent;
 
             // Set notification
             SystemNotificationController.controller.raise("Full Stop",stopped);
@@ -203,28 +204,36 @@ public class MenuController {
     }
 
     /**
+     * Handles resetting the application
      * This method is called when the job is finished
      */
-    public void completed()
+    public void reset()
     {
+        // TODO Restart rendering here
+        stopped = true;
+
+
         Parent root;
         try {
             root = FXMLLoader.load(getClass().getResource("../PopUps/JobCompleted.fxml"));
             Stage stage = new Stage();
             stage.setTitle("3D CNC Foam Cutter");
             stage.setScene(new Scene(root, 800, 600));
-            stage.show();
 
+            JobCompletedController.controller.setTimeCompleted();
+            stage.show();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     /**
      * This method resets the application back to the starting screen.
+     * Is called by the jobCompletedController so both screens can be closed.
      */
-    public void reset()
+    public void backToStartUpScreen()
     {
         Parent root;
         try {
@@ -247,8 +256,5 @@ public class MenuController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        //TODO reset grbl
     }
-    
 }

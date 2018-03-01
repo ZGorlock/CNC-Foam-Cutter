@@ -29,7 +29,6 @@ public class Main
     //TODO after fixing apigrbl make sure time remaining estimate works
     
     //Nick
-    //TODO On full stop come back to greeting screen & if its hot wire machine show rotation tab first.
     //TODO you cannot upload folders
     //TODO add trigger for printing complete and throw popup
     

@@ -1,7 +1,9 @@
 package gui.Interfaces.MainMenu;
 
+import grbl.APIgrbl;
 import gui.Interfaces.Greeting.GreetingController;
 import gui.Interfaces.Greeting.InputController;
+import gui.Interfaces.PopUps.JobCompletedController;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +18,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static gui.Interfaces.MainMenu.MenuController.stopped;
 
 /**
  * The controller for the Model tab.
@@ -123,6 +127,7 @@ public class ModelController
         filePercentage.setAlignment(Pos.TOP_RIGHT);
         hp.getChildren().add(filePercentage);
 
+
         TimerTask updateCoordinates = new TimerTask()
         {
             private String state = "";
@@ -130,9 +135,15 @@ public class ModelController
             public void run()
             {
                 Platform.runLater(() -> {
-                    if(percentage.compareTo(state) != 0){
+                    if(percentage != null & percentage.compareTo(state) != 0){
                         filePercentage.textProperty().set(percentage);
                         state = percentage;
+                    }
+                    if(MenuController.controller != null && APIgrbl.grbl != null && APIgrbl.grbl.isDoneStreaming())
+                    {
+                        MenuController.controller.reset();
+                        GcodeController.controller.resetUI();
+                        APIgrbl.grbl.resetStreaming();
                     }
                 });
             }
@@ -229,5 +240,4 @@ public class ModelController
         return String.format("%.2f",size) +
                 (i == 1 ? "KB" : (i == 2 ? "MB" : "B"));
     }
-    
 }

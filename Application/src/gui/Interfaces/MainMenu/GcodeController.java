@@ -39,7 +39,7 @@ public class GcodeController {
     public static List<String> codeBlock = new ArrayList<>();
     public static String codeBlockText = "";
 
-    // This
+    // This instance
     public static GcodeController controller;
 
     public static Tab setup()
@@ -54,6 +54,14 @@ public class GcodeController {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public void resetUI()
+    {
+        commandBlock = new ArrayList<>();
+        commandBlockText = "";
+        codeBlock = new ArrayList<>();
+        codeBlockText = "";
     }
     
     public void initialize()
@@ -83,16 +91,8 @@ public class GcodeController {
 
     public static void startGrbl()
     {
-        if(APIgrbl.grbl != null && APIgrbl.grblThread.isAlive())
-        {
-            APIgrbl.grblThread.interrupt();
-        }
-
-        APIgrbl apIgrbl = new APIgrbl("can.gcode"); //todo change to file.getName() instead of can.gcode
-        //Thread grblThread = new Thread(apIgrbl);     //<--- comment out if no arduino TODO
-        //grblThread.start();
-        //grblThread.interrupt();
-        new Thread(apIgrbl).start();
+        String file = "can.gcode";
+        APIgrbl apIgrbl = new APIgrbl(file); //todo change to file.getName() instead of can.gcode
     }
 
 
@@ -193,5 +193,4 @@ public class GcodeController {
         Timer t = new Timer();
         t.scheduleAtFixedRate(updateUI,0, 100);
     }
-
 }

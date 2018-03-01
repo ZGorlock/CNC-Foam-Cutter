@@ -41,7 +41,7 @@ public class Gui extends Application
             primaryStage.setTitle("3D CNC Foam Cutter");
             primaryStage.setScene(new Scene(root, 800, 800));
             primaryStage.show();
-            
+
         } else { //Debug Mode
             Parent root = FXMLLoader.load(getClass().getResource("Interfaces/MainMenu/Menu.fxml"));
             primaryStage.setTitle("3D CNC Foam Cutter");

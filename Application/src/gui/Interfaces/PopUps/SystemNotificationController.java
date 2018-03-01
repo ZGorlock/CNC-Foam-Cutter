@@ -1,5 +1,6 @@
 package gui.Interfaces.PopUps;
 
+import gui.Interfaces.MainMenu.GcodeController;
 import gui.Interfaces.MainMenu.MenuController;
 import gui.Interfaces.MainMenu.ModelController;
 import javafx.application.Application;
@@ -19,10 +20,17 @@ import java.net.URL;
 
 public class SystemNotificationController{
 
+    // FXML
     public Label errorType;
+
+    // Fields
     private String error;
-    public static SystemNotificationController controller;
+
+    // Flags
     private boolean fullstop;
+
+    // Instance
+    public static SystemNotificationController controller;
 
     public void raise(String error, boolean fullstop)
     {
@@ -42,7 +50,8 @@ public class SystemNotificationController{
         // For full stops
         if(fullstop)
         {
-            MenuController.controller.reset();
+            MenuController.controller.backToStartUpScreen();
+            GcodeController.controller.resetUI();
             ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
 
         }else

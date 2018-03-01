@@ -31,9 +31,10 @@ public class APIgrbl extends Thread
 
     private List<String> updateCodeSent;
     private List<String> codeBlock;
-    public static Thread grblThread;
+
     // Process elements
     private String filename;
+    private Boolean doneStreaming;
 
     // Controller
     public static APIgrbl grbl;
@@ -46,6 +47,7 @@ public class APIgrbl extends Thread
 
         // Init grbl controller
         grbl = this;
+        doneStreaming = false;
 
         // Init file to process
         this.filename = filename;
@@ -58,7 +60,7 @@ public class APIgrbl extends Thread
         updateCodeSent = new ArrayList<>();
         codeBlock = new ArrayList<>();
 
-        grblThread = Thread.currentThread();
+        grbl.start();
     }
 
     /*
@@ -82,10 +84,7 @@ public class APIgrbl extends Thread
         m.modify();
 
         // api needs grbl, gcode, temp
-        partitionAndStream(filename,directoryGrbl, directoryGcode, directoryTemp, m.getCommandSize());
-
-        // show we're done
-        stopped = true;
+        partitionAndStream(filename, directoryGrbl, directoryGcode, directoryTemp, m.getCommandSize());
     }
 
     /*
@@ -166,7 +165,7 @@ public class APIgrbl extends Thread
                 // Check for User Input
                 checkForCommand(directoryGrbl,directoryTemp);
 
-                // Check for pause/resume/stop
+                // Check for pause/resume
                 if(paused)
                 {
                     synchronized(this) {
@@ -181,9 +180,14 @@ public class APIgrbl extends Thread
                     }
                 }
 
+                // Check for stopped condition
                 if(stopped)
-                {   // Just a break needed to end this cycle
-                    break;
+                {
+                    // Reset UI
+                    percentage = 0;
+                    ModelController.percentage = String.format("%.2f", percentage) + " %";
+                    ModelController.timerem = "00:00:00";
+                    return;
                 }
 
                 // execute stream.py with the file created, get input stream as a response
@@ -207,17 +211,16 @@ public class APIgrbl extends Thread
                 // Update UI
                 ModelController.percentage = String.format("%.2f", percentage) + " %";
                 ModelController.timerem = "5 years";
-                //Temporary sleep for demo
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
             }
         } catch(IOException e){
             e.printStackTrace();
         }
-        //TODO stopping
+
+        // Reset UI
+        percentage = 0;
+        ModelController.percentage = String.format("%.2f", percentage) + " %";
+        ModelController.timerem = "00:00:00";
+        doneStreaming = true;
     }
 
     /**
@@ -323,11 +326,15 @@ public class APIgrbl extends Thread
 
     public double getCoordinateZ() { return z; }
 
-    public String getStatus( ){return status; }
+    public String getStatus( ){ return status; }
 
     public double getPercentage() {
         return percentage;
     }
+
+    public boolean isDoneStreaming(){ return doneStreaming; }
+
+    public void resetStreaming() { this.doneStreaming = false; }
 
     private void setX(double x){ this.x = x; }
 

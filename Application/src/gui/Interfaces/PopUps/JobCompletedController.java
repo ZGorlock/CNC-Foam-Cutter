@@ -19,8 +19,14 @@ import static main.Main.startTime;
 public class JobCompletedController {
 
     public Label timeCompleted;
+    public static JobCompletedController controller;
 
     public void initialize()
+    {
+        controller = this;
+    }
+
+    public void setTimeCompleted()
     {
         long timeEnded = System.currentTimeMillis();
         long time = timeEnded - startTime;
@@ -38,7 +44,7 @@ public class JobCompletedController {
     public void Ok(ActionEvent actionEvent)
     {
         // Call upon the MenuController to bring you back to the input screen
-        MenuController.controller.reset();
+        MenuController.controller.backToStartUpScreen();
 
         // Hide the current window
         ((Node) (actionEvent.getSource())).getScene().getWindow().hide();

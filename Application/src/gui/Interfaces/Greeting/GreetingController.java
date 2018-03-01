@@ -255,7 +255,6 @@ public class GreetingController
         return slices;
     }
     
-    
     //Setters
     
     /**
