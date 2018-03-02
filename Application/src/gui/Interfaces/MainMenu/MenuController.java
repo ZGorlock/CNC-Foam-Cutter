@@ -5,25 +5,20 @@ import gui.Gui;
 import gui.Interfaces.PopUps.JobCompletedController;
 import gui.Interfaces.PopUps.SystemNotificationController;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import renderer.Renderer;
 import utils.MachineDetector;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * The controller for the Menu.
@@ -185,12 +180,9 @@ public class MenuController {
             stage.setTitle("3D CNC Foam Cutter");
             stage.setScene(new Scene(root, 800, 600));
             stage.show();
-            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                @Override
-                public void handle(WindowEvent t) {
-                    Platform.exit();
-                    System.exit(0);
-                }
+            stage.setOnCloseRequest(t -> {
+                Platform.exit();
+                System.exit(0);
             });
 
             stopped = true;
@@ -242,12 +234,9 @@ public class MenuController {
             stage.setTitle("3D CNC Foam Cutter");
             stage.setScene(new Scene(root, 800, 800));
             stage.show();
-            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                @Override
-                public void handle(WindowEvent t) {
-                    Platform.exit();
-                    System.exit(0);
-                }
+            stage.setOnCloseRequest(t -> {
+                Platform.exit();
+                System.exit(0);
             });
 
             // Hide the current window
