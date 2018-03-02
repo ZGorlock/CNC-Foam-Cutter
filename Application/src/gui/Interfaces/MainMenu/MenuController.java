@@ -6,7 +6,6 @@ import gui.Interfaces.PopUps.JobCompletedController;
 import gui.Interfaces.PopUps.SystemNotificationController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,6 +14,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import renderer.Renderer;
+import tracer.Tracer;
 import utils.MachineDetector;
 
 import java.io.IOException;
@@ -59,8 +59,7 @@ public class MenuController {
         controller = this;
         stopped = false;
 
-        if(MachineDetector.isCncMachine())
-        {
+        if (MachineDetector.isCncMachine()) {
             TPane.getTabs().add(ModelController.setup());
             TPane.getTabs().add(GcodeController.setup());
             TPane.getTabs().add(TraceController.setup());
@@ -69,7 +68,7 @@ public class MenuController {
                 TPane.getTabs().add(RotationController.setup());
             }
 
-        }else{
+        } else {
             TPane.getTabs().add(RotationController.setup());
             TPane.getTabs().add(ModelController.setup());
             TPane.getTabs().add(GcodeController.setup());
@@ -107,12 +106,7 @@ public class MenuController {
             hbox.getChildren().add(greyButton);
 
             goldButton.setText("STOP");
-            goldButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    stop(event);
-                }
-            });
+            goldButton.setOnAction(this::stop);
 
             GcodeController.startGrbl();
         }
@@ -201,9 +195,10 @@ public class MenuController {
      */
     public void reset()
     {
-        // TODO Restart rendering here
         stopped = true;
-
+    
+        Renderer.reset();
+        Tracer.reset();
 
         Parent root;
         try {

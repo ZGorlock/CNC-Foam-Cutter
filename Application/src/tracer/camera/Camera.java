@@ -59,6 +59,11 @@ public class Camera
      */
     private static boolean hasSetupStaticKeyListener = false;
     
+    /**
+     * The timer for running Camera calculations.
+     */
+    private static Timer timer;
+    
     
     //Fields
     
@@ -119,11 +124,6 @@ public class Camera
     private Vector s2;
     private Vector s3;
     private Vector s4;
-    
-    /**
-     * The timer for running Camera calculations.
-     */
-    private Timer timer;
     
     /**
      * Whether an update is required or not.
@@ -615,6 +615,17 @@ public class Camera
     {
         Camera camera = getActiveCameraView();
         return new Vector(camera.viewportX, camera.viewportY);
+    }
+    
+    /**
+     * Resets the Camera.
+     */
+    public static void reset()
+    {
+        if (timer != null) {
+            timer.purge();
+            timer.cancel();
+        }
     }
     
 }

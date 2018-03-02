@@ -24,6 +24,7 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
+import tracer.camera.Camera;
 
 import javax.swing.*;
 import java.io.File;
@@ -265,6 +266,9 @@ public class Renderer
         scene.setCamera(perspectiveCamera);
     }
     
+    /**
+     * Adds a foam border to the Scene.
+     */
     private void addBorder()
     {
         Box border = new Box(foamWidth, foamLength, foamHeight);
@@ -302,6 +306,16 @@ public class Renderer
     public static void resumeModelAnimation()
     {
         timeline.play();
+    }
+    
+    /**
+     * Resets the Renderer.
+     */
+    public static void reset()
+    {
+        Camera.reset();
+        
+        instance = null;
     }
     
 }

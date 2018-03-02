@@ -93,6 +93,16 @@ public class Tracer
      */
     private static List<Edge> traces = new ArrayList<>();
     
+    /**
+     * The time for rendering.
+     */
+    private static Timer renderTimer;
+    
+    /**
+     * The timer for the trace demo.
+     */
+    private static Timer traceTimer;
+    
     
     //Fields
     
@@ -198,7 +208,7 @@ public class Tracer
         };
         node.setContent(instance.renderPanel);
         
-        Timer renderTimer = new Timer();
+        renderTimer = new Timer();
         renderTimer.scheduleAtFixedRate(new TimerTask()
         {
             @Override
@@ -284,7 +294,7 @@ public class Tracer
                     lastZ = z;
                 }
             };
-            Timer traceTimer = new Timer();
+            traceTimer = new Timer();
             traceTimer.scheduleAtFixedRate(traceTask, 0, 20);
         }
     }
@@ -326,7 +336,7 @@ public class Tracer
     }
     
     
-    //Functions
+    //Static Methods
     
     /**
      * Adds a new trace point to the Tracer.
@@ -386,6 +396,23 @@ public class Tracer
     public static void removeObject(ObjectInterface object)
     {
         instance.objects.remove(object);
+    }
+    
+    /**
+     * Resets the Tracer.
+     */
+    public static void reset()
+    {
+        if (renderTimer != null) {
+            renderTimer.purge();
+            renderTimer.cancel();
+        }
+        if (traceTimer != null) {
+            traceTimer.purge();
+            traceTimer.cancel();
+        }
+        
+        instance = null;
     }
     
 }
