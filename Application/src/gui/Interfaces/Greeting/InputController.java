@@ -105,8 +105,12 @@ public class InputController {
                 Renderer.foamWidth = Double.parseDouble(widthText);
                 
                 if (Renderer.foamWidth <= 0 || Renderer.foamWidth > maxWidth) {
+                    if (Renderer.foamWidth <= 0) {
+                        width.setPromptText("> 0");
+                    } else if (Renderer.foamWidth > maxWidth) {
+                        width.setPromptText("<= " + maxWidth);
+                    }
                     width.clear();
-                    width.setPromptText("0 - " + maxWidth);
                     width.getStyleClass().add("error");
                     invalid = true;
                 }
@@ -127,8 +131,12 @@ public class InputController {
                 Renderer.foamLength = Double.parseDouble(lengthText);
     
                 if (Renderer.foamLength <= 0 || Renderer.foamLength > maxLength) {
+                    if (Renderer.foamLength <= 0) {
+                        length.setPromptText("> 0");
+                    } else if (Renderer.foamLength > maxLength) {
+                        length.setPromptText("<= " + maxLength);
+                    }
                     length.clear();
-                    length.setPromptText("0 - " + maxLength);
                     length.getStyleClass().add("error");
                     invalid = true;
                 }
@@ -149,8 +157,12 @@ public class InputController {
                 Renderer.foamHeight = Double.parseDouble(heightText);
     
                 if (Renderer.foamHeight <= 0 || Renderer.foamHeight > maxHeight) {
+                    if (Renderer.foamHeight <= 0) {
+                        height.setPromptText("> 0");
+                    } else if (Renderer.foamHeight > maxHeight) {
+                        height.setPromptText("<= " + maxHeight);
+                    }
                     height.clear();
-                    height.setPromptText("0 - " + maxHeight);
                     height.getStyleClass().add("error");
                     invalid = true;
                 }

@@ -18,26 +18,26 @@
 
         <right>
             <VBox styleClass="vbox">
-                <HBox spacing="25">
+                <HBox spacing="46">
                     <Text styleClass="bold">Student NID:</Text>
                     <Label fx:id="studentNID"/>
                 </HBox>
-                <HBox spacing="35">
+                <HBox spacing="56">
                     <Text styleClass="bold">Description:</Text>
                     <Label fx:id="fileDesc"/>
                 </HBox>
-                <HBox spacing="115">
+                <HBox spacing="136">
                     <Text styleClass="bold">File:</Text>
                     <Label fx:id="fileName" alignment="TOP_RIGHT"/>
                 </HBox>
-                <HBox spacing="110">
+                <HBox spacing="131">
                     <Text styleClass="bold">Size:</Text>
                     <Label fx:id="fileSize" alignment="TOP_RIGHT"/>
                 </HBox>
-                <HBox fx:id="hp" spacing="36">
+                <HBox fx:id="hp" spacing="58">
                     <Text styleClass="bold">Percentage:</Text>
                 </HBox>
-                <HBox fx:id="time" spacing="36">
+                <HBox fx:id="time" spacing="8">
                     <Text styleClass="bold">Time Remaining:</Text>
                 </HBox>
             </VBox>

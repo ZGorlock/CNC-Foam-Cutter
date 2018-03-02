@@ -188,7 +188,7 @@ public class MenuController {
             stopped = true;
 
             // Set notification
-            SystemNotificationController.controller.raise("Full Stop",stopped);
+            SystemNotificationController.controller.raise("Full Stop", stopped);
 
         } catch (IOException e) {
             e.printStackTrace();

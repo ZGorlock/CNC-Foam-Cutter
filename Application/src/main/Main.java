@@ -27,15 +27,20 @@ public class Main
     //Zack
     //TODO add error handling to Controller setup pieces
 
-    //TODO calculate total distance gcode APIgrbl Modifier
     //TODO after fixing apigrbl make sure time remaining estimate works
-
+    
+    //TODO calculate total distance gcode APIgrbl Modifier
+    //TODO time remaining
+    //TODO reset path for hot wire profiles
+    
     //TODO when application restarts, restart renderer (it's already initialized, that's why it won't restart)
     
     //Nick
     //TODO you cannot upload folders
     //TODO actually detect which machine is being used
     //TODO change to file.getName() instead of can.gcode in startGrbl()
+    //TODO line 194 in APIgrbl
+    //TODO handle really long descriptions on the Model tab
     
     
     //Static Fields
