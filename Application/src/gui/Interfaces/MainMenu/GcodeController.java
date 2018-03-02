@@ -3,14 +3,12 @@ package gui.Interfaces.MainMenu;
 import grbl.APIgrbl;
 import gui.Interfaces.Greeting.GreetingController;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import main.Main;
 import slicer.Slicer;
@@ -41,6 +39,7 @@ public class GcodeController {
 
     // This instance
     public static GcodeController controller;
+    
 
     public static Tab setup()
     {
@@ -77,13 +76,10 @@ public class GcodeController {
         }
 
         textFieldCommand.setPromptText("Send Command...");
-        textFieldCommand.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if(KeyCode.ENTER.compareTo(event.getCode()) == 0)
-                {
-                    sendCommand(new ActionEvent());
-                }
+        textFieldCommand.setOnKeyPressed(event -> {
+            if(KeyCode.ENTER.compareTo(event.getCode()) == 0)
+            {
+                sendCommand(new ActionEvent());
             }
         });
         updateUI();
@@ -92,7 +88,7 @@ public class GcodeController {
     public static void startGrbl()
     {
         String file = "can.gcode";
-        APIgrbl apIgrbl = new APIgrbl(file); //todo change to file.getName() instead of can.gcode
+        APIgrbl apIgrbl = new APIgrbl(file);
     }
 
 

@@ -21,6 +21,8 @@ public class Main
 {
     
     //TODO add unit tests for Controller setup pieces
+    //TODO Rotation...
+    //TODO check for machine connection before even going to the input screen
     
     //Zack
     //TODO add error handling to Controller setup pieces
@@ -33,6 +35,7 @@ public class Main
     //Nick
     //TODO you cannot upload folders
     //TODO actually detect which machine is being used
+    //TODO change to file.getName() instead of can.gcode in startGrbl()
     
     
     //Static Fields

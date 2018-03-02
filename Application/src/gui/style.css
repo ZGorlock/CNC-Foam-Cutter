@@ -121,3 +121,6 @@
     -fx-text-fill: green;
 }
 
+.error{
+    -fx-background-color:rgba(255,0,0,0.2);
+}
