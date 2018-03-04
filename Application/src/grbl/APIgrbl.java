@@ -411,8 +411,7 @@ public class APIgrbl extends Thread
             long hours = (long) (timeRemaining / 3600);
             long minutes = (long) ((timeRemaining % 3600) / 60);
             long seconds = (long) (timeRemaining % 60);
-//            return String.format("%02d:%02d:%02d", hours, minutes, seconds);
-            return hours + ":" + minutes + ":" + seconds;
+            return String.format("%02d:%02d:%02d", hours, minutes, seconds);
         }
     }
     

@@ -49,15 +49,13 @@ public class JobCompletedController
      */
     public void setTimeCompleted()
     {
-        long timeEnded = System.currentTimeMillis();
-        long time = timeEnded - Main.startTime;
-        long timeInSeconds = time / 1000;
+        double timeElapsed = (double)(System.currentTimeMillis() - Main.startTime) / 1000;
+    
+        long hours = (long) (timeElapsed / 3600);
+        long minutes = (long) ((timeElapsed % 3600) / 60);
+        long seconds = (long) (timeElapsed % 60);
         
-        long hours = time / 3600;
-        long minutes = (time % 3600) / 60;
-        long seconds = time % 60;
         String totalTime = String.format("%02d:%02d:%02d", hours, minutes, seconds);
-        
         timeCompleted.setText(totalTime);
     }
     
