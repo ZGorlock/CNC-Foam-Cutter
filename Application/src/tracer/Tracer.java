@@ -155,24 +155,20 @@ public class Tracer
      */
     public static Tracer setup(SwingNode node)
     {
-        
         //initialize the Tracer
         if (instance != null) {
             return null;
         }
         instance = new Tracer(node);
         
-        
         //add cameras
         Camera camera = new Camera();
         camera.setLocation(Math.PI / 2, Math.PI, ((Math.max(Renderer.foamWidth, Renderer.foamWidth) + Renderer.foamHeight) * 2) * Renderer.MILLIMETERS_IN_INCH);
         Camera.setActiveCamera(0);
         
-        
         //add objects
         instance.objects.clear();
         instance.createObjects();
-        
         
         //panel to display render results
         instance.renderPanel = new JPanel()
@@ -262,7 +258,6 @@ public class Tracer
         objects.add(r4);
         objects.add(r5);
         objects.add(r6);
-        
         
         if (traceDemo) {
             //animation

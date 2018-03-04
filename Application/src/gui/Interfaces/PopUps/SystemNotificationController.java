@@ -6,6 +6,9 @@ import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 
+/**
+ * The controller for the System Notification popup.
+ */
 public class SystemNotificationController
 {
     

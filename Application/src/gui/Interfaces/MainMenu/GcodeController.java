@@ -21,6 +21,9 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * The controller for the Gcode tab.
+ */
 public class GcodeController
 {
     

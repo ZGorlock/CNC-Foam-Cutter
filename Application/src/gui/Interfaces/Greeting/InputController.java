@@ -15,6 +15,9 @@ import utils.MachineDetector;
 
 import java.io.IOException;
 
+/**
+ * The controller for the Input page.
+ */
 public class InputController
 {
     
@@ -211,4 +214,5 @@ public class InputController
     {
         return heightText;
     }
+    
 }

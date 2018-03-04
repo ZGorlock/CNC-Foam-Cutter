@@ -135,13 +135,11 @@ public class Renderer
      */
     public static Renderer setup(SwingNode node)
     {
-        
         //initialize the Renderer
         if (instance != null) {
             return null;
         }
         instance = new Renderer(node);
-        
         
         //render the model
         instance.model = GreetingController.getModel();
@@ -161,6 +159,8 @@ public class Renderer
             node.setContent(panel);
             
             return instance;
+        } else {
+            System.err.println("Cannot render model without a model file!");
         }
         
         return null;

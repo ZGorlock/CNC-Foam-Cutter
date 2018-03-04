@@ -137,7 +137,7 @@ public class TraceController
             public void run()
             {
                 Platform.runLater(() -> {
-                    if (coordinateBlock.size() > 0) {
+                    if (coordinateBlock.size() == 4) {
                         grblX.textProperty().set(coordinateBlock.get(0));
                         grblY.textProperty().set(coordinateBlock.get(1));
                         grblZ.textProperty().set(coordinateBlock.get(2));

@@ -24,6 +24,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The controller for the Greeting page.
+ */
 public class GreetingController
 {
     
