@@ -25,6 +25,14 @@ import java.util.List;
 public class APIgrbl extends Thread
 {
     
+    //Constants
+    
+    /**
+     * The number of recent time remaining calculations to store.
+     */
+    public static final int TIME_REMAINING_HISTORY_COUNT = 5;
+    
+    
     //Fields
     
     /**
@@ -51,6 +59,11 @@ public class APIgrbl extends Thread
      * The total progress of the printing process.
      */
     private double totalProgress = 0;
+    
+    /**
+     * The list of the recent time remaining calculations.
+     */
+    private final List<Double> timeRemainingHistory = new ArrayList<>(TIME_REMAINING_HISTORY_COUNT);
     
     /**
      * The x coordinate status field for grbl, displayed on the Tracer tab.
@@ -407,10 +420,21 @@ public class APIgrbl extends Thread
             double timePerProgress = timeElapsed / grbl.currentProgress;
             double progressRemaining = grbl.totalProgress - grbl.currentProgress;
             double timeRemaining = (timePerProgress * progressRemaining);
+    
+            grbl.timeRemainingHistory.add(0, timeRemaining);
+            if (grbl.timeRemainingHistory.size() > TIME_REMAINING_HISTORY_COUNT) {
+                grbl.timeRemainingHistory.remove(TIME_REMAINING_HISTORY_COUNT);
+            }
             
-            long hours = (long) (timeRemaining / 3600);
-            long minutes = (long) ((timeRemaining % 3600) / 60);
-            long seconds = (long) (timeRemaining % 60);
+            double averageTimeRemaining = 0.0;
+            for (double timeRemainingHistory : grbl.timeRemainingHistory) {
+                averageTimeRemaining += timeRemainingHistory;
+            }
+            averageTimeRemaining /= grbl.timeRemainingHistory.size();
+            
+            long hours = (long) (averageTimeRemaining / 3600);
+            long minutes = (long) ((averageTimeRemaining % 3600) / 60);
+            long seconds = (long) (averageTimeRemaining % 60);
             return String.format("%02d:%02d:%02d", hours, minutes, seconds);
         }
     }
