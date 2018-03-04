@@ -7,7 +7,8 @@
 package main;
 
 import gui.Gui;
-import gui.Interfaces.Greeting.GreetingController;
+import gui.interfaces.greeting.GreetingController;
+import gui.interfaces.main.GcodeController;
 import javafx.application.Application;
 import renderer.Renderer;
 
@@ -22,9 +23,13 @@ public class Debug extends Main
     //Constants
     
     /**
-     * Sample upload files for Debugging.
+     * Sample upload gcode file for Debugging.
      */
-    public static final String gcodeVersion = "resources\\gcode\\Birds_and_flowers.gcode";
+    public static final String gcodeVersion = "resources\\gcode\\can.gcode";
+    
+    /**
+     * Sample upload stl file for Debugging.
+     */
     public static final String stlVersion = "resources\\cadfiles\\CylinderHead-binary.stl";
     
     
@@ -45,6 +50,7 @@ public class Debug extends Main
         
         GreetingController g = new GreetingController();
         g.setup();
+        GcodeController.gcodeFile = gcodeVersion;
         
         ArrayList<String> filenames = new ArrayList<>();
         filenames.add(stlVersion); //set the files here
@@ -53,10 +59,6 @@ public class Debug extends Main
         Renderer.foamWidth = 10;
         Renderer.foamLength = 10;
         Renderer.foamHeight = 10;
-
-//        Renderer.foamWidth = ModelController.MAX_WIDTH_CNC;
-//        Renderer.foamLength = ModelController.MAX_LENGTH_CNC;
-//        Renderer.foamHeight = ModelController.MAX_HEIGHT_CNC;
         
         Gui.debug = true;
         Application.launch(Gui.class, args);

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<VBox prefHeight="400.0" prefWidth="600.0" stylesheets="/gui/style.css" xmlns="http://javafx.com/javafx/8.0.121"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.interfaces.greeting.GreetingController"
+      styleClass="vGreet">
+
+    <HBox id="header" centerShape="false" prefHeight="63.0" prefWidth="600.0" stylesheets="/gui/style.css"
+          xmlns="http://javafx.com/javafx/8.0.121">
+        <ImageView id="logo" preserveRatio="true" fitHeight="100">
+            <Image url="@../../images/logo.PNG"/>
+        </ImageView>
+        <Label id="header" alignment="CENTER" contentDisplay="RIGHT" maxWidth="Infinity" prefHeight="100.0"
+               prefWidth="537.0" styleClass="title" text="3D CNC FOAM CUTTER" textAlignment="CENTER" HBox.hgrow="ALWAYS"
+               VBox.vgrow="ALWAYS">
+        </Label>
+        <ImageView id="logo2" preserveRatio="true" fitHeight="100">
+            <Image url="@../../images/logo.PNG"/>
+        </ImageView>
+    </HBox>
+
+    <HBox alignment="CENTER" styleClass="hboxShaded" prefWidth="600" prefHeight="70">
+        <TextField fx:id="textFieldPath" HBox.hgrow="ALWAYS" prefWidth="580" onKeyReleased="#checkPaste"/>
+        <Button fx:id="chooseButton" alignment="TOP_RIGHT" onAction="#chooseFile" styleClass="buttonGrey"
+                text="+ Choose"/>
+    </HBox>
+
+
+    <HBox styleClass="hbox" alignment="CENTER" centerShape="false" VBox.vgrow="ALWAYS">
+        <BorderPane styleClass="borderPaneGreeting" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS"
+                    prefWidth="1200" onDragOver="#dragOver" onDragDropped="#dropFile">
+            <top>
+                <Label text="Drop file here..." styleClass="goldText" contentDisplay="LEFT"
+                       fx:id="dropFileText"/>
+            </top>
+            <center>
+                <ImageView fx:id="knights" preserveRatio="true">
+                    <Image url="@../../images/knight.PNG"/>
+                </ImageView>
+            </center>
+        </BorderPane>
+    </HBox>
+
+
+    <BorderPane prefHeight="100.0" prefWidth="600.0">
+        <center>
+            <HBox styleClass="h1" alignment="CENTER">
+                <Button fx:id="greyButton" onAction="#upload" styleClass="buttonGrey" text="Upload"/>
+            </HBox>
+        </center>
+    </BorderPane>
+
+</VBox>

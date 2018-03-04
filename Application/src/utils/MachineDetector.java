@@ -1,5 +1,5 @@
 /*
- * File:    MachineSelector.java
+ * File:    MachineDetector.java
  * Package: main
  * Author:  Zachary Gill
  */
@@ -23,7 +23,6 @@ public final class MachineDetector
         HOTWIRE,
         NONE
     }
-    
     
     //Static Fields
     

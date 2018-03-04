@@ -30,16 +30,28 @@ public class GcodeTracer
      * The dimensions of the image.
      */
     public static final int IMAGE_SIZE = 300;
+    
+    /**
+     * The dimensions of the image border.
+     */
     public static final int IMAGE_BORDER = IMAGE_SIZE / 20;
+    
+    /**
+     * The position of the image's center.
+     */
     public static final int IMAGE_MIDDLE = IMAGE_SIZE / 2;
     
     
     //Fields
     
     /**
-     * The current trace positions.
+     * The current x trace positions.
      */
     private double traceX = IMAGE_MIDDLE;
+    
+    /**
+     * The current y trace positions.
+     */
     private double traceY = IMAGE_BORDER;
     
     

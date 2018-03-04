@@ -1,6 +1,6 @@
 /*
  * File:    Frame.java
- * Package: tracer.objects
+ * Package: tracer.objects.base
  * Author:  Zachary Gill
  */
 

@@ -1,6 +1,6 @@
 /*
- * File:    Environment.java
- * Package: tracer.main
+ * File:    Tracer.java
+ * Package: tracer
  * Author:  Zachary Gill
  */
 
@@ -39,26 +39,24 @@ public class Tracer
     public static final int FPS = 60;
     
     /**
-     * The dimensions of the Window.
+     * The x dimension of the Window.
      */
     public static final int screenX = 1080;
+    
+    /**
+     * The y dimension of the Window.
+     */
     public static final int screenY = 640;
+    
+    /**
+     * The z dimension of the Window.
+     */
     public static final int screenZ = 480;
     
     /**
      * The border from the edge of the Window.
      */
     public static final int screenBorder = 0;
-    
-    /**
-     * The min and max coordinate values to render.
-     */
-    public static final double xMin = -100.0;
-    public static final double xMax = 100.0;
-    public static final double yMin = -100.0;
-    public static final double yMax = 100.0;
-    public static final double zMin = -100.0;
-    public static final double zMax = 100.0;
     
     /**
      * Color constants for the Tracer.
@@ -82,6 +80,11 @@ public class Tracer
      * The singleton instance of the Tracer.
      */
     private static Tracer instance;
+    
+    /**
+     * A flag indicating whether the Tracer is currently painting or not.
+     */
+    private static final AtomicBoolean running = new AtomicBoolean(false);
     
     /**
      * The last trace that was hit.
@@ -173,14 +176,15 @@ public class Tracer
         //panel to display render results
         instance.renderPanel = new JPanel()
         {
-            private AtomicBoolean running = new AtomicBoolean(false);
-            
             public void paintComponent(Graphics g)
             {
-                if (running.compareAndSet(false, true)) {
+                if (instance != null && running.compareAndSet(false, true)) {
                     
                     List<BaseObject> preparedBases = new ArrayList<>();
                     try {
+                        if (instance == null) {
+                            return;
+                        }
                         for (ObjectInterface object : instance.objects) {
                             preparedBases.addAll(object.prepare());
                         }
@@ -410,6 +414,7 @@ public class Tracer
             traceTimer.cancel();
         }
         
+        while (running.get()) {}
         instance = null;
     }
     

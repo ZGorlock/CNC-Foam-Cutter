@@ -1,8 +1,10 @@
-package utils;/*
+/*
  * File:    Constants.java
- * Package: PACKAGE_NAME
+ * Package: utils
  * Author:  Zachary Gill
  */
+
+package utils;
 
 import java.io.File;
 
@@ -36,6 +38,19 @@ public class Constants
      * The name of the Slic3r executable.
      */
     public static final String SLIC3R_EXECUTABLE_FILENAME = "slic3r-console.exe";
+    
+    
+    //GRBL
+    
+    /**
+     * The path to the grbl source package.
+     */
+    public static final String GRBL_DIRECTORY = "src" + File.separator + "grbl" + File.separator;
+    
+    /**
+     * The path to the grbl temporary directory.
+     */
+    public static final String GRBL_TEMP_DIRECTORY = "resources" + File.separator + "temp" + File.separator;
     
     
     //JAVA3D

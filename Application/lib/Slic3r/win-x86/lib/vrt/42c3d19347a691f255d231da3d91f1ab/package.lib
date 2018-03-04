@@ -113,7 +113,7 @@ Declares that the stream accepts perl's I<internal> encoding of
 characters.  (Which really is UTF-8 on ASCII machines, but is
 UTF-EBCDIC on EBCDIC machines.)  This allows any character perl can
 represent to be read from or written to the stream. The UTF-X encoding
-is chosen to renderer simple text parts (i.e.  non-accented letters,
+is chosen to render simple text parts (i.e.  non-accented letters,
 digits and common punctuation) human readable in the encoded file.
 
 Here is how to write your native data out using UTF-8 (or UTF-EBCDIC)

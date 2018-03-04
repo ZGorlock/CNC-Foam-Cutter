@@ -1,6 +1,6 @@
 /*
  * File:    Camera.java
- * Package: camera
+ * Package: tracer.camera
  * Author:  Zachary Gill
  */
 

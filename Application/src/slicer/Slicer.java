@@ -1,8 +1,10 @@
-package slicer;/*
+/*
  * File:    Slicer.java
- * Package:
+ * Package: slicer
  * Author:  Zachary Gill
  */
+
+package slicer;
 
 import utils.CmdLine;
 import utils.Constants;
@@ -11,6 +13,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Converts an STL file to G-Code.
@@ -23,7 +27,7 @@ public final class Slicer
     /**
      * The list of supported model file formats.
      */
-    public static final String[] validFileExtensions = {"stl"};
+    public static final List<String> validFileExtensions = Arrays.asList("stl");
     
     
     //Fields
@@ -32,6 +36,10 @@ public final class Slicer
      * The path to the 3D model to slice.
      */
     private String model = "";
+    
+    /**
+     * The architecture of the host system.
+     */
     private String architecture = "";
     
     

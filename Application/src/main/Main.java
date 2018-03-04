@@ -1,13 +1,20 @@
-package main;
-
 /*
  * File:    Main.java
- * Package:
+ * Package: main
  * Author:  Zachary Gill
  */
 
+package main;
+
+import grbl.APIgrbl;
 import gui.Gui;
+import gui.interfaces.main.GcodeController;
+import gui.interfaces.main.ModelController;
+import gui.interfaces.main.TraceController;
 import javafx.application.Application;
+import javafx.application.Platform;
+import renderer.Renderer;
+import tracer.Tracer;
 import utils.CmdLine;
 import utils.Constants;
 
@@ -31,19 +38,18 @@ public class Main
     //TODO Rotation...
     //TODO check for machine connection before even going to the input screen (new starting window?)
     
-    //TODO add error handling to Controller setup pieces (or at least print an error and recover from it)
-    //  if a process fails, we need to send that up to the caller so it can handle it appropriately (ie, what if the slicer process fails somehow, right now we dont even check)
-    //  if a file is initialized with new File(), we must check if file.exists() is true, if not it is a failure
-    
     
     //Zack
     
-    //TODO after fixing apigrbl make sure time remaining estimate works
-    
-    //TODO calculate total distance gcode APIgrbl Modifier
-    //TODO time remaining
+    //TODO add error handling to Controller setup pieces (or at least print an error and recover from it)
+    //  Slicer
+    //  File
     
     //TODO reset path for hot wire profiles (it looks like this can be done with a single command: G28)
+    //TODO handle if the sum of the profiles is not 360 (auto and user set) (do this in Print button)
+    
+    //TODO average time remaining
+    //TODO console text when uploading
     
     
     //Nick
@@ -51,12 +57,11 @@ public class Main
     //TODO you cannot upload folders (is this acceptable? if we can select a bulk number of gcode files that would work too)
     //TODO actually detect which machine is being used
     
-    //TODO handle really long descriptions on the Model tab
+    //TODO handle really long descriptions on the Model tab, maybe make a dynamically sized text area there instead of a label
     
-    //TODO change to file.getName() instead of can.gcode in startGrbl()
-    //TODO line 194 in APIgrbl
+    //TODO line 196 in RotationController
     
-    //TODO consider making javadoc comments for your classes so that we could produce javadocs if we wanted, type /** Enter above a method or variable and it will automatically set it up for you
+    //TODO "are you sure" window for STOP button
     
     
     //Static Fields
@@ -70,6 +75,16 @@ public class Main
      * The start time of the printing process.
      */
     public static long startTime;
+    
+    /**
+     * The current progress through the printing execution.
+     */
+    public static double progress = 0;
+    
+    /**
+     * The total progress of the printing execution.
+     */
+    public static double totalProgressUnits = 0;
     
     
     //Fields
@@ -212,6 +227,34 @@ public class Main
         System.out.println("Python:       " + pythonVersion);
         
         return true;
+    }
+    
+    
+    //Static Methods
+    
+    /**
+     * Resets the Application.
+     */
+    public static void resetApplication()
+    {
+        Renderer.reset();
+        Tracer.reset();
+        
+        ModelController.controller.reset();
+        TraceController.controller.reset();
+        GcodeController.controller.reset();
+        
+        APIgrbl.grbl.resetStreaming();
+        startTime = 0;
+    }
+    
+    /**
+     * Kills the Application.
+     */
+    public static void killApplication()
+    {
+        Platform.exit();
+        System.exit(0);
     }
     
 }

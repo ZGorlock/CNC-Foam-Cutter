@@ -7,7 +7,7 @@
 package renderer;
 
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
-import gui.Interfaces.Greeting.GreetingController;
+import gui.interfaces.greeting.GreetingController;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -43,10 +43,18 @@ public class Renderer
     private static final double MODEL_SCALE = 1;
     
     /**
-     * The rotations to apply to the model.
+     * The x rotation to apply to the model.
      */
     private static final Transform MODEL_ROTATE_X = new Rotate(90, Rotate.X_AXIS);
+    
+    /**
+     * The y rotation to apply to the model.
+     */
     private static final Transform MODEL_ROTATE_Y = new Rotate(0, Rotate.Y_AXIS);
+    
+    /**
+     * The z rotation to apply to the model.
+     */
     private static final Transform MODEL_ROTATE_Z = new Rotate(0, Rotate.Z_AXIS);
     
     /**
@@ -55,12 +63,28 @@ public class Renderer
     private static final int VIEWPORT_SIZE = 680;
     
     /**
-     * Color constants for rendering the model.
+     * The color constant for light.
      */
     private static final Color lightColor = Color.WHITE;
+    
+    /**
+     * The color constant for ambient light.
+     */
     private static final Color ambientColor = Color.rgb(28, 28, 28);
+    
+    /**
+     * The color constant for the model.
+     */
     private static final Color modelColor = Color.rgb(48, 48, 48);
+    
+    /**
+     * The color constant for the foam border.
+     */
     private static final Color borderColor = Color.rgb(128, 128, 128, .2);
+    
+    /**
+     * The color constant for the background fill.
+     */
     private static final Color fillColor = Color.rgb(192, 192, 192);
     
     /**
@@ -82,10 +106,18 @@ public class Renderer
     private static Timeline timeline;
     
     /**
-     * The dimensions of the block of foam (in inches).
+     * The width of the block of foam (in inches).
      */
     public static double foamWidth;
+    
+    /**
+     * The length of the block of foam (in inches).
+     */
     public static double foamLength;
+    
+    /**
+     * The height of the block of foam (in inches).
+     */
     public static double foamHeight;
     
     

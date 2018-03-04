@@ -1,3 +1,9 @@
+/*
+ * File:    Matrix3.java
+ * Package: tracer.math.matrix
+ * Author:  Zachary Gill
+ */
+
 package tracer.math.matrix;
 
 import tracer.math.vector.Vector;

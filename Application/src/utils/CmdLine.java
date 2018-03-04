@@ -1,10 +1,10 @@
-package utils;
-
 /*
  * File:    CmdLine.java
- * Package:
+ * Package: utils
  * Author:  Zachary Gill
  */
+
+package utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

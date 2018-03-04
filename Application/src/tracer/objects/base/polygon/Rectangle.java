@@ -1,6 +1,6 @@
 /*
  * File:    Rectangle.java
- * Package: objects.base.polygon
+ * Package: tracer.objects.base.polygon
  * Author:  Zachary Gill
  */
 

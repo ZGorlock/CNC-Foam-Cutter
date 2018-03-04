@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.embed.swing.SwingNode?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<Tab id="tabTrace" text="Tracer" closable="false" xmlns="http://javafx.com/javafx/8.0.121"
+     xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.interfaces.main.TraceController">
+    <BorderPane styleClass="borderPane">
+        <center>
+            <AnchorPane id="traceAnchorPane" prefHeight="640.0" prefWidth="1080" maxHeight="640" maxWidth="1080"
+                        styleClass="pane">
+                <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                            AnchorPane.topAnchor="0.0">
+                    <center>
+                        <SwingNode fx:id="swingNodeTrace"/>
+                    </center>
+                </BorderPane>
+            </AnchorPane>
+        </center>
+
+        <bottom>
+            <HBox spacing="20" alignment="CENTER" styleClass="hbox">
+                <HBox spacing="5">
+                    <Text styleClass="bold">X Position:</Text>
+                    <Label fx:id="grblX"/>
+                </HBox>
+                <HBox spacing="25"/>
+                <HBox spacing="5">
+                    <Text styleClass="bold">Y Position:</Text>
+                    <Label fx:id="grblY"/>
+                </HBox>
+                <HBox spacing="25"/>
+                <HBox spacing="5">
+                    <Text styleClass="bold">Z Position:</Text>
+                    <Label fx:id="grblZ"/>
+                </HBox>
+                <HBox spacing="25"/>
+                <HBox spacing="5">
+                    <Text styleClass="bold">Status:</Text>
+                    <Label fx:id="grblStatus"/>
+                </HBox>
+            </HBox>
+        </bottom>
+    </BorderPane>
+</Tab>
