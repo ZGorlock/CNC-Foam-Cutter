@@ -21,26 +21,27 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class GcodeController {
-
+public class GcodeController
+{
+    
     // FXML variables
     public TextField textFieldCommand;
     public TextArea textAreaResponse;
     public TextArea textAreaCodeSent;
     public VBox vBox;
     public Button sendButton;
-
+    
     // UI-dependent variables
     public static List<String> commandBlock = new ArrayList<>();
     public static String commandBlockText = "";
-
+    
     public static List<String> codeBlock = new ArrayList<>();
     public static String codeBlockText = "";
-
+    
     // This instance
     public static GcodeController controller;
     
-
+    
     public static Tab setup()
     {
         try {
@@ -54,7 +55,7 @@ public class GcodeController {
             return null;
         }
     }
-
+    
     public void resetUI()
     {
         commandBlock = new ArrayList<>();
@@ -68,30 +69,29 @@ public class GcodeController {
         ArrayList<String> fileNames = new ArrayList<>();
         fileNames.add(GreetingController.getModel());
         controller = this;
-        for(String str : fileNames)
-        {
+        for (String str : fileNames) {
             File file = new File(str);
             slice(file);
-
+            
         }
-
+        
         textFieldCommand.setPromptText("Send Command...");
         textFieldCommand.setOnKeyPressed(event -> {
-            if(KeyCode.ENTER.compareTo(event.getCode()) == 0)
-            {
+            if (KeyCode.ENTER.compareTo(event.getCode()) == 0) {
                 sendCommand(new ActionEvent());
             }
         });
         updateUI();
     }
-
+    
     public static void startGrbl()
     {
         String file = "can.gcode";
         APIgrbl apIgrbl = new APIgrbl(file);
+        
+        Main.startTime = System.currentTimeMillis();
     }
-
-
+    
     public void slice(File model)
     {
         if (model.getAbsolutePath().endsWith(".gcode")) {
@@ -101,7 +101,7 @@ public class GcodeController {
         Slicer slicer = new Slicer(model.getAbsolutePath(), Main.main.architecture);
         slicer.slice("--gcode-flavor mach3");
     }
-
+    
     public void sendCommand(ActionEvent actionEvent)
     {
         if (textFieldCommand.getText().equals(textFieldCommand.getPromptText()) || textFieldCommand.getText().isEmpty() || APIgrbl.grbl == null) {
@@ -110,30 +110,31 @@ public class GcodeController {
         
         String userCommand = textFieldCommand.getText();
         APIgrbl.grbl.sendRequest(userCommand);
-        commandBlock.add('>'+ userCommand);
+        commandBlock.add('>' + userCommand);
         textFieldCommand.clear();
     }
-
+    
     private void updateUI()
     {
         updateUICommand();
         updateUICodeCurrentlyProcessed();
     }
-
+    
     private void updateUICodeCurrentlyProcessed()
     {
-        TimerTask updateUICodeSent = new TimerTask() {
+        TimerTask updateUICodeSent = new TimerTask()
+        {
             private int state;
-
+            
             @Override
-            public void run() {
-                if (codeBlock.size() != state)
-                {
+            public void run()
+            {
+                if (codeBlock.size() != state) {
                     state = codeBlock.size();
-    
+                    
                     StringBuilder codeBlockTextBuilder = new StringBuilder();
                     double height = textAreaCodeSent.getHeight() / (textAreaCodeSent.getFont().getSize() * 2);
-    
+                    
                     for (int i = 0; i < height - codeBlock.size() + 1; i++) {
                         codeBlockTextBuilder.append(System.lineSeparator());
                     }
@@ -153,22 +154,24 @@ public class GcodeController {
             }
         };
         Timer t2 = new Timer();
-        t2.scheduleAtFixedRate(updateUICodeSent,0, 100);
+        t2.scheduleAtFixedRate(updateUICodeSent, 0, 100);
     }
-
+    
     private void updateUICommand()
     {
-        TimerTask updateUI = new TimerTask() {
+        TimerTask updateUI = new TimerTask()
+        {
             private int l;
-
+            
             @Override
-            public void run() {
+            public void run()
+            {
                 if (commandBlock.size() != l) {
                     l = commandBlock.size();
                     
                     StringBuilder commandBlockTextBuilder = new StringBuilder();
                     double height = textAreaResponse.getHeight() / (textAreaResponse.getFont().getSize() * 2);
-    
+                    
                     for (int i = 0; i < height - commandBlock.size() + 1; i++) {
                         commandBlockTextBuilder.append(System.lineSeparator());
                     }
@@ -187,6 +190,7 @@ public class GcodeController {
             }
         };
         Timer t = new Timer();
-        t.scheduleAtFixedRate(updateUI,0, 100);
+        t.scheduleAtFixedRate(updateUI, 0, 100);
     }
+    
 }

@@ -44,7 +44,7 @@ public class GreetingController
     {
         controller = this;
     }
-
+    
     public void initialize()
     {
         setup();
@@ -52,7 +52,7 @@ public class GreetingController
         chosen = false;
         prompt = textFieldPath.getText();
         fileNames.clear();
-
+        
         knights.setOpacity(.5);
         greyButton.setStyle(" -fx-background-color: #BEBFC3;" +
                 " -fx-background-radius: 6;" +
@@ -65,14 +65,14 @@ public class GreetingController
     public void chooseFile(ActionEvent actionEvent)
     {
         File file;
-        if(textFieldPath.getText().compareTo(prompt) != 0)
-        {
+        if (textFieldPath.getText().compareTo(prompt) != 0) {
             file = new File(textFieldPath.getText());
-            if(badExtension(file)) return;
-        }else {
+            if (badExtension(file)) {
+                return;
+            }
+        } else {
             FileChooser fileChooser = new FileChooser();
-            if(MachineDetector.isCncMachine())
-            {
+            if (MachineDetector.isCncMachine()) {
                 FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("3D models", "*.stl", "*.gcode");
                 fileChooser.getExtensionFilters().add(extFilter);
             }
@@ -81,7 +81,7 @@ public class GreetingController
         }
         handleFile(file);
     }
-
+    
     private void handleFile(File file)
     {
         //Rotation Demo
@@ -94,8 +94,7 @@ public class GreetingController
 //        chosen = true;
 //        handleUploadedAnimation();
         
-        if(file != null)
-        {
+        if (file != null) {
             textFieldPath.setText(file.getAbsolutePath());
             if (file.isDirectory()) {
                 File[] files = file.listFiles();
@@ -112,8 +111,9 @@ public class GreetingController
             handleUploadedAnimation();
         }
     }
-
-    private void handleUploadedAnimation(){
+    
+    private void handleUploadedAnimation()
+    {
         // Animations and Stylings
         knights.setOpacity(1.0);
         knights.setScaleX(1.18);
@@ -123,11 +123,11 @@ public class GreetingController
                 " -fx-position: relative;");
         dropFileText.setText("");
     }
-
-
+    
+    
     public void upload(ActionEvent actionEvent)
     {
-        if(!chosen) // must upload a file to continue
+        if (!chosen) // must upload a file to continue
         {
             chooseButton.setStyle(" -fx-background-color: #BEBFC3;" +
                     " -fx-background-radius: 6;" +
@@ -137,7 +137,7 @@ public class GreetingController
         }
         nextStage(actionEvent);
     }
-
+    
     private void nextStage(ActionEvent actionEvent)
     {
         Parent root;
@@ -147,38 +147,43 @@ public class GreetingController
             stage.setTitle("3D CNC Foam Cutter");
             stage.setScene(new Scene(root, 1280, 960));
             stage.show();
-
+            
             stage.setOnCloseRequest(t -> {
                 Platform.exit();
                 System.exit(0);
             });
-
+            
             // Hide the current window
             ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
+    
     /* Drag and Drop handling */
-    public void dragOver(DragEvent dragEvent) {
-        if(dragEvent.getDragboard().hasFiles()) {
+    public void dragOver(DragEvent dragEvent)
+    {
+        if (dragEvent.getDragboard().hasFiles()) {
             dragEvent.acceptTransferModes(TransferMode.ANY);
         }
     }
-
-    public void dropFile(DragEvent dragEvent) {
+    
+    public void dropFile(DragEvent dragEvent)
+    {
         final Dragboard db = dragEvent.getDragboard();
         File file = db.getFiles().get(0);
-        if(badExtension(file)){ return; }
+        if (badExtension(file)) {
+            return;
+        }
         handleFile(file);
     }
-
+    
     /* Copy paste handling */
-    public void checkPaste(KeyEvent keyEvent) {
-        if(textFieldPath.getText().compareTo(prompt) != 0 && !chosen){
+    public void checkPaste(KeyEvent keyEvent)
+    {
+        if (textFieldPath.getText().compareTo(prompt) != 0 && !chosen) {
             File file = new File(textFieldPath.getText());
-            if(!badExtension(file)){
+            if (!badExtension(file)) {
                 handleFile(file);
             }
         }
@@ -186,18 +191,18 @@ public class GreetingController
     
     private boolean badExtension(File file)
     {
-        String [] allowed ={"gcode","stl"};
+        String[] allowed = {"gcode", "stl"};
         boolean ext = true;
-        if(MachineDetector.isCncMachine() && file != null)
-        {   // check the ending of the string for the extension
+        if (MachineDetector.isCncMachine() && file != null) {   // check the ending of the string for the extension
             String extension = "";
             int i = file.getAbsolutePath().lastIndexOf('.');
-
-            if (i > 0) { extension = file.getAbsolutePath().substring(i + 1); }
-
-            for(String s : allowed){
-                if(extension.compareTo(s) == 0)
-                {
+            
+            if (i > 0) {
+                extension = file.getAbsolutePath().substring(i + 1);
+            }
+            
+            for (String s : allowed) {
+                if (extension.compareTo(s) == 0) {
                     ext = false;
                 }
             }

@@ -153,7 +153,8 @@ public class Tracer
      * @param node The SwingNode containing the Tracer.
      * @return The new Tracer instance or null.
      */
-    public static Tracer setup(SwingNode node) {
+    public static Tracer setup(SwingNode node)
+    {
         
         //initialize the Tracer
         if (instance != null) {
@@ -161,7 +162,7 @@ public class Tracer
         }
         instance = new Tracer(node);
         
-    
+        
         //add cameras
         Camera camera = new Camera();
         camera.setLocation(Math.PI / 2, Math.PI, ((Math.max(Renderer.foamWidth, Renderer.foamWidth) + Renderer.foamHeight) * 2) * Renderer.MILLIMETERS_IN_INCH);
@@ -174,12 +175,14 @@ public class Tracer
         
         
         //panel to display render results
-        instance.renderPanel = new JPanel() {
+        instance.renderPanel = new JPanel()
+        {
             private AtomicBoolean running = new AtomicBoolean(false);
             
-            public void paintComponent(Graphics g) {
+            public void paintComponent(Graphics g)
+            {
                 if (running.compareAndSet(false, true)) {
-    
+                    
                     List<BaseObject> preparedBases = new ArrayList<>();
                     try {
                         for (ObjectInterface object : instance.objects) {
@@ -194,13 +197,13 @@ public class Tracer
                     g2.setColor(backgroundColor);
                     g2.fillRect(0, 0, screenX, screenY);
                     BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
-    
-    
+                    
+                    
                     for (BaseObject preparedBase : preparedBases) {
                         preparedBase.render(g2);
                     }
-    
-    
+                    
+                    
                     g2.drawImage(img, 0, 0, null);
                     running.set(false);
                 }
@@ -216,7 +219,7 @@ public class Tracer
             {
                 instance.renderPanel.repaint();
             }
-        }, 0, (int)(1000 / (double)FPS));
+        }, 0, (int) (1000 / (double) FPS));
         
         return instance;
     }
@@ -229,7 +232,7 @@ public class Tracer
         double w = (Renderer.foamWidth * Renderer.MILLIMETERS_IN_INCH) / 2;
         double l = (Renderer.foamLength * Renderer.MILLIMETERS_IN_INCH) / 2;
         double h = (Renderer.foamHeight * Renderer.MILLIMETERS_IN_INCH) / 2;
-    
+        
         Vector c1 = new Vector(-w, -h, -l);
         Vector c2 = new Vector(-w, -h, l);
         Vector c3 = new Vector(w, -h, -l);
@@ -238,14 +241,14 @@ public class Tracer
         Vector c6 = new Vector(-w, h, l);
         Vector c7 = new Vector(w, h, -l);
         Vector c8 = new Vector(w, h, l);
-    
+        
         Rectangle r1 = new Rectangle(Color.BLACK, c1, c5, c6, c2);
         Rectangle r2 = new Rectangle(Color.BLACK, c1, c5, c7, c3);
         Rectangle r3 = new Rectangle(Color.BLACK, c2, c6, c8, c4);
         Rectangle r4 = new Rectangle(Color.BLACK, c1, c2, c4, c3);
         Rectangle r5 = new Rectangle(Color.BLACK, c5, c6, c8, c7);
         Rectangle r6 = new Rectangle(Color.BLACK, c3, c4, c8, c7);
-    
+        
         r1.setDisplayMode(AbstractObject.DisplayMode.EDGE);
         r2.setDisplayMode(AbstractObject.DisplayMode.EDGE);
         r3.setDisplayMode(AbstractObject.DisplayMode.EDGE);
@@ -259,8 +262,8 @@ public class Tracer
         objects.add(r4);
         objects.add(r5);
         objects.add(r6);
-
-
+        
+        
         if (traceDemo) {
             //animation
             TimerTask traceTask = new TimerTask()
@@ -268,27 +271,27 @@ public class Tracer
                 double phi = 0.0;
                 double theta = 0.0;
                 double rho = ((Math.max(Renderer.foamWidth, Renderer.foamWidth) + Renderer.foamHeight) / 4) * Renderer.MILLIMETERS_IN_INCH;
-        
+                
                 boolean startTrace = false;
                 double lastX, lastY, lastZ;
-        
+                
                 @Override
                 public void run()
                 {
                     phi += .02556;
                     theta += .02256;
-            
+                    
                     double x = rho * Math.sin(phi) * Math.cos(theta);
                     double y = rho * Math.cos(phi);
                     double z = rho * Math.sin(phi) * Math.sin(theta);
-            
+                    
                     if (!startTrace) {
                         setStartTrace(x, y, z);
                         startTrace = true;
                     } else {
                         addTrace(x - lastX, y - lastY, z - lastZ);
                     }
-            
+                    
                     lastX = x;
                     lastY = y;
                     lastZ = z;
@@ -361,7 +364,7 @@ public class Tracer
             }
             
             for (int i = 0; i < traces.size(); i++) {
-                traces.get(i).setColor(new Color(1, 0, 0, 1 - (i / (float)MAX_TRACES)));
+                traces.get(i).setColor(new Color(1, 0, 0, 1 - (i / (float) MAX_TRACES)));
             }
         }
     }

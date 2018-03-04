@@ -25,7 +25,7 @@ public final class Slicer
      */
     public static final String[] validFileExtensions = {"stl"};
     
- 
+    
     //Fields
     
     /**
@@ -33,6 +33,7 @@ public final class Slicer
      */
     private String model = "";
     private String architecture = "";
+    
     
     //Constructors
     
@@ -65,30 +66,30 @@ public final class Slicer
         }
         if (!isSupportedModelFormat(model)) {
             System.err.println("The file: " + model + " is not of a supported model file type.");
-
+            
             StringBuilder formatList = new StringBuilder();
             for (String fileExtension : validFileExtensions) {
                 formatList.append((formatList.toString().isEmpty()) ? "" : ", ");
                 formatList.append(fileExtension.toUpperCase());
             }
             System.err.println("Please use one of the following file formats: " + formatList.toString());
-
+            
             return false;
         }
-
+        
         String sliceModel = Constants.SLIC3R_DIRECTORY + "win-" + architecture + File.separator +
                 Constants.SLIC3R_EXECUTABLE_FILENAME +
                 " " + model +
                 (arguments.isEmpty() ? "" : " " + arguments);
-
+        
         Process process = CmdLine.executeCmdAsThread(sliceModel);
         if (process == null) {
             System.err.println("There was an error starting Slic3r.");
             return false;
         }
-
+        
         BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
+        
         try {
             String line;
             while (true) {

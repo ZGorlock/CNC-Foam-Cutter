@@ -35,25 +35,25 @@ public class Debug extends Main
      *
      * @param args Arguments to the Main method.
      */
-    public static void main(String [] args)
+    public static void main(String[] args)
     {
         Debug debug = new Debug();
         if (!debug.init()) {
             return;
         }
         Main.main = debug;
-    
+        
         GreetingController g = new GreetingController();
         g.setup();
         
         ArrayList<String> filenames = new ArrayList<>();
         filenames.add(stlVersion); //set the files here
         GreetingController.setFileNames(filenames);
-    
+        
         Renderer.foamWidth = 10;
         Renderer.foamLength = 10;
         Renderer.foamHeight = 10;
-        
+
 //        Renderer.foamWidth = ModelController.MAX_WIDTH_CNC;
 //        Renderer.foamLength = ModelController.MAX_LENGTH_CNC;
 //        Renderer.foamHeight = ModelController.MAX_HEIGHT_CNC;

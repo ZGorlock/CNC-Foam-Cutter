@@ -11,6 +11,7 @@ import java.io.File;
  */
 public class Constants
 {
+    
     //SYSTEM
     
     /**
@@ -23,7 +24,7 @@ public class Constants
      */
     public static final String ARCHITECTURE_x86 = "x86";
     
-
+    
     //SLIC3R
     
     /**
@@ -35,8 +36,8 @@ public class Constants
      * The name of the Slic3r executable.
      */
     public static final String SLIC3R_EXECUTABLE_FILENAME = "slic3r-console.exe";
-
-
+    
+    
     //JAVA3D
     
     /**
@@ -58,6 +59,9 @@ public class Constants
      * The filename suffix for the Java3D installer for a 32-bit system.
      */
     public static final String JAVA3D_FILENAME_SUFFIX_86 = "-i586.exe";
+    
+    
+    //PYTHON
     
     /**
      * The path to the Python library directory.

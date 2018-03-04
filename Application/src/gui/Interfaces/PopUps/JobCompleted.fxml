@@ -4,29 +4,31 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
+<VBox prefHeight="200.0" prefWidth="300.0" stylesheets="/gui/style.css" xmlns="http://javafx.com/javafx/8.0.121"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Interfaces.PopUps.JobCompletedController">
 
-<VBox prefHeight="200.0" prefWidth="300.0" stylesheets="/gui/style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Interfaces.PopUps.JobCompletedController">
-
-    <HBox id="header" centerShape="false" prefHeight="63.0" prefWidth="600.0" stylesheets="/gui/style.css" xmlns="http://javafx.com/javafx/8.0.121">
+    <HBox id="header" centerShape="false" prefHeight="63.0" prefWidth="600.0" stylesheets="/gui/style.css"
+          xmlns="http://javafx.com/javafx/8.0.121">
         <ImageView id="logo" fitHeight="63" fitWidth="63.0" preserveRatio="true">
-            <Image url="@../../images/logo.PNG" />
+            <Image url="@../../images/logo.PNG"/>
         </ImageView>
-        <Label id="header" alignment="CENTER" contentDisplay="RIGHT" maxWidth="Infinity" prefHeight="68.0" prefWidth="537.0" styleClass="h1" text="3D CNC FOAM CUTTER" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+        <Label id="header" alignment="CENTER" contentDisplay="RIGHT" maxWidth="Infinity" prefHeight="68.0"
+               prefWidth="537.0" styleClass="h1" text="3D CNC FOAM CUTTER" textAlignment="CENTER" HBox.hgrow="ALWAYS">
         </Label>
     </HBox>
 
     <BorderPane prefHeight="100.0" prefWidth="300.0" styleClass="borderPane">
         <bottom>
             <VBox alignment="CENTER" spacing="20">
-                <Label alignment="TOP_RIGHT" contentDisplay="CENTER" text="Job Completed!" textAlignment="CENTER" VBox.vgrow="ALWAYS" />
+                <Label alignment="TOP_RIGHT" contentDisplay="CENTER" text="Job Completed!" textAlignment="CENTER"
+                       VBox.vgrow="ALWAYS"/>
                 <ImageView id="knightPopUp" fitHeight="200" fitWidth="300.0" preserveRatio="true" VBox.vgrow="ALWAYS">
-                    <Image url="@../../images/knight.PNG" />
+                    <Image url="@../../images/knight.PNG"/>
                 </ImageView>
                 <Label fx:id="timeCompleted" text="00:00:00" VBox.vgrow="ALWAYS"/>
-                <Button id="ok" alignment="CENTER" onAction="#Ok" styleClass="buttonGrey" text="OK!" VBox.vgrow="ALWAYS"/>
+                <Button id="ok" alignment="CENTER" onAction="#ok" styleClass="buttonGrey" text="OK!"
+                        VBox.vgrow="ALWAYS"/>
             </VBox>
         </bottom>
     </BorderPane>

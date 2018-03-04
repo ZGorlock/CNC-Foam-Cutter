@@ -2,51 +2,42 @@ package gui.Interfaces.PopUps;
 
 import gui.Interfaces.MainMenu.MenuController;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
+import main.Main;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
-import static main.Main.startTime;
-
-public class JobCompletedController {
-
+public class JobCompletedController
+{
+    
     public Label timeCompleted;
     public static JobCompletedController controller;
-
+    
     public void initialize()
     {
         controller = this;
     }
-
+    
     public void setTimeCompleted()
     {
         long timeEnded = System.currentTimeMillis();
-        long time = timeEnded - startTime;
-
-        String totalTime = String.format("%02d:%02d:%02d",
-                TimeUnit.MILLISECONDS.toHours(time),
-                TimeUnit.MILLISECONDS.toMinutes(time) -
-                        TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(time)),
-                TimeUnit.MILLISECONDS.toSeconds(time) -
-                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time)));
-
+        long time = timeEnded - Main.startTime;
+        long timeInSeconds = time / 1000;
+        
+        long hours = time / 3600;
+        long minutes = (time % 3600) / 60;
+        long seconds = time % 60;
+        String totalTime = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        
         timeCompleted.setText(totalTime);
     }
-
-    public void Ok(ActionEvent actionEvent)
+    
+    public void ok(ActionEvent actionEvent)
     {
         // Call upon the MenuController to bring you back to the input screen
         MenuController.controller.backToStartUpScreen();
-
+        
         // Hide the current window
         ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
     }
+    
 }

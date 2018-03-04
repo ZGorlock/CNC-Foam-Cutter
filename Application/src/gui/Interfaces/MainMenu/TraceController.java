@@ -35,7 +35,7 @@ public class TraceController
     public HBox hz;
     public HBox hStatus;
     public SwingNode swingNodeTrace;
-
+    
     
     // UI-Dependent Variables
     
@@ -44,8 +44,8 @@ public class TraceController
     public Label grblZ;
     public Label grblStatus;
     public static List<String> coordinateBlock = new ArrayList<>();
-
-
+    
+    
     //Static Fields
     
     /**
@@ -110,17 +110,17 @@ public class TraceController
     {
         controller = this;
         tracer = Tracer.setup(swingNodeTrace);
-
+        
         grblX = new Label();
         grblY = new Label();
         grblZ = new Label();
         grblStatus = new Label();
-
+        
         hx.getChildren().add(grblX);
         hy.getChildren().add(grblY);
         hz.getChildren().add(grblZ);
         hStatus.getChildren().add(grblStatus);
-
+        
         updateCoordinates();
     }
     
@@ -132,6 +132,7 @@ public class TraceController
         TimerTask updateCoordinates = new TimerTask()
         {
             private int state;
+            
             @Override
             public void run()
             {
@@ -145,9 +146,9 @@ public class TraceController
                 });
             }
         };
-
+        
         Timer t = new Timer();
-        t.scheduleAtFixedRate(updateCoordinates,0, 100);
+        t.scheduleAtFixedRate(updateCoordinates, 0, 100);
     }
     
     //Functions
@@ -163,4 +164,5 @@ public class TraceController
     {
         Tracer.addTrace(x, y, z);
     }
+    
 }

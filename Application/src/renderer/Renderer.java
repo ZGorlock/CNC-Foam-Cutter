@@ -59,8 +59,8 @@ public class Renderer
      */
     private static final Color lightColor = Color.WHITE;
     private static final Color ambientColor = Color.rgb(28, 28, 28);
-    private static final Color modelColor = Color.rgb(48,  48, 48);
-    private static final Color borderColor = Color.rgb(128,  128, 128, .2);
+    private static final Color modelColor = Color.rgb(48, 48, 48);
+    private static final Color borderColor = Color.rgb(128, 128, 128, .2);
     private static final Color fillColor = Color.rgb(192, 192, 192);
     
     /**
@@ -112,7 +112,6 @@ public class Renderer
     private String model;
     
     
-    
     //Constructors
     
     /**
@@ -134,25 +133,26 @@ public class Renderer
      * @param node The SwingNode containing the Renderer.
      * @return The new Renderer instance or null.
      */
-    public static Renderer setup(SwingNode node) {
+    public static Renderer setup(SwingNode node)
+    {
         
         //initialize the Renderer
         if (instance != null) {
             return null;
         }
         instance = new Renderer(node);
-    
+        
         
         //render the model
         instance.model = GreetingController.getModel();
-
+        
         if (!instance.model.isEmpty()) {
             Group group = instance.renderModel();
-
+            
             instance.scene = new Scene(group, VIEWPORT_SIZE, VIEWPORT_SIZE, true);
             instance.scene.setFill(fillColor);
             instance.addCamera();
-    
+            
             JPanel panel = new JPanel();
             JFXPanel jfxPanel = new JFXPanel();
             panel.add(jfxPanel);
@@ -174,7 +174,8 @@ public class Renderer
      *
      * @return The Group containing the elements of the STL model.
      */
-    private Group renderModel() {
+    private Group renderModel()
+    {
         MeshView[] meshViews = loadModel(model);
         
         for (MeshView meshView : meshViews) {
@@ -188,7 +189,7 @@ public class Renderer
             meshView.setScaleY(MODEL_SCALE);
             meshView.setScaleZ(MODEL_SCALE);
             meshView.getTransforms().setAll(MODEL_ROTATE_X, MODEL_ROTATE_Y, MODEL_ROTATE_Z);
-    }
+        }
         
         root = new Group(meshViews);
         root.getChildren().add(new AmbientLight(ambientColor));
@@ -204,14 +205,15 @@ public class Renderer
      * @param model The STL model file.
      * @return A list of MeshViews describing the model.
      */
-    private MeshView[] loadModel(String model) {
+    private MeshView[] loadModel(String model)
+    {
         File file = new File(model);
         
         StlMeshImporter importer = new StlMeshImporter();
         importer.read(file);
         Mesh mesh = importer.getImport();
         
-        return new MeshView[] { new MeshView(mesh) };
+        return new MeshView[]{new MeshView(mesh)};
     }
     
     /**
@@ -219,9 +221,9 @@ public class Renderer
      */
     private void addLightSources()
     {
-        for (double i = -1; i <= 1; i+=2) {
-            for (double j = -1; j <= 1; j+=2) {
-                for (double k = -1; k <= 1; k+=2) {
+        for (double i = -1; i <= 1; i += 2) {
+            for (double j = -1; j <= 1; j += 2) {
+                for (double k = -1; k <= 1; k += 2) {
                     if (i == 0 && j == 0 && k == 0) {
                         continue;
                     }
@@ -243,7 +245,7 @@ public class Renderer
         double translateX = 0;
         double translateY = (foamHeight / -2) * MODEL_SCALE * MILLIMETERS_IN_INCH;
         double translateZ = ((Math.max(foamWidth, foamLength) + foamHeight) * -2) * MODEL_SCALE * MILLIMETERS_IN_INCH;
-
+        
         Rotate rotateX = new Rotate(0, Rotate.X_AXIS);
         Rotate rotateY = new Rotate(0, Rotate.Y_AXIS);
         Rotate rotateZ = new Rotate(0, Rotate.Z_AXIS);
@@ -257,7 +259,7 @@ public class Renderer
         perspectiveCamera.setFieldOfView(30.0);
         
         timeline = new Timeline(
-                new KeyFrame(Duration.seconds(0),  new KeyValue(rotateY.angleProperty(), 0)),
+                new KeyFrame(Duration.seconds(0), new KeyValue(rotateY.angleProperty(), 0)),
                 new KeyFrame(Duration.seconds(15), new KeyValue(rotateY.angleProperty(), 360))
         );
         timeline.setCycleCount(Timeline.INDEFINITE);

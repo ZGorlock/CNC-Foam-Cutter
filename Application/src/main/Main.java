@@ -20,27 +20,43 @@ import java.util.regex.Pattern;
 public class Main
 {
     
+    //Team
+    
+    //TODO get 3 judges
+    //TODO update presentation powerpoint
+    //TODO update Design Document
+    //TODO conference paper
+    
     //TODO add unit tests for Controller setup pieces
     //TODO Rotation...
-    //TODO check for machine connection before even going to the input screen
+    //TODO check for machine connection before even going to the input screen (new starting window?)
+    
+    //TODO add error handling to Controller setup pieces (or at least print an error and recover from it)
+    //  if a process fails, we need to send that up to the caller so it can handle it appropriately (ie, what if the slicer process fails somehow, right now we dont even check)
+    //  if a file is initialized with new File(), we must check if file.exists() is true, if not it is a failure
+    
     
     //Zack
-    //TODO add error handling to Controller setup pieces
-
+    
     //TODO after fixing apigrbl make sure time remaining estimate works
     
     //TODO calculate total distance gcode APIgrbl Modifier
     //TODO time remaining
-    //TODO reset path for hot wire profiles
     
-    //TODO when application restarts, restart renderer (it's already initialized, that's why it won't restart)
+    //TODO reset path for hot wire profiles (it looks like this can be done with a single command: G28)
+    
     
     //Nick
-    //TODO you cannot upload folders
+    
+    //TODO you cannot upload folders (is this acceptable? if we can select a bulk number of gcode files that would work too)
     //TODO actually detect which machine is being used
+    
+    //TODO handle really long descriptions on the Model tab
+    
     //TODO change to file.getName() instead of can.gcode in startGrbl()
     //TODO line 194 in APIgrbl
-    //TODO handle really long descriptions on the Model tab
+    
+    //TODO consider making javadoc comments for your classes so that we could produce javadocs if we wanted, type /** Enter above a method or variable and it will automatically set it up for you
     
     
     //Static Fields
@@ -49,7 +65,10 @@ public class Main
      * The singleton instance of the Main class.
      */
     public static Main main;
-
+    
+    /**
+     * The start time of the printing process.
+     */
     public static long startTime;
     
     
@@ -81,22 +100,24 @@ public class Main
     public String port;
     
     
-    //Methods
+    //Main Method
     
     /**
      * The Main method.
      *
      * @param args Arguments to the Main method.
      */
-    public static void main(String [] args)
+    public static void main(String[] args)
     {
         main = new Main();
         if (!main.init()) {
             return;
         }
-        startTime = System.currentTimeMillis();
         Application.launch(Gui.class, args);
     }
+    
+    
+    //Methods
     
     /**
      * Initializes the system properties and ensures the system is valid to run the application.
@@ -122,16 +143,16 @@ public class Main
             System.err.println("Please install a newer JRE and try again.");
             return false;
         }
-    
+        
         try {
             Class.forName("javax.media.j3d.J3DBuffer");
         } catch (final ClassNotFoundException ignored) {
             System.err.println("You must have Java3D installed on your system to use this application.");
             System.out.println("Attempting to install Java3D...");
-    
+            
             String installJava3D = Constants.JAVA3D_DIRECTORY + Constants.JAVA3D_FILENAME_BASE +
                     (architecture.equals(Constants.ARCHITECTURE_x64) ? Constants.JAVA3D_FILENAME_SUFFIX_64 : Constants.JAVA3D_FILENAME_SUFFIX_86);
-    
+            
             CmdLine.executeCmd(installJava3D, true);
             
             try {
@@ -164,7 +185,7 @@ public class Main
             
             String pythonInstallCmd = Constants.PYTHON_DIRECTORY + Constants.PYTHON_FILENAME;
             CmdLine.executeCmd(pythonInstallCmd, true);
-    
+            
             pythonCheck = CmdLine.executeCmd("py -V");
             if (pythonCheck.isEmpty() || pythonCheck.matches("'py' is not recognized .*")) {
                 System.out.println("Please install Python 3 and try again.");
@@ -184,7 +205,7 @@ public class Main
                 }
             }
         }
-
+        
         System.out.println("OS:           " + operatingSystem);
         System.out.println("Architecture: " + architecture);
         System.out.println("Java:         " + javaVersion);

@@ -37,12 +37,12 @@ public class ModelController
     public HBox hp;
     public HBox time;
     
-
+    
     //UI-Dependent Components
     
     public Label filePercentage;
     public static String percentage = "";
-
+    
     public Label timeRemaining;
     public static String timerem = "";
     
@@ -58,7 +58,7 @@ public class ModelController
     public static final double MAX_WIDTH_HOTWIRE = 66;
     public static final double MAX_LENGTH_HOTWIRE = 66;
     public static final double MAX_HEIGHT_HOTWIRE = 66;
-
+    
     
     //Static Fields
     
@@ -123,11 +123,12 @@ public class ModelController
         filePercentage.setText("0.00%");
         filePercentage.setAlignment(Pos.TOP_RIGHT);
         hp.getChildren().add(filePercentage);
-
-
+        
+        
         TimerTask updateCoordinates = new TimerTask()
         {
             private String state = "";
+            
             @Override
             public void run()
             {
@@ -144,21 +145,22 @@ public class ModelController
                 });
             }
         };
-
+        
         Timer t = new Timer();
-        t.scheduleAtFixedRate(updateCoordinates,0, 100);
+        t.scheduleAtFixedRate(updateCoordinates, 0, 100);
     }
-
+    
     public void updateTime()
     {
         timeRemaining = new Label();
         timeRemaining.setText("00:00:00");
         timeRemaining.setAlignment(Pos.TOP_RIGHT);
         time.getChildren().add(timeRemaining);
-
+        
         TimerTask updateTime = new TimerTask()
         {
             private String state = "";
+            
             @Override
             public void run()
             {
@@ -170,9 +172,9 @@ public class ModelController
                 });
             }
         };
-
+        
         Timer t = new Timer();
-        t.scheduleAtFixedRate(updateTime,0, 100);
+        t.scheduleAtFixedRate(updateTime, 0, 100);
     }
     
     
@@ -183,7 +185,8 @@ public class ModelController
      *
      * @param fileName The filename.
      */
-    public static void setFileName(String fileName) {
+    public static void setFileName(String fileName)
+    {
         controller.fileName.setText(fileName);
     }
     
@@ -192,7 +195,8 @@ public class ModelController
      *
      * @param desc The description.
      */
-    public static void setDesc(String desc) {
+    public static void setDesc(String desc)
+    {
         controller.fileDesc.setText(desc);
     }
     
@@ -201,7 +205,8 @@ public class ModelController
      *
      * @param fileSize The file size.
      */
-    public static void setFileSize(String fileSize) {
+    public static void setFileSize(String fileSize)
+    {
         controller.fileSize.setText(fileSize);
     }
     
@@ -210,7 +215,8 @@ public class ModelController
      *
      * @param studentNid The student's NID.
      */
-    public static void setStudentNid(String studentNid) {
+    public static void setStudentNid(String studentNid)
+    {
         controller.studentNID.setText(studentNid);
     }
     
@@ -232,8 +238,8 @@ public class ModelController
             size /= 1024;
             i++;
         }
-    
-        return String.format("%.2f",size) +
+        
+        return String.format("%.2f", size) +
                 (i == 1 ? "KB" : (i == 2 ? "MB" : "B"));
     }
     

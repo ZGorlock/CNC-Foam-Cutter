@@ -43,7 +43,7 @@ public class RotationController
     public VBox vBox;
     public Label fileName;
     public TextField textFieldDegrees;
-
+    
     
     // UI Components
     
@@ -51,7 +51,7 @@ public class RotationController
      * UI components that are created through code instead of xml
      */
     private ScrollPane sp;
-
+    
     
     //Static Fields
     
@@ -68,17 +68,17 @@ public class RotationController
      */
     public List<BufferedImage> gcodeTraces;
     private Map<Image, String> gcodeTraceFileMap;
-
+    
     /**
-     *  index of current image being viewed
+     * index of current image being viewed
      */
     private int index;
-
+    
     /**
      * Variable to determine if the first scroll is to the first element
      */
     private boolean firstScroll = true;
-
+    
     
     //Static Methods
     
@@ -87,7 +87,8 @@ public class RotationController
      *
      * @return The Rotation tab.
      */
-    public static Tab setup() {
+    public static Tab setup()
+    {
         try {
             URL fxml = RotationController.class.getResource("Rotation.fxml");
             Tab tab = FXMLLoader.load(fxml);
@@ -98,8 +99,8 @@ public class RotationController
             return null;
         }
     }
-
-
+    
+    
     //Methods
     
     /**
@@ -111,16 +112,16 @@ public class RotationController
         GcodeTracer gcodeTracer = new GcodeTracer();
         gcodeTraceFileMap = new HashMap<>();
         gcodeTraces = gcodeTracer.traceGcodeSet(GreetingController.getSlices());
-
+        
         // Init index
         index = 0;
-
+        
         // Set prompt text
         textFieldDegrees.setPromptText("Enter degrees...");
-
+        
         renderImages();
     }
-
+    
     private void renderImages()
     {
         // Create display area
@@ -132,136 +133,141 @@ public class RotationController
         hbox.setAlignment(Pos.CENTER);
         
         // Add images as a row
-        for (int i = 0; i < gcodeTraces.size(); i++)
-        {
+        for (int i = 0; i < gcodeTraces.size(); i++) {
 //            Image image = new Image("file:src/gui/images/logo.PNG");
             Image image = SwingFXUtils.toFXImage(gcodeTraces.get(i), null);
             ImageView pic = new ImageView(image);
             gcodeTraceFileMap.put(image, new File(GreetingController.getSlices().get(i)).getName());
-
+            
             pic.setPreserveRatio(true);
             pic.setId(String.valueOf(i));
             pic.setFitHeight(230);
-
+            
             // Let images be selected
             pic.setOnMouseClicked(event -> {
                 int newIndex = Integer.parseInt(pic.getId());
-                if(newIndex == 0 && firstScroll) {
+                if (newIndex == 0 && firstScroll) {
                     handleSPAnimation();
                 } else {
                     slowScrollToImage(sp, newIndex);
                 }
             });
-
+            
             VBox vbox = new VBox();
             vbox.getChildren().add(pic);
             // Initialize all evenly spaced degrees
             Double d = (360 / gcodeTraces.size()) * 1.0;
-
+            
             // Setting the new degree
             Text text = new Text(formatDegree(d));
-
+            
             // Add to the parent
             vbox.getChildren().add(text);
             vbox.setAlignment(Pos.CENTER);
             HBox.setHgrow(vbox, Priority.ALWAYS);
             hbox.getChildren().add(vbox);
         }
-
+        
         // Adding to the scrollpane
-        if(gcodeTraces.size() <= 4) sp.setFitToWidth(true);
+        if (gcodeTraces.size() <= 4) {
+            sp.setFitToWidth(true);
+        }
         sp.setContent(hbox);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setHmax((gcodeTraces.size() - 1) * 1.0); // TODO set to the size of the arraylist aka gcodeTraces to keep track of current one
-
+        
         // Change the view when something is selected.
         sp.hvalueProperty().addListener((ov, old_val, new_val) -> {
             index = new_val.intValue();
             firstScroll = false;
             handleSPAnimation();
         });
-
-        vBox.getChildren().add(0,sp);
+        
+        vBox.getChildren().add(0, sp);
         vBox.setAlignment(Pos.CENTER);
-
+        
     }
-
+    
     public void queueRotation()
     {
         String input = textFieldDegrees.getText();
         textFieldDegrees.setText("");
-
+        
         // Handle invalid input
-        if(!isNumeric(input)) return;
-
+        if (!isNumeric(input)) {
+            return;
+        }
+        
         Double d = Double.parseDouble(input);
-
+        
         // Set new selected value
-        HBox temp = (HBox)sp.getContent();
-
+        HBox temp = (HBox) sp.getContent();
+        
         temp.getChildren().get(index).setScaleX(1.18);
         temp.getChildren().get(index).setScaleY(1.18);
-
+        
         VBox vbox = (VBox) temp.getChildren().get(index);
-        Text text = (Text)vbox.getChildren().get(1);
-
+        Text text = (Text) vbox.getChildren().get(1);
+        
         text.setText(formatDegree(d));
     }
-
+    
     private String formatDegree(Double d)
     {
         // String formatting
-        String deg = String.format("%.2f",d);
+        String deg = String.format("%.2f", d);
         String symbol = "°";
         return deg + symbol;
     }
-
-    private static boolean isNumeric(String str)
-    {
-        try
-        {
-            double d = Double.parseDouble(str);
-        }
-        catch(NumberFormatException nfe)
-        {
-            return false;
-        }
-        return true;
-    }
-
+    
     private void handleSPAnimation()
     {
-        HBox temp = (HBox)sp.getContent();
-
+        HBox temp = (HBox) sp.getContent();
+        
         temp.getChildren().get(index).setScaleX(1.18);
         temp.getChildren().get(index).setScaleY(1.18);
-
+        
         VBox vbox = (VBox) temp.getChildren().get(index);
-
-        ImageView iv = (ImageView)vbox.getChildren().get(0);
+        
+        ImageView iv = (ImageView) vbox.getChildren().get(0);
         Image im = iv.getImage();
-        fileName.setText("File Selected: "+ gcodeTraceFileMap.get(im) + " - Profile #" + (Integer.valueOf(iv.getId()) + 1));
-
+        fileName.setText("File Selected: " + gcodeTraceFileMap.get(im) + " - Profile #" + (Integer.valueOf(iv.getId()) + 1));
+        
         // Prevent index out of bounds and return other images to normal size
-        if(index + 1 < temp.getChildren().size())
-        {
+        if (index + 1 < temp.getChildren().size()) {
             temp.getChildren().get(index + 1).setScaleX(1);
             temp.getChildren().get(index + 1).setScaleY(1);
         }
-
-        if(index - 1 >= 0)
-        {
+        
+        if (index - 1 >= 0) {
             temp.getChildren().get(index - 1).setScaleX(1);
             temp.getChildren().get(index - 1).setScaleY(1);
         }
     }
-
-    private void slowScrollToImage(ScrollPane scrollPane, int value) {
+    
+    private void slowScrollToImage(ScrollPane scrollPane, int value)
+    {
         double speed = .8;
-        if(gcodeTraces.size() < 5) speed = .4;
+        if (gcodeTraces.size() < 5) {
+            speed = .4;
+        }
         Animation animation = new Timeline(
                 new KeyFrame(Duration.seconds(speed),
                         new KeyValue(scrollPane.hvalueProperty(), value)));
         animation.play();
     }
+    
+    
+    //Functions
+    
+    private static boolean isNumeric(String str)
+    {
+        try {
+            double d = Double.parseDouble(str);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+    
 }

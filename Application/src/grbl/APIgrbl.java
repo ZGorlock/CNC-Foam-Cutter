@@ -1,12 +1,10 @@
 package grbl;
 
 import gui.Interfaces.MainMenu.GcodeController;
-import gui.Interfaces.MainMenu.MenuController;
 import gui.Interfaces.MainMenu.ModelController;
 import gui.Interfaces.MainMenu.TraceController;
 import utils.CmdLine;
 
-import javax.jws.WebParam;
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayDeque;
@@ -19,6 +17,7 @@ import static gui.Interfaces.MainMenu.MenuController.stopped;
 
 public class APIgrbl extends Thread
 {
+    
     // GUI elements
     private double x;
     private double y;
@@ -32,13 +31,16 @@ public class APIgrbl extends Thread
     private List<String> updateCodeSent;
     private List<String> codeBlock;
 
+    
     // Process elements
     private String filename;
     private Boolean doneStreaming;
 
+    
     // Controller
     public static APIgrbl grbl;
 
+    
     public APIgrbl(String filename)
     {
         // Init GUI variables
@@ -92,56 +94,48 @@ public class APIgrbl extends Thread
     */
     private void partitionAndStream(String filename, String directoryGrbl, String directoryGcode, String directoryTemp, int size)
     {
-        try{
-
+        try {
+            
             BufferedReader in = new BufferedReader(new FileReader(new File(directoryGcode, filename)));  // gcode
             int commandsRead = 0;
-
+    
             // will stop at end of file
-            while(commandsRead < size)
-            {
+            while (commandsRead < size) {
                 // read every 127 characters and create a file with them for stream.py to use
-                BufferedWriter bw = new BufferedWriter(new FileWriter(new File(directoryTemp,"tempfile.txt")));
+                BufferedWriter bw = new BufferedWriter(new FileWriter(new File(directoryTemp, "tempfile.txt")));
                 Queue<String> carryOver = new ArrayDeque<>();
                 StringBuilder sb = new StringBuilder();
-
+        
                 int charsUsed = 0;
-                while(charsUsed < 127)
-                {
-                    if(carryOver.size() == 1)
-                    {
+                while (charsUsed < 127) {
+                    if (carryOver.size() == 1) {
                         String carried = carryOver.remove();
                         sb.append(carried);
                         sb.append('\n');
-
+                
                         commandsRead += 1;
-
+                
                         // must add one for added chars '\n'
                         charsUsed += carried.length() + 1;
                     }
-
+            
                     String newCommand = in.readLine();
-
-                    if(newCommand != null)
-                    {
-                        if((newCommand.length() + charsUsed + 1) < 127)
-                        {
+            
+                    if (newCommand != null) {
+                        if ((newCommand.length() + charsUsed + 1) < 127) {
                             // update counts
                             commandsRead += 1;
                             charsUsed += newCommand.length() + 1;
-
+                    
                             // append what will be written
                             sb.append(newCommand);
                             sb.append('\n');
-                        }
-                        else
-                        {
+                        } else {
                             // end of 127 char limit
                             carryOver.add(newCommand);
                             charsUsed = 127;
                         }
-                    }else
-                    {
+                    } else {
                         // end of file, stopping conditions
                         charsUsed = 127;
                         commandsRead = size;

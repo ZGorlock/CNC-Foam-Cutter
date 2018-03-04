@@ -74,11 +74,11 @@ public class GcodeTracer
         } catch (IOException e) {
             e.printStackTrace();
         }
-    
+        
         BufferedImage trace = new BufferedImage(IMAGE_SIZE, IMAGE_SIZE, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = trace.createGraphics();
         initializeImage(g2);
-    
+        
         traceX = IMAGE_BORDER;
         traceY = IMAGE_MIDDLE;
         Pattern g1Pattern = Pattern.compile("G1\\sX(?<x>-?\\d*\\.?\\d*)\\sY(?<y>-?\\d*\\.?\\d*).*");
@@ -109,14 +109,14 @@ public class GcodeTracer
         g2.setColor(Color.GRAY);
         g2.drawLine(IMAGE_BORDER, IMAGE_BORDER, IMAGE_SIZE - IMAGE_BORDER, IMAGE_BORDER);
         g2.drawLine(IMAGE_MIDDLE, IMAGE_BORDER, IMAGE_MIDDLE, IMAGE_SIZE - IMAGE_BORDER);
-    
+        
         //draw grid
         g2.setColor(new Color(220, 220, 220));
-        for (int i = 1; i <= (IMAGE_MIDDLE - IMAGE_BORDER) / 10; i++ ) {
+        for (int i = 1; i <= (IMAGE_MIDDLE - IMAGE_BORDER) / 10; i++) {
             g2.drawLine(IMAGE_MIDDLE + (10 * i), IMAGE_BORDER, IMAGE_MIDDLE + (10 * i), IMAGE_SIZE - IMAGE_BORDER);
             g2.drawLine(IMAGE_MIDDLE - (10 * i), IMAGE_BORDER, IMAGE_MIDDLE - (10 * i), IMAGE_SIZE - IMAGE_BORDER);
         }
-        for (int i = 1; i <= (IMAGE_SIZE - (2 * IMAGE_BORDER)) / 10; i++ ) {
+        for (int i = 1; i <= (IMAGE_SIZE - (2 * IMAGE_BORDER)) / 10; i++) {
             g2.drawLine(IMAGE_BORDER, IMAGE_BORDER + (10 * i), IMAGE_SIZE - IMAGE_BORDER, IMAGE_BORDER + (10 * i));
         }
     }
