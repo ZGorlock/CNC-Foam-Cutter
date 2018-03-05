@@ -12,7 +12,7 @@
     <BorderPane prefHeight="100.0" prefWidth="600.0">
         <center>
             <HBox fx:id="hBox" alignment="CENTER" styleClass="h1" spacing="80">
-                <Button fx:id="goldButton" text="PRINT" styleClass="buttonGold" onAction="#print"/>
+                <Button fx:id="stopButton" text="PRINT" styleClass="buttonGold" onAction="#print"/>
             </HBox>
         </center>
     </BorderPane>

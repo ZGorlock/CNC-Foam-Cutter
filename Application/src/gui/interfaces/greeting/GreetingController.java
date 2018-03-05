@@ -45,7 +45,7 @@ public class GreetingController
     /**
      * The Upload button.
      */
-    public Button greyButton;
+    public Button uploadButton;
     
     /**
      * The Choose File button for selecting a file.
@@ -103,7 +103,7 @@ public class GreetingController
         fileNames.clear();
         
         knights.setOpacity(.5);
-        greyButton.setStyle(" -fx-background-color: #BEBFC3;" +
+        uploadButton.setStyle(" -fx-background-color: #F2C313;" +
                 " -fx-background-radius: 6;" +
                 " -fx-position: relative;" +
                 "-fx-opacity: .25;");
@@ -188,7 +188,7 @@ public class GreetingController
         knights.setOpacity(1.0);
         knights.setScaleX(1.18);
         knights.setScaleY(1.18);
-        greyButton.setStyle(" -fx-background-color: #BEBFC3;" +
+        uploadButton.setStyle(" -fx-background-color: #F2C313;" +
                 " -fx-background-radius: 6;" +
                 " -fx-position: relative;");
         dropFileText.setText("");

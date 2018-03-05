@@ -40,7 +40,7 @@ public class MenuController
     /**
      * The emergency Stop button.
      */
-    public Button goldButton;
+    public Button stopButton;
     
     /**
      * The container for the Pause/Resume button.
@@ -50,10 +50,15 @@ public class MenuController
     /**
      * The Pause/Resume button.
      */
-    private Button greyButton;
+    private Button playPauseButton;
     
     
     //Static Fields
+    
+    /**
+     *  Instance of the controller.
+     */
+    public static MenuController controller;
     
     /**
      * A flag indicating whether the state is paused or not.
@@ -66,9 +71,9 @@ public class MenuController
     public static boolean stopped = false;
     
     /**
-     *  Instance of the controller.
+     * Stores the amount of time that the machine was paused.
      */
-    public static MenuController controller;
+    private static long pauseTime;
     
     
     //Methods
@@ -108,29 +113,18 @@ public class MenuController
      */
     public void print(ActionEvent actionEvent)
     {
-        if (greyButton == null) {
+        if (playPauseButton == null) {
             if (GcodeController.startGrbl()) {
     
-                greyButton = new Button();
+                playPauseButton = new Button();
+                playPauseButton.getStyleClass().add("buttonGold");
+                playPauseButton.setOnMouseClicked(e -> playPauseButtonClicked(actionEvent));
     
-                greyButton.setStyle(" -fx-background-color: #BEBFC3;" +
-                        " -fx-background-radius: 6;" +
-                        " -fx-position: relative;");
+                playPauseButton.setText("Pause");
+                hBox.getChildren().add(playPauseButton);
     
-                greyButton.setOnMouseClicked(e -> playPauseButtonClicked(actionEvent));
-    
-                greyButton.setOnMouseEntered(e -> greyButton.setStyle("-fx-text-fill: white; " +
-                        "-fx-background-radius: 6; " +
-                        "-fx-position: relative; -fx-background-color: #BEBFC3;"));
-                greyButton.setOnMouseExited(e -> greyButton.setStyle("-fx-background-color: #BEBFC3; " +
-                        "-fx-background-radius: 6; " +
-                        "-fx-position: relative;"));
-    
-                greyButton.setText("Pause");
-                hBox.getChildren().add(greyButton);
-    
-                goldButton.setText("STOP");
-                goldButton.setOnAction(this::stop);
+                stopButton.setText("STOP");
+                stopButton.setOnAction(this::stop);
             } else {
                 //TODO throw error
             }
@@ -146,15 +140,11 @@ public class MenuController
     {
         paused = !paused;
         
-        greyButton.setStyle("-fx-background-color: #91918f; " +
-                "-fx-background-radius: 6; " +
-                "-fx-position: relative;");
-        
         if (paused) {
             initiatePause(actionEvent);
-            greyButton.setText("Resume");
+            playPauseButton.setText("Resume");
         } else {
-            greyButton.setText("Pause");
+            playPauseButton.setText("Pause");
             initiateResume(actionEvent);
         }
     }
@@ -167,6 +157,7 @@ public class MenuController
     public void initiatePause(ActionEvent actionEvent)
     {
         paused = true;
+        pauseTime = System.currentTimeMillis();
         
         //Pause Model Animation
         Renderer.pauseModelAnimation();
@@ -179,6 +170,12 @@ public class MenuController
      */
     public void initiateResume(ActionEvent actionEvent)
     {
+        if (pauseTime > 0) {
+            long pauseDuration = System.currentTimeMillis() - pauseTime;
+            Main.startTime += pauseDuration;
+            pauseTime = 0;
+        }
+        
         //Resume streaming
         APIgrbl.grbl.initiateResume();
         
@@ -257,7 +254,7 @@ public class MenuController
             stage.setOnCloseRequest(t -> Main.killApplication());
             
             // Hide the current window
-            (goldButton).getScene().getWindow().hide();
+            (stopButton).getScene().getWindow().hide();
             
         } catch (Exception e) {
             System.err.println("There was an error loading Input.fxml!");

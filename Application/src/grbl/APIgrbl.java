@@ -410,7 +410,7 @@ public class APIgrbl extends Thread
      */
     public static String getTimeRemaining()
     {
-        if (MenuController.stopped) {
+        if (MenuController.stopped || MenuController.paused) {
             return ModelController.controller.timeRemaining.getText();
         }
         if (Main.startTime == 0 || grbl == null || grbl.isDoneStreaming()) {

@@ -47,7 +47,7 @@
     <BorderPane prefHeight="100.0" prefWidth="600.0">
         <center>
             <HBox styleClass="h1" alignment="CENTER">
-                <Button fx:id="greyButton" onAction="#upload" styleClass="buttonGrey" text="Upload"/>
+                <Button fx:id="uploadButton" onAction="#upload" styleClass="buttonGold" text="Upload"/>
             </HBox>
         </center>
     </BorderPane>

@@ -27,7 +27,7 @@
                     <Image url="@../../images/knight.PNG"/>
                 </ImageView>
                 <Label fx:id="timeCompleted" text="00:00:00" VBox.vgrow="ALWAYS"/>
-                <Button id="ok" alignment="CENTER" onAction="#ok" styleClass="buttonGrey" text="OK!"
+                <Button id="ok" alignment="CENTER" onAction="#ok" styleClass="buttonGold" text="OK!"
                         VBox.vgrow="ALWAYS"/>
             </VBox>
         </bottom>

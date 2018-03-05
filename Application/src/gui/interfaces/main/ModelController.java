@@ -305,7 +305,7 @@ public class ModelController
         }
         
         return String.format("%.2f", size) +
-                (i == 1 ? "KB" : (i == 2 ? "MB" : "B"));
+                (i == 1 ? " KB" : (i == 2 ? " MB" : " B"));
     }
     
 }

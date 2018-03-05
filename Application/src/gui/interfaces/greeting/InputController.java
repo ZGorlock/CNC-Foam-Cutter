@@ -239,6 +239,7 @@ public class InputController
         
         if (!invalid && descText.isEmpty()) {
             desc.setText("No description available.");
+            descText = desc.getText();
         }
         
         return invalid;
