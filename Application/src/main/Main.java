@@ -56,14 +56,13 @@ public class Main
     
     //Nick
     
-    //TODO you cannot upload folders (is this acceptable? if we can select a bulk number of gcode files that would work too)
-    //TODO actually detect which machine is being used
+    //TODO you cannot upload folders or multiple files (how are we going to do the Hot Wire profiles?)
     
     //TODO handle really long descriptions on the Model tab, maybe make a dynamically sized text area there instead of a label
+    //TODO "are you sure" window for STOP button
     
     //TODO line 196 in RotationController
     
-    //TODO "are you sure" window for STOP button
     
     
     //Static Fields
