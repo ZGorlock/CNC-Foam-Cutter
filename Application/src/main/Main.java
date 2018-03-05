@@ -55,13 +55,11 @@ public class Main
     
     
     //Nick
-    
-    //TODO you cannot upload folders or multiple files (how are we going to do the Hot Wire profiles?)
-    
-    //TODO handle really long descriptions on the Model tab, maybe make a dynamically sized text area there instead of a label
-    //TODO "are you sure" window for STOP button
-    
-    //TODO line 196 in RotationController
+    //TODO line 196 GcodeController
+    //TODO line 129 MenuController
+    //TODO findout where the filenames are being used to do grbl
+
+
     
     
     

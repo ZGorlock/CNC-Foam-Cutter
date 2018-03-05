@@ -50,7 +50,7 @@ public class Constants
     /**
      * The path to the grbl temporary directory.
      */
-    public static final String GRBL_TEMP_DIRECTORY = "resources" + File.separator + "temp" + File.separator;
+    public static final String GRBL_TEMP_DIRECTORY = "resources" + File.separator + "gcode" + File.separator + "temp" + File.separator;
     
     
     //JAVA3D

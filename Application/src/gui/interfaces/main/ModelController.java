@@ -14,6 +14,7 @@ import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TextArea;
 import main.Main;
 import renderer.Renderer;
 
@@ -43,7 +44,7 @@ public class ModelController
     /**
      * The model description output text field.
      */
-    public Label fileDesc;
+    public TextArea fileDesc;
     
     /**
      * The file name output text field.
@@ -264,7 +265,11 @@ public class ModelController
      */
     public static void setDesc(String desc)
     {
+
+        controller.fileDesc.setWrapText(true);
         controller.fileDesc.setText(desc);
+        controller.fileDesc.setMaxWidth(250.0);
+        controller.fileDesc.setMaxHeight(10.0);
     }
     
     /**

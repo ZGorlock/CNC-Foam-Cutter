@@ -93,6 +93,8 @@ public class InputController
         width.setPromptText("Enter X...");
         length.setPromptText("Enter Y...");
         height.setPromptText("Enter Z...");
+
+        desc.setWrapText(true);
     }
     
     /**

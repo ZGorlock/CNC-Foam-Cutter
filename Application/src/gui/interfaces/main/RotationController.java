@@ -152,7 +152,6 @@ public class RotationController
         
         // Add images as a row
         for (int i = 0; i < gcodeTraces.size(); i++) {
-//            Image image = new Image("file:src/gui/images/logo.PNG");
             Image image = SwingFXUtils.toFXImage(gcodeTraces.get(i), null);
             ImageView pic = new ImageView(image);
             gcodeTraceFileMap.put(image, new File(GreetingController.getSlices().get(i)).getName());
@@ -192,7 +191,7 @@ public class RotationController
         }
         sp.setContent(hbox);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        sp.setHmax((gcodeTraces.size() - 1) * 1.0); // TODO set to the size of the arraylist aka gcodeTraces to keep track of current one
+        sp.setHmax((gcodeTraces.size() - 1) * 1.0);
         
         // Change the view when something is selected.
         sp.hvalueProperty().addListener((ov, old_val, new_val) -> {

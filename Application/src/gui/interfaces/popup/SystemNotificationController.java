@@ -9,6 +9,7 @@ package gui.interfaces.popup;
 import gui.interfaces.main.MenuController;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import main.Main;
 
@@ -24,7 +25,11 @@ public class SystemNotificationController
      * The error type output field.
      */
     public Label errorType;
-    
+
+    /**
+     * The button for this screen.
+     */
+    public Button btnOk;
     
     //Fields
     
@@ -80,10 +85,17 @@ public class SystemNotificationController
     {
         // For full stops
         if (fullstop) {
-            Main.resetApplication();
-            
-            MenuController.controller.backToStartUpScreen();
-            ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
+
+            btnOk.setText("Are you sure?");
+
+            btnOk.setOnMousePressed(event -> {
+                Main.resetApplication();
+
+                MenuController.controller.backToStartUpScreen();
+                ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
+            });
+
+
             
         } else {
             // For any other notification

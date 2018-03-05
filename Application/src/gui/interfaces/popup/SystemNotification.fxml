@@ -26,7 +26,7 @@
                 <Label alignment="TOP_RIGHT" contentDisplay="CENTER" text="System Notification" textAlignment="CENTER"
                        VBox.vgrow="ALWAYS"/>
                 <Label fx:id="errorType" VBox.vgrow="ALWAYS"/>
-                <Button alignment="CENTER" onAction="#ok" styleClass="buttonGold" text="Ok" VBox.vgrow="ALWAYS"/>
+                <Button fx:id="btnOk" alignment="CENTER" onAction="#ok" styleClass="buttonGold" text="Ok" VBox.vgrow="ALWAYS"/>
             </VBox>
         </bottom>
     </BorderPane>

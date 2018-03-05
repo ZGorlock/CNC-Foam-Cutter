@@ -129,6 +129,7 @@ public class GreetingController
         File file;
         if (textFieldPath.getText().compareTo(prompt) != 0) {
             file = new File(textFieldPath.getText());
+
             if (badExtension(file)) {
                 return;
             }
@@ -139,7 +140,14 @@ public class GreetingController
                 fileChooser.getExtensionFilters().add(extFilter);
             }
             fileChooser.setTitle("Select File(s)");
-            file = fileChooser.showOpenDialog(new Stage());
+
+            List<File> selectedFiles = fileChooser.showOpenMultipleDialog(new Stage());
+            if(selectedFiles.size() > 1){
+                handleMultipleFiles(selectedFiles);
+                return;
+            }
+
+            file = selectedFiles.get(0);
         }
         handleFile(file);
     }
@@ -177,6 +185,22 @@ public class GreetingController
             chosen = true;
             handleUploadedAnimation();
         }
+    }
+
+    /**
+     * Handles multiple files being chosen
+     *
+     * @param files The list of files being uploaded.
+     */
+    public void handleMultipleFiles(List<File> files)
+    {
+        textFieldPath.setText(files.get(0).getParentFile().getAbsolutePath());
+
+        for (File f : files) {
+            fileNames.add(f.getAbsolutePath());
+        }
+        chosen = true;
+        handleUploadedAnimation();
     }
     
     /**
