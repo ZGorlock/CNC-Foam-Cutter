@@ -10,7 +10,6 @@ import gui.interfaces.main.GcodeController;
 import gui.interfaces.main.MenuController;
 import gui.interfaces.main.ModelController;
 import gui.interfaces.main.TraceController;
-import gui.interfaces.popup.SystemNotificationController;
 import main.Main;
 import utils.CmdLine;
 import utils.Constants;
@@ -306,6 +305,7 @@ public class APIgrbl extends Thread
         } catch (IOException e) {
             System.err.println("There was an error writing tempCommand.txt during streaming!");
             e.printStackTrace();
+//            SystemNotificationController.controller.raise("There was an error executing your command!", false); //TODO
             return;
         }
         
@@ -336,7 +336,7 @@ public class APIgrbl extends Thread
         } catch (IOException e) {
             System.err.println("There was an error reading grbl's response to a user entered command!");
             e.printStackTrace();
-            SystemNotificationController.controller.raise("There was an error executing your command!", false);
+//            SystemNotificationController.controller.raise("There was an error executing your command!", false); //TODO
         }
         
         commandsFromUI.remove(0);

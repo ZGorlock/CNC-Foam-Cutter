@@ -240,6 +240,9 @@ public class Renderer
     private MeshView[] loadModel(String model)
     {
         File file = new File(model);
+        if (!file.exists()) {
+            return new MeshView[]{};
+        }
         
         StlMeshImporter importer = new StlMeshImporter();
         importer.read(file);

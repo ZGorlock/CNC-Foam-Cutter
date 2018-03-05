@@ -126,7 +126,7 @@ public class MenuController
                 stopButton.setText("STOP");
                 stopButton.setOnAction(this::stop);
             } else {
-                //TODO throw error
+                //TODO open notification telling user that grbl count not be started
             }
         }
     }

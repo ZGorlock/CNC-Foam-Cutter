@@ -158,7 +158,9 @@ public class ModelController
         renderer = Renderer.setup(swingNodeModel);
         
         File file = new File(GreetingController.getFilenames().get(0));
-        setFileName(file.getName());
+        if (file.exists()) {
+            setFileName(file.getName());
+        }
         
         setFileSize(calculateFileSize(file));
         setStudentNid(InputController.getNidFromText());

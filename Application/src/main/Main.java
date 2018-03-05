@@ -41,15 +41,17 @@ public class Main
     
     //Zack
     
-    //TODO add error handling to Controller setup pieces (or at least print an error and recover from it)
-    //  Slicer
-    //  File
-    
     //TODO reset path for hot wire profiles (it looks like this can be done with a single command: G28)
     //TODO handle if the sum of the profiles is not 360 (auto and user set) (do this in Print button)
     
-    //TODO average time remaining
     //TODO console text when uploading
+    
+    //TODO User notifications
+    //  GcodeController line 332
+    //  MenuController line 129
+    //  APIgrbl lin 309, 340
+    //  ---
+    //  APIgrbl line 268 (how should we handle this)
     
     
     //Nick

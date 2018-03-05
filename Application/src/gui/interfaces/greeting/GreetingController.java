@@ -211,11 +211,9 @@ public class GreetingController
         
         if (!getModel().isEmpty()) {
             File model = new File(getModel());
-            //TODO error handling
-//            SystemNotificationController notification = new SystemNotificationController();
-//            notification.initialize();
-//            notification.raise("Parsing your model...", false);
-            GcodeController.slice(model);
+            if (!GcodeController.slice(model)) { //Error is handled internally
+                return;
+            }
         }
         
         nextStage(actionEvent);
@@ -297,8 +295,8 @@ public class GreetingController
      */
     private boolean badExtension(File file)
     {
-        if (file == null) {
-            return false;
+        if (file == null || !file.exists()) {
+            return true;
         }
         
         List<String> allowed = new ArrayList<>();

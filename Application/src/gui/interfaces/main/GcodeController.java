@@ -297,6 +297,10 @@ public class GcodeController
             }
         }
         
+        if (gcodeFile == null || gcodeFile.isEmpty()) {
+            return false;
+        }
+        
         APIgrbl apiGrbl = new APIgrbl(gcodeFile);
         if (!apiGrbl.initialize()) {
             System.err.println("Could not set up grbl!");
@@ -313,18 +317,24 @@ public class GcodeController
      * Slices the uploaded model into gcode.
      *
      * @param model The uploaded model file.
+     * @return Whether the model was successfully sliced or not.
      */
-    public static void slice(File model)
+    public static boolean slice(File model)
     {
         if (model.getAbsolutePath().endsWith(".gcode")) {
             gcodeFile = model.getAbsolutePath();
+            return true;
         }
         
-        //TODO error handling
         Slicer slicer = new Slicer(model.getAbsolutePath(), Main.main.architecture);
-        slicer.slice("--gcode-flavor mach3");
+        if (!slicer.slice("--gcode-flavor mach3")) {
+            System.err.println("There was an error converting the model: " + " into gcode!");
+            //TODO open notification telling user their model could not be converted to gcode
+            return false;
+        }
         
         gcodeFile = model.getAbsolutePath().substring(0, model.getAbsolutePath().indexOf('.')) + ".gcode";
+        return true;
     }
     
 }
