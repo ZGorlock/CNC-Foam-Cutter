@@ -150,11 +150,24 @@ public class APIgrbl extends Thread
      */
     private void partitionAndStream()
     {
+        File tempDirectory = new File(Constants.GRBL_TEMP_DIRECTORY);
+        File tempFile = new File(tempDirectory, "tempfile.txt");
+        if (!tempDirectory.exists() || !tempFile.exists()) {
+            try {
+                tempDirectory.mkdir();
+                tempFile.createNewFile();
+            } catch (IOException e) {
+                System.err.println("There was an error creating tempfile.txt used for streaming!");
+                e.printStackTrace();
+//            SystemNotificationController.controller.raise("There was an error streaming to the machine!", true); TODO
+            }
+        }
+        
         try {
             int i = 0;
             while (i < commands.size()) {
                 // read every 127 characters and create a file with them for stream.py to use
-                BufferedWriter bw = new BufferedWriter(new FileWriter(new File(Constants.GRBL_TEMP_DIRECTORY, "tempfile.txt")));
+                BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile));
                 StringBuilder sb = new StringBuilder();
         
                 double packetProgressUnits = 0;
@@ -230,7 +243,7 @@ public class APIgrbl extends Thread
                 // execute stream.py with the file created, get input stream as a response
                 Process process = null;
                 while (process == null) {
-                    process = CmdLine.executeCmdAsThread("py " + Constants.GRBL_DIRECTORY + "stream.py " + Constants.GRBL_TEMP_DIRECTORY + "tempfile.txt\n");
+                    process = CmdLine.executeCmdAsThread("py " + Constants.GRBL_DIRECTORY + "stream.py " + Constants.GRBL_TEMP_DIRECTORY + tempFile.getName() +"\n");
                     if (process != null) {
                         BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
     
@@ -298,22 +311,24 @@ public class APIgrbl extends Thread
      */
     private void handleRequest()
     {
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(new File(Constants.GRBL_TEMP_DIRECTORY, "tempCommand.txt")));
-            bw.write(commandsFromUI.get(0));
-            bw.close();
-        } catch (IOException e) {
-            System.err.println("There was an error writing tempCommand.txt during streaming!");
-            e.printStackTrace();
-//            SystemNotificationController.controller.raise("There was an error executing your command!", false); //TODO
-            return;
+        File tempDirectory = new File(Constants.GRBL_TEMP_DIRECTORY);
+        File tempCommand = new File(tempDirectory, "tempCommand.txt");
+        if (!tempDirectory.exists() || !tempCommand.exists()) {
+            try {
+                tempDirectory.mkdir();
+                tempCommand.createNewFile();
+            } catch (IOException e) {
+                System.err.println("There was an error creating tempcommand.txt used for streaming user commands!");
+                e.printStackTrace();
+//            SystemNotificationController.controller.raise("There was an error streaming to the machine!", true); TODO
+            }
         }
         
         try {
             // execute stream.py with the command being sent, get input stream as a response
             Process process = null;
             while (process == null) {
-                process = CmdLine.executeCmdAsThread("py -3 " + Constants.GRBL_DIRECTORY + "stream.py " + Constants.GRBL_TEMP_DIRECTORY + "tempCommand.txt\n");
+                process = CmdLine.executeCmdAsThread("py -3 " + Constants.GRBL_DIRECTORY + "stream.py " + Constants.GRBL_TEMP_DIRECTORY + tempCommand.getName() + "\n");
                 if (process != null) {
                     BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
             

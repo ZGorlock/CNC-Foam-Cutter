@@ -14,7 +14,6 @@ import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TextArea;
 import main.Main;
 import renderer.Renderer;
 
@@ -44,7 +43,7 @@ public class ModelController
     /**
      * The model description output text field.
      */
-    public TextArea fileDesc;
+    public Label fileDesc;
     
     /**
      * The file name output text field.
@@ -265,11 +264,31 @@ public class ModelController
      */
     public static void setDesc(String desc)
     {
-
-        controller.fileDesc.setWrapText(true);
-        controller.fileDesc.setText(desc);
-        controller.fileDesc.setMaxWidth(250.0);
-        controller.fileDesc.setMaxHeight(10.0);
+        if (desc == null) {
+            return;
+        }
+        
+        StringBuilder sb = new StringBuilder(desc);
+        final int maxTextWidth = 28;
+        int i = 0;
+        while (i + maxTextWidth < sb.length() && (i = sb.lastIndexOf(" ", i + maxTextWidth)) != -1) {
+            sb.replace(i, i + 1, "\n");
+        }
+        int j = 0;
+        for (i = 0; i < sb.length(); i++) {
+            if (sb.charAt(i) == '\n') {
+                j = 0;
+            } else {
+                j++;
+                if (j == maxTextWidth) {
+                    sb.insert(i, "\n");
+                    j = 0;
+                    i--;
+                }
+            }
+        }
+        
+        controller.fileDesc.setText(sb.toString());
     }
     
     /**

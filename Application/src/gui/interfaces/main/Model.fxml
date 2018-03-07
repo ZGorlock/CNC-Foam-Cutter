@@ -21,30 +21,40 @@
 
         <right>
             <VBox styleClass="vbox">
-                <HBox spacing="46">
-                    <Text styleClass="bold">Student NID:</Text>
-                    <Label fx:id="studentNID"/>
-                </HBox>
-                <HBox spacing="56">
-                    <Text styleClass="bold">Description:</Text>
-                    <TextArea fx:id="fileDesc"/>
-                </HBox>
-                <HBox spacing="136">
-                    <Text styleClass="bold">File:</Text>
-                    <Label fx:id="fileName" alignment="TOP_RIGHT"/>
-                </HBox>
-                <HBox spacing="131">
-                    <Text styleClass="bold">Size:</Text>
-                    <Label fx:id="fileSize" alignment="TOP_RIGHT"/>
-                </HBox>
-                <HBox spacing="58">
-                    <Text styleClass="bold">Percentage:</Text>
-                    <Label fx:id="percentage" alignment="TOP_RIGHT"/>
-                </HBox>
-                <HBox spacing="8">
-                    <Text styleClass="bold">Time Remaining:</Text>
-                    <Label fx:id="timeRemaining" alignment="TOP_RIGHT"/>
-                </HBox>
+                <VBox style="-fx-border-color: #B79A62; -fx-border-width: 2; -fx-padding: 20px;">
+                    <HBox spacing="9">
+                        <Text styleClass="bold">Student NID:</Text>
+                        <Label fx:id="studentNID" alignment="TOP_RIGHT"/>
+                    </HBox>
+                    <HBox spacing="19">
+                        <Text styleClass="bold">Description:</Text>
+                        <Label fx:id="fileDesc" alignment="TOP_RIGHT"/>
+                    </HBox>
+                </VBox>
+
+                <Text/>
+                <VBox style="-fx-border-color: #B79A62; -fx-border-width: 2; -fx-padding: 20px;">
+                    <HBox spacing="9">
+                        <Text styleClass="bold">File Name:</Text>
+                        <Label fx:id="fileName" alignment="TOP_RIGHT"/>
+                    </HBox>
+                    <HBox spacing="29">
+                        <Text styleClass="bold">File Size:</Text>
+                        <Label fx:id="fileSize" alignment="TOP_RIGHT"/>
+                    </HBox>
+                </VBox>
+
+                <Text/>
+                <VBox style="-fx-border-color: #B79A62; -fx-border-width: 2; -fx-padding: 20px;">
+                    <HBox spacing="59">
+                        <Text styleClass="bold">Percentage:</Text>
+                        <Label fx:id="percentage" alignment="TOP_RIGHT"/>
+                    </HBox>
+                    <HBox spacing="9">
+                        <Text styleClass="bold">Time Remaining:</Text>
+                        <Label fx:id="timeRemaining" alignment="TOP_RIGHT"/>
+                    </HBox>
+                </VBox>
             </VBox>
         </right>
     </BorderPane>

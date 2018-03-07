@@ -55,7 +55,7 @@ public class Debug extends Main
         ArrayList<String> filenames = new ArrayList<>();
         filenames.add(stlVersion); //set the files here
         GreetingController.setFileNames(filenames);
-        
+    
         Renderer.foamWidth = 10;
         Renderer.foamLength = 10;
         Renderer.foamHeight = 10;

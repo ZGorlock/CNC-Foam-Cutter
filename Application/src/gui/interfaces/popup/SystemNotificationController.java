@@ -105,4 +105,9 @@ public class SystemNotificationController
         }
     }
     
+    
+    //Static Methods
+    
+    
+    
 }

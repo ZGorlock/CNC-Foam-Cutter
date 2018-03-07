@@ -6,6 +6,7 @@
 
 package gui.interfaces.greeting;
 
+import gui.Gui;
 import gui.interfaces.main.ModelController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +25,14 @@ import utils.MachineDetector;
  */
 public class InputController
 {
+    
+    //Constants
+    
+    /**
+     * The maximum number of characters in the description field.
+     */
+    public static final int MAX_DESCRIPTION_LENGTH = 200;
+    
     
     //FXML Fields
     
@@ -94,7 +103,12 @@ public class InputController
         length.setPromptText("Enter Y...");
         height.setPromptText("Enter Z...");
 
-        desc.setWrapText(true);
+        desc.textProperty().addListener((ov, oldValue, newValue) -> {
+            if (desc.getText().length() > MAX_DESCRIPTION_LENGTH) {
+                String s = desc.getText().substring(0, MAX_DESCRIPTION_LENGTH);
+                desc.setText(s);
+            }
+        });
     }
     
     /**
@@ -268,6 +282,9 @@ public class InputController
      */
     public static String getNidFromText()
     {
+        if (Gui.debug) {
+            return "aa123456";
+        }
         return nidText;
     }
     
@@ -278,6 +295,9 @@ public class InputController
      */
     public static String getDescFromText()
     {
+        if (Gui.debug) {
+            return "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+        }
         return descText;
     }
     

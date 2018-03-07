@@ -33,7 +33,7 @@
                     <VBox alignment="TOP_LEFT" spacing="20">
                         <Text>Description: </Text>
                     </VBox>
-                    <TextArea fx:id="desc"/>
+                    <TextArea fx:id="desc" wrapText="true"/>
                 </HBox>
 
                 <Text/>

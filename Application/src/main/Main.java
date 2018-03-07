@@ -35,13 +35,15 @@ public class Main
     //TODO conference paper
     
     //TODO add unit tests for Controller setup pieces
-    //TODO Rotation...
     //TODO check for machine connection before even going to the input screen (new starting window?)
+    
+    //TODO Rotation...
+    //  reset path for hot wire profiles (it looks like this can be done with a single command: G28)
+    //  findout where the filenames are being used to do grbl
     
     
     //Zack
     
-    //TODO reset path for hot wire profiles (it looks like this can be done with a single command: G28)
     //TODO handle if the sum of the profiles is not 360 (auto and user set) (do this in Print button)
     
     //TODO console text when uploading
@@ -57,7 +59,6 @@ public class Main
     //Nick
     //TODO line 196 GcodeController
     //TODO line 129 MenuController
-    //TODO findout where the filenames are being used to do grbl
 
 
     
