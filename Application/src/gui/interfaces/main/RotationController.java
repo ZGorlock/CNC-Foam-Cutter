@@ -30,6 +30,7 @@ import utils.GcodeTracer;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,6 +85,11 @@ public class RotationController
     private Map<Image, String> gcodeTraceFileMap;
     
     /**
+     * The queue of rotation degrees for each profile.
+     */
+    public List<Double> rotationQueue;
+    
+    /**
      * The index of the gcode profile current selected.
      */
     private int index;
@@ -127,6 +133,7 @@ public class RotationController
         GcodeTracer gcodeTracer = new GcodeTracer();
         gcodeTraceFileMap = new HashMap<>();
         gcodeTraces = gcodeTracer.traceGcodeSet(GreetingController.getSlices());
+        rotationQueue = new ArrayList<>();
         
         // Init index
         index = 0;
@@ -174,6 +181,7 @@ public class RotationController
             vbox.getChildren().add(pic);
             // Initialize all evenly spaced degrees
             Double d = (360 / gcodeTraces.size()) * 1.0;
+            rotationQueue.add(d);
             
             // Setting the new degree
             Text text = new Text(formatDegree(d));
@@ -218,6 +226,7 @@ public class RotationController
         }
         
         Double d = Double.parseDouble(input);
+        rotationQueue.set(index, d);
         
         // Set new selected value
         HBox temp = (HBox) sp.getContent();

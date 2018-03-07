@@ -112,19 +112,32 @@ public class MenuController
     public void print(ActionEvent actionEvent)
     {
         if (playPauseButton == null) {
-            if (GcodeController.startGrbl()) {
-    
-                playPauseButton = new Button();
-                playPauseButton.getStyleClass().add("buttonGold");
-                playPauseButton.setOnMouseClicked(e -> playPauseButtonClicked(actionEvent));
-    
-                playPauseButton.setText("Pause");
-                hBox.getChildren().add(playPauseButton);
-    
-                stopButton.setText("STOP");
-                stopButton.setOnAction(this::stop);
-            } else {
-                SystemNotificationController.throwNotification("The process of communicating with the machine could not be started!", true, false);
+            if (MachineDetector.isCncMachine()) {
+                if (GcodeController.startGrbl()) {
+        
+                    playPauseButton = new Button();
+                    playPauseButton.getStyleClass().add("buttonGold");
+                    playPauseButton.setOnMouseClicked(e -> playPauseButtonClicked(actionEvent));
+        
+                    playPauseButton.setText("Pause");
+                    hBox.getChildren().add(playPauseButton);
+        
+                    stopButton.setText("STOP");
+                    stopButton.setOnAction(this::stop);
+                } else {
+                    SystemNotificationController.throwNotification("The process of communicating with the machine could not be started!", true, false);
+                }
+                
+            } else if (MachineDetector.isHotWireMachine()) {
+                double total = 0.0;
+                for (double degree : RotationController.controller.rotationQueue) {
+                    total += degree;
+                }
+                if (total == 360.0) {
+                    //TODO handle first profile and set up queue
+                } else {
+                    SystemNotificationController.throwNotification("The sum of your profiles must add up to 360 degrees!!", false, false);
+                }
             }
         }
     }
