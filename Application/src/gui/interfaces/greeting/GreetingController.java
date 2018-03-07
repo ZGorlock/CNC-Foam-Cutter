@@ -7,6 +7,7 @@
 package gui.interfaces.greeting;
 
 import gui.interfaces.main.GcodeController;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -14,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
@@ -28,6 +30,8 @@ import utils.MachineDetector;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * The controller for the Greeting page.
@@ -63,6 +67,11 @@ public class GreetingController
     public ImageView knights;
     
     /**
+     * The Slic3r console.
+     */
+    public TextArea slicerConsole;
+    
+    /**
      * The select a file prompt.
      */
     private String prompt;
@@ -80,13 +89,38 @@ public class GreetingController
      */
     private boolean chosen;
     
+    /**
+     * The console output from the slicing process.
+     */
+    public final List<String> slicerOutput = new ArrayList<>();
+    
+    /**
+     * The timer for updating the slicer console.
+     */
+    public Timer slicerConsoleTimer;
+    
+    /**
+     * A flag indicating whether the slicing process has finished or not.
+     */
+    public boolean slicingDone;
+    
+    /**
+     * A flag indicating whether the slicing process was successful or not.
+     */
+    public boolean slicingSuccess;
+    
+    /**
+     * A flag indicating whether the slicing process is in progress or not.
+     */
+    public boolean slicingInProgress;
+    
     
     //Static Fields
     
     /**
      * The instance of the controller.
      */
-    private static GreetingController controller;
+    public static GreetingController controller;
     
     
     //Methods
@@ -109,6 +143,10 @@ public class GreetingController
                 "-fx-opacity: .25;");
         textFieldPath.setOnMouseClicked(e -> textFieldPath.setText(""));
         textFieldPath.setPromptText("Paste path here...");
+        
+        slicerOutput.clear();
+        slicingDone = false;
+        slicingInProgress = false;
     }
     
     /**
@@ -126,6 +164,10 @@ public class GreetingController
      */
     public void chooseFile(ActionEvent actionEvent)
     {
+        if (slicingInProgress) {
+            return;
+        }
+        
         File file;
         if (textFieldPath.getText().compareTo(prompt) != 0) {
             file = new File(textFieldPath.getText());
@@ -225,6 +267,10 @@ public class GreetingController
      */
     public void upload(ActionEvent actionEvent)
     {
+        if (slicingInProgress) {
+            return;
+        }
+        
         if (!chosen) { // must upload a file to continue
             chooseButton.setStyle(" -fx-background-color: #BEBFC3;" +
                     " -fx-background-radius: 6;" +
@@ -235,12 +281,68 @@ public class GreetingController
         
         if (!getModel().isEmpty()) {
             File model = new File(getModel());
-            if (!GcodeController.slice(model)) { //Error is handled internally
-                return;
-            }
+            slicerConsole.setVisible(true);
+            slicerOutput.add("Slicing your model into gcode...");
+            slicerOutput.add("");
+            slicingInProgress = true;
+            updateSlicerConsole(actionEvent);
+            
+            Timer slicingTimer = new Timer();
+            slicingTimer.schedule(new TimerTask()
+            {
+                @Override
+                public void run()
+                {
+                    GcodeController.slice(model); //Error is handled internally
+                }
+            }, 0);
+            
+        } else {
+            nextStage(actionEvent);
         }
-        
-        nextStage(actionEvent);
+    }
+    
+    /**
+     * Updates the slicer console.
+     *
+     * @param actionEvent The event that triggered the handler that started this update thread.
+     */
+    private void updateSlicerConsole(ActionEvent actionEvent)
+    {
+        TimerTask updateSlicerConsole = new TimerTask()
+        {
+            private int state;
+            
+            @Override
+            public void run()
+            {
+                if (slicerOutput.size() != state) {
+                    state = slicerOutput.size();
+                    
+                    StringBuilder slicerOutputBuilder = new StringBuilder();
+                    for (int i = 0; i < slicerOutput.size(); i++) {
+                        slicerOutputBuilder.append(slicerOutput.get(i));
+                        if (i != slicerOutput.size() - 1) {
+                            slicerOutputBuilder.append("\n");
+                        }
+                    }
+    
+                    slicerConsole.textProperty().set(slicerOutputBuilder.toString());
+                    slicerConsole.appendText("");
+                    slicerConsole.setScrollTop(Double.MAX_VALUE);
+    
+                    if (slicingDone) {
+                        if (slicingSuccess) {
+                            Platform.runLater(() -> nextStage(actionEvent));
+                        }
+                        slicerConsoleTimer.purge();
+                        slicerConsoleTimer.cancel();
+                    }
+                }
+            }
+        };
+        slicerConsoleTimer = new Timer();
+        slicerConsoleTimer.scheduleAtFixedRate(updateSlicerConsole, 0, 50);
     }
     
     /**
@@ -288,6 +390,10 @@ public class GreetingController
      */
     public void dropFile(DragEvent dragEvent)
     {
+        if (slicingInProgress) {
+            return;
+        }
+        
         final Dragboard db = dragEvent.getDragboard();
         File file = db.getFiles().get(0);
         if (badExtension(file)) {
@@ -303,6 +409,10 @@ public class GreetingController
      */
     public void checkPaste(KeyEvent keyEvent)
     {
+        if (slicingInProgress) {
+            return;
+        }
+        
         if (textFieldPath.getText().compareTo(prompt) != 0 && !chosen) {
             File file = new File(textFieldPath.getText());
             if (!badExtension(file)) {

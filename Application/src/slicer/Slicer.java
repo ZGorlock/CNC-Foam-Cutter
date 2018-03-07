@@ -6,6 +6,7 @@
 
 package slicer;
 
+import gui.interfaces.greeting.GreetingController;
 import utils.CmdLine;
 import utils.Constants;
 
@@ -62,7 +63,7 @@ public final class Slicer
     /**
      * Slices the model and generates the corresponding g-code.
      *
-     * @param arguments The arguments to send to Slic3r.
+     * @param arguments     The arguments to send to Slic3r.
      * @return Whether the slicing was successful or not.
      */
     public boolean slice(String arguments)
@@ -105,6 +106,7 @@ public final class Slicer
                 if (line == null) {
                     break;
                 }
+                GreetingController.controller.slicerOutput.add(line);
                 System.out.println(line);
             }
         } catch (IOException ignored) {
@@ -113,16 +115,6 @@ public final class Slicer
         }
         
         return true;
-    }
-    
-    /**
-     * Slices the model and generates the corresponding g-code.
-     *
-     * @return Whether the slicing was successful or not.
-     */
-    public boolean slice()
-    {
-        return slice("");
     }
     
     

@@ -34,23 +34,25 @@ public class Main
     //TODO update Design Document
     //TODO conference paper
     
-    //TODO add unit tests for Controller setup pieces
-    //TODO check for machine connection before even going to the input screen (new starting window?)
-    
     
     //Zack
     
     //TODO Rotation...
-    //  reset path for hot wire profiles (it looks like this can be done with a single command: G28)
-    //  findout where the filenames are being used to do grbl
-    //TODO MenuController line 137
+    //TODO    rotation queue logic
+    //TODO    reset path for hot wire profiles (it looks like this can be done with a single command: G28)
+    //TODO    findout where the filenames are being used to do grbl
+    //TODO    MenuController line 137
     
-    //TODO console text when uploading
+    //TODO add unit tests for Controller setup pieces
     
     
     //Nick
+    //TODO check for machine connection before even going to the input screen (new starting window?)
+    
     //TODO line 196 GcodeController
-    //TODO line 129 MenuController
+    //TODO line 129
+    
+    //TODO add unit tests for Controller setup pieces (lets stick with blackbox testing for times sake)
 
 
     

@@ -9,9 +9,9 @@
     <BorderPane prefHeight="400.0" prefWidth="600.0" styleClass="borderPane">
         <center>
             <VBox spacing="10" styleClass="vbox" id="vBox">
-                <TextArea fx:id="textAreaCodeSent" styleClass="console"/>
+                <TextArea fx:id="textAreaCodeSent" editable="false" styleClass="console"/>
 
-                <TextArea fx:id="textAreaResponse" styleClass="console"/>
+                <TextArea fx:id="textAreaResponse" editable="false" styleClass="console"/>
                 <TextField fx:id="textFieldCommand" styleClass="console"/>
                 <HBox alignment="TOP_RIGHT">
                     <Button fx:id="sendButton" alignment="CENTER_RIGHT"

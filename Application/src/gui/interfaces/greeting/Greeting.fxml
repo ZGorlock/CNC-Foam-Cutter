@@ -36,10 +36,16 @@
                        fx:id="dropFileText"/>
             </top>
             <center>
-                <ImageView fx:id="knights" preserveRatio="true">
-                    <Image url="@../../images/knight.PNG"/>
-                </ImageView>
+                <StackPane>
+                    <ImageView fx:id="knights" preserveRatio="true">
+                        <Image url="@../../images/knight.PNG"/>
+                    </ImageView>
+                    <TextArea fx:id="slicerConsole" styleClass="console" editable="false" visible="false"/>
+                </StackPane>
             </center>
+            <bottom>
+                <Label text="" styleClass="goldText" contentDisplay="LEFT"/>
+            </bottom>
         </BorderPane>
     </HBox>
 

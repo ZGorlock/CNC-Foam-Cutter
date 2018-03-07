@@ -324,17 +324,25 @@ public class GcodeController
     {
         if (model.getAbsolutePath().endsWith(".gcode")) {
             gcodeFile = model.getAbsolutePath();
-            return true;
+    
+            GreetingController.controller.slicingSuccess = false;
+            GreetingController.controller.slicingDone = true;
+            return false;
         }
         
         Slicer slicer = new Slicer(model.getAbsolutePath(), Main.main.architecture);
         if (!slicer.slice("--gcode-flavor mach3")) {
             System.err.println("There was an error converting the model: " + " into gcode!");
             SystemNotificationController.throwNotification("Your model could not be converted to gcode!", true, false);
+            
+            GreetingController.controller.slicingSuccess = false;
+            GreetingController.controller.slicingDone = true;
             return false;
         }
         
         gcodeFile = model.getAbsolutePath().substring(0, model.getAbsolutePath().indexOf('.')) + ".gcode";
+        GreetingController.controller.slicingSuccess = true;
+        GreetingController.controller.slicingDone = true;
         return true;
     }
     
