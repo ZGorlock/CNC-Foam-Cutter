@@ -10,6 +10,7 @@ import gui.interfaces.main.GcodeController;
 import gui.interfaces.main.MenuController;
 import gui.interfaces.main.ModelController;
 import gui.interfaces.main.TraceController;
+import gui.interfaces.popup.SystemNotificationController;
 import main.Main;
 import utils.CmdLine;
 import utils.Constants;
@@ -159,7 +160,8 @@ public class APIgrbl extends Thread
             } catch (IOException e) {
                 System.err.println("There was an error creating tempfile.txt used for streaming!");
                 e.printStackTrace();
-//            SystemNotificationController.controller.raise("There was an error streaming to the machine!", true); TODO
+                SystemNotificationController.throwNotification("There was an error streaming to the machine!", true, false);
+                return;
             }
         }
         
@@ -277,7 +279,8 @@ public class APIgrbl extends Thread
         } catch (IOException e) {
             System.err.println("There was an error writing tempfile.txt during streaming!");
             e.printStackTrace();
-//            SystemNotificationController.controller.raise("There was an error streaming to the machine!", true); TODO
+            SystemNotificationController.controller.raise("There was an error streaming to the machine!", false, false);
+            return;
         }
         
         // Reset UI
@@ -320,7 +323,8 @@ public class APIgrbl extends Thread
             } catch (IOException e) {
                 System.err.println("There was an error creating tempcommand.txt used for streaming user commands!");
                 e.printStackTrace();
-//            SystemNotificationController.controller.raise("There was an error streaming to the machine!", true); TODO
+                SystemNotificationController.throwNotification("There was an error executing your command!", false, false);
+                return;
             }
         }
         
@@ -351,7 +355,8 @@ public class APIgrbl extends Thread
         } catch (IOException e) {
             System.err.println("There was an error reading grbl's response to a user entered command!");
             e.printStackTrace();
-//            SystemNotificationController.controller.raise("There was an error executing your command!", false); //TODO
+            SystemNotificationController.throwNotification("There was an error executing your command!", false, false);
+            return;
         }
         
         commandsFromUI.remove(0);

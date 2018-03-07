@@ -7,11 +7,19 @@
 package gui.interfaces.popup;
 
 import gui.interfaces.main.MenuController;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 import main.Main;
+
+import java.io.File;
+import java.net.URL;
 
 /**
  * The controller for the System Notification popup.
@@ -31,6 +39,7 @@ public class SystemNotificationController
      */
     public Button btnOk;
     
+    
     //Fields
     
     /**
@@ -42,6 +51,11 @@ public class SystemNotificationController
      * A flag indicating whether or not to perform a full stop.
      */
     private boolean fullstop;
+    
+    /**
+     * A flag indicating whether or not to perform an "Are you sure?" check.
+     */
+    private boolean areYouSure;
     
     
     //Static Fields
@@ -66,14 +80,16 @@ public class SystemNotificationController
     /**
      * Raises an error.
      *
-     * @param error    The error.
-     * @param fullstop Whether or not to perform a full stop.
+     * @param error      The error.
+     * @param fullstop   Whether or not to perform a full stop.
+     * @param areYouSure Whether or not to perform the "Are you sure?" check.
      */
-    public void raise(String error, boolean fullstop)
+    public void raise(String error, boolean fullstop, boolean areYouSure)
     {
         this.error = error;
         errorType.setText(error);
         this.fullstop = fullstop;
+        this.areYouSure = areYouSure;
     }
     
     /**
@@ -86,16 +102,22 @@ public class SystemNotificationController
         // For full stops
         if (fullstop) {
 
-            btnOk.setText("Are you sure?");
-
-            btnOk.setOnMousePressed(event -> {
+            if (areYouSure) {
+                btnOk.setText("Are you sure?");
+    
+                btnOk.setOnMousePressed(event -> {
+                    Main.resetApplication();
+        
+                    MenuController.controller.backToStartUpScreen();
+                    ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
+                });
+                
+            } else {
                 Main.resetApplication();
-
+    
                 MenuController.controller.backToStartUpScreen();
                 ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
-            });
-
-
+            }
             
         } else {
             // For any other notification
@@ -108,6 +130,29 @@ public class SystemNotificationController
     
     //Static Methods
     
+    public static void throwNotification(String error, boolean fullstop, boolean areYouSure)
+    {
+        Platform.runLater(() -> {
+            Parent root;
+            try {
+                File systemNotification = new File("src\\gui\\interfaces\\popup\\SystemNotification.fxml");
+                URL fxml = systemNotification.toURI().toURL();
+                root = FXMLLoader.load(fxml);
+                Stage stage = new Stage();
+                stage.setTitle("3D CNC Foam Cutter");
+                stage.setScene(new Scene(root, 600, 300));
+                stage.show();
+                stage.setOnCloseRequest(t -> Main.killApplication());
     
+                // Set notification
+                SystemNotificationController.controller.raise(error, fullstop, areYouSure);
+    
+            } catch (Exception e) {
+                System.err.println("There was an error loading SystemNotification.fxml!");
+                e.printStackTrace();
+                Main.killApplication();
+            }
+        });
+    }
     
 }

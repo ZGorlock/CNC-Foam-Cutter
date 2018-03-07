@@ -8,6 +8,7 @@ package gui.interfaces.main;
 
 import grbl.APIgrbl;
 import gui.interfaces.greeting.GreetingController;
+import gui.interfaces.popup.SystemNotificationController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -329,7 +330,7 @@ public class GcodeController
         Slicer slicer = new Slicer(model.getAbsolutePath(), Main.main.architecture);
         if (!slicer.slice("--gcode-flavor mach3")) {
             System.err.println("There was an error converting the model: " + " into gcode!");
-            //TODO open notification telling user their model could not be converted to gcode
+            SystemNotificationController.throwNotification("Your model could not be converted to gcode!", true, false);
             return false;
         }
         

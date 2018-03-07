@@ -22,8 +22,6 @@ import main.Main;
 import renderer.Renderer;
 import utils.MachineDetector;
 
-import java.net.URL;
-
 /**
  * The controller for the Menu.
  */
@@ -126,7 +124,7 @@ public class MenuController
                 stopButton.setText("STOP");
                 stopButton.setOnAction(this::stop);
             } else {
-                //TODO open notification telling user that grbl count not be started
+                SystemNotificationController.throwNotification("The process of communicating with the machine could not be started!", true, false);
             }
         }
     }
@@ -190,26 +188,8 @@ public class MenuController
      */
     private void stop(ActionEvent actionEvent)
     {
-        Parent root;
-        try {
-            URL fxml = SystemNotificationController.class.getResource("../popup/SystemNotification.fxml");
-            root = FXMLLoader.load(fxml);
-            Stage stage = new Stage();
-            stage.setTitle("3D CNC Foam Cutter");
-            stage.setScene(new Scene(root, 800, 600));
-            stage.show();
-            stage.setOnCloseRequest(t -> Main.killApplication());
-            
-            stopped = true;
-            
-            // Set notification
-            SystemNotificationController.controller.raise("Full Stop", true);
-            
-        } catch (Exception e) {
-            System.err.println("There was an error loading SystemNotification.fxml!");
-            e.printStackTrace();
-            Main.killApplication();
-        }
+        stopped = true;
+        SystemNotificationController.throwNotification("Performing a Full Stop!", true, true);
     }
     
     /**
