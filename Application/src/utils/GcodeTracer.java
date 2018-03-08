@@ -84,6 +84,7 @@ public class GcodeTracer
         try {
             lines = Files.readAllLines(Paths.get(gcode));
         } catch (IOException e) {
+            System.err.println("Error reading all lines.");
             e.printStackTrace();
         }
         
@@ -163,6 +164,7 @@ public class GcodeTracer
         try {
             ImageIO.write(img, type, saveTo);
         } catch (IOException e) {
+            System.err.println("Error in trying to write the image");
             e.printStackTrace();
         }
     }

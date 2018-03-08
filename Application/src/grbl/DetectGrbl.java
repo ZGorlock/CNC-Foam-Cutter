@@ -42,6 +42,7 @@ public class DetectGrbl {
                         }
                     }catch (IOException e)
                     {
+                        System.out.println("Error detecting machine");
                         e.printStackTrace();
                     }
                 }

@@ -228,6 +228,7 @@ public class APIgrbl extends Thread
                             try {
                                 wait();
                             } catch (InterruptedException e) {
+                                System.err.println("Exception failed to wait.");
                                 e.printStackTrace();
                             }
                             // The current thread will be blocked until some else calls notify()
@@ -273,6 +274,7 @@ public class APIgrbl extends Thread
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
+                    System.err.println("APIgrbl thread failed to sleep");
                     e.printStackTrace();
                 }
             }
