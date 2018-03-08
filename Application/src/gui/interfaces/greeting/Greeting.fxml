@@ -40,7 +40,7 @@
                     <ImageView fx:id="knights" preserveRatio="true">
                         <Image url="@../../images/knight.PNG"/>
                     </ImageView>
-                    <TextArea fx:id="slicerConsole" styleClass="console" editable="false" visible="false"/>
+                    <TextArea fx:id="slicerConsole" styleClass="console" editable="false" wrapText="true" visible="false"/>
                 </StackPane>
             </center>
             <bottom>

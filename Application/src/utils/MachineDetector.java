@@ -1,6 +1,6 @@
 /*
  * File:    MachineDetector.java
- * Package: main
+ * Package: utils
  * Author:  Zachary Gill
  */
 

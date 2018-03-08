@@ -84,7 +84,7 @@ public class GcodeTracer
         try {
             lines = Files.readAllLines(Paths.get(gcode));
         } catch (IOException e) {
-            System.err.println("Error reading all lines.");
+            System.err.println("Error reading lines of gcode file:" + gcode + ".");
             e.printStackTrace();
         }
         

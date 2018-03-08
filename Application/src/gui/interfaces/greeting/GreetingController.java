@@ -147,7 +147,6 @@ public class GreetingController
         slicerOutput.clear();
         slicingDone = false;
         slicingInProgress = false;
-        slicerConsole.setWrapText(true);
     }
     
     /**

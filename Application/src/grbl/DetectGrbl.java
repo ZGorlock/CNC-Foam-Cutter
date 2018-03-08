@@ -1,23 +1,46 @@
+/*
+ * File:    DetectGrbl.java
+ * Package: grbl
+ * Author:  Nicolas Lopez
+ */
+
 package grbl;
 
 import utils.CmdLine;
-import utils.Constants;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class DetectGrbl {
-
+/**
+ * Detects the machine type through grbl.
+ */
+public class DetectGrbl
+{
+    
+    //Fields
+    
     /**
-     *  The Machine type to be set by detect.py
+     *  The Machine type to be set by detect.py.
      */
     private String type;
-
+    
+    
+    //Constructors
+    
+    /**
+     * The default constructor for DetectGrbl.
+     */
     public DetectGrbl(){
         detectMachine();
     }
-
+    
+    
+    //Methods
+    
+    /**
+     * Detects which machine is connected.
+     */
     private void detectMachine()
     {
         Process process = null;
@@ -31,7 +54,7 @@ public class DetectGrbl {
                 BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
                 String line = "";
-                while (line.isEmpty()) {
+                while (line != null && line.isEmpty()) {
                     try {
                         line = r.readLine();
 
@@ -53,10 +76,14 @@ public class DetectGrbl {
             }
         }
     }
-
+    
+    
+    //Getters
+    
     /**
+     * Returns the detected machine.
      *
-     * @return the detected machine
+     * @return The detected machine.
      */
     public String getType()
     {
