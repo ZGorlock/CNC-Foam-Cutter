@@ -1,0 +1,5 @@
+<root>
+    <item name='java.awt.event.MouseEvent'>
+        <annotation name='java.lang.Deprecated'/>
+    </item>
+</root>

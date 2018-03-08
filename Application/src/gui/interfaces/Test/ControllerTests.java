@@ -20,7 +20,7 @@ public class ControllerTests {
 
     @Test
     private static void GcodeTest(){
-        // not really sure how to test these... if you could give me an example i can write the rest of them
+        // not really sure how to test these... 
     }
 
     @Test
