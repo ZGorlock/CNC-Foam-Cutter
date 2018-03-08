@@ -24,6 +24,10 @@ class Arduino(object):
             warnings.warn('Multiple Arduinos found - using the first')  #Make it a pop up!!!
 
         self.port = serial.Serial(arduino_ports[0]).port
+        self.name = serial.Serial(arduino_ports[0]).serial_number
 
     def getPort(self):
         return self.port
+
+    def getName(self):
+        return self.name

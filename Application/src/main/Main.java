@@ -49,9 +49,6 @@ public class Main
     //Nick
     //TODO check for machine connection before even going to the input screen (new starting window?)
     
-    //TODO line 196 GcodeController
-    //TODO line 129
-    
     //TODO add unit tests for Controller setup pieces (lets stick with blackbox testing for times sake)
 
 

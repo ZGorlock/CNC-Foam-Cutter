@@ -6,6 +6,8 @@
 
 package utils;
 
+import grbl.DetectGrbl;
+
 /**
  * Handles machine detection.
  */
@@ -39,6 +41,9 @@ public final class MachineDetector
      */
     public static void detectMachine()
     {
+        DetectGrbl detect = new DetectGrbl();
+        String type = detect.getType();
+        System.out.println(type);
         machine = Machine.CNC;
     }
     
