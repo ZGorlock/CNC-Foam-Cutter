@@ -254,7 +254,31 @@ public class ModelController
      */
     public static void setFileName(String fileName)
     {
-        controller.fileName.setText(fileName);
+        if (fileName == null) {
+            return;
+        }
+    
+        StringBuilder sb = new StringBuilder(fileName);
+        final int maxTextWidth = 28;
+        int i = 0;
+        while (i + maxTextWidth < sb.length() && (i = sb.lastIndexOf(" ", i + maxTextWidth)) != -1) {
+            sb.replace(i, i + 1, "\n");
+        }
+        int j = 0;
+        for (i = 0; i < sb.length(); i++) {
+            if (sb.charAt(i) == '\n') {
+                j = 0;
+            } else {
+                j++;
+                if (j == maxTextWidth) {
+                    sb.insert(i, "\n");
+                    j = 0;
+                    i--;
+                }
+            }
+        }
+        
+        controller.fileName.setText(sb.toString());
     }
     
     /**

@@ -43,14 +43,16 @@ public class Main
     //TODO    findout where the filenames are being used to do grbl
     //TODO    MenuController line 137
     
+    //TODO sometimes after slicing file it doesnt move on to nextStage
+    
     //TODO add unit tests for Controller setup pieces
     
     
     //Nick
+    
     //TODO check for machine connection before even going to the input screen (new starting window?)
     
     //TODO add unit tests for Controller setup pieces (lets stick with blackbox testing for times sake)
-
 
     
     

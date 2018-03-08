@@ -228,7 +228,7 @@ public class APIgrbl extends Thread
                             try {
                                 wait();
                             } catch (InterruptedException e) {
-                                System.err.println("Exception failed to wait.");
+                                System.err.println("APIgrbl thread failed to sleep on machine pause.");
                                 e.printStackTrace();
                             }
                             // The current thread will be blocked until some else calls notify()
@@ -271,12 +271,12 @@ public class APIgrbl extends Thread
                 checkForCommand();
                 
                 //Sleep for Debugging
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    System.err.println("APIgrbl thread failed to sleep");
-                    e.printStackTrace();
-                }
+//                try {
+//                    Thread.sleep(500);
+//                } catch (InterruptedException e) {
+//                    System.err.println("APIgrbl thread failed to sleep for debugging.");
+//                    e.printStackTrace();
+//                }
             }
         } catch (IOException e) {
             System.err.println("There was an error writing tempfile.txt during streaming!");
