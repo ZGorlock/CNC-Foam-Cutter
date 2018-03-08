@@ -13,8 +13,6 @@ public class DetectGrbl {
      *  The Machine type to be set by detect.py
      */
     private String type;
-    private String cncName = "123";
-    private String hotName = "231";
 
     public DetectGrbl(){
         detectMachine();
@@ -25,7 +23,7 @@ public class DetectGrbl {
         Process process = null;
 
         // The command needed to run detect.py
-        String command = "\"import detect; detect.Detect().getName()\"";
+        String command = "\"import detect; detect.Detect().getNumber()\"";
 
         while (process == null) {
             process = CmdLine.executeCmdAsThread("py " + "-c " + command);

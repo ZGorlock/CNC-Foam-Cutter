@@ -7,6 +7,7 @@
 package utils;
 
 import grbl.DetectGrbl;
+import gui.Gui;
 
 /**
  * Handles machine detection.
@@ -32,6 +33,10 @@ public final class MachineDetector
      * The type of machine that is currently connected.
      */
     private static Machine machine;
+
+    private static String cnc = "55735323835351017091";
+    private static String hotwire;
+    private static String test = "95530343235351D092F0";
     
     
     //Static Methods
@@ -43,8 +48,12 @@ public final class MachineDetector
     {
         DetectGrbl detect = new DetectGrbl();
         String type = detect.getType();
-        System.out.println(type);
-        machine = Machine.CNC;
+
+        // We want to test the machine in debug, so set it as true
+        if(type.compareTo(cnc) == 0 || Gui.debug)
+            machine = Machine.CNC;
+        else
+            machine = Machine.HOTWIRE;
     }
     
     /**
