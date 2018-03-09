@@ -1,10 +1,11 @@
 package gui.interfaces.main;
 
-import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.Test;
 
 class GcodeControllerTest {
 
-    @org.junit.jupiter.api.Test
+    @Test
     void setup() {
     }
 }

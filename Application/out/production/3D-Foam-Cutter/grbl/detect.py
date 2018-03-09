@@ -25,5 +25,14 @@ class Arduino(object):
 
         self.port = serial.Serial(arduino_ports[0]).port
 
+        #Only allow one arduino
+        for p in serial.tools.list_ports.comports():
+            if 'Arduino' in p.description:
+                self.number = (p.serial_number)
+                break
+
     def getPort(self):
         return self.port
+
+    def getNumber(self):
+        print(self.number)
