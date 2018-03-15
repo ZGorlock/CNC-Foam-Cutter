@@ -52,9 +52,6 @@ public class Main
     
     //TODO can we reorder the gcode profiles in the queue?
     //TODO  you should not be able to reorder them once you click print
-    //TODO  the field to enter the degrees should also be grayed out once your click print
-    
-    //TODO what if there are more
     
     //TODO check for machine connection before even going to the input screen (new starting window?)
     

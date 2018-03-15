@@ -149,6 +149,9 @@ public class MenuController
     
                         stopButton.setText("STOP");
                         stopButton.setOnAction(this::stop);
+                        
+                        RotationController.controller.textFieldDegrees.setDisable(true);
+                        RotationController.controller.queueButton.setDisable(true);
     
                         TPane.getSelectionModel().select(0);
                     } else {

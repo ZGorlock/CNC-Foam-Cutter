@@ -12,7 +12,7 @@
     <VBox fx:id="vBox" prefWidth="1200" spacing="40" styleClass="vbox">
         <Label fx:id="fileName" alignment="CENTER"/>
         <TextField fx:id="textFieldDegrees"/>
-        <Button fx:id="queueRotation" alignment="CENTER_RIGHT" onAction="#queueRotation" styleClass="buttonGold"
+        <Button fx:id="queueButton" alignment="CENTER_RIGHT" onAction="#queueRotation" styleClass="buttonGold"
                 text="Add to Queue" HBox.hgrow="ALWAYS"/>
     </VBox>
 </Tab>

@@ -14,10 +14,7 @@ import javafx.animation.Timeline;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -66,6 +63,11 @@ public class RotationController
      * The input field for setting degrees of rotation for the selected gcode profile.
      */
     public TextField textFieldDegrees;
+    
+    /**
+     * The button for setting degrees of rotation for the selected gcode profile.
+     */
+    public Button queueButton;
     
     /**
      * The window for the scrolling list of gcode profiles.
