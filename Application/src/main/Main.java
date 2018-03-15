@@ -40,10 +40,14 @@ public class Main
     
     //Zack
     
+    //TODO Rotation precision, look for round()
+    
     //TODO add unit tests for Controller setup pieces
     
     
     //Nick
+    
+    //TODO should we allow dragging and dropping of multiple files, or of folders?
     
     //TODO there is no way to cancel a full stop, if you close the window you get errors, if they "are not sure" the printing should resume, maybe pause and then if they are sure then do a full stop
     
