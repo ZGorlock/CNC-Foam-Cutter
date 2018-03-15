@@ -2,6 +2,7 @@
 
 <?import javafx.embed.swing.SwingNode?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <Tab id="tabModel" text="Model" closable="false" xmlns="http://javafx.com/javafx/8.0.121"
@@ -13,7 +14,10 @@
                 <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                             AnchorPane.topAnchor="0.0">
                     <center>
-                        <SwingNode fx:id="swingNodeModel"/>
+                        <StackPane>
+                            <SwingNode fx:id="swingNodeModel"/>
+                            <ImageView fx:id="profileImage" preserveRatio="true" fitWidth="680.0" fitHeight="680.0" visible="false"/>
+                        </StackPane>
                     </center>
                 </BorderPane>
             </AnchorPane>

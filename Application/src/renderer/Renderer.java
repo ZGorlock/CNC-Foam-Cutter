@@ -25,6 +25,7 @@ import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 import tracer.camera.Camera;
+import utils.MachineDetector;
 
 import javax.swing.*;
 import java.io.File;
@@ -168,7 +169,7 @@ public class Renderer
     public static Renderer setup(SwingNode node)
     {
         //initialize the Renderer
-        if (instance != null) {
+        if (instance != null || !MachineDetector.isCncMachine()) {
             return null;
         }
         instance = new Renderer(node);
@@ -334,7 +335,9 @@ public class Renderer
      */
     public static void pauseModelAnimation()
     {
-        timeline.pause();
+        if (timeline != null) {
+            timeline.pause();
+        }
     }
     
     /**
@@ -342,7 +345,9 @@ public class Renderer
      */
     public static void resumeModelAnimation()
     {
-        timeline.play();
+        if (timeline != null) {
+            timeline.play();
+        }
     }
     
     /**

@@ -10,6 +10,7 @@ import grbl.APIgrbl;
 import gui.Gui;
 import gui.interfaces.main.GcodeController;
 import gui.interfaces.main.ModelController;
+import gui.interfaces.main.RotationController;
 import gui.interfaces.main.TraceController;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -34,21 +35,26 @@ public class Main
     //TODO update Design Document
     //TODO conference paper
     
+    //TODO before we finish, search for all "TODO"
+    
     
     //Zack
-    
-    //TODO Rotation...
-    //TODO    rotation queue logic
-    //TODO    reset path for hot wire profiles (it looks like this can be done with a single command: G28)
-    //TODO    findout where the filenames are being used to do grbl
-    //TODO    MenuController line 137
-    
-    //TODO sometimes after slicing file it doesnt move on to nextStage
     
     //TODO add unit tests for Controller setup pieces
     
     
     //Nick
+    
+    //TODO there is no way to cancel a full stop, if you close the window you get errors, if they "are not sure" the printing should resume, maybe pause and then if they are sure then do a full stop
+    
+    //TODO set real minimum rotation angle in RotationController line 49
+    //TODO I attempted to reset X and Y position and rotate the Z in the minimum amount, you should check this: APIgrbl line 164-165
+    
+    //TODO can we reorder the gcode profiles in the queue?
+    //TODO  you should not be able to reorder them once you click print
+    //TODO  the field to enter the degrees should also be grayed out once your click print
+    
+    //TODO what if there are more
     
     //TODO check for machine connection before even going to the input screen (new starting window?)
     
@@ -233,11 +239,22 @@ public class Main
         Renderer.reset();
         Tracer.reset();
         
-        ModelController.controller.reset();
-        TraceController.controller.reset();
-        GcodeController.controller.reset();
+        if (ModelController.controller != null) {
+            ModelController.controller.reset();
+        }
+        if (TraceController.controller != null) {
+            TraceController.controller.reset();
+        }
+        if (GcodeController.controller != null) {
+            GcodeController.controller.reset();
+        }
+        if (RotationController.controller != null) {
+            RotationController.controller.reset();
+        }
         
-        APIgrbl.grbl.resetStreaming();
+        if (APIgrbl.grbl != null) {
+            APIgrbl.grbl.resetStreaming();
+        }
         startTime = 0;
     }
     

@@ -94,9 +94,10 @@ public class MenuController
             }
             
         } else {
-            TPane.getTabs().add(RotationController.setup());
             TPane.getTabs().add(ModelController.setup());
             TPane.getTabs().add(GcodeController.setup());
+            TPane.getTabs().add(RotationController.setup());
+            TPane.getSelectionModel().select(2);
             
             if (Gui.debug) {
                 TPane.getTabs().add(TraceController.setup());
@@ -124,17 +125,35 @@ public class MenuController
         
                     stopButton.setText("STOP");
                     stopButton.setOnAction(this::stop);
+                    
+                    TPane.getSelectionModel().select(0);
                 } else {
                     SystemNotificationController.throwNotification("The process of communicating with the machine could not be started!", true, false);
                 }
                 
             } else if (MachineDetector.isHotWireMachine()) {
                 double total = 0.0;
-                for (double degree : RotationController.controller.rotationQueue) {
+                for (double degree : RotationController.controller.rotationProfileMap.values()) {
                     total += degree;
                 }
-                if (total == 360.0) {
-                    //TODO handle first profile and set up queue
+                
+                if (Math.round(total) == 360) {
+                    RotationController.generateQueue();
+                    if (GcodeController.startGrblForHotwire()) {
+                        playPauseButton = new Button();
+                        playPauseButton.getStyleClass().add("buttonGold");
+                        playPauseButton.setOnMouseClicked(e -> playPauseButtonClicked(actionEvent));
+    
+                        playPauseButton.setText("Pause");
+                        hBox.getChildren().add(playPauseButton);
+    
+                        stopButton.setText("STOP");
+                        stopButton.setOnAction(this::stop);
+    
+                        TPane.getSelectionModel().select(0);
+                    } else {
+                        SystemNotificationController.throwNotification("The process of communicating with the machine could not be started!", true, false);
+                    }
                 } else {
                     SystemNotificationController.throwNotification("The sum of your profiles must add up to 360 degrees!!", false, false);
                 }

@@ -6,6 +6,7 @@
 
 package gui.interfaces.popup;
 
+import grbl.APIgrbl;
 import gui.interfaces.main.MenuController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -121,8 +122,10 @@ public class SystemNotificationController
             
         } else {
             // For any other notification
-            MenuController.paused = false;
-            MenuController.controller.initiateResume(actionEvent);
+            if (MenuController.paused && APIgrbl.grbl != null) {
+                MenuController.paused = false;
+                MenuController.controller.initiateResume(actionEvent);
+            }
             ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
         }
     }
@@ -142,7 +145,6 @@ public class SystemNotificationController
                 stage.setTitle("3D CNC Foam Cutter");
                 stage.setScene(new Scene(root, 600, 300));
                 stage.show();
-                stage.setOnCloseRequest(t -> Main.killApplication());
     
                 // Set notification
                 SystemNotificationController.controller.raise(error, fullstop, areYouSure);

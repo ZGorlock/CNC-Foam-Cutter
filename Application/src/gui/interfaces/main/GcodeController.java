@@ -293,8 +293,6 @@ public class GcodeController
                 slice(file);
             } else if (!gcode.isEmpty()) {
                 gcodeFile = gcode;
-            } else {
-                //TODO handle multiple gcode files for Hot Wire
             }
         }
         
@@ -303,6 +301,29 @@ public class GcodeController
         }
         
         APIgrbl apiGrbl = new APIgrbl(gcodeFile);
+        if (!apiGrbl.initialize()) {
+            System.err.println("Could not set up grbl!");
+            return false;
+        }
+        apiGrbl.start();
+        
+        Main.startTime = System.currentTimeMillis();
+        
+        return true;
+    }
+    
+    /**
+     * Starts the grbl process for the hotwire machine.
+     *
+     * @return Whether grbl was successfully started or not.
+     */
+    public static boolean startGrblForHotwire()
+    {
+        if (RotationController.queue == null || RotationController.queue.isEmpty()) {
+            return false;
+        }
+        
+        APIgrbl apiGrbl = new APIgrbl(RotationController.queue);
         if (!apiGrbl.initialize()) {
             System.err.println("Could not set up grbl!");
             return false;

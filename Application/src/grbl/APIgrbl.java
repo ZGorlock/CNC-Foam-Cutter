@@ -6,18 +6,19 @@
 
 package grbl;
 
-import gui.interfaces.main.GcodeController;
-import gui.interfaces.main.MenuController;
-import gui.interfaces.main.ModelController;
-import gui.interfaces.main.TraceController;
+import gui.interfaces.main.*;
 import gui.interfaces.popup.SystemNotificationController;
+import javafx.application.Platform;
+import javafx.scene.image.Image;
 import main.Main;
 import utils.CmdLine;
 import utils.Constants;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Facilitates the grbl  process.
@@ -41,9 +42,19 @@ public class APIgrbl extends Thread
     private String filename;
     
     /**
+     * The list of profiles for the hot wire machine.
+     */
+    private List<String> profiles;
+    
+    /**
      * The list of gcode commands.
      */
     private List<String> commands;
+    
+    /**
+     * The map from the index of the command that starts the profile and the image of that profile.
+     */
+    private Map<Integer, Image> profileImages;
     
     /**
      * A flag indicating whether grbl is done streaming or not.
@@ -110,6 +121,17 @@ public class APIgrbl extends Thread
     {
         grbl = this;
         this.filename = filename;
+        
+        this.profiles = null;
+    }
+    
+    public APIgrbl(List<String> profiles)
+    {
+        grbl = this;
+        this.filename = null;
+        
+        this.profiles = new ArrayList<>();
+        this.profiles.addAll(profiles);
     }
     
     
@@ -122,17 +144,43 @@ public class APIgrbl extends Thread
      */
     public boolean initialize()
     {
-        // Modifies to gbrl acceptable gcode
-        GcodeModifier m = new GcodeModifier(filename);
-        if (!m.modify()) {
-            System.err.println("An error occurred while running the GcodeModifier on file: " + filename);
-            return false;
-        }
+        commands = new ArrayList<>();
+        profileImages = new HashMap<>();
+        totalProgress = 0;
         
-        commands = m.getCommands();
-//        totalProgress = GcodeProgressCalculator.calculateFileProgressUnits(commands);
-        totalProgress = commands.size();
-        currentProgress = 0;
+        if (profiles == null) {
+            // Modifies to gbrl acceptable gcode
+            GcodeModifier m = new GcodeModifier(filename);
+            if (!m.modify()) {
+                System.err.println("An error occurred while running the GcodeModifier on file: " + filename);
+                return false;
+            }
+    
+            commands = m.getCommands();
+            //totalProgress = GcodeProgressCalculator.calculateFileProgressUnits(commands);
+            totalProgress = commands.size();
+            currentProgress = 0;
+            
+        } else {
+            for (String profile : profiles) {
+                // Modifies to gbrl acceptable gcode
+                GcodeModifier m = new GcodeModifier(profile);
+                if (!m.modify()) {
+                    System.err.println("An error occurred while running the GcodeModifier on file: " + profile);
+                    return false;
+                }
+                
+                if (!profileImages.containsValue(RotationController.controller.gcodeTraceMap.get(profile))) {
+                    profileImages.put(commands.size(), RotationController.controller.gcodeTraceMap.get(profile));
+                }
+                commands.addAll(m.getCommands());
+                commands.add("G28 X Y"); //TODO these need to be checked
+                commands.add("G1 Z0.001 F7800.000"); //TODO this too
+                //totalProgress += GcodeProgressCalculator.calculateFileProgressUnits(commands);
+            }
+            totalProgress = commands.size();
+            currentProgress = 0;
+        }
         
         return true;
     }
@@ -168,6 +216,7 @@ public class APIgrbl extends Thread
         try {
             int i = 0;
             while (i < commands.size()) {
+                
                 // read every 127 characters and create a file with them for stream.py to use
                 BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile));
                 StringBuilder sb = new StringBuilder();
@@ -175,6 +224,14 @@ public class APIgrbl extends Thread
                 double packetProgressUnits = 0;
                 int charsUsed = 0;
                 while (charsUsed < 127) {
+    
+                    if (profileImages.containsKey(i)) {
+                        ModelController.setCurrentProfileImage(profileImages.get(i));
+        
+                        File profileGcode = new File(RotationController.controller.gcodeTraceFileMap.get(profileImages.get(i)));
+                        Platform.runLater(() -> ModelController.setFileName(profileGcode.getName()));
+                        Platform.runLater(() -> ModelController.setFileSize(ModelController.calculateFileSize(profileGcode)));
+                    }
                     
                     String newCommand = null;
                     if (i < commands.size()) {

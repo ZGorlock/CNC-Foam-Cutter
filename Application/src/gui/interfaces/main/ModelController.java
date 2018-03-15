@@ -14,6 +14,8 @@ import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import main.Main;
 import renderer.Renderer;
 
@@ -34,6 +36,11 @@ public class ModelController
      * The Swing node that holds the model rendering.
      */
     public SwingNode swingNodeModel;
+    
+    /**
+     * The ImageView that holds the current gcode profile.
+     */
+    public ImageView profileImage;
     
     /**
      * The student nid output text field.
@@ -246,6 +253,18 @@ public class ModelController
     
     
     //Setters
+    
+    /**
+     * Sets the current gcode profile image.
+     *
+     * @param profile The gcode profile to display.
+     */
+    public static void setCurrentProfileImage(Image profile)
+    {
+        controller.swingNodeModel.setVisible(false);
+        controller.profileImage.setVisible(true);
+        controller.profileImage.setImage(profile);
+    }
     
     /**
      * Sets the filename on the Model tab.

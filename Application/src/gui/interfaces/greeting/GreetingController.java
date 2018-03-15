@@ -330,13 +330,12 @@ public class GreetingController
                     slicerConsole.textProperty().set(slicerOutputBuilder.toString());
                     slicerConsole.appendText("");
                     slicerConsole.setScrollTop(Double.MAX_VALUE);
-    
-                    if (slicingDone) {
-                        if (slicingSuccess) {
-                            Platform.runLater(() -> nextStage(actionEvent));
-                        }
-                        slicerConsoleTimer.purge();
-                        slicerConsoleTimer.cancel();
+                }
+                
+                if (slicingDone) {
+                    slicerConsoleTimer.cancel();
+                    if (slicingSuccess) {
+                        Platform.runLater(() -> nextStage(actionEvent));
                     }
                 }
             }
