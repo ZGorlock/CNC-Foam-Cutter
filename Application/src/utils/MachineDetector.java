@@ -77,7 +77,7 @@ public final class MachineDetector
      */
     public static boolean isCncMachine()
     {
-        return false;
+        return true;
 //        return getMachineType() == Machine.CNC; TODO uncomment this once we are ready to deploy
     }
     
@@ -88,7 +88,7 @@ public final class MachineDetector
      */
     public static boolean isHotWireMachine()
     {
-        return true;
+        return false;
 //        return getMachineType() == Machine.HOTWIRE;
     }
     

@@ -47,10 +47,6 @@ public class Main
     
     //Nick
     
-    //TODO should we allow dragging and dropping of multiple files, or of folders?
-    
-    //TODO there is no way to cancel a full stop, if you close the window you get errors, if they "are not sure" the printing should resume, maybe pause and then if they are sure then do a full stop
-    
     //TODO set real minimum rotation angle in RotationController line 49
     //TODO I attempted to reset X and Y position and rotate the Z in the minimum amount, you should check this: APIgrbl line 164-165
     

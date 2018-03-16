@@ -107,6 +107,7 @@ public class SystemNotificationController
                 btnOk.setText("Are you sure?");
     
                 btnOk.setOnMousePressed(event -> {
+                    MenuController.stopped = true;
                     Main.resetApplication();
         
                     MenuController.controller.backToStartUpScreen();
@@ -148,6 +149,14 @@ public class SystemNotificationController
     
                 // Set notification
                 SystemNotificationController.controller.raise(error, fullstop, areYouSure);
+
+                if(areYouSure)
+                {
+                    stage.setOnCloseRequest(e-> {
+                        MenuController.paused = false;
+                        MenuController.controller.initiateResume(null);
+                    });
+                }
     
             } catch (Exception e) {
                 System.err.println("There was an error loading SystemNotification.fxml!");

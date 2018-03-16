@@ -28,6 +28,7 @@ import main.Main;
 import utils.MachineDetector;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -234,11 +235,14 @@ public class GreetingController
      *
      * @param files The list of files being uploaded.
      */
-    public void handleMultipleFiles(List<File> files)
+    private void handleMultipleFiles(List<File> files)
     {
+        if(files.isEmpty()) return;
+
         textFieldPath.setText(files.get(0).getParentFile().getAbsolutePath());
 
         for (File f : files) {
+            if(badExtension(f)) return;
             fileNames.add(f.getAbsolutePath());
         }
         chosen = true;
@@ -359,8 +363,7 @@ public class GreetingController
             stage.setScene(new Scene(root, 1280, 960));
             stage.show();
             stage.setOnCloseRequest(t -> Main.killApplication());
-            
-            // Hide the current window
+
             ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
             
         } catch (Exception e) {
@@ -394,11 +397,8 @@ public class GreetingController
         }
         
         final Dragboard db = dragEvent.getDragboard();
-        File file = db.getFiles().get(0);
-        if (badExtension(file)) {
-            return;
-        }
-        handleFile(file);
+
+        handleMultipleFiles(db.getFiles());
     }
     
     /**

@@ -208,7 +208,7 @@ public class MenuController
             Main.startTime += pauseDuration;
             pauseTime = 0;
         }
-        
+
         //Resume streaming
         APIgrbl.grbl.initiateResume();
         
@@ -223,8 +223,8 @@ public class MenuController
      */
     private void stop(ActionEvent actionEvent)
     {
-        stopped = true;
-        SystemNotificationController.throwNotification("Performing a Full Stop!", true, true);
+       initiatePause(actionEvent);
+       SystemNotificationController.throwNotification("Performing a Full Stop!", true, true);
     }
     
     /**
