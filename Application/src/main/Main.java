@@ -49,9 +49,9 @@ public class Main
     
     //TODO set real minimum rotation angle in RotationController line 49
     //TODO I attempted to reset X and Y position and rotate the Z in the minimum amount, you should check this: APIgrbl line 164-165
-    
-    //TODO can we reorder the gcode profiles in the queue?
-    //TODO  you should not be able to reorder them once you click print
+
+    //TODO  RotationController.reset()
+    //TODO add comments
     
     //TODO check for machine connection before even going to the input screen (new starting window?)
     

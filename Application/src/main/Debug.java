@@ -26,7 +26,7 @@ public class Debug extends Main
      * Sample upload gcode file for Debugging.
      */
     public static final String gcodeVersion = "resources\\gcode\\can.gcode";
-    
+
     /**
      * Sample upload stl file for Debugging.
      */
@@ -53,7 +53,10 @@ public class Debug extends Main
         GcodeController.gcodeFile = gcodeVersion;
         
         ArrayList<String> filenames = new ArrayList<>();
-        filenames.add(stlVersion); //set the files here
+        filenames.add(gcodeVersion); //set the files here
+        filenames.add("resources\\gcode\\test.gcode");
+        filenames.add("resources\\gcode\\time.gcode");
+
         GreetingController.setFileNames(filenames);
     
         Renderer.foamWidth = 10;
