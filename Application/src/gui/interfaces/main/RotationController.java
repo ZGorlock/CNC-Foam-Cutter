@@ -12,13 +12,15 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.*;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -127,6 +129,8 @@ public class RotationController
     private String recieverFile;
     private Double giverDegrees;
     private Double recieverDegrees;
+    
+    
     //Constructors
     
     /**
@@ -208,8 +212,7 @@ public class RotationController
             pic.setId(String.valueOf(i));
             pic.setFitHeight(230);
 
-
-
+            
             // Let images be selected
             pic.setOnMouseClicked(event -> {
                 int newIndex = Integer.parseInt(pic.getId());
@@ -220,74 +223,70 @@ public class RotationController
                 }
             });
 
-            pic.setOnDragDetected(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    if(draggable){
-                        Dragboard db = pic.startDragAndDrop(TransferMode.MOVE);
-                        ClipboardContent content = new ClipboardContent();
-                        content.putImage(pic.getImage());
-                        db.setContent(content);
-                        giverFile = gcodeTraceFileMap.get(pic.getImage());
-                        giverDegrees = rotationProfileMap.get(pic.getImage());
-                        event.consume();
-                    }
+            pic.setOnDragDetected(event -> {
+                if (draggable) {
+                    Dragboard db = pic.startDragAndDrop(TransferMode.MOVE);
+                    ClipboardContent content = new ClipboardContent();
+                    content.putImage(pic.getImage());
+                    db.setContent(content);
+                    giverFile = gcodeTraceFileMap.get(pic.getImage());
+                    giverDegrees = rotationProfileMap.get(pic.getImage());
+                    event.consume();
                 }
             });
 
-            pic.setOnDragOver(new EventHandler<DragEvent>() {
-                @Override
-                public void handle(DragEvent event) {
-                    if(event.getDragboard().hasImage()){
+            pic.setOnDragOver(event -> {
+                if (draggable) {
+                    if (event.getDragboard().hasImage()) {
                         event.acceptTransferModes(TransferMode.MOVE);
                     }
                 }
             });
 
-            pic.setOnDragDropped(new EventHandler<DragEvent>() {
-                @Override
-                public void handle(DragEvent event) {
+            pic.setOnDragDropped(event -> {
+                if (draggable) {
                     Image newPic = event.getDragboard().getImage();
                     recieverImage = pic.getImage();
-
+    
                     recieverFile = gcodeTraceFileMap.get(recieverImage);
                     recieverDegrees = rotationProfileMap.get(recieverImage);
-
+    
                     gcodeTraceFileMap.remove(pic.getImage());
                     rotationProfileMap.remove(pic.getImage());
-
+    
                     pic.setImage(newPic);
-
-                    gcodeTraceFileMap.put(pic.getImage(),giverFile);
-                    rotationProfileMap.put(pic.getImage(),giverDegrees);
-
+    
+                    gcodeTraceFileMap.put(pic.getImage(), giverFile);
+                    gcodeTraceMap.put(giverFile, pic.getImage());
+                    rotationProfileMap.put(pic.getImage(), giverDegrees);
+    
                     HBox temp = (HBox) sp.getContent();
                     int newIndex = Integer.parseInt(pic.getId());
                     VBox box = (VBox) temp.getChildren().get(newIndex);
                     VBox vbox = (VBox) temp.getChildren().get(newIndex);
                     Text text = (Text) vbox.getChildren().get(1);
-
+    
                     text.setText(formatDegree(giverDegrees));
                 }
             });
 
-            pic.setOnDragDone(new EventHandler<DragEvent>() {
-                @Override
-                public void handle(DragEvent event) {
+            pic.setOnDragDone(event -> {
+                if (draggable) {
                     gcodeTraceFileMap.remove(pic.getImage());
                     rotationProfileMap.remove(pic.getImage());
-
+    
                     pic.setImage(recieverImage);
-
-                    gcodeTraceFileMap.put(pic.getImage(),recieverFile);
-                    rotationProfileMap.put(pic.getImage(),recieverDegrees);
-
+    
+                    gcodeTraceFileMap.put(pic.getImage(), recieverFile);
+                    gcodeTraceMap.put(recieverFile, pic.getImage());
+                    rotationProfileMap.put(pic.getImage(), recieverDegrees);
+    
                     HBox temp = (HBox) sp.getContent();
                     int newIndex = Integer.parseInt(pic.getId());
                     VBox box = (VBox) temp.getChildren().get(newIndex);
                     VBox vbox = (VBox) temp.getChildren().get(newIndex);
                     Text text = (Text) vbox.getChildren().get(1);
-
+    
                     text.setText(formatDegree(recieverDegrees));
                 }
             });
@@ -400,7 +399,9 @@ public class RotationController
         
         ImageView iv = (ImageView) vbox.getChildren().get(0);
         Image im = iv.getImage();
-        if(im == null) System.out.println("is null");
+        if (im == null) {
+            System.err.println("Image for profile at index: " + index + " is null");
+        }
         fileName.setText("Profile #" + (Integer.valueOf(iv.getId()) + 1) + " - " + (new File(gcodeTraceFileMap.get(im))).getName());
         
         // Prevent index out of bounds and return other images to normal size

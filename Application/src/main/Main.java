@@ -44,14 +44,18 @@ public class Main
     
     //TODO add unit tests for Controller setup pieces
     
+    //TODO restore MachineDetector once done with HotWire testing
+    
     
     //Nick
     
     //TODO set real minimum rotation angle in RotationController line 49
     //TODO I attempted to reset X and Y position and rotate the Z in the minimum amount, you should check this: APIgrbl line 164-165
 
-    //TODO  RotationController.reset()
+    //TODO RotationController.reset() (unless there is a timer i dont think we need to reset anything)
     //TODO add comments
+    //  SystemNotificationController.throwNotification
+    //  RotationController Fields
     
     //TODO check for machine connection before even going to the input screen (new starting window?)
     

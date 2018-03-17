@@ -150,8 +150,7 @@ public class SystemNotificationController
                 // Set notification
                 SystemNotificationController.controller.raise(error, fullstop, areYouSure);
 
-                if(areYouSure)
-                {
+                if (areYouSure) {
                     stage.setOnCloseRequest(e-> {
                         MenuController.paused = false;
                         MenuController.controller.initiateResume(null);

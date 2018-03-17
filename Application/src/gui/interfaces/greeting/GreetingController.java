@@ -28,7 +28,6 @@ import main.Main;
 import utils.MachineDetector;
 
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -237,12 +236,16 @@ public class GreetingController
      */
     private void handleMultipleFiles(List<File> files)
     {
-        if(files.isEmpty()) return;
+        if (files.isEmpty()) {
+            return;
+        }
 
         textFieldPath.setText(files.get(0).getParentFile().getAbsolutePath());
 
         for (File f : files) {
-            if(badExtension(f)) return;
+            if (badExtension(f)) {
+                return;
+            }
             fileNames.add(f.getAbsolutePath());
         }
         chosen = true;

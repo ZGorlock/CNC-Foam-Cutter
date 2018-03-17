@@ -229,18 +229,18 @@ public class APIgrbl extends Thread
                         ModelController.setCurrentProfileImage(profileImages.get(i));
         
                         File profileGcode = new File(RotationController.controller.gcodeTraceFileMap.get(profileImages.get(i)));
-                        Platform.runLater(() -> ModelController.setFileName(profileGcode.getName()));
-                        Platform.runLater(() -> ModelController.setFileSize(ModelController.calculateFileSize(profileGcode)));
-                    }
-                    
-                    String newCommand = null;
-                    if (i < commands.size()) {
-                        newCommand = commands.get(i);
-                        i++;
-                    }
-            
-                    if (newCommand != null) {
-                        if ((newCommand.length() + charsUsed + 1) < 127) {
+                                Platform.runLater(() -> ModelController.setFileName(profileGcode.getName()));
+                                Platform.runLater(() -> ModelController.setFileSize(ModelController.calculateFileSize(profileGcode)));
+                            }
+    
+                            String newCommand = null;
+                            if (i < commands.size()) {
+                                newCommand = commands.get(i);
+                                i++;
+                            }
+    
+                            if (newCommand != null) {
+                                if ((newCommand.length() + charsUsed + 1) < 127) {
                             // append what will be written
                             sb.append(newCommand);
                             sb.append('\n');
