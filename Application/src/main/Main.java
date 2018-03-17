@@ -32,7 +32,12 @@ public class Main
     
     //TODO get 3 judges
     //TODO update presentation powerpoint
+    
     //TODO update Design Document
+    //  update application screenshots and add new figures as necessary (and renumber them)
+    //  update the sequence diagrams
+    //  add a user guide section
+    
     //TODO conference paper
     
     //TODO before we finish, search for all "TODO"
