@@ -7,7 +7,7 @@
 package utils;
 
 import grbl.DetectGrbl;
-import gui.Gui;
+import main.Main;
 
 /**
  * Handles machine detection.
@@ -48,12 +48,16 @@ public final class MachineDetector
     {
         DetectGrbl detect = new DetectGrbl();
         String type = detect.getType();
-
-        // We want to test the machine in debug, so set it as true
-        if(type.compareTo(cnc) == 0 || Gui.debug)
-            machine = Machine.CNC;
-        else
-            machine = Machine.HOTWIRE;
+        
+        if (Main.development) {
+            machine = Main.developmentMode;
+        } else {
+            if (type.compareTo(cnc) == 0) {
+                machine = Machine.CNC;
+            } else {
+                machine = Machine.HOTWIRE;
+            }
+        }
     }
     
     /**
@@ -77,8 +81,7 @@ public final class MachineDetector
      */
     public static boolean isCncMachine()
     {
-        return false;
-//        return getMachineType() == Machine.CNC; TODO uncomment this once we are ready to deploy
+        return getMachineType() == Machine.CNC;
     }
     
     /**
@@ -88,8 +91,7 @@ public final class MachineDetector
      */
     public static boolean isHotWireMachine()
     {
-        return true;
-//        return getMachineType() == Machine.HOTWIRE;
+        return getMachineType() == Machine.HOTWIRE;
     }
     
 }

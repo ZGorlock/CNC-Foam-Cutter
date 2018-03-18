@@ -18,6 +18,7 @@ import renderer.Renderer;
 import tracer.Tracer;
 import utils.CmdLine;
 import utils.Constants;
+import utils.MachineDetector;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -71,6 +72,19 @@ public class Main
 
     //TODO add unit tests for Controller setup pieces (lets stick with blackbox testing for times sake)
 
+    
+    //Constants
+    
+    /**
+     * A flag indicating whether the application should disable certain checks for development purposes.
+     */
+    public static final boolean development = true;
+    
+    /**
+     * The machine type to run when working in development mode.
+     */
+    public static final MachineDetector.Machine developmentMode = MachineDetector.Machine.HOTWIRE;
+    
     
     //Static Fields
     

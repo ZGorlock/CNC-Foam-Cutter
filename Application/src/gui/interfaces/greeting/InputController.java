@@ -103,11 +103,12 @@ public class InputController
         length.setPromptText("Enter Y...");
         height.setPromptText("Enter Z...");
         
-        //TODO remove this after done testing
-        nid.setText("a");
-        width.setText("10");
-        length.setText("10");
-        height.setText("10");
+        if (Main.development) {
+            nid.setText("ab123456");
+            width.setText("10");
+            length.setText("10");
+            height.setText("10");
+        }
 
         desc.textProperty().addListener((ov, oldValue, newValue) -> {
             if (desc.getText().length() > MAX_DESCRIPTION_LENGTH) {
