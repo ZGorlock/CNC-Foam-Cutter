@@ -157,9 +157,11 @@ public class GcodeController
      */
     public void sendCommand(ActionEvent actionEvent)
     {
-        if (textFieldCommand.getText().equals(textFieldCommand.getPromptText()) || textFieldCommand.getText().isEmpty() || APIgrbl.grbl == null) {
+        if (textFieldCommand.getText().equals(textFieldCommand.getPromptText()) || textFieldCommand.getText().isEmpty()) {
             return;
         }
+
+        if(APIgrbl.grbl == null);
         
         String userCommand = textFieldCommand.getText();
         APIgrbl.grbl.sendRequest(userCommand);

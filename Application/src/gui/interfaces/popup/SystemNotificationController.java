@@ -133,7 +133,12 @@ public class SystemNotificationController
     
     
     //Static Methods
-    
+    /*
+     *  This method is used throughout the application to show any kind of message to the user,
+     *  that be of an error, an exception, or just a regular notification, it is also used during full stops.
+     *  Calling SystemNotificationController.throwNotification will show the popup with whatever custom message is
+     *  inputted on the string field.
+     */
     public static void throwNotification(String error, boolean fullstop, boolean areYouSure)
     {
         Platform.runLater(() -> {

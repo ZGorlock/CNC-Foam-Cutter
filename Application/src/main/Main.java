@@ -7,11 +7,13 @@
 package main;
 
 import grbl.APIgrbl;
+import grbl.DetectGrbl;
 import gui.Gui;
 import gui.interfaces.main.GcodeController;
 import gui.interfaces.main.ModelController;
 import gui.interfaces.main.RotationController;
 import gui.interfaces.main.TraceController;
+import gui.interfaces.popup.SystemNotificationController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import renderer.Renderer;
@@ -37,7 +39,9 @@ public class Main
     //  update application screenshots and add new figures as necessary (and renumber them)
     //  update the sequence diagrams
     //  add a user guide section
-    
+
+    //TODO allow for sending Gcode in command UI BEFORE clioking print, for jogging use and user flexibility.
+
     //TODO conference paper
     
     //TODO before we finish, search for all "TODO"
@@ -51,24 +55,26 @@ public class Main
     
     //TODO restore MachineDetector once done with HotWire testing
     
-    
+    // Checkout Gui.java, I'm detecting the machine before the application actually starts, i turned it off
+    // for us to be able to work with it, but you can turn it on and check it out (or change the message if you want).
+
+    // I think we should keep degrees in integers, under 1 degree of precision is pretty out of scope for the actual mechanical
+    // capabilities of the machine, I will however change the number depending on how machine integration goes along
+
+    // On the reset x & y, shouldnt we move x close to the limit of the hot wire machine, then y back to 0, then x back to 0?
+    // These instructions will be verified once we integrate
+
+    // I added the sending Gcode UI before clicking print as a to-do, its highly important so that the user can move the machine around without
+    // having to give it code first. It adds a whole lot of flexibility and could provide the user to do very manual cnc machining which can be
+    // attractive for more experienced users.
+
     //Nick
     
-    //TODO set real minimum rotation angle in RotationController line 49
+    //TODO after machine integration, verify angle of minimum rotation.
     //TODO I attempted to reset X and Y position and rotate the Z in the minimum amount, you should check this: APIgrbl line 164-165
 
-    //TODO RotationController.reset() (unless there is a timer i dont think we need to reset anything)
-    //TODO add comments
-    //  SystemNotificationController.throwNotification
-    //  RotationController Fields
-    
-    //TODO check for machine connection before even going to the input screen (new starting window?)
-    
     //TODO add unit tests for Controller setup pieces (lets stick with blackbox testing for times sake)
 
-    
-    
-    
     //Static Fields
     
     /**
@@ -134,6 +140,7 @@ public class Main
             return;
         }
         Application.launch(Gui.class, args);
+
     }
     
     

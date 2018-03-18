@@ -47,7 +47,7 @@ public class RotationController
     /**
      * The minimum degree of rotation that the machine can perform.
      */
-    public static final double MIN_ROTATION_DEGREE = 0.8;
+    public static final double MIN_ROTATION_DEGREE = 1.0;
     
     
     //FXML Fields
@@ -123,11 +123,34 @@ public class RotationController
      */
     private boolean firstScroll = true;
 
+    /**
+     * A flag indicating whether or not we can drag elements, it is set to true before clicking print.
+     */
     public boolean draggable = true;
+
+    /**
+     * The temporary field for the image that is going to be received when swapping images
+     */
     private Image recieverImage;
+
+    /**
+     * The temporary field for the file that is going to be sent when swapping images
+     */
     private String giverFile;
+
+    /**
+     * The temporary field for the file that is going to be received when swapping images
+     */
     private String recieverFile;
+
+    /**
+     * The temporary field for the degrees of the image that is going to be sent when swapping images
+     */
     private Double giverDegrees;
+
+    /**
+     * The temporary field for the degrees of the image that is going to be received when swapping images
+     */
     private Double recieverDegrees;
     
     
@@ -438,6 +461,7 @@ public class RotationController
      */
     public void reset()
     {
+        draggable = true;
     }
     
     

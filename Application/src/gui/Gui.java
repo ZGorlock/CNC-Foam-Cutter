@@ -6,6 +6,8 @@
 
 package gui;
 
+import grbl.DetectGrbl;
+import gui.interfaces.popup.SystemNotificationController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -37,6 +39,15 @@ public class Gui extends Application
     @Override
     public void start(Stage primaryStage)
     {
+        DetectGrbl detectGrbl = new DetectGrbl();
+
+        if((detectGrbl.getType() == null || detectGrbl.getType().isEmpty()) && false)
+        {
+            SystemNotificationController.throwNotification("No machine detected",false,false);
+            return;
+        }
+
+
         if (!debug) {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("interfaces/greeting/Input.fxml"));

@@ -112,7 +112,9 @@ public class MenuController
      */
     public void print(ActionEvent actionEvent)
     {
-        RotationController.controller.draggable = false;
+        if(RotationController.controller != null && MachineDetector.isHotWireMachine())
+            RotationController.controller.draggable = false;
+
         if (playPauseButton == null) {
             if (MachineDetector.isCncMachine()) {
                 if (GcodeController.startGrbl()) {
