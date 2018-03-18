@@ -133,11 +133,16 @@ public class SystemNotificationController
     
     
     //Static Methods
-    /*
-     *  This method is used throughout the application to show any kind of message to the user,
-     *  that be of an error, an exception, or just a regular notification, it is also used during full stops.
-     *  Calling SystemNotificationController.throwNotification will show the popup with whatever custom message is
+    
+    /**
+     *  This method is used throughout the application to show any kind of message to the user,<br/>
+     *  that be of an error, an exception, or just a regular notification, it is also used during full stops.<br/>
+     *  Calling SystemNotificationController.throwNotification will show the popup with whatever custom message is<br/>
      *  inputted on the string field.
+     *
+     *  @param error      The error message to display.
+     *  @param fullstop   Whether or not to perform a full stop.
+     *  @param areYouSure Whether or not to perform an "are you sure" check before performing a full stop.
      */
     public static void throwNotification(String error, boolean fullstop, boolean areYouSure)
     {

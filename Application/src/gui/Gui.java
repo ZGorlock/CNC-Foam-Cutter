@@ -41,9 +41,8 @@ public class Gui extends Application
     {
         DetectGrbl detectGrbl = new DetectGrbl();
 
-        if((detectGrbl.getType() == null || detectGrbl.getType().isEmpty()) && false)
-        {
-            SystemNotificationController.throwNotification("No machine detected",false,false);
+        if ((detectGrbl.getType() == null || detectGrbl.getType().isEmpty())) {
+            SystemNotificationController.throwNotification("No machine detected!",false,false);
             return;
         }
 

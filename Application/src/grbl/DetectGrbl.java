@@ -59,10 +59,11 @@ public class DetectGrbl
                         line = r.readLine();
 
                         if (line != null && !line.isEmpty()) {
-                            if(line.compareTo("Traceback (most recent call last):") == 0)
+                            if (line.compareTo("Traceback (most recent call last):") == 0) {
                                 this.type = null;
-                            else
+                            } else {
                                 this.type = line;
+                            }
                         }
                     }catch (IOException e)
                     {

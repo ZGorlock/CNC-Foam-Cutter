@@ -7,13 +7,11 @@
 package main;
 
 import grbl.APIgrbl;
-import grbl.DetectGrbl;
 import gui.Gui;
 import gui.interfaces.main.GcodeController;
 import gui.interfaces.main.ModelController;
 import gui.interfaces.main.RotationController;
 import gui.interfaces.main.TraceController;
-import gui.interfaces.popup.SystemNotificationController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import renderer.Renderer;
@@ -54,9 +52,6 @@ public class Main
     //TODO add unit tests for Controller setup pieces
     
     //TODO restore MachineDetector once done with HotWire testing
-    
-    // Checkout Gui.java, I'm detecting the machine before the application actually starts, i turned it off
-    // for us to be able to work with it, but you can turn it on and check it out (or change the message if you want).
 
     // I think we should keep degrees in integers, under 1 degree of precision is pretty out of scope for the actual mechanical
     // capabilities of the machine, I will however change the number depending on how machine integration goes along
@@ -68,6 +63,7 @@ public class Main
     // having to give it code first. It adds a whole lot of flexibility and could provide the user to do very manual cnc machining which can be
     // attractive for more experienced users.
 
+    
     //Nick
     
     //TODO after machine integration, verify angle of minimum rotation.
@@ -75,6 +71,7 @@ public class Main
 
     //TODO add unit tests for Controller setup pieces (lets stick with blackbox testing for times sake)
 
+    
     //Static Fields
     
     /**
