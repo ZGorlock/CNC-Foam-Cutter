@@ -38,35 +38,31 @@ public class Main
     //  update application screenshots and add new figures as necessary (and renumber them)
     //  update the sequence diagrams
     //  add a user guide section
-
-    //TODO allow for sending Gcode in command UI BEFORE clioking print, for jogging use and user flexibility.
-
+    
     //TODO conference paper
     
-    //TODO before we finish, search for all "TODO"
+    //TODO before releasing
+    //  search for all TODOs
+    //  set Main.development = false;
     
     
     //Zack
     
-    //TODO Rotation precision, look for round()
-    
     //TODO add unit tests for Controller setup pieces
-
-    // I think we should keep degrees in integers, under 1 degree of precision is pretty out of scope for the actual mechanical
-    // capabilities of the machine, I will however change the number depending on how machine integration goes along
-
-    // On the reset x & y, shouldnt we move x close to the limit of the hot wire machine, then y back to 0, then x back to 0?
-    // These instructions will be verified once we integrate
-
-    // I added the sending Gcode UI before clicking print as a to-do, its highly important so that the user can move the machine around without
-    // having to give it code first. It adds a whole lot of flexibility and could provide the user to do very manual cnc machining which can be
-    // attractive for more experienced users.
+    
+    //TODO allow for sending Gcode in command UI BEFORE clioking print, for jogging use and user flexibility.
+    //  I added the sending Gcode UI before clicking print as a to-do, its highly important so that the user can move the machine around without
+    //  having to give it code first. It adds a whole lot of flexibility and could provide the user to do very manual cnc machining which can be
+    //  attractive for more experienced users.
 
     
     //Nick
     
     //TODO after machine integration, verify angle of minimum rotation.
+    
     //TODO I attempted to reset X and Y position and rotate the Z in the minimum amount, you should check this: APIgrbl line 164-165
+    //  On the reset x & y, shouldnt we move x close to the limit of the hot wire machine, then y back to 0, then x back to 0?
+    //  These instructions will be verified once we integrate
 
     //TODO add unit tests for Controller setup pieces (lets stick with blackbox testing for times sake)
 
