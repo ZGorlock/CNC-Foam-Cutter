@@ -111,7 +111,7 @@ public class RotationController
     /**
      * The map between the Image in the UI and the rotation degrees for that profile.
      */
-    public Map<Image, Double> rotationProfileMap;
+    public Map<Image, Integer> rotationProfileMap;
     
     /**
      * The index of the gcode profile current selected.
@@ -146,12 +146,12 @@ public class RotationController
     /**
      * The temporary field for the degrees of the image that is going to be sent when swapping images
      */
-    private Double giverDegrees;
+    private int giverDegrees;
 
     /**
      * The temporary field for the degrees of the image that is going to be received when swapping images
      */
-    private Double recieverDegrees;
+    private int recieverDegrees;
     
     
     //Constructors
@@ -220,6 +220,9 @@ public class RotationController
         hbox.setStyle("-fx-padding: 40px; -fx-alignment: CENTER;");
         hbox.setAlignment(Pos.CENTER);
         
+        int d = 360 / gcodeTraces.size();
+        int degreeGap = 360 - (d * gcodeTraces.size());
+        
         // Add images as a row
         for (int i = 0; i < gcodeTraces.size(); i++) {
             Image image = SwingFXUtils.toFXImage(gcodeTraces.get(i), null);
@@ -228,8 +231,12 @@ public class RotationController
             gcodeTraceMap.put(new File(GreetingController.getSlices().get(i)).getAbsolutePath(), image);
 
             // Initialize all evenly spaced degrees
-            double d = (360.0 / gcodeTraces.size()) * 1.0;
-            rotationProfileMap.put(image, d);
+            if (degreeGap > 0) {
+                rotationProfileMap.put(image, d + 1);
+                degreeGap--;
+            } else {
+                rotationProfileMap.put(image, d);
+            }
 
             pic.setPreserveRatio(true);
             pic.setId(String.valueOf(i));
@@ -318,7 +325,7 @@ public class RotationController
             vbox.getChildren().add(pic);
             
             // Setting the new degree
-            Text text = new Text(formatDegree(d));
+            Text text = new Text(formatDegree(rotationProfileMap.get(image)));
             
             // Add to the parent
             vbox.getChildren().add(text);
@@ -362,7 +369,7 @@ public class RotationController
         HBox temp = (HBox) sp.getContent();
         VBox box = (VBox) temp.getChildren().get(index);
         
-        Double d = Double.parseDouble(input);
+        Integer d = Integer.parseInt(input);
         rotationProfileMap.replace(((ImageView) box.getChildren().get(0)).getImage(), d);
         
         // Set new selected value
@@ -384,7 +391,7 @@ public class RotationController
     private boolean isValidAngle(String str)
     {
         try {
-            double d = Double.parseDouble(str);
+            int d = Integer.parseInt(str);
             if (d < 0 || d > 360) {
                 return false;
             }
@@ -400,10 +407,10 @@ public class RotationController
      * @param d The angle.
      * @return The formatted angle string.
      */
-    private String formatDegree(Double d)
+    private String formatDegree(Integer d)
     {
         // String formatting
-        String deg = String.format("%.2f", d);
+        String deg = String.format("%d", d);
         String symbol = "°";
         return deg + symbol;
     }
@@ -480,7 +487,7 @@ public class RotationController
             Image image = ((ImageView) box.getChildren().get(0)).getImage();
             
             double degrees = controller.rotationProfileMap.get(image);
-            double cycles = Math.round(degrees / MIN_ROTATION_DEGREE);
+            double cycles = degrees / MIN_ROTATION_DEGREE;
             for (int j = 0; j < cycles; j++) {
                 queue.add(controller.gcodeTraceFileMap.get(image));
             }

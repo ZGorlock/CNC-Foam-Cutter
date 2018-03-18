@@ -135,12 +135,12 @@ public class MenuController
                 }
                 
             } else if (MachineDetector.isHotWireMachine()) {
-                double total = 0.0;
-                for (double degree : RotationController.controller.rotationProfileMap.values()) {
+                double total = 0;
+                for (int degree : RotationController.controller.rotationProfileMap.values()) {
                     total += degree;
                 }
                 
-                if (Math.round(total) == 360) {
+                if (total == 360) {
                     RotationController.generateQueue();
                     if (GcodeController.startGrblForHotwire()) {
                         playPauseButton = new Button();

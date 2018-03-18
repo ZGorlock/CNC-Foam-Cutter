@@ -168,7 +168,7 @@ public class GreetingController
             return;
         }
         
-        File file;
+        File file = null;
         if (textFieldPath.getText().compareTo(prompt) != 0) {
             file = new File(textFieldPath.getText());
 
@@ -184,12 +184,14 @@ public class GreetingController
             fileChooser.setTitle("Select File(s)");
 
             List<File> selectedFiles = fileChooser.showOpenMultipleDialog(new Stage());
-            if(selectedFiles.size() > 1){
-                handleMultipleFiles(selectedFiles);
-                return;
+            if (selectedFiles != null) {
+                if (selectedFiles.size() > 1) {
+                    handleMultipleFiles(selectedFiles);
+                    return;
+                }
+    
+                file = selectedFiles.get(0);
             }
-
-            file = selectedFiles.get(0);
         }
         handleFile(file);
     }
@@ -201,16 +203,6 @@ public class GreetingController
      */
     private void handleFile(File file)
     {
-        //Rotation Demo
-//        controller.fileNames.clear();
-//        try {
-//            Files.list(Paths.get(new File("resources/jedicut files/rotation demo").getAbsolutePath())).forEach(e -> controller.fileNames.add(e.toString()));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        chosen = true;
-//        handleUploadedAnimation();
-        
         if (file != null) {
             textFieldPath.setText(file.getAbsolutePath());
             if (file.isDirectory()) {

@@ -51,8 +51,6 @@ public class Main
     //TODO Rotation precision, look for round()
     
     //TODO add unit tests for Controller setup pieces
-    
-    //TODO restore MachineDetector once done with HotWire testing
 
     // I think we should keep degrees in integers, under 1 degree of precision is pretty out of scope for the actual mechanical
     // capabilities of the machine, I will however change the number depending on how machine integration goes along
