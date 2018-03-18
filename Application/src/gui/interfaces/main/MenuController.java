@@ -103,6 +103,8 @@ public class MenuController
                 TPane.getTabs().add(TraceController.setup());
             }
         }
+        
+        APIgrbl grbl = new APIgrbl();
     }
     
     /**

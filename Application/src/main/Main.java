@@ -49,11 +49,6 @@ public class Main
     //Zack
     
     //TODO add unit tests for Controller setup pieces
-    
-    //TODO allow for sending Gcode in command UI BEFORE clioking print, for jogging use and user flexibility.
-    //  I added the sending Gcode UI before clicking print as a to-do, its highly important so that the user can move the machine around without
-    //  having to give it code first. It adds a whole lot of flexibility and could provide the user to do very manual cnc machining which can be
-    //  attractive for more experienced users.
 
     
     //Nick
@@ -271,7 +266,7 @@ public class Main
         }
         
         if (APIgrbl.grbl != null) {
-            APIgrbl.grbl.resetStreaming();
+            APIgrbl.grbl.reset();
         }
         startTime = 0;
     }

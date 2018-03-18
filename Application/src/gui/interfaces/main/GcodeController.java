@@ -300,7 +300,8 @@ public class GcodeController
             return false;
         }
         
-        APIgrbl apiGrbl = new APIgrbl(gcodeFile);
+        APIgrbl apiGrbl = APIgrbl.grbl;
+        apiGrbl.setFilename(gcodeFile);
         if (!apiGrbl.initialize()) {
             System.err.println("Could not set up grbl!");
             return false;
@@ -322,8 +323,9 @@ public class GcodeController
         if (RotationController.queue == null || RotationController.queue.isEmpty()) {
             return false;
         }
-        
-        APIgrbl apiGrbl = new APIgrbl(RotationController.queue);
+    
+        APIgrbl apiGrbl = APIgrbl.grbl;
+        apiGrbl.setProfiles(RotationController.queue);
         if (!apiGrbl.initialize()) {
             System.err.println("Could not set up grbl!");
             return false;

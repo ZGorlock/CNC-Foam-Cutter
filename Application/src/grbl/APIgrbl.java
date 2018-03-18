@@ -15,10 +15,7 @@ import utils.CmdLine;
 import utils.Constants;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Facilitates the grbl  process.
@@ -39,12 +36,12 @@ public class APIgrbl extends Thread
     /**
      * The filename of the gcode file.
      */
-    private String filename;
+    private String filename = null;
     
     /**
      * The list of profiles for the hot wire machine.
      */
-    private List<String> profiles;
+    private List<String> profiles = null;
     
     /**
      * The list of gcode commands.
@@ -101,6 +98,11 @@ public class APIgrbl extends Thread
      */
     private List<String> commandsFromUI = new ArrayList<>();
     
+    /**
+     * The timer for checking user entered commands.
+     */
+    private Timer commandCheckingTimer = null;
+    
     
     //Static Fields
     
@@ -113,21 +115,38 @@ public class APIgrbl extends Thread
     //Constructors
     
     /**
+     * The default no-argument constructor for the grbl processor.
+     */
+    public APIgrbl()
+    {
+        grbl = this;
+        
+        setupCommandChecking();
+    }
+    
+    /**
      * The constructor for the grbl processor.
      *
      * @param filename The filename of the gcode file to work on.
      */
     public APIgrbl(String filename)
     {
-        grbl = this;
+        this();
+        
         this.filename = filename;
         
         this.profiles = null;
     }
     
+    /**
+     * The constructor for the grbl processor.
+     *
+     * @param profiles The list of gcode profiles to work on.
+     */
     public APIgrbl(List<String> profiles)
     {
-        grbl = this;
+        this();
+        
         this.filename = null;
         
         this.profiles = new ArrayList<>();
@@ -275,9 +294,6 @@ public class APIgrbl extends Thread
                     GcodeController.codeBlock.add(gcode);
                 }
         
-                // Check for User Input
-                checkForCommand();
-        
                 // Check for pause/resume
                 if (MenuController.paused) {
                     synchronized (this) {
@@ -323,17 +339,6 @@ public class APIgrbl extends Thread
                         }
                     }
                 }
-        
-                // Check for User Input
-                checkForCommand();
-                
-                //Sleep for Debugging
-//                try {
-//                    Thread.sleep(500);
-//                } catch (InterruptedException e) {
-//                    System.err.println("APIgrbl thread failed to sleep for debugging.");
-//                    e.printStackTrace();
-//                }
             }
         } catch (IOException e) {
             System.err.println("There was an error writing tempfile.txt during streaming!");
@@ -359,13 +364,22 @@ public class APIgrbl extends Thread
     /**
      * Checks for user entered commands to process.
      */
-    private void checkForCommand()
+    private void setupCommandChecking()
     {
-        // check for commands from UI
-        if (commandsFromUI.size() > 0) {
-            //create new process and add to the response for UI
-            handleRequest();
-        }
+        TimerTask checkCommands = new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                // check for commands from UI
+                if (commandsFromUI.size() > 0) {
+                    //create new process and add to the response for UI
+                    handleRequest();
+                }
+            }
+        };
+        commandCheckingTimer = new Timer();
+        commandCheckingTimer.scheduleAtFixedRate(checkCommands, 0, 100);
     }
     
     /**
@@ -457,6 +471,19 @@ public class APIgrbl extends Thread
     public synchronized void initiateResume()
     {
         notify();
+    }
+    
+    /**
+     * Resets the controller.
+     */
+    public void reset()
+    {
+        if (commandCheckingTimer != null) {
+            commandCheckingTimer.purge();
+            commandCheckingTimer.cancel();
+        }
+        
+        this.doneStreaming = false;
     }
     
     
@@ -612,11 +639,23 @@ public class APIgrbl extends Thread
     }
     
     /**
-     * Resets the flag which indicates whether grbl is done streaming or not.
+     * Sets the filename to be used for grbl.
+     *
+     * @param filename The filename to be used for grbl.
      */
-    public void resetStreaming()
+    public void setFilename(String filename)
     {
-        this.doneStreaming = false;
+        this.filename = filename;
+    }
+    
+    /**
+     * Sets the list of profiles for grbl.
+     *
+     * @param profiles The list of profiles for grbl.
+     */
+    public void setProfiles(List<String> profiles)
+    {
+        this.profiles = profiles;
     }
     
 }
