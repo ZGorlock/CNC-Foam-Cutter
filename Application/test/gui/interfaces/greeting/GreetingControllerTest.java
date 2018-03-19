@@ -33,16 +33,16 @@ public class GreetingControllerTest
         File file2 = new File("resources\\gcode\\Birds_and_flowers.gcode");
         File file3 = new File("resources\\jedicut files\\0184.dxf");
     
-        Assert.assertEquals(GreetingController.badExtension(file1), false);
-        Assert.assertEquals(GreetingController.badExtension(file2), false);
-        Assert.assertEquals(GreetingController.badExtension(file3), true);
+        Assert.assertEquals(false, GreetingController.badExtension(file1));
+        Assert.assertEquals(false, GreetingController.badExtension(file2));
+        Assert.assertEquals(true, GreetingController.badExtension(file3));
     
         
         PowerMockito.when(MachineDetector.isCncMachine()).thenReturn(false);
     
-        Assert.assertEquals(GreetingController.badExtension(file1), true);
-        Assert.assertEquals(GreetingController.badExtension(file2), false);
-        Assert.assertEquals(GreetingController.badExtension(file3), true);
+        Assert.assertEquals(true, GreetingController.badExtension(file1));
+        Assert.assertEquals(false, GreetingController.badExtension(file2));
+        Assert.assertEquals(true, GreetingController.badExtension(file3));
     }
     
     @Test
@@ -54,16 +54,16 @@ public class GreetingControllerTest
         List<String> fileNames = new ArrayList<>();
         GreetingController.setFileNames(fileNames);
         
-        Assert.assertEquals(GreetingController.getModel(), "");
+        Assert.assertEquals("", GreetingController.getModel());
     
         fileNames.add("resources\\cadfiles\\can.stl");
-        Assert.assertEquals(GreetingController.getModel(), "resources\\cadfiles\\can.stl");
+        Assert.assertEquals("resources\\cadfiles\\can.stl", GreetingController.getModel());
         
         fileNames.add("resources\\gcode\\Birds_and_flowers.gcode");
-        Assert.assertEquals(GreetingController.getModel(), "");
+        Assert.assertEquals("", GreetingController.getModel());
     
         fileNames.remove("resources\\cadfiles\\can.stl");
-        Assert.assertEquals(GreetingController.getModel(), "");
+        Assert.assertEquals("", GreetingController.getModel());
     }
     
     @Test
@@ -75,16 +75,16 @@ public class GreetingControllerTest
         List<String> fileNames = new ArrayList<>();
         GreetingController.setFileNames(fileNames);
         
-        Assert.assertEquals(GreetingController.getGcode(), "");
+        Assert.assertEquals("", GreetingController.getGcode());
         
         fileNames.add("resources\\gcode\\Birds_and_flowers.gcode");
-        Assert.assertEquals(GreetingController.getGcode(), "resources\\gcode\\Birds_and_flowers.gcode");
+        Assert.assertEquals("resources\\gcode\\Birds_and_flowers.gcode", GreetingController.getGcode());
         
         fileNames.add("resources\\cadfiles\\can.stl");
-        Assert.assertEquals(GreetingController.getGcode(), "");
+        Assert.assertEquals("", GreetingController.getGcode());
         
         fileNames.remove("resources\\gcode\\Birds_and_flowers.gcode");
-        Assert.assertEquals(GreetingController.getGcode(), "");
+        Assert.assertEquals("", GreetingController.getGcode());
     }
     
     @Test
@@ -96,13 +96,13 @@ public class GreetingControllerTest
         List<String> fileNames = new ArrayList<>();
         GreetingController.setFileNames(fileNames);
         
-        Assert.assertEquals(GreetingController.getSlices().size(), 0);
+        Assert.assertEquals(0, GreetingController.getSlices().size());
         
         fileNames.add("resources\\gcode\\Birds_and_flowers.gcode");
-        Assert.assertEquals(GreetingController.getSlices().size(), 1);
+        Assert.assertEquals(1, GreetingController.getSlices().size());
         
         fileNames.add("resources\\cadfiles\\can.stl");
-        Assert.assertEquals(GreetingController.getSlices().size(), 1);
+        Assert.assertEquals(1, GreetingController.getSlices().size());
 
         fileNames.add("resources\\jedicut files\\rotation demo\\rd01.gcode");
         fileNames.add("resources\\jedicut files\\rotation demo\\rd01 - Copy.gcode");
@@ -110,7 +110,7 @@ public class GreetingControllerTest
         fileNames.add("resources\\jedicut files\\rotation demo\\rd02 - Copy.gcode");
         fileNames.add("resources\\jedicut files\\rotation demo\\rd03.gcode");
         fileNames.add("resources\\jedicut files\\rotation demo\\rd03 - Copy.gcode");
-        Assert.assertEquals(GreetingController.getSlices().size(), 7);
+        Assert.assertEquals(7, GreetingController.getSlices().size());
     }
     
 }

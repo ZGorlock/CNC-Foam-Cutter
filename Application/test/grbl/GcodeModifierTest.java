@@ -32,7 +32,7 @@ public class GcodeModifierTest
         List<String> expectedCommands = Files.readAllLines(Paths.get(expectedOutput.getAbsolutePath()));
         
         for (int i = 0; i < expectedCommands.size(); i++) {
-            Assert.assertEquals(commands.get(i), expectedCommands.get(i));
+            Assert.assertEquals(expectedCommands.get(i), commands.get(i));
         }
     }
     

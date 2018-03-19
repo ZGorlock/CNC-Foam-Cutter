@@ -31,7 +31,7 @@ public class APIgrblTest
     {
         //fake a JavaFX runtime environment
         new JFXPanel();
-            Platform.runLater(() -> {
+        Platform.runLater(() -> {
         });
         
         MenuController.stopped = true;
@@ -40,24 +40,24 @@ public class APIgrblTest
         modelController.percentage = new Label();
         modelController.percentage.setText("84.21 %");
         ModelController.controller = modelController;
-        Assert.assertEquals(APIgrbl.getPercentageComplete(), "84.21 %");
+        Assert.assertEquals("84.21 %", APIgrbl.getPercentageComplete());
         
         MenuController.stopped = false;
         
         
         APIgrbl.grbl = null;
-        Assert.assertEquals(APIgrbl.getPercentageComplete(), "0.00 %");
+        Assert.assertEquals("0.00 %", APIgrbl.getPercentageComplete());
         
         APIgrbl grbl = new APIgrbl();
         APIgrbl.grbl = grbl;
         Whitebox.setInternalState(grbl, "doneStreaming", true);
-        Assert.assertEquals(APIgrbl.getPercentageComplete(), "100.00 %");
+        Assert.assertEquals("100.00 %", APIgrbl.getPercentageComplete());
         
     
         Whitebox.setInternalState(grbl, "doneStreaming", false);
         Whitebox.setInternalState(grbl, "currentProgress", 774);
         Whitebox.setInternalState(grbl, "totalProgress", 15742);
-        Assert.assertEquals(APIgrbl.getPercentageComplete(), "4.92 %");
+        Assert.assertEquals("4.92 %", APIgrbl.getPercentageComplete());
     }
     
     @Test
@@ -68,19 +68,18 @@ public class APIgrblTest
         Platform.runLater(() -> {
         });
         
-        
         MenuController.stopped = true;
         
         ModelController modelController = new ModelController();
         modelController.timeRemaining = new Label();
         modelController.timeRemaining.setText("00:08:44");
         ModelController.controller = modelController;
-        Assert.assertEquals(APIgrbl.getTimeRemaining(), "00:08:44");
+        Assert.assertEquals("00:08:44", APIgrbl.getTimeRemaining());
     
         MenuController.stopped = false;
         MenuController.paused = true;
         
-        Assert.assertEquals(APIgrbl.getTimeRemaining(), "00:08:44");
+        Assert.assertEquals("00:08:44", APIgrbl.getTimeRemaining());
         
         MenuController.paused = false;
         
@@ -89,15 +88,15 @@ public class APIgrblTest
         APIgrbl.grbl = grbl;
         
         Main.startTime = 0;
-        Assert.assertEquals(APIgrbl.getTimeRemaining(), "00:00:00");
+        Assert.assertEquals("00:00:00", APIgrbl.getTimeRemaining());
         
         Main.startTime = 1;
         APIgrbl.grbl = null;
-        Assert.assertEquals(APIgrbl.getTimeRemaining(), "00:00:00");
+        Assert.assertEquals("00:00:00", APIgrbl.getTimeRemaining());
         
         APIgrbl.grbl = grbl;
         Whitebox.setInternalState(grbl, "doneStreaming", true);
-        Assert.assertEquals(APIgrbl.getTimeRemaining(), "00:00:00");
+        Assert.assertEquals("00:00:00", APIgrbl.getTimeRemaining());
         
         Whitebox.setInternalState(grbl, "doneStreaming", false);
     
@@ -107,7 +106,7 @@ public class APIgrblTest
     
         Whitebox.setInternalState(grbl, "currentProgress", 774);
         Whitebox.setInternalState(grbl, "totalProgress", 1513);
-        Assert.assertEquals(APIgrbl.getTimeRemaining(), "01:19:33");
+        Assert.assertEquals("01:19:33", APIgrbl.getTimeRemaining());
     }
     
 }

@@ -47,7 +47,7 @@ public class RotationController
     /**
      * The minimum degree of rotation that the machine can perform.
      */
-    public static final double MIN_ROTATION_DEGREE = 1.0;
+    public static final int MIN_ROTATION_DEGREE = 1;
     
     
     //FXML Fields
@@ -75,7 +75,7 @@ public class RotationController
     /**
      * The window for the scrolling list of gcode profiles.
      */
-    private ScrollPane sp;
+    public ScrollPane sp;
     
     
     //Static Fields
@@ -381,39 +381,6 @@ public class RotationController
         
         text.setText(formatDegree(d));
     }
-
-    /**
-     * Determines if an angle value is valid.
-     *
-     * @param str The angle value.
-     * @return Whether the angle value is valid or not.
-     */
-    private boolean isValidAngle(String str)
-    {
-        try {
-            int d = Integer.parseInt(str);
-            if (d < 0 || d > 360) {
-                return false;
-            }
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        return true;
-    }
-    
-    /**
-     * Formats an angle string from an angle.
-     *
-     * @param d The angle.
-     * @return The formatted angle string.
-     */
-    private String formatDegree(Integer d)
-    {
-        // String formatting
-        String deg = String.format("%d", d);
-        String symbol = "°";
-        return deg + symbol;
-    }
     
     /**
      * Handles the animation of the scroll pane.
@@ -475,19 +442,67 @@ public class RotationController
     //Static Methods
     
     /**
+     * Determines if an angle value is valid.
+     *
+     * @param str The angle value.
+     * @return Whether the angle value is valid or not.
+     */
+    public static boolean isValidAngle(String str)
+    {
+        try {
+            int d = Integer.parseInt(str);
+            if (d < 0 || d > 360) {
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+     * Formats an angle string from an angle.
+     *
+     * @param d The angle.
+     * @return The formatted angle string.
+     */
+    public static String formatDegree(Integer d)
+    {
+        // String formatting
+        String deg = String.format("%d", d);
+        String symbol = "°";
+        return deg + symbol;
+    }
+    
+    /**
      * Generates the rotation profile queue.
      */
     public static void generateQueue()
     {
-        queue.clear();
+        List<Image> profiles = new ArrayList<>();
         
         HBox temp = (HBox) controller.sp.getContent();
         for (int i = 0; i < controller.gcodeTraces.size(); i++) {
             VBox box = (VBox) temp.getChildren().get(i);
             Image image = ((ImageView) box.getChildren().get(0)).getImage();
-            
-            double degrees = controller.rotationProfileMap.get(image);
-            double cycles = degrees / MIN_ROTATION_DEGREE;
+            profiles.add(image);
+        }
+        
+        generateQueueHelper(profiles);
+    }
+    
+    /**
+     * Generates the rotation profile queue.
+     *
+     * @param profiles The list of profile images in the queue.
+     */
+    public static void generateQueueHelper(List<Image> profiles)
+    {
+        queue.clear();
+    
+        for (Image image : profiles) {
+            int degrees = controller.rotationProfileMap.get(image);
+            int cycles = degrees / MIN_ROTATION_DEGREE;
             for (int j = 0; j < cycles; j++) {
                 queue.add(controller.gcodeTraceFileMap.get(image));
             }
