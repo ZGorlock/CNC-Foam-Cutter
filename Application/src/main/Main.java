@@ -48,9 +48,6 @@ public class Main
     
     //Zack
     
-    //TODO Unit Tests
-    //  GcodeModifier
-    
     
     //Nick
     
@@ -59,8 +56,6 @@ public class Main
     //TODO I attempted to reset X and Y position and rotate the Z in the minimum amount, you should check this: APIgrbl line 164-165
     //  On the reset x & y, shouldnt we move x close to the limit of the hot wire machine, then y back to 0, then x back to 0?
     //  These instructions will be verified once we integrate
-
-    //TODO add unit tests for Controller setup pieces (lets stick with blackbox testing for times sake)
 
     
     //Constants
