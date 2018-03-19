@@ -82,7 +82,7 @@ public class GreetingController
     /**
      * The list of files that were uploaded.
      */
-    private ArrayList<String> fileNames = new ArrayList<>();
+    private List<String> fileNames = new ArrayList<>();
     
     /**
      * A flag indicating whether a file has been chosen or not.
@@ -415,35 +415,6 @@ public class GreetingController
         }
     }
     
-    /**
-     * Determines if a file is of a valid file type.
-     *
-     * @param file The file.
-     * @return Whether the file is of a valid file type or not.
-     */
-    private boolean badExtension(File file)
-    {
-        if (file == null || !file.exists()) {
-            return true;
-        }
-        
-        List<String> allowed = new ArrayList<>();
-        allowed.add("gcode");
-        if (MachineDetector.isCncMachine()) {
-            allowed.add("stl");
-        }
-        
-        boolean ext;
-        int i = file.getAbsolutePath().lastIndexOf('.');
-        if (i > 0) {
-            String extension = file.getAbsolutePath().substring(i + 1);
-            ext = !allowed.contains(extension);
-        } else {
-            ext = true;
-        }
-        return ext;
-    }
-    
     
     //Getters
     
@@ -507,9 +478,41 @@ public class GreetingController
      *
      * @param filenames The list of files.
      */
-    public static void setFileNames(ArrayList<String> filenames)
+    public static void setFileNames(List<String> filenames)
     {
         controller.fileNames = filenames;
+    }
+    
+    
+    //Functions
+    
+    /**
+     * Determines if a file is of a valid file type.
+     *
+     * @param file The file.
+     * @return Whether the file is of a valid file type or not.
+     */
+    public static boolean badExtension(File file)
+    {
+        if (file == null || !file.exists()) {
+            return true;
+        }
+        
+        List<String> allowed = new ArrayList<>();
+        allowed.add("gcode");
+        if (MachineDetector.isCncMachine()) {
+            allowed.add("stl");
+        }
+        
+        boolean ext;
+        int i = file.getAbsolutePath().lastIndexOf('.');
+        if (i > 0) {
+            String extension = file.getAbsolutePath().substring(i + 1);
+            ext = !allowed.contains(extension);
+        } else {
+            ext = true;
+        }
+        return ext;
     }
     
 }

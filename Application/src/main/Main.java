@@ -48,12 +48,12 @@ public class Main
     
     //Zack
     
-    //TODO add unit tests for Controller setup pieces
-
+    //TODO Unit Tests
+    //  GcodeModifier
     
     //Nick
     
-    //TODO after machine integration, verify angle of minimum rotation.
+    //TODO after machine integration, verify angle of minimum rotation. (I think we should keep it at 1, that makes everything easier)
     
     //TODO I attempted to reset X and Y position and rotate the Z in the minimum amount, you should check this: APIgrbl line 164-165
     //  On the reset x & y, shouldnt we move x close to the limit of the hot wire machine, then y back to 0, then x back to 0?

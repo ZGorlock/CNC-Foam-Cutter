@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import main.Main;
 import utils.CmdLine;
 import utils.Constants;
+import utils.TimeUtil;
 
 import java.io.*;
 import java.util.*;
@@ -500,9 +501,9 @@ public class APIgrbl extends Thread
             return ModelController.controller.percentage.getText();
         }
         if (grbl == null) {
-            return "0.00%";
+            return "0.00 %";
         } else if (grbl.isDoneStreaming()) {
-            return "100.00%";
+            return "100.00 %";
         } else {
             double percentage = (grbl.currentProgress / grbl.totalProgress) * 100.0;
             return String.format("%.2f", percentage) + " %";
@@ -522,7 +523,7 @@ public class APIgrbl extends Thread
         if (Main.startTime == 0 || grbl == null || grbl.isDoneStreaming()) {
             return "00:00:00";
         } else {
-            double timeElapsed = (double)(System.currentTimeMillis() - Main.startTime) / 1000;
+            double timeElapsed = (double)(TimeUtil.currentTimeMillis() - Main.startTime) / 1000;
             double timePerProgress = timeElapsed / grbl.currentProgress;
             double progressRemaining = grbl.totalProgress - grbl.currentProgress;
             double timeRemaining = (timePerProgress * progressRemaining);
