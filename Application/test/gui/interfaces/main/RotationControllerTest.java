@@ -44,6 +44,7 @@ public class RotationControllerTest
     {
         RotationController sut = new RotationController();
         RotationController.controller = sut;
+        sut.rotationStep = RotationController.MIN_ROTATION_DEGREE;
     
         Image i1 = Mockito.mock(Image.class);
         Image i2 = Mockito.mock(Image.class);
@@ -68,7 +69,7 @@ public class RotationControllerTest
         sut.gcodeTraceFileMap.put(profiles.get(2), "c");
         sut.gcodeTraceFileMap.put(profiles.get(3), "d");
         
-        RotationController.generateQueueHelper(profiles);
+        Assert.assertTrue(RotationController.generateQueueHelper(profiles));
         int j = 0;
         for (int i = j; i < 75; i++) {
             Assert.assertEquals("a", RotationController.queue.get(j));

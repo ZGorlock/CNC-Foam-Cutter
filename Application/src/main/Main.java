@@ -51,6 +51,9 @@ public class Main
     
     //Nick
     
+    //TODO unit test for isValidStepAngle() in RotationController
+    //TODO add test case in generateQueue unit test to take into account the new checking block (first for loop in helper)
+    
     //TODO after machine integration, verify angle of minimum rotation. (I think we should keep it at 1, that makes everything easier)
     
     //TODO I attempted to reset X and Y position and rotate the Z in the minimum amount, you should check this: APIgrbl line 164-165

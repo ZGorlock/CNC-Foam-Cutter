@@ -7,6 +7,7 @@
 package gui.interfaces.main;
 
 import gui.interfaces.greeting.GreetingController;
+import gui.interfaces.popup.SystemNotificationController;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -73,6 +74,11 @@ public class RotationController
     public Button queueButton;
     
     /**
+     * The input field for setting degrees of rotation per step during printing.
+     */
+    public TextField textFieldRotationStep;
+    
+    /**
      * The window for the scrolling list of gcode profiles.
      */
     public ScrollPane sp;
@@ -112,6 +118,11 @@ public class RotationController
      * The map between the Image in the UI and the rotation degrees for that profile.
      */
     public Map<Image, Integer> rotationProfileMap;
+    
+    /**
+     * The rotation step to use during printing.
+     */
+    public int rotationStep;
     
     /**
      * The index of the gcode profile current selected.
@@ -203,6 +214,15 @@ public class RotationController
                 queueRotation();
             }
         });
+    
+        textFieldRotationStep.setPromptText("Enter step...");
+        textFieldRotationStep.setOnKeyPressed(event -> {
+            if (KeyCode.ENTER.compareTo(event.getCode()) == 0) {
+                setRotationStep();
+            }
+        });
+        rotationStep = MIN_ROTATION_DEGREE;
+        textFieldRotationStep.setText(String.valueOf(rotationStep));
         
         renderImages();
     }
@@ -431,6 +451,17 @@ public class RotationController
     }
     
     /**
+     * Sets the rotation step degree from the input field.
+     */
+    public void setRotationStep()
+    {
+        String rotationStepDegree = textFieldRotationStep.getText();
+        if (isValidStepAngle(rotationStepDegree)) {
+            rotationStep = Integer.parseInt(rotationStepDegree);
+        }
+    }
+    
+    /**
      * Resets the controller.
      */
     public void reset()
@@ -452,6 +483,31 @@ public class RotationController
         try {
             int d = Integer.parseInt(str);
             if (d < 0 || d > 360) {
+                SystemNotificationController.throwNotification("The angle must be between 0 and 360 degrees!", false, false);
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+     * Determines if an angle value is a valid step angle.
+     *
+     * @param str The step angle value.
+     * @return Whether the angle value step is valid or not.
+     */
+    public static boolean isValidStepAngle(String str)
+    {
+        try {
+            int d = Integer.parseInt(str);
+            if (d <= 0 || d > 360) {
+                SystemNotificationController.throwNotification("The step angle must be between 1 and 360 degrees! (360 for no rotation)", false, false);
+                return false;
+            }
+            if (360 % d != 0) {
+                SystemNotificationController.throwNotification("The step angle must evenly divide into 360!", false, false);
                 return false;
             }
         } catch (NumberFormatException e) {
@@ -476,8 +532,10 @@ public class RotationController
     
     /**
      * Generates the rotation profile queue.
+     *
+     * @return Whether the queue was successfully generated or not.
      */
-    public static void generateQueue()
+    public static boolean generateQueue()
     {
         List<Image> profiles = new ArrayList<>();
         
@@ -488,25 +546,35 @@ public class RotationController
             profiles.add(image);
         }
         
-        generateQueueHelper(profiles);
+        return generateQueueHelper(profiles);
     }
     
     /**
      * Generates the rotation profile queue.
      *
      * @param profiles The list of profile images in the queue.
+     * @return Whether the queue was successfully generated or not.
      */
-    public static void generateQueueHelper(List<Image> profiles)
+    public static boolean generateQueueHelper(List<Image> profiles)
     {
         queue.clear();
+        
+        for (Image image : profiles) {
+            int degrees = controller.rotationProfileMap.get(image);
+            if (degrees % controller.rotationStep != 0) {
+                return false;
+            }
+        }
     
         for (Image image : profiles) {
             int degrees = controller.rotationProfileMap.get(image);
-            int cycles = degrees / MIN_ROTATION_DEGREE;
+            int cycles = degrees / controller.rotationStep;
             for (int j = 0; j < cycles; j++) {
                 queue.add(controller.gcodeTraceFileMap.get(image));
             }
         }
+        
+        return true;
     }
     
 }

@@ -154,7 +154,7 @@ public class SystemNotificationController
                 root = FXMLLoader.load(fxml);
                 Stage stage = new Stage();
                 stage.setTitle("3D CNC Foam Cutter");
-                stage.setScene(new Scene(root, 600, 300));
+                stage.setScene(new Scene(root, 700, 300));
                 stage.show();
     
                 // Set notification

@@ -143,27 +143,30 @@ public class MenuController
                 }
                 
                 if (total == 360) {
-                    RotationController.generateQueue();
-                    if (GcodeController.startGrblForHotwire()) {
-                        playPauseButton = new Button();
-                        playPauseButton.getStyleClass().add("buttonGold");
-                        playPauseButton.setOnMouseClicked(e -> playPauseButtonClicked(actionEvent));
-    
-                        playPauseButton.setText("Pause");
-                        hBox.getChildren().add(playPauseButton);
-    
-                        stopButton.setText("STOP");
-                        stopButton.setOnAction(this::stop);
-                        
-                        RotationController.controller.textFieldDegrees.setDisable(true);
-                        RotationController.controller.queueButton.setDisable(true);
-    
-                        TPane.getSelectionModel().select(0);
+                    if (RotationController.generateQueue()) {
+                        if (GcodeController.startGrblForHotwire()) {
+                            playPauseButton = new Button();
+                            playPauseButton.getStyleClass().add("buttonGold");
+                            playPauseButton.setOnMouseClicked(e -> playPauseButtonClicked(actionEvent));
+        
+                            playPauseButton.setText("Pause");
+                            hBox.getChildren().add(playPauseButton);
+        
+                            stopButton.setText("STOP");
+                            stopButton.setOnAction(this::stop);
+        
+                            RotationController.controller.textFieldDegrees.setDisable(true);
+                            RotationController.controller.queueButton.setDisable(true);
+        
+                            TPane.getSelectionModel().select(0);
+                        } else {
+                            SystemNotificationController.throwNotification("The process of communicating with the machine could not be started!", true, false);
+                        }
                     } else {
-                        SystemNotificationController.throwNotification("The process of communicating with the machine could not be started!", true, false);
+                        SystemNotificationController.throwNotification("Your profile degrees do not divide evenly by the step degree!", false, false);
                     }
                 } else {
-                    SystemNotificationController.throwNotification("The sum of your profiles must add up to 360 degrees!!", false, false);
+                    SystemNotificationController.throwNotification("The sum of your profiles must add up to 360 degrees!", false, false);
                 }
             }
         }
