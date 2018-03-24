@@ -13,15 +13,13 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -243,12 +241,18 @@ public class RotationController
         int d = 360 / gcodeTraces.size();
         int degreeGap = 360 - (d * gcodeTraces.size());
         
+        ImageView firstPic = null;
+        
         // Add images as a row
         for (int i = 0; i < gcodeTraces.size(); i++) {
             Image image = SwingFXUtils.toFXImage(gcodeTraces.get(i), null);
             ImageView pic = new ImageView(image);
             gcodeTraceFileMap.put(image, new File(GreetingController.getSlices().get(i)).getAbsolutePath());
             gcodeTraceMap.put(new File(GreetingController.getSlices().get(i)).getAbsolutePath(), image);
+            
+            if (i == 0) {
+                firstPic = pic;
+            }
 
             // Initialize all evenly spaced degrees
             if (degreeGap > 0) {
@@ -361,6 +365,10 @@ public class RotationController
         sp.setContent(hbox);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setHmax((gcodeTraces.size() - 1) * 1.0);
+        
+        Event.fireEvent(firstPic, new MouseEvent(MouseEvent.MOUSE_CLICKED, 0,
+                0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true,
+                true, true, true, true, true, true, null));
         
         // Change the view when something is selected.
         sp.hvalueProperty().addListener((ov, old_val, new_val) -> {
