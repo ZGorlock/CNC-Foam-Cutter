@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
 <Tab id="tabRotation" text="Rotation" closable="false" xmlns="http://javafx.com/javafx/8.0.121"
      xmlns:fx="http://javafx.com/fxml/1"
      fx:controller="gui.interfaces.main.RotationController">
     <VBox fx:id="vBox" prefWidth="1200" spacing="40" styleClass="vbox">
-        <Label fx:id="fileName" alignment="CENTER"/>
-        <TextField fx:id="textFieldDegrees"/>
-        <Button fx:id="queueButton" alignment="CENTER_RIGHT" onAction="#queueRotation" styleClass="buttonGold"
-                text="Add to Queue" HBox.hgrow="ALWAYS"/>
-        <HBox spacing="40" alignment="CENTER_RIGHT">
-            <TextField fx:id="textFieldRotationStep"/>
-            <Button onAction="#setRotationStep" styleClass="buttonGold"
-                    text="Set Step Degree" HBox.hgrow="ALWAYS"/>
-        </HBox>
+        <TilePane alignment="CENTER">
+            <Label fx:id="fileName" alignment="CENTER_RIGHT"/>
+            <HBox spacing="10" HBox.hgrow="ALWAYS">
+                <TextField fx:id="textFieldDegrees"/>
+                <Button fx:id="queueButton" onAction="#queueRotation" styleClass="buttonGold"
+                        text="Set Degrees" HBox.hgrow="ALWAYS"/>
+            </HBox>
+        </TilePane>
+        <Text/>
+        <TilePane alignment="CENTER">
+            <Text>   </Text>
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <TextField fx:id="textFieldRotationStep"/>
+                <Button onAction="#setRotationStep" styleClass="buttonGold"
+                        text="Set Step Degree" HBox.hgrow="ALWAYS"/>
+            </HBox>
+        </TilePane>
     </VBox>
 </Tab>

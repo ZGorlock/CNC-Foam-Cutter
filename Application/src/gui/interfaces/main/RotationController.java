@@ -260,12 +260,12 @@ public class RotationController
 
             pic.setPreserveRatio(true);
             pic.setId(String.valueOf(i));
-            pic.setFitHeight(230);
-
+            pic.setFitHeight(220);
             
             // Let images be selected
             pic.setOnMouseClicked(event -> {
                 int newIndex = Integer.parseInt(pic.getId());
+                textFieldDegrees.setText(String.valueOf(rotationProfileMap.get(pic.getImage())));
                 if (newIndex == 0 && firstScroll) {
                     handleSPAnimation();
                 } else {
@@ -379,7 +379,6 @@ public class RotationController
     public void queueRotation()
     {
         String input = textFieldDegrees.getText();
-        textFieldDegrees.setText("");
         
         // Handle invalid input
         if (!isValidAngle(input)) {
@@ -418,8 +417,26 @@ public class RotationController
         Image im = iv.getImage();
         if (im == null) {
             System.err.println("Image for profile at index: " + index + " is null");
+            
+        } else {
+            StringBuilder sb = new StringBuilder("Profile #" + (Integer.valueOf(iv.getId()) + 1) + " - " + (new File(gcodeTraceFileMap.get(im))).getName());
+            final int maxTextWidth = 36;
+            int j = 0;
+            for (int i = 0; i < sb.length(); i++) {
+                if (sb.charAt(i) == '\n') {
+                    j = 0;
+                } else {
+                    j++;
+                    if (j == maxTextWidth) {
+                        sb.insert(i, "\n");
+                        j = 0;
+                        i--;
+                    }
+                }
+            }
+    
+            fileName.setText(sb.toString());
         }
-        fileName.setText("Profile #" + (Integer.valueOf(iv.getId()) + 1) + " - " + (new File(gcodeTraceFileMap.get(im))).getName());
         
         // Prevent index out of bounds and return other images to normal size
         if (index + 1 < temp.getChildren().size()) {
