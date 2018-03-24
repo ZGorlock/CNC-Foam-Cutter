@@ -29,8 +29,6 @@ import java.util.regex.Pattern;
 public class Main
 {
     
-    //Team
-    
     //TODO get 3 judges
     //TODO update presentation powerpoint
     
@@ -41,24 +39,17 @@ public class Main
     
     //TODO conference paper
     
+    //TODO integration testing
+    //  Ensure CNC and hotwire move as expected
+    //  Determine Z value per degree of rotation
+    //  Verify G28 reset method - APIgrbl line 197-198
+    
+    //  Test CNC model
+    //  Test Hotwire profiles, (1[360], 4[1, 90])
+    
     //TODO before releasing
     //  search for all TODOs
     //  set Main.development = false;
-    
-    
-    //Zack
-    
-    
-    //Nick
-    
-    //TODO unit test for isValidStepAngle() in RotationController
-    //TODO add test case in generateQueue unit test to take into account the new checking block (first for loop in helper)
-    
-    //TODO after machine integration, verify angle of minimum rotation. (I think we should keep it at 1, that makes everything easier)
-    
-    //TODO I attempted to reset X and Y position and rotate the Z in the minimum amount, you should check this: APIgrbl line 164-165
-    //  On the reset x & y, shouldnt we move x close to the limit of the hot wire machine, then y back to 0, then x back to 0?
-    //  These instructions will be verified once we integrate
 
     
     //Constants

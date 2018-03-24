@@ -6,11 +6,13 @@
 
 package gui.interfaces.main;
 
+import gui.interfaces.popup.SystemNotificationController;
 import javafx.scene.image.Image;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -19,18 +21,37 @@ import java.util.HashMap;
 import java.util.List;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({})
+@PrepareForTest({SystemNotificationController.class})
 public class RotationControllerTest
 {
     
     @Test
     public void testIsValidAngle() throws Exception
     {
-        Assert.assertEquals(true, RotationController.isValidAngle("180"));
-        Assert.assertEquals(false, RotationController.isValidAngle("180.5"));
-        Assert.assertEquals(false, RotationController.isValidAngle("-1"));
-        Assert.assertEquals(false, RotationController.isValidAngle("361"));
-        Assert.assertEquals(false, RotationController.isValidAngle("degree"));
+        Assert.assertTrue(RotationController.isValidAngle("180"));
+    
+        PowerMockito.mockStatic(SystemNotificationController.class);
+        
+        Assert.assertFalse(RotationController.isValidAngle("180.5"));
+        Assert.assertFalse(RotationController.isValidAngle("-1"));
+        Assert.assertFalse(RotationController.isValidAngle("361"));
+        Assert.assertFalse(RotationController.isValidAngle("degree"));
+    }
+    
+    @Test
+    public void testIsValidStepAngle() throws Exception
+    {
+        Assert.assertTrue(RotationController.isValidStepAngle("1"));
+        Assert.assertTrue(RotationController.isValidStepAngle("90"));
+        Assert.assertTrue(RotationController.isValidStepAngle("360"));
+    
+        PowerMockito.mockStatic(SystemNotificationController.class);
+        
+        Assert.assertFalse(RotationController.isValidStepAngle("71"));
+        Assert.assertFalse(RotationController.isValidStepAngle("0"));
+        Assert.assertFalse(RotationController.isValidStepAngle("-1"));
+        Assert.assertFalse(RotationController.isValidStepAngle("361"));
+        Assert.assertFalse(RotationController.isValidStepAngle("degree"));
     }
     
     @Test
@@ -87,6 +108,17 @@ public class RotationControllerTest
             Assert.assertEquals("d", RotationController.queue.get(j));
             j++;
         }
+    
+        PowerMockito.mockStatic(SystemNotificationController.class);
+        
+        sut.rotationStep = 45;
+        Assert.assertFalse(RotationController.generateQueueHelper(profiles));
+    
+        sut.rotationProfileMap.put(profiles.get(0), 45);
+        sut.rotationProfileMap.put(profiles.get(1), 90);
+        sut.rotationProfileMap.put(profiles.get(2), 135);
+        sut.rotationProfileMap.put(profiles.get(3), 90);
+        Assert.assertTrue(RotationController.generateQueueHelper(profiles));
     }
     
 }
