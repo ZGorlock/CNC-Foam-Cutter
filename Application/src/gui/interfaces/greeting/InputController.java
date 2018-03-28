@@ -105,8 +105,8 @@ public class InputController
         
         if (Main.development) {
             nid.setText("ab123456");
-            width.setText("10");
-            length.setText("10");
+            width.setText("20");
+            length.setText("40");
             height.setText("10");
         }
 

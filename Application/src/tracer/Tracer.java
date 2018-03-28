@@ -7,6 +7,7 @@
 package tracer;
 
 import javafx.embed.swing.SwingNode;
+import main.Main;
 import renderer.Renderer;
 import tracer.camera.Camera;
 import tracer.math.matrix.Matrix3;
@@ -71,7 +72,7 @@ public class Tracer
     /**
      * Whether or not to display the trace demo.
      */
-    public static final boolean traceDemo = true;
+    public static final boolean traceDemo = false;
     
     
     //Static Fields

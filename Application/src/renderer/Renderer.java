@@ -46,7 +46,7 @@ public class Renderer
     /**
      * The x rotation to apply to the model.
      */
-    private static final Transform MODEL_ROTATE_X = new Rotate(90, Rotate.X_AXIS);
+    private static final Transform MODEL_ROTATE_X = new Rotate(270, Rotate.X_AXIS);
     
     /**
      * The y rotation to apply to the model.

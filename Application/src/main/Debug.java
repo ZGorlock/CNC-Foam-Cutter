@@ -55,15 +55,16 @@ public class Debug extends Main
         ArrayList<String> filenames = new ArrayList<>();
         
         //CNC
-        //filenames.add(stlVersion); //set the files here
+        filenames.add(stlVersion); //set the files here
         
         //HotWire
-        filenames.add("resources\\jedicut files\\rotation demo\\rd01.gcode");
-        filenames.add("resources\\jedicut files\\rotation demo\\rd01 - Copy.gcode");
-        filenames.add("resources\\jedicut files\\rotation demo\\rd02.gcode");
-        filenames.add("resources\\jedicut files\\rotation demo\\rd02 - Copy.gcode");
-        filenames.add("resources\\jedicut files\\rotation demo\\rd03.gcode");
-        filenames.add("resources\\jedicut files\\rotation demo\\rd03 - Copy.gcode");
+//        filenames.add("resources\\jedicut files\\rotation demo\\rd01.gcode");
+//        filenames.add("resources\\jedicut files\\rotation demo\\rd01 - Copy.gcode");
+//        filenames.add("resources\\jedicut files\\rotation demo\\rd02.gcode");
+//        filenames.add("resources\\jedicut files\\rotation demo\\rd02 - Copy.gcode");
+//        filenames.add("resources\\jedicut files\\rotation demo\\rd03.gcode");
+//        filenames.add("resources\\jedicut files\\rotation demo\\rd03 - Copy.gcode");
+
 
         GreetingController.setFileNames(filenames);
     

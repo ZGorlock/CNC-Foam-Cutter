@@ -251,20 +251,20 @@ public class APIgrbl extends Thread
                         File profileGcode = new File(RotationController.controller.gcodeTraceFileMap.get(profileImages.get(i)));
                                 Platform.runLater(() -> ModelController.setFileName(profileGcode.getName()));
                                 Platform.runLater(() -> ModelController.setFileSize(ModelController.calculateFileSize(profileGcode)));
-                            }
+                    }
     
-                            String newCommand = null;
-                            if (i < commands.size()) {
-                                newCommand = commands.get(i);
-                                i++;
-                            }
-    
-                            if (newCommand != null) {
-                                if ((newCommand.length() + charsUsed + 1) < 127) {
+                    String newCommand = null;
+                    if (i < commands.size()) {
+                        newCommand = commands.get(i);
+                        i++;
+                    }
+
+                    if (newCommand != null) {
+                        if ((newCommand.length() + charsUsed + 1) < 127) {
                             // append what will be written
                             sb.append(newCommand);
                             sb.append('\n');
-                    
+
                             // update counts
                             charsUsed += newCommand.length() + 1;
 //                            packetProgressUnits += GcodeProgressCalculator.calculateInstructionProgressUnits(newCommand);

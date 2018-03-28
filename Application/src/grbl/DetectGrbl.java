@@ -7,6 +7,7 @@
 package grbl;
 
 import utils.CmdLine;
+import utils.Constants;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -46,10 +47,11 @@ public class DetectGrbl
         Process process = null;
 
         // The command needed to run detect.py
-        String command = "\"import detect; detect.Detect().getNumber()\"";
+        String command = "\" \"";
 
         while (process == null) {
-            process = CmdLine.executeCmdAsThread("py " + "-c " + command);
+
+            process = CmdLine.executeCmdAsThread("python " + Constants.GRBL_DIRECTORY + "runDetect.py"); // " + "-c " + command);
             if (process != null) {
                 BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
 

@@ -48,13 +48,13 @@ public final class MachineDetector
     {
         DetectGrbl detect = new DetectGrbl();
         String type = detect.getType();
-        
+
         if (Main.development) {
             machine = Main.developmentMode;
         } else {
             if (type.compareTo(cnc) == 0) {
                 machine = Machine.CNC;
-            } else {
+            } else if(type.compareTo(hotwire) == 0){
                 machine = Machine.HOTWIRE;
             }
         }

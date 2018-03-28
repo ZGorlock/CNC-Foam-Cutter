@@ -435,7 +435,7 @@ public class GreetingController
      */
     public static String getModel()
     {
-        if (controller.fileNames.size() == 1 && controller.fileNames.get(0).endsWith(".stl")) {
+        if (controller.fileNames.size() == 1 && controller.fileNames.get(0).toLowerCase().endsWith(".stl")) {
             return controller.fileNames.get(0);
         }
         return "";
@@ -448,7 +448,7 @@ public class GreetingController
      */
     public static String getGcode()
     {
-        if (controller.fileNames.size() == 1 && controller.fileNames.get(0).endsWith(".gcode")) {
+        if (controller.fileNames.size() == 1 && controller.fileNames.get(0).toLowerCase().endsWith(".gcode")) {
             return controller.fileNames.get(0);
         }
         return "";
@@ -463,7 +463,7 @@ public class GreetingController
     {
         List<String> slices = new ArrayList<>();
         controller.fileNames.forEach(e -> {
-            if (e.endsWith(".gcode")) {
+            if (e.toLowerCase().endsWith(".gcode")) {
                 slices.add(e);
             }
         });
@@ -508,7 +508,7 @@ public class GreetingController
         int i = file.getAbsolutePath().lastIndexOf('.');
         if (i > 0) {
             String extension = file.getAbsolutePath().substring(i + 1);
-            ext = !allowed.contains(extension);
+            ext = !allowed.contains(extension.toLowerCase());
         } else {
             ext = true;
         }
