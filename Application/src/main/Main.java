@@ -29,6 +29,10 @@ import java.util.regex.Pattern;
 public class Main
 {
     
+    //TODO fix python errors
+    //TODO get new toolpath generator
+    //TODO make user help window
+    
     //TODO get 3 judges
     //TODO update presentation powerpoint
     
@@ -36,6 +40,7 @@ public class Main
     //  update application screenshots and add new figures as necessary (and renumber them)
     //  update the sequence diagrams
     //  add a user guide section
+    //  update the research section and technologies used section for the new toolpath generator
     
     //TODO conference paper
     
