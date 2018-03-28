@@ -209,7 +209,10 @@ public class GreetingController
                 File[] files = file.listFiles();
                 if (files != null) {
                     for (File f : files) {
-                        fileNames.add(f.getAbsolutePath());
+                        if(!badExtension(f))
+                        {
+                            fileNames.add(f.getAbsolutePath());
+                        }
                     }
                 }
             } else {
@@ -392,8 +395,13 @@ public class GreetingController
         }
         
         final Dragboard db = dragEvent.getDragboard();
-
-        handleMultipleFiles(db.getFiles());
+        if(db.getFiles().size() > 1) {
+            handleMultipleFiles(db.getFiles());
+            System.out.println(db.getFiles());
+        }else
+        {
+            handleFile(db.getFiles().get(0));
+        }
     }
     
     /**
@@ -408,7 +416,11 @@ public class GreetingController
         }
         
         if (textFieldPath.getText().compareTo(prompt) != 0 && !chosen) {
+            String path = textFieldPath.getText();
             File file = new File(textFieldPath.getText());
+            if(file.isDirectory()){
+                handleFile(file);
+            }
             if (!badExtension(file)) {
                 handleFile(file);
             }
