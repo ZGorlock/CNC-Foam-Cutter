@@ -20,6 +20,8 @@ import utils.CmdLine;
 import utils.Constants;
 import utils.MachineDetector;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -270,6 +272,7 @@ public class Main
      */
     public static void killApplication()
     {
+        //CmdLine.executeCmdAsThread("py " + Constants.GRBL_DIRECTORY + "stop.py" +"\n");
         Platform.exit();
         System.exit(0);
     }

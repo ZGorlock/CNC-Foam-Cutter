@@ -88,8 +88,10 @@ public final class Slicer
         
         String sliceModel = Constants.SLIC3R_DIRECTORY + "win-" + architecture + File.separator +
                 Constants.SLIC3R_EXECUTABLE_FILENAME +
-                " " + model +
+                " " + '"' + model + '"' +
                 (arguments.isEmpty() ? "" : " " + arguments);
+
+        System.out.println(sliceModel);
         
         Process process = CmdLine.executeCmdAsThread(sliceModel);
         if (process == null) {

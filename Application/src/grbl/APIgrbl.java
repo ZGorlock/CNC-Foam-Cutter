@@ -328,7 +328,6 @@ public class APIgrbl extends Thread
                     return;
                 }
 
-
                 // execute stream.py with the file created, get input stream as a response
                 Process process = null;
                 while (process == null) {
@@ -428,6 +427,7 @@ public class APIgrbl extends Thread
                         if (line == null || line.isEmpty()) {
                             break;
                         }
+
                         GcodeController.commandBlock.add(' ' + line);
                     }
                 } else {

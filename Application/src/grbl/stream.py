@@ -48,7 +48,7 @@ class Streamer(object):
         self.argumentGeneration(quiet, settings)
         
         #detect the arduino's port
-        arduino = detect.Arduino()
+        arduino = detect.Detect()
         self.port = arduino.getPort()
 
         # start grbl settings
