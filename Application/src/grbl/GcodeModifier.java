@@ -181,12 +181,20 @@ public class GcodeModifier
             while (st.hasMoreTokens()) {
                 tokens.add(st.nextToken());
             }
-    
+
             if (tokens.size() > 0) {
+                // Check for mm vs inches
+                if(tokens.get(0).compareTo("G21") == 0){
+                    APIgrbl.grbl.setMetric();
+                }else if(tokens.get(0).compareTo("G20") == 0){
+                    APIgrbl.grbl.setImperial();
+                }
+
                 boolean hitF = false;
                 int mockF = -1;
                 for (int j = 0; j < tokens.size(); j++) {
                     String token = tokens.get(j);
+
                     if (UNACCEPTABLE_PARAMETERS.contains(token.charAt(0))) {
                         if (hitF) {
                             tokens.remove(j--);

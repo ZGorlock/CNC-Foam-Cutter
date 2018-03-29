@@ -103,8 +103,19 @@ public class APIgrbl extends Thread
      * The timer for checking user entered commands.
      */
     private Timer commandCheckingTimer = null;
-    
-    
+
+    /**
+     * The field to tell if it's in inches
+     */
+
+    private boolean inches = false;
+
+    /**
+     * The field to tell if it's in millimeters
+     */
+    private boolean mm = false;
+
+
     //Static Fields
     
     /**
@@ -658,5 +669,14 @@ public class APIgrbl extends Thread
     {
         this.profiles = profiles;
     }
-    
+
+    /**
+     * Sets the measurements to millimeters
+     */
+    public void setMetric(){ this.mm = true; this.inches = false; }
+
+    /**
+     * Sets the measurements to inches
+     */
+    public void setImperial(){ this.mm = false; this.inches = true; }
 }
