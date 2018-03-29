@@ -157,6 +157,8 @@ public class MenuController
         
                             RotationController.controller.textFieldDegrees.setDisable(true);
                             RotationController.controller.queueButton.setDisable(true);
+                            RotationController.controller.textFieldRotationStep.setDisable(true);
+                            RotationController.controller.rotationStepButton.setDisable(true);
         
                             TPane.getSelectionModel().select(0);
                         } else {

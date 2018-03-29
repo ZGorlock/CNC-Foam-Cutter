@@ -327,7 +327,8 @@ public class APIgrbl extends Thread
                     currentProgress = 0;
                     return;
                 }
-        
+
+
                 // execute stream.py with the file created, get input stream as a response
                 Process process = null;
                 while (process == null) {
@@ -454,9 +455,9 @@ public class APIgrbl extends Thread
      */
     private void updateCoordinates(String line)
     {
-        // Parse line into coordinates
+        //  Parse line into coordinates
         String[] decomposed = line.split(",");
-        
+
         if (decomposed.length == 4) {
             setStatus(decomposed[0].substring(1));
             String[] first = decomposed[1].split(":");
@@ -464,17 +465,19 @@ public class APIgrbl extends Thread
             setY(Double.parseDouble(decomposed[2]));
             setZ(Double.parseDouble(decomposed[3]));
         }
-        
+
         String x = String.format("%.2f", getCoordinateX());
         String y = String.format("%.2f", getCoordinateY());
         String z = String.format("%.2f", getCoordinateZ());
         String status = getStatus();
-        
-        TraceController.coordinateBlock.clear();
-        TraceController.coordinateBlock.add(0, x);
-        TraceController.coordinateBlock.add(1, y);
-        TraceController.coordinateBlock.add(2, z);
-        TraceController.coordinateBlock.add(3, status);
+
+        Platform.runLater(()->{
+            TraceController.controller.grblX.setText(x);
+            TraceController.controller.grblY.setText(y);
+            TraceController.controller.grblZ.setText(z);
+            TraceController.controller.grblStatus.setText(status);
+            TraceController.addTrace(getCoordinateX(), getCoordinateY(), getCoordinateZ());
+        });
     }
     
     /**

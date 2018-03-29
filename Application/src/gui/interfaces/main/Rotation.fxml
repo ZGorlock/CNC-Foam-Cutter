@@ -20,7 +20,7 @@
             <Text>   </Text>
             <HBox spacing="10" alignment="CENTER_RIGHT">
                 <TextField fx:id="textFieldRotationStep"/>
-                <Button onAction="#setRotationStep" styleClass="buttonGold"
+                <Button fx:id="rotationStpButton" onAction="#setRotationStep" styleClass="buttonGold"
                         text="Set Step Degree" HBox.hgrow="ALWAYS"/>
             </HBox>
         </TilePane>

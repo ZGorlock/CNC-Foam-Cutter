@@ -7,6 +7,7 @@
 package gui.interfaces.greeting;
 
 import gui.interfaces.main.GcodeController;
+import gui.interfaces.popup.SystemNotificationController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -203,24 +204,37 @@ public class GreetingController
      */
     private void handleFile(File file)
     {
+        boolean success = false;
         if (file != null) {
-            textFieldPath.setText(file.getAbsolutePath());
             if (file.isDirectory()) {
+                if (MachineDetector.isCncMachine()) {
+                    SystemNotificationController.throwNotification("Please select a single model or gcode file!", false, false);
+                    return;
+                }
                 File[] files = file.listFiles();
                 if (files != null) {
                     for (File f : files) {
                         if(!badExtension(f))
                         {
+                            success = true;
                             fileNames.add(f.getAbsolutePath());
                         }
                     }
                 }
             } else {
-                // this constructs all the file names
-                fileNames.add(file.getAbsolutePath());
+                if(!badExtension(file))
+                {
+                    // this constructs all the file names
+                    fileNames.add(file.getAbsolutePath());
+                    success = true;
+                }
             }
-            chosen = true;
-            handleUploadedAnimation();
+            if(success)
+            {
+                textFieldPath.setText(file.getAbsolutePath());
+                chosen = true;
+                handleUploadedAnimation();
+            }
         }
     }
 
@@ -235,16 +249,26 @@ public class GreetingController
             return;
         }
 
-        textFieldPath.setText(files.get(0).getParentFile().getAbsolutePath());
+        if (MachineDetector.isCncMachine()) {
+            SystemNotificationController.throwNotification("Please select a single model or gcode file!", false, false);
+            return;
+        }
+
+        boolean success = false;
 
         for (File f : files) {
             if (badExtension(f)) {
-                return;
+                continue;
             }
+            success = true;
             fileNames.add(f.getAbsolutePath());
         }
-        chosen = true;
-        handleUploadedAnimation();
+        if(success)
+        {
+            textFieldPath.setText(files.get(0).getParentFile().getAbsolutePath());
+            chosen = true;
+            handleUploadedAnimation();
+        }
     }
     
     /**
@@ -397,7 +421,6 @@ public class GreetingController
         final Dragboard db = dragEvent.getDragboard();
         if(db.getFiles().size() > 1) {
             handleMultipleFiles(db.getFiles());
-            System.out.println(db.getFiles());
         }else
         {
             handleFile(db.getFiles().get(0));

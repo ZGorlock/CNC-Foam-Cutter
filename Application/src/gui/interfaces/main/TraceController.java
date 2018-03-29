@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * The controller for the Trace tab.
@@ -68,11 +69,6 @@ public class TraceController
      * The instance of the Tracer.
      */
     public static Tracer tracer;
-    
-    /**
-     * The coordinate values of grbl , set by APIgrbl.
-     */
-    public static List<String> coordinateBlock = new ArrayList<>();
     
     
     //Fields
@@ -135,35 +131,6 @@ public class TraceController
     {
         controller = this;
         tracer = Tracer.setup(swingNodeTrace);
-        
-        updateCoordinates();
-    }
-    
-    /**
-     * Starts the coordinate monitoring thread.
-     */
-    public void updateCoordinates()
-    {
-        TimerTask updateCoordinates = new TimerTask()
-        {
-            private int state;
-            
-            @Override
-            public void run()
-            {
-                Platform.runLater(() -> {
-                    if (coordinateBlock.size() == 4) {
-                        grblX.textProperty().set(coordinateBlock.get(0));
-                        grblY.textProperty().set(coordinateBlock.get(1));
-                        grblZ.textProperty().set(coordinateBlock.get(2));
-                        grblStatus.textProperty().set(coordinateBlock.get(3));
-                    }
-                });
-            }
-        };
-        
-        coordinateTimer = new Timer();
-        coordinateTimer.scheduleAtFixedRate(updateCoordinates, 0, 100);
     }
     
     /**

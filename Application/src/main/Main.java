@@ -28,12 +28,11 @@ import java.util.regex.Pattern;
  */
 public class Main
 {
-    
-    //TODO fix python errors
-    //TODO get new toolpath generator
+    //TODO caseing of STL files breaks everything
+
     //TODO make user help window
-    
-    //TODO get 3 judges
+    //  question icon button on side of button window, brings up user help page
+
     //TODO update presentation powerpoint
     
     //TODO update Design Document

@@ -75,7 +75,12 @@ public class RotationController
      * The input field for setting degrees of rotation per step during printing.
      */
     public TextField textFieldRotationStep;
-    
+
+    /**
+     * The button for setting degrees of rotation for the selected gcode profile.
+     */
+    public Button rotationStepButton;
+
     /**
      * The window for the scrolling list of gcode profiles.
      */
