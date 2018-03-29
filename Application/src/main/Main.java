@@ -31,6 +31,8 @@ import java.util.regex.Pattern;
 public class Main
 {
     //TODO caseing of STL files breaks everything
+    //TODO make port thread-safe (commands vs streaming)
+    //TODO trace doesn't draw points?
 
     //TODO make user help window
     //  question icon button on side of button window, brings up user help page
@@ -272,7 +274,6 @@ public class Main
      */
     public static void killApplication()
     {
-        //CmdLine.executeCmdAsThread("py " + Constants.GRBL_DIRECTORY + "stop.py" +"\n");
         Platform.exit();
         System.exit(0);
     }
