@@ -51,7 +51,7 @@ public class DetectGrbl
 
         while (process == null) {
 
-            process = CmdLine.executeCmdAsThread("python " + Constants.GRBL_DIRECTORY + "runDetect.py"); // " + "-c " + command);
+            process = CmdLine.executeCmdAsThread("python " + Constants.GRBL_DIRECTORY + "runDetect.py");
             if (process != null) {
                 BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
@@ -61,7 +61,7 @@ public class DetectGrbl
                         line = r.readLine();
 
                         if (line != null && !line.isEmpty()) {
-                            if (line.compareTo("Traceback (most recent call last):") == 0) {
+                            if (line.equals("Traceback (most recent call last):")) {
                                 this.type = null;
                             } else {
                                 this.type = line;

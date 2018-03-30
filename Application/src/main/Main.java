@@ -30,6 +30,7 @@ public class Main
 {
     
     //TODO make port thread-safe (commands vs streaming)
+    //TODO once you hit upload the first time it should be disabled while its slicing
     
     //TODO caseing of STL files breaks everything
     //TODO trace doesn't draw points?
@@ -188,9 +189,9 @@ public class Main
             }
         }
         
-        String pythonCheck = CmdLine.executeCmd("py -V");
+        String pythonCheck = CmdLine.executeCmd("python -V");
         boolean installPython = false;
-        if (pythonCheck.isEmpty() || pythonCheck.matches("'py' is not recognized .*")) {
+        if (pythonCheck.isEmpty() || pythonCheck.matches("'python' is not recognized .*")) {
             installPython = true;
         } else {
             Pattern p = Pattern.compile("Python\\s(?<version>.+)\\r\\n");
@@ -211,8 +212,8 @@ public class Main
             String pythonInstallCmd = Constants.PYTHON_DIRECTORY + Constants.PYTHON_FILENAME;
             CmdLine.executeCmd(pythonInstallCmd, true);
             
-            pythonCheck = CmdLine.executeCmd("py -V");
-            if (pythonCheck.isEmpty() || pythonCheck.matches("'py' is not recognized .*")) {
+            pythonCheck = CmdLine.executeCmd("python -V");
+            if (pythonCheck.isEmpty() || pythonCheck.matches("'python' is not recognized .*")) {
                 System.out.println("Please install Python 3 and try again.");
                 return false;
             } else {
@@ -230,6 +231,7 @@ public class Main
                 }
             }
         }
+//        "pip install pyserial"
         
         System.out.println("OS:           " + operatingSystem);
         System.out.println("Architecture: " + architecture);
