@@ -458,7 +458,7 @@ public class APIgrbl extends Thread
         //  Parse line into coordinates
         String[] decomposed = line.split(",");
         
-        if (decomposed.length != 4) {
+        if (decomposed.length != 7) {
             return;
         }
 
