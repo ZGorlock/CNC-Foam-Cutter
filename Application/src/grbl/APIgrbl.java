@@ -333,8 +333,8 @@ public class APIgrbl extends Thread
                     currentProgress = 0;
                     return;
                 }
-
-                if (commandsFromUI.size() > 0) {
+    
+                while (commandsFromUI.size() > 0) {
                     //create new process and add to the response for UI
                     handleRequest();
                 }
@@ -399,9 +399,15 @@ public class APIgrbl extends Thread
             public void run()
             {
                 // check for commands from UI
-                if (!startedStreaming && commandsFromUI.size() > 0) {
-                    //create new process and add to the response for UI
-                    handleRequest();
+                if (!startedStreaming) {
+                    while (commandsFromUI.size() > 0) {
+                        //create new process and add to the response for UI
+                        handleRequest();
+                        
+                        if (startedStreaming) {
+                            break;
+                        }
+                    }
                 }
             }
         };
@@ -412,7 +418,7 @@ public class APIgrbl extends Thread
     /**
      * Performs a user entered command.
      */
-    private void handleRequest()
+    private synchronized void handleRequest()
     {
         File tempDirectory = new File(Constants.GRBL_TEMP_DIRECTORY);
         File tempCommand = new File(tempDirectory, "tempCommand.txt");
@@ -429,6 +435,11 @@ public class APIgrbl extends Thread
         }
         
         try {
+            //write the command to file
+            BufferedWriter bw = new BufferedWriter(new FileWriter(tempCommand));
+            bw.write(commandsFromUI.get(0));
+            bw.close();
+            
             // execute stream.py with the command being sent, get input stream as a response
             Process process = null;
             while (process == null) {
@@ -455,7 +466,7 @@ public class APIgrbl extends Thread
                 }
             }
         } catch (IOException e) {
-            System.err.println("There was an error reading grbl's response to a user entered command!");
+            System.err.println("There was an error writing a user entered command or reading grbl's response!");
             e.printStackTrace();
             SystemNotificationController.throwNotification("There was an error executing your command!", false, false);
             return;
