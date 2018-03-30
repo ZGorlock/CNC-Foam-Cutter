@@ -453,9 +453,11 @@ public class APIgrbl extends Thread
                         if (line == null || line.isEmpty()) {
                             break;
                         }
-
+                        
+                        if (Main.development) {
+                            System.out.println(line);
+                        }
                         GcodeController.commandBlock.add(' ' + line);
-
                     }
                 } else {
                     System.err.println("Error attempting to run stream.py! Reattempting...");
