@@ -309,6 +309,7 @@ public class GreetingController
             slicerOutput.add("Slicing your model into gcode...");
             slicerOutput.add("");
             slicingInProgress = true;
+            uploadButton.setDisable(true);
             updateSlicerConsole(actionEvent);
             
             Timer slicingTimer = new Timer();
