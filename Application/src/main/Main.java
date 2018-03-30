@@ -38,6 +38,7 @@ public class Main
     
     //TODO make user help window
     //  question icon button on side of button window, brings up user help page
+    //  what is displayed should be dependent on which machine is connected
 
     
     //TODO update presentation powerpoint
@@ -45,7 +46,7 @@ public class Main
     //TODO update Design Document
     //  update application screenshots and add new figures as necessary (and renumber them)
     //  update the sequence diagrams
-    //  add a user guide section
+    //  add figures of acceptable and unacceptable models to the User Guide section
     
     //TODO conference paper
     
