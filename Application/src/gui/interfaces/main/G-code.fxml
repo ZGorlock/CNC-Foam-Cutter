@@ -10,7 +10,7 @@
             <VBox spacing="10" styleClass="vbox" id="vBox">
                 <TextArea fx:id="textAreaCodeSent" editable="false" styleClass="console"/>
 
-                <Text>   </Text>
+                <Text/>
 
                 <TextArea fx:id="textAreaResponse" editable="false" styleClass="console"/>
                 <HBox alignment="CENTER" spacing="20">

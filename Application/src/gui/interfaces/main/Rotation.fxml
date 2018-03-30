@@ -15,12 +15,14 @@
                         text="Set Degrees" HBox.hgrow="ALWAYS"/>
             </HBox>
         </TilePane>
+
         <Text/>
+
         <TilePane alignment="CENTER">
             <Text>   </Text>
             <HBox spacing="10" alignment="CENTER_RIGHT">
                 <TextField fx:id="textFieldRotationStep"/>
-                <Button fx:id="rotationStpButton" onAction="#setRotationStep" styleClass="buttonGold"
+                <Button fx:id="rotationStepButton" onAction="#setRotationStep" styleClass="buttonGold"
                         text="Set Step Degree" HBox.hgrow="ALWAYS"/>
             </HBox>
         </TilePane>

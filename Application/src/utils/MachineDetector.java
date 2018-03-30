@@ -66,8 +66,10 @@ public final class MachineDetector
         } else {
             if (type.compareTo(cnc) == 0) {
                 machine = Machine.CNC;
-            } else if(type.compareTo(hotwire) == 0){
+            } else if (type.compareTo(hotwire) == 0) {
                 machine = Machine.HOTWIRE;
+            } else {
+                machine = Machine.NONE;
             }
         }
     }

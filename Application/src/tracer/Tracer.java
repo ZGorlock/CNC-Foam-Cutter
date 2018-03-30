@@ -16,6 +16,7 @@ import tracer.objects.base.BaseObject;
 import tracer.objects.base.ObjectInterface;
 import tracer.objects.base.polygon.Rectangle;
 import tracer.objects.base.simple.Edge;
+import utils.MachineDetector;
 
 import javax.swing.*;
 import java.awt.*;
@@ -265,7 +266,7 @@ public class Tracer
         objects.add(r5);
         objects.add(r6);
         
-        if (traceDemo) {
+        if (MachineDetector.isCncMachine() && traceDemo) {
             //animation
             TimerTask traceTask = new TimerTask()
             {

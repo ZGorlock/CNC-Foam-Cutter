@@ -32,7 +32,10 @@ public class Main
     //TODO make port thread-safe (commands vs streaming)
     
     //TODO calibrate Tracer and Renderer
-
+    //TODO make it print the model on the top of the foam instead of the bottom
+    
+    //TODO test Rotation traces with real sized profiles
+    
     //TODO make user help window
     //  question icon button on side of button window, brings up user help page
 
@@ -69,7 +72,7 @@ public class Main
     /**
      * The machine type to run when working in development mode.
      */
-    public static final MachineDetector.Machine developmentMode = MachineDetector.Machine.CNC;
+    public static final MachineDetector.Machine developmentMode = MachineDetector.Machine.HOTWIRE;
     
     /**
      * A flag indicating whether or not to produce development logging or not.

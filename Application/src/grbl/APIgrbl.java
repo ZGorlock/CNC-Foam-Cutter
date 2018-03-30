@@ -11,10 +11,7 @@ import gui.interfaces.popup.SystemNotificationController;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import main.Main;
-import utils.CmdLine;
-import utils.Constants;
-import utils.TimeUtil;
-import utils.TracerGcodeBypass;
+import utils.*;
 
 import java.io.*;
 import java.util.*;
@@ -283,7 +280,7 @@ public class APIgrbl extends Thread
                             sb.append(newCommand);
                             sb.append('\n');
                             
-                            if (Main.development && Main.bypassArduinoForTracer) {
+                            if (Main.development && Main.bypassArduinoForTracer && MachineDetector.isCncMachine()) {
                                 TracerGcodeBypass.traceGcodeCommand(newCommand, true);
                             }
 

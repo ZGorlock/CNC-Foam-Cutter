@@ -165,7 +165,7 @@ public class MenuController
                             SystemNotificationController.throwNotification("The process of communicating with the machine could not be started!", true, false);
                         }
                     } else {
-                        SystemNotificationController.throwNotification("Your profile degrees do not divide evenly by the step degree!", false, false);
+                        SystemNotificationController.throwNotification("Your profile degrees are not all multiples of the step degree!", false, false);
                     }
                 } else {
                     SystemNotificationController.throwNotification("The sum of your profiles must add up to 360 degrees!", false, false);
