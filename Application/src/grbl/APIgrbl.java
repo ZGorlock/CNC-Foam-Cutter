@@ -445,10 +445,14 @@ public class APIgrbl extends Thread
             bw.write(commandsFromUI.get(0));
             bw.close();
             
+            if (Main.development && Main.developmentLogging) {
+                System.out.println("> " + commandsFromUI.get(0));
+            }
+            
             // execute stream.py with the command being sent, get input stream as a response
             Process process = null;
             while (process == null) {
-                process = CmdLine.executeCmdAsThread("python -3 " + Constants.GRBL_DIRECTORY + "stream.py " + Constants.GRBL_TEMP_DIRECTORY + tempCommand.getName() + "\n");
+                process = CmdLine.executeCmdAsThread("python " + Constants.GRBL_DIRECTORY + "stream.py " + Constants.GRBL_TEMP_DIRECTORY + tempCommand.getName() + "\n");
                 if (process != null) {
                     BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
             
