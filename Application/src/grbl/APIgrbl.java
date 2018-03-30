@@ -351,6 +351,9 @@ public class APIgrbl extends Thread
                             line = r.readLine();
         
                             if (!line.isEmpty()) {
+                                if (Main.development) {
+                                    System.out.println(line);
+                                }
                                 updateCoordinates(line);
                             }
                         }
