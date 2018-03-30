@@ -457,6 +457,10 @@ public class APIgrbl extends Thread
     {
         //  Parse line into coordinates
         String[] decomposed = line.split(",");
+        
+        if (decomposed.length != 4) {
+            return;
+        }
 
         setStatus(decomposed[0].substring(1));
         String[] first = decomposed[1].split(":");

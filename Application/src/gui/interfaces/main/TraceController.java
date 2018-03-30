@@ -6,7 +6,6 @@
 
 package gui.interfaces.main;
 
-import javafx.application.Platform;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -18,11 +17,7 @@ import tracer.Tracer;
 import tracer.math.Delta;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * The controller for the Trace tab.
@@ -150,9 +145,9 @@ public class TraceController
     /**
      * Adds a new trace point to the Tracer.
      *
-     * @param x The relative x movement of the trace.
-     * @param y The relative y movement of the trace.
-     * @param z The relative z movement of the trace.
+     * @param x The x position of the trace.
+     * @param y The y position of the trace.
+     * @param z The z position of the trace.
      */
     public static void addTrace(double x, double y, double z)
     {

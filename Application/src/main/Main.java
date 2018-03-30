@@ -29,8 +29,9 @@ import java.util.regex.Pattern;
 public class Main
 {
     
-    //TODO caseing of STL files breaks everything
     //TODO make port thread-safe (commands vs streaming)
+    
+    //TODO caseing of STL files breaks everything
     //TODO trace doesn't draw points?
 
     //TODO make user help window

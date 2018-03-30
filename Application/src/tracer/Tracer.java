@@ -7,7 +7,6 @@
 package tracer;
 
 import javafx.embed.swing.SwingNode;
-import main.Main;
 import renderer.Renderer;
 import tracer.camera.Camera;
 import tracer.math.matrix.Matrix3;
@@ -90,7 +89,7 @@ public class Tracer
     /**
      * The last trace that was hit.
      */
-    private static Vector lastTrace;
+    private static Vector lastTrace = new Vector(0, 0, 0);
     
     /**
      * The list of traces currently being rendered.
@@ -272,9 +271,6 @@ public class Tracer
                 double theta = 0.0;
                 double rho = ((Math.max(Renderer.foamWidth, Renderer.foamWidth) + Renderer.foamHeight) / 4) * Renderer.MILLIMETERS_IN_INCH;
                 
-                boolean startTrace = false;
-                double lastX, lastY, lastZ;
-                
                 @Override
                 public void run()
                 {
@@ -285,16 +281,7 @@ public class Tracer
                     double y = rho * Math.cos(phi);
                     double z = rho * Math.sin(phi) * Math.sin(theta);
                     
-                    if (!startTrace) {
-                        setStartTrace(x, y, z);
-                        startTrace = true;
-                    } else {
-                        addTrace(x - lastX, y - lastY, z - lastZ);
-                    }
-                    
-                    lastX = x;
-                    lastY = y;
-                    lastZ = z;
+                    addTrace(x, y, z);
                 }
             };
             traceTimer = new Timer();
@@ -344,41 +331,27 @@ public class Tracer
     /**
      * Adds a new trace point to the Tracer.
      *
-     * @param x The relative x movement of the trace.
-     * @param y The relative y movement of the trace.
-     * @param z The relative z movement of the trace.
+     * @param x The x position of the trace.
+     * @param y The y position of the trace.
+     * @param z The z position of the trace.
      */
     public static synchronized void addTrace(double x, double y, double z)
     {
-        if (lastTrace != null) {
-            Vector trace = new Vector(x + lastTrace.getX(), y + lastTrace.getY(), z + lastTrace.getZ());
-            Edge edge = new Edge(Color.RED, lastTrace, trace);
-            
-            traces.add(0, edge);
-            addObject(edge);
-            lastTrace = trace;
-            
-            if (traces.size() > MAX_TRACES) {
-                removeObject(traces.get(MAX_TRACES - 1));
-                traces.remove(MAX_TRACES - 1);
-            }
-            
-            for (int i = 0; i < traces.size(); i++) {
-                traces.get(i).setColor(new Color(1, 0, 0, 1 - (i / (float) MAX_TRACES)));
-            }
-        }
-    }
+        Vector trace = new Vector(x, y, z);
+        Edge edge = new Edge(Color.RED, lastTrace, trace);
     
-    /**
-     * Sets the starting trace point of the Tracer.
-     *
-     * @param x The starting x coordinate.
-     * @param y The starting y coordinate.
-     * @param z The starting z coordinate.
-     */
-    public static void setStartTrace(double x, double y, double z)
-    {
-        lastTrace = new Vector(x, y + (Renderer.foamHeight / 2 * Renderer.MILLIMETERS_IN_INCH), z);
+        traces.add(0, edge);
+        addObject(edge);
+        lastTrace = trace;
+    
+        if (traces.size() > MAX_TRACES) {
+            removeObject(traces.get(MAX_TRACES - 1));
+            traces.remove(MAX_TRACES - 1);
+        }
+    
+        for (int i = 0; i < traces.size(); i++) {
+            traces.get(i).setColor(new Color(1, 0, 0, 1 - (i / (float) MAX_TRACES)));
+        }
     }
     
     /**
