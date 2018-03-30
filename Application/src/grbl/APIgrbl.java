@@ -115,6 +115,11 @@ public class APIgrbl extends Thread
      */
     private boolean mm = false;
 
+    /**
+     * Variable to check if we've started streaming
+     */
+    private boolean startedStreaming = false;
+
 
     //Static Fields
     
@@ -246,6 +251,7 @@ public class APIgrbl extends Thread
         
         try {
             int i = 0;
+            startedStreaming = true;
             while (i < commands.size()) {
                 
                 // read every 127 characters and create a file with them for stream.py to use
@@ -328,6 +334,11 @@ public class APIgrbl extends Thread
                     return;
                 }
 
+                if (commandsFromUI.size() > 0) {
+                    //create new process and add to the response for UI
+                    handleRequest();
+                }
+
                 // execute stream.py with the file created, get input stream as a response
                 Process process = null;
                 while (process == null) {
@@ -361,6 +372,7 @@ public class APIgrbl extends Thread
         
         // Reset UI
         doneStreaming = true;
+        startedStreaming = false;
     }
     
     /**
@@ -384,7 +396,7 @@ public class APIgrbl extends Thread
             public void run()
             {
                 // check for commands from UI
-                if (commandsFromUI.size() > 0) {
+                if (!startedStreaming && commandsFromUI.size() > 0) {
                     //create new process and add to the response for UI
                     handleRequest();
                 }
@@ -424,6 +436,7 @@ public class APIgrbl extends Thread
                     String line;
                     while (true) {
                         line = r.readLine();
+                        System.out.println(line);
                         if (line == null || line.isEmpty()) {
                             break;
                         }
@@ -457,7 +470,7 @@ public class APIgrbl extends Thread
     {
         //  Parse line into coordinates
         String[] decomposed = line.split(",");
-        
+
         if (decomposed.length != 7) {
             return;
         }
