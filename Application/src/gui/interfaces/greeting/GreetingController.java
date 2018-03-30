@@ -223,6 +223,9 @@ public class GreetingController
             } else {
                 if (!badExtension(file)) {
                     // this constructs all the file names
+                    if (MachineDetector.isCncMachine()) {
+                        fileNames.clear();
+                    }
                     fileNames.add(file.getAbsolutePath());
                     success = true;
                 }

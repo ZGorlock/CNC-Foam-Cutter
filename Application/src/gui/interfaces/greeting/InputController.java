@@ -6,7 +6,6 @@
 
 package gui.interfaces.greeting;
 
-import gui.Gui;
 import gui.interfaces.main.ModelController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -105,6 +104,7 @@ public class InputController
         
         if (Main.development) {
             nid.setText("ab123456");
+            desc.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
             width.setText("20");
             length.setText("40");
             height.setText("10");
@@ -289,9 +289,6 @@ public class InputController
      */
     public static String getNidFromText()
     {
-        if (Gui.debug) {
-            return "aa123456";
-        }
         return nidText;
     }
     
@@ -302,9 +299,6 @@ public class InputController
      */
     public static String getDescFromText()
     {
-        if (Gui.debug) {
-            return "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
-        }
         return descText;
     }
     
