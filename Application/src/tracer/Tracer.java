@@ -66,7 +66,7 @@ public class Tracer
     /**
      * The maximum number of traces to display before old traces begin to disappear.
      */
-    public static final int MAX_TRACES = 360;
+    public static final int MAX_TRACES = 3600;
     
     /**
      * Whether or not to display the trace demo.
@@ -232,6 +232,8 @@ public class Tracer
         double w = (Renderer.foamWidth * Renderer.MILLIMETERS_IN_INCH) / 2;
         double l = (Renderer.foamLength * Renderer.MILLIMETERS_IN_INCH) / 2;
         double h = (Renderer.foamHeight * Renderer.MILLIMETERS_IN_INCH) / 2;
+        
+        System.out.println(w + ", " + l + ", " + h);
         
         Vector c1 = new Vector(-w, -h, -l);
         Vector c2 = new Vector(-w, -h, l);

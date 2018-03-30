@@ -73,6 +73,16 @@ public class Main
      */
     public static final MachineDetector.Machine developmentMode = MachineDetector.Machine.CNC;
     
+    /**
+     * A flag indicating whether or not to produce development logging or not.
+     */
+    public static final boolean developmentLogging = true;
+    
+    /**
+     * A flag indicating whether or not to bypass the Arduino for the Tracer.
+     */
+    public static final boolean bypassArduinoForTracer = true;
+    
     
     //Static Fields
     

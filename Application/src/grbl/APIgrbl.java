@@ -14,6 +14,7 @@ import main.Main;
 import utils.CmdLine;
 import utils.Constants;
 import utils.TimeUtil;
+import utils.TracerGcodeBypass;
 
 import java.io.*;
 import java.util.*;
@@ -281,6 +282,10 @@ public class APIgrbl extends Thread
                             // append what will be written
                             sb.append(newCommand);
                             sb.append('\n');
+                            
+                            if (Main.development && Main.bypassArduinoForTracer) {
+                                TracerGcodeBypass.traceGcodeCommand(newCommand, true);
+                            }
 
                             // update counts
                             charsUsed += newCommand.length() + 1;
@@ -351,7 +356,7 @@ public class APIgrbl extends Thread
                             line = r.readLine();
         
                             if (!line.isEmpty()) {
-                                if (Main.development) {
+                                if (Main.development && Main.developmentLogging) {
                                     System.out.println(line);
                                 }
                                 updateCoordinates(line);
@@ -454,7 +459,7 @@ public class APIgrbl extends Thread
                             break;
                         }
                         
-                        if (Main.development) {
+                        if (Main.development && Main.developmentLogging) {
                             System.out.println(line);
                         }
                         GcodeController.commandBlock.add(' ' + line);
@@ -545,7 +550,7 @@ public class APIgrbl extends Thread
         if (MenuController.stopped) {
             return ModelController.controller.percentage.getText();
         }
-        if (grbl == null) {
+        if (grbl == null || grbl.totalProgress == 0 || grbl.currentProgress == 0) {
             return "0.00 %";
         } else if (grbl.isDoneStreaming()) {
             return "100.00 %";

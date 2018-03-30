@@ -46,7 +46,7 @@ public class Renderer
     /**
      * The x rotation to apply to the model.
      */
-    private static final Transform MODEL_ROTATE_X = new Rotate(270, Rotate.X_AXIS);
+    private static final Transform MODEL_ROTATE_X = new Rotate(0, Rotate.X_AXIS);
     
     /**
      * The y rotation to apply to the model.
@@ -309,7 +309,7 @@ public class Renderer
      */
     private void addBorder()
     {
-        Box border = new Box(foamWidth, foamLength, foamHeight);
+        Box border = new Box(foamLength, foamHeight, foamWidth);
         PhongMaterial sample = new PhongMaterial(borderColor);
         sample.setSpecularColor(borderColor);
         sample.setSpecularPower(100);
@@ -320,7 +320,6 @@ public class Renderer
         border.setScaleX(MODEL_SCALE * MILLIMETERS_IN_INCH);
         border.setScaleY(MODEL_SCALE * MILLIMETERS_IN_INCH);
         border.setScaleZ(MODEL_SCALE * MILLIMETERS_IN_INCH);
-        border.getTransforms().setAll(MODEL_ROTATE_X, MODEL_ROTATE_Y, MODEL_ROTATE_Z);
         
         border.setTranslateY((foamHeight / -2) * MODEL_SCALE * MILLIMETERS_IN_INCH);
         
