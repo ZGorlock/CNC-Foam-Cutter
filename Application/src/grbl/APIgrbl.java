@@ -450,12 +450,12 @@ public class APIgrbl extends Thread
                     String line;
                     while (true) {
                         line = r.readLine();
-                        System.out.println(line);
                         if (line == null || line.isEmpty()) {
                             break;
                         }
 
                         GcodeController.commandBlock.add(' ' + line);
+
                     }
                 } else {
                     System.err.println("Error attempting to run stream.py! Reattempting...");
