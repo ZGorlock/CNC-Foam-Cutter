@@ -172,7 +172,7 @@ public class GreetingController
         File file = null;
         if (textFieldPath.getText().compareTo(prompt) != 0) {
             file = new File(textFieldPath.getText());
-
+            
             if (badExtension(file)) {
                 return;
             }
@@ -183,14 +183,14 @@ public class GreetingController
                 fileChooser.getExtensionFilters().add(extFilter);
             }
             fileChooser.setTitle("Select File(s)");
-
+            
             List<File> selectedFiles = fileChooser.showOpenMultipleDialog(new Stage());
             if (selectedFiles != null) {
                 if (selectedFiles.size() > 1) {
                     handleMultipleFiles(selectedFiles);
                     return;
                 }
-    
+                
                 file = selectedFiles.get(0);
             }
         }
@@ -214,30 +214,28 @@ public class GreetingController
                 File[] files = file.listFiles();
                 if (files != null) {
                     for (File f : files) {
-                        if(!badExtension(f))
-                        {
+                        if (!badExtension(f)) {
                             success = true;
                             fileNames.add(f.getAbsolutePath());
                         }
                     }
                 }
             } else {
-                if(!badExtension(file))
-                {
+                if (!badExtension(file)) {
                     // this constructs all the file names
                     fileNames.add(file.getAbsolutePath());
                     success = true;
                 }
             }
-            if(success)
-            {
-                textFieldPath.setText(file.getAbsolutePath());
+            
+            if (success) {
                 chosen = true;
+                textFieldPath.setText(file.getAbsolutePath());
                 handleUploadedAnimation();
             }
         }
     }
-
+    
     /**
      * Handles multiple files being chosen
      *
@@ -248,14 +246,14 @@ public class GreetingController
         if (files.isEmpty()) {
             return;
         }
-
+        
         if (MachineDetector.isCncMachine()) {
             SystemNotificationController.throwNotification("Please select a single model or gcode file!", false, false);
             return;
         }
-
+        
         boolean success = false;
-
+        
         for (File f : files) {
             if (badExtension(f)) {
                 continue;
@@ -263,10 +261,10 @@ public class GreetingController
             success = true;
             fileNames.add(f.getAbsolutePath());
         }
-        if(success)
-        {
-            textFieldPath.setText(files.get(0).getParentFile().getAbsolutePath());
+        
+        if (success) {
             chosen = true;
+            textFieldPath.setText(files.get(0).getParentFile().getAbsolutePath());
             handleUploadedAnimation();
         }
     }
@@ -352,7 +350,7 @@ public class GreetingController
                             slicerOutputBuilder.append("\n");
                         }
                     }
-    
+                    
                     slicerConsole.textProperty().set(slicerOutputBuilder.toString());
                     slicerConsole.appendText("");
                     slicerConsole.setScrollTop(Double.MAX_VALUE);
@@ -385,7 +383,7 @@ public class GreetingController
             stage.setScene(new Scene(root, 1280, 960));
             stage.show();
             stage.setOnCloseRequest(t -> Main.killApplication());
-
+            
             ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
             
         } catch (Exception e) {
@@ -419,10 +417,9 @@ public class GreetingController
         }
         
         final Dragboard db = dragEvent.getDragboard();
-        if(db.getFiles().size() > 1) {
+        if (db.getFiles().size() > 1) {
             handleMultipleFiles(db.getFiles());
-        }else
-        {
+        } else {
             handleFile(db.getFiles().get(0));
         }
     }
@@ -441,7 +438,7 @@ public class GreetingController
         if (textFieldPath.getText().compareTo(prompt) != 0 && !chosen) {
             String path = textFieldPath.getText();
             File file = new File(textFieldPath.getText());
-            if(file.isDirectory()){
+            if (file.isDirectory()) {
                 handleFile(file);
             }
             if (!badExtension(file)) {

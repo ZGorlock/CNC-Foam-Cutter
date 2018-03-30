@@ -20,8 +20,6 @@ import utils.CmdLine;
 import utils.Constants;
 import utils.MachineDetector;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,6 +28,7 @@ import java.util.regex.Pattern;
  */
 public class Main
 {
+    
     //TODO caseing of STL files breaks everything
     //TODO make port thread-safe (commands vs streaming)
     //TODO trace doesn't draw points?

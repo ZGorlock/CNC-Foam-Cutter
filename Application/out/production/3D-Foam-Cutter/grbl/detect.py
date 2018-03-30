@@ -9,7 +9,7 @@
 import warnings
 import serial.tools.list_ports
 
-class Arduino(object):
+class Detect(object):
 
     def __init__(self):
         arduino_ports = [
@@ -30,9 +30,13 @@ class Arduino(object):
             if 'Arduino' in p.description:
                 self.number = (p.serial_number)
                 break
+        #serial.Serial(self.port, 115200).close()
+
 
     def getPort(self):
         return self.port
 
     def getNumber(self):
         print(self.number)
+
+detect = Detect()

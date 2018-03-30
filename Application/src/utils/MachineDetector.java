@@ -26,6 +26,7 @@ public final class MachineDetector
         HOTWIRE,
         NONE
     }
+
     
     //Static Fields
     
@@ -33,9 +34,20 @@ public final class MachineDetector
      * The type of machine that is currently connected.
      */
     private static Machine machine;
-
+    
+    /**
+     * The id of the CNC Machine Arduino.
+     */
     private static String cnc = "55735323835351017091";
+    
+    /**
+     * The id of the Hotwire Machine Arduino.
+     */
     private static String hotwire;
+    
+    /**
+     * The id of the Test Arduino.
+     */
     private static String test = "95530343235351D092F0";
     
     
