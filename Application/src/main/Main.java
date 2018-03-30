@@ -32,8 +32,7 @@ public class Main
     //TODO make port thread-safe (commands vs streaming)
     //TODO once you hit upload the first time it should be disabled while its slicing
     
-    //TODO caseing of STL files breaks everything
-    //TODO trace doesn't draw points?
+    //TODO calibrate Tracer and Renderer
 
     //TODO make user help window
     //  question icon button on side of button window, brings up user help page
