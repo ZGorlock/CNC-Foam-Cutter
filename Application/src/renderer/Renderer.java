@@ -14,6 +14,7 @@ import javafx.animation.Timeline;
 import javafx.embed.swing.JFXPanel;
 import javafx.embed.swing.SwingNode;
 import javafx.scene.*;
+import javafx.scene.effect.Light;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -46,17 +47,22 @@ public class Renderer
     /**
      * The x rotation to apply to the model.
      */
-    private static final Transform MODEL_ROTATE_X = new Rotate(0, Rotate.X_AXIS);
+    private static final Transform MODEL_ROTATE_X = new Rotate(-270, Rotate.X_AXIS);
     
     /**
      * The y rotation to apply to the model.
      */
-    private static final Transform MODEL_ROTATE_Y = new Rotate(0, Rotate.Y_AXIS);
+    private static final Transform MODEL_ROTATE_Y = new Rotate(180, Rotate.Y_AXIS);
     
     /**
      * The z rotation to apply to the model.
      */
-    private static final Transform MODEL_ROTATE_Z = new Rotate(0, Rotate.Z_AXIS);
+    private static final Transform MODEL_ROTATE_Z = new Rotate(-90, Rotate.Z_AXIS);
+    
+    /**
+     * The z rotation to apply to the model for the constant rotation.
+     */
+    private static final Transform MODEL_ROTATE_CONSTANT_Z = new Rotate(0, Rotate.Z_AXIS);
     
     /**
      * The size of the view.
@@ -125,6 +131,26 @@ public class Renderer
      * The height of the block of foam (in inches).
      */
     public static double foamHeight;
+    
+    /**
+     * The center point of the foam block.
+     */
+    public static Light.Point foamCenter;
+    
+    /**
+     * The width of the model (in millimeters).
+     */
+    public static double modelWidth;
+    
+    /**
+     * The length of the model (in millimeters).
+     */
+    public static double modelLength;
+    
+    /**
+     * The height of the model (in millimeters).
+     */
+    public static double modelHeight;
     
     
     //Fields
@@ -216,6 +242,11 @@ public class Renderer
     {
         MeshView[] meshViews = loadModel(model);
         
+         foamCenter = new Light.Point(foamWidth / 2, foamLength / 2, foamHeight / 2, new Color(0, 0, 0, 1));
+        ((Rotate) MODEL_ROTATE_X).pivotXProperty().bind(foamCenter.xProperty());
+        ((Rotate) MODEL_ROTATE_Y).pivotYProperty().bind(foamCenter.yProperty());
+        ((Rotate) MODEL_ROTATE_Z).pivotZProperty().bind(foamCenter.zProperty());
+        
         for (MeshView meshView : meshViews) {
             PhongMaterial sample = new PhongMaterial(modelColor);
             sample.setDiffuseColor(modelColor);
@@ -226,7 +257,7 @@ public class Renderer
             meshView.setScaleX(MODEL_SCALE);
             meshView.setScaleY(MODEL_SCALE);
             meshView.setScaleZ(MODEL_SCALE);
-            meshView.getTransforms().setAll(MODEL_ROTATE_X, MODEL_ROTATE_Y, MODEL_ROTATE_Z);
+            meshView.getTransforms().setAll(MODEL_ROTATE_X, MODEL_ROTATE_Y, MODEL_ROTATE_Z, MODEL_ROTATE_CONSTANT_Z);
         }
         
         root = new Group(meshViews);
@@ -284,24 +315,19 @@ public class Renderer
     private void addCamera()
     {
         double translateX = 0;
-        double translateY = (foamHeight / -2) * MODEL_SCALE * MILLIMETERS_IN_INCH;
-        double translateZ = ((Math.max(foamWidth, foamLength) + foamHeight) * -2) * MODEL_SCALE * MILLIMETERS_IN_INCH;
-        
-        Rotate rotateX = new Rotate(0, Rotate.X_AXIS);
-        Rotate rotateY = new Rotate(0, Rotate.Y_AXIS);
-        Rotate rotateZ = new Rotate(0, Rotate.Z_AXIS);
+        double translateY = 0;
+        double translateZ = ((Math.max(foamWidth, foamLength) + foamHeight) * -1.5) * MODEL_SCALE * MILLIMETERS_IN_INCH;
         
         perspectiveCamera = new PerspectiveCamera(true);
-        perspectiveCamera.getTransforms().addAll(rotateX, rotateY, rotateZ,
-                new Translate(translateX, translateY, translateZ));
+        perspectiveCamera.getTransforms().addAll(new Translate(translateX, translateY, translateZ));
         
         perspectiveCamera.setFarClip(5000);
         perspectiveCamera.setNearClip(0.1);
-        perspectiveCamera.setFieldOfView(30.0);
+        perspectiveCamera.setFieldOfView(45.0);
         
         timeline = new Timeline(
-                new KeyFrame(Duration.seconds(0), new KeyValue(rotateY.angleProperty(), 0)),
-                new KeyFrame(Duration.seconds(15), new KeyValue(rotateY.angleProperty(), 360))
+                new KeyFrame(Duration.seconds(0), new KeyValue(((Rotate) MODEL_ROTATE_CONSTANT_Z).angleProperty(), 360)),
+                new KeyFrame(Duration.seconds(15), new KeyValue(((Rotate) MODEL_ROTATE_CONSTANT_Z).angleProperty(), 0))
         );
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
@@ -314,7 +340,7 @@ public class Renderer
      */
     private void addBorder()
     {
-        Box border = new Box(foamLength, foamHeight, foamWidth);
+        Box border = new Box(foamWidth, foamLength, foamHeight);
         PhongMaterial sample = new PhongMaterial(borderColor);
         sample.setSpecularColor(borderColor);
         sample.setSpecularPower(100);
@@ -325,9 +351,9 @@ public class Renderer
         border.setScaleX(MODEL_SCALE * MILLIMETERS_IN_INCH);
         border.setScaleY(MODEL_SCALE * MILLIMETERS_IN_INCH);
         border.setScaleZ(MODEL_SCALE * MILLIMETERS_IN_INCH);
-        
-        border.setTranslateY((foamHeight / -2) * MODEL_SCALE * MILLIMETERS_IN_INCH);
-        border.getTransforms().setAll(MODEL_ROTATE_X, MODEL_ROTATE_Y, MODEL_ROTATE_Z);
+    
+        border.setTranslateZ((foamHeight / -2) * MODEL_SCALE * MILLIMETERS_IN_INCH);
+        border.getTransforms().setAll(MODEL_ROTATE_X, MODEL_ROTATE_Y, MODEL_ROTATE_Z, MODEL_ROTATE_CONSTANT_Z);
         
         root.getChildren().add(border);
     }
@@ -364,7 +390,7 @@ public class Renderer
     public static void handleCameraMovement(double deltaX, double deltaY)
     {
         ((Rotate) MODEL_ROTATE_X).setAngle(((Rotate) MODEL_ROTATE_X).getAngle() + (.1 * deltaY));
-        ((Rotate) MODEL_ROTATE_Z).setAngle(((Rotate) MODEL_ROTATE_Z).getAngle() + (.1 * deltaX));
+        ((Rotate) MODEL_ROTATE_Z).setAngle(((Rotate) MODEL_ROTATE_Z).getAngle() + (-.1 * deltaX));
     }
     
     /**

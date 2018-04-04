@@ -349,8 +349,8 @@ public class Camera
         double oldPhi = phi;
         double oldTheta = theta;
         
-        theta -= thetaSpeed * deltaX;
-        phi -= phiSpeed * deltaY;
+        theta += thetaSpeed * deltaX;
+        phi += phiSpeed * deltaY;
         bindLocation();
         
         if (phi != oldPhi || theta != oldTheta) {
