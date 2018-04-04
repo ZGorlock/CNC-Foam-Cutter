@@ -12,12 +12,17 @@ import gui.interfaces.greeting.InputController;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import main.Main;
 import renderer.Renderer;
+import tracer.math.Delta;
 
 import java.io.File;
 import java.net.URL;
@@ -144,6 +149,31 @@ public class ModelController
         try {
             URL fxml = ModelController.class.getResource("Model.fxml");
             Tab tab = FXMLLoader.load(fxml);
+            
+            BorderPane pane = (BorderPane) tab.getContent();
+            AnchorPane anchor = (AnchorPane) pane.getChildren().get(0);
+            BorderPane anchorPane = (BorderPane) anchor.getChildren().get(0);
+            StackPane stackPane = (StackPane) anchorPane.getChildren().get(0);
+            SwingNode node = (SwingNode) stackPane.getChildren().get(0);
+    
+            final Delta delta = new Delta();
+            node.setOnMousePressed(mouseEvent -> {
+                delta.x = mouseEvent.getSceneX();
+                delta.y = mouseEvent.getSceneY();
+                Renderer.pauseModelAnimation();
+                node.setCursor(Cursor.MOVE);
+            });
+            node.setOnMouseReleased(mouseEvent -> {
+                Renderer.resumeModelAnimation();
+                node.setCursor(Cursor.HAND);
+            });
+            node.setOnMouseDragged(mouseEvent -> {
+                Renderer.handleCameraMovement(mouseEvent.getSceneX() - delta.x, mouseEvent.getSceneY() - delta.y);
+                delta.x = mouseEvent.getSceneX();
+                delta.y = mouseEvent.getSceneY();
+            });
+            node.setOnMouseEntered(mouseEvent -> node.setCursor(Cursor.HAND));
+            
             return tab;
             
         } catch (Exception e) {

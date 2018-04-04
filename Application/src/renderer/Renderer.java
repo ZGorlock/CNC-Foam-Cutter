@@ -102,6 +102,11 @@ public class Renderer
     private static Renderer instance;
     
     /**
+     * The camera for the Renderer.
+     */
+    private static PerspectiveCamera perspectiveCamera;
+    
+    /**
      * The model rotation animation timeline.
      */
     private static Timeline timeline;
@@ -286,7 +291,7 @@ public class Renderer
         Rotate rotateY = new Rotate(0, Rotate.Y_AXIS);
         Rotate rotateZ = new Rotate(0, Rotate.Z_AXIS);
         
-        PerspectiveCamera perspectiveCamera = new PerspectiveCamera(true);
+        perspectiveCamera = new PerspectiveCamera(true);
         perspectiveCamera.getTransforms().addAll(rotateX, rotateY, rotateZ,
                 new Translate(translateX, translateY, translateZ));
         
@@ -322,6 +327,7 @@ public class Renderer
         border.setScaleZ(MODEL_SCALE * MILLIMETERS_IN_INCH);
         
         border.setTranslateY((foamHeight / -2) * MODEL_SCALE * MILLIMETERS_IN_INCH);
+        border.getTransforms().setAll(MODEL_ROTATE_X, MODEL_ROTATE_Y, MODEL_ROTATE_Z);
         
         root.getChildren().add(border);
     }
@@ -347,6 +353,18 @@ public class Renderer
         if (timeline != null) {
             timeline.play();
         }
+    }
+    
+    /**
+     * Handles movement of the camera.
+     *
+     * @param deltaX The movement in the x direction.
+     * @param deltaY The movement in the y direction.
+     */
+    public static void handleCameraMovement(double deltaX, double deltaY)
+    {
+        ((Rotate) MODEL_ROTATE_X).setAngle(((Rotate) MODEL_ROTATE_X).getAngle() + (.1 * deltaY));
+        ((Rotate) MODEL_ROTATE_Z).setAngle(((Rotate) MODEL_ROTATE_Z).getAngle() + (.1 * deltaX));
     }
     
     /**

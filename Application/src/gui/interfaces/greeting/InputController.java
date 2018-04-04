@@ -119,6 +119,18 @@ public class InputController
     }
     
     /**
+     * Populates the default values for the user input.
+     */
+    public void populateDefaultValues()
+    {
+        nidText = "ab123456";
+        descText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+        widthText = "20";
+        lengthText = "40";
+        heightText = "10";
+    }
+    
+    /**
      * Handles the Next button.
      *
      * @param actionEvent The event that triggered the handler.

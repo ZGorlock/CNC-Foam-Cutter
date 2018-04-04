@@ -30,6 +30,7 @@ public class Main
 {
     
     //TODO make port thread-safe (commands vs streaming)
+    //TODO add a default "G-code" image as profileImage in Model.fxml when using a gcode file for CNC
     
     //TODO calibrate Tracer and Renderer
     //TODO make it print the model on the top of the foam instead of the bottom
@@ -73,7 +74,7 @@ public class Main
     /**
      * The machine type to run when working in development mode.
      */
-    public static final MachineDetector.Machine developmentMode = MachineDetector.Machine.HOTWIRE;
+    public static final MachineDetector.Machine developmentMode = MachineDetector.Machine.CNC;
     
     /**
      * A flag indicating whether or not to produce development logging or not.
@@ -243,12 +244,13 @@ public class Main
                 }
             }
         }
-//        "pip install pyserial"
+//        TODO "pip install pyserial"
         
         System.out.println("OS:           " + operatingSystem);
         System.out.println("Architecture: " + architecture);
         System.out.println("Java:         " + javaVersion);
         System.out.println("Python:       " + pythonVersion);
+        System.out.println();
         
         return true;
     }

@@ -243,6 +243,27 @@ public class RotationController
         hbox.setStyle("-fx-padding: 40px; -fx-alignment: CENTER;");
         hbox.setAlignment(Pos.CENTER);
         
+        // Adding to the scrollpane
+        if (gcodeTraces.size() <= 4) {
+            sp.setFitToWidth(true);
+        }
+        sp.setContent(hbox);
+        sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        
+        // Change the view when something is selected.
+        sp.hvalueProperty().addListener((ov, old_val, new_val) -> {
+            index = new_val.intValue();
+            firstScroll = false;
+            handleSPAnimation();
+        });
+    
+        vBox.getChildren().add(0, sp);
+        vBox.setAlignment(Pos.CENTER);
+        
+        if (gcodeTraces.isEmpty()) {
+            return;
+        }
+        
         int d = 360 / gcodeTraces.size();
         int degreeGap = 360 - (d * gcodeTraces.size());
         
@@ -363,27 +384,13 @@ public class RotationController
             hbox.getChildren().add(vbox);
         }
         
-        // Adding to the scrollpane
-        if (gcodeTraces.size() <= 4) {
-            sp.setFitToWidth(true);
-        }
-        sp.setContent(hbox);
-        sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setHmax((gcodeTraces.size() - 1) * 1.0);
         
-        Event.fireEvent(firstPic, new MouseEvent(MouseEvent.MOUSE_CLICKED, 0,
-                0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true,
-                true, true, true, true, true, true, null));
-        
-        // Change the view when something is selected.
-        sp.hvalueProperty().addListener((ov, old_val, new_val) -> {
-            index = new_val.intValue();
-            firstScroll = false;
-            handleSPAnimation();
-        });
-        
-        vBox.getChildren().add(0, sp);
-        vBox.setAlignment(Pos.CENTER);
+        if (firstPic != null) {
+            Event.fireEvent(firstPic, new MouseEvent(MouseEvent.MOUSE_CLICKED, 0,
+                    0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true,
+                    true, true, true, true, true, true, null));
+        }
     }
     
     /**
