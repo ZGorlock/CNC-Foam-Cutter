@@ -166,6 +166,8 @@ public class Tracer
         }
         instance = new Tracer(node);
         
+        lastTrace = new Vector(0, -ModelController.STARTING_MILL_HEIGHT_CNC  + (Renderer.foamCenter.getZ() * Renderer.MILLIMETERS_IN_INCH), 0);
+        
         //add cameras
         Camera camera = new Camera();
         camera.setLocation(Math.PI / 2, Math.PI, ((Math.max(Renderer.foamWidth, Renderer.foamWidth) + Renderer.foamHeight) * 2) * Renderer.MILLIMETERS_IN_INCH);
@@ -420,7 +422,13 @@ public class Tracer
         }
         
         while (running.get()) {}
+        instance.renderPanel = null;
         instance = null;
+        
+        running.set(false);
+        traces.clear();
+        
+        Camera.reset();
     }
     
 }

@@ -9,6 +9,8 @@ package renderer;
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
 import gui.interfaces.greeting.GreetingController;
 import gui.interfaces.popup.SystemNotificationController;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.embed.swing.JFXPanel;
 import javafx.embed.swing.SwingNode;
@@ -23,6 +25,7 @@ import javafx.scene.shape.MeshView;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
+import javafx.util.Duration;
 import tracer.camera.Camera;
 import utils.MachineDetector;
 
@@ -261,9 +264,9 @@ public class Renderer
         }
     
         //TODO these adjustments need to be made to the gcode as well
-        double translateZ = (modelHeight / 2) - ((foamHeight * MILLIMETERS_IN_INCH) - (modelHeight * 2));
         double translateX = -modelWidth / 2;
         double translateY = modelLength / 2;
+        double translateZ = (foamHeight * MILLIMETERS_IN_INCH / 2) - ((foamHeight * MILLIMETERS_IN_INCH) - modelHeight);
         Translate translation = new Translate(translateX, translateY, translateZ);
         
         foamCenter = new Light.Point(foamWidth / 2, foamLength / 2, foamHeight / 2, new Color(0, 0, 0, 1));
@@ -351,12 +354,12 @@ public class Renderer
         perspectiveCamera.setNearClip(0.1);
         perspectiveCamera.setFieldOfView(45.0);
         
-//        timeline = new Timeline(
-//                new KeyFrame(Duration.seconds(0), new KeyValue(((Rotate) MODEL_ROTATE_CONSTANT_Z).angleProperty(), 360)),
-//                new KeyFrame(Duration.seconds(15), new KeyValue(((Rotate) MODEL_ROTATE_CONSTANT_Z).angleProperty(), 0))
-//        );
-//        timeline.setCycleCount(Timeline.INDEFINITE);
-//        timeline.play();
+        timeline = new Timeline(
+                new KeyFrame(Duration.seconds(0), new KeyValue(((Rotate) MODEL_ROTATE_CONSTANT_Z).angleProperty(), 360)),
+                new KeyFrame(Duration.seconds(15), new KeyValue(((Rotate) MODEL_ROTATE_CONSTANT_Z).angleProperty(), 0))
+        );
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
         
         scene.setCamera(perspectiveCamera);
     }

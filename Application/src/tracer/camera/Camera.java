@@ -495,6 +495,9 @@ public class Camera
     public static void projectVectorToCamera(List<Vector> vs)
     {
         Camera camera = getActiveCameraView();
+        if (camera == null) {
+            return;
+        }
         
         for (int i = 0; i < vs.size(); i++) {
             vs.set(i, camera.projectVector(vs.get(i)));
@@ -509,6 +512,9 @@ public class Camera
     public static void collapseVectorToViewport(List<Vector> vs)
     {
         Camera camera = getActiveCameraView();
+        if (camera == null) {
+            return;
+        }
     
         for (int i = 0; i < vs.size(); i++) {
             vs.set(i, camera.collapseVector(vs.get(i)));
@@ -525,6 +531,9 @@ public class Camera
     public static boolean hasVectorInView(List<Vector> vs, Vector[] ovs)
     {
         Camera camera = getActiveCameraView();
+        if (camera == null) {
+            return false;
+        }
 
         //ensure Vectors are not behind Camera
         boolean inView = true;
@@ -560,6 +569,10 @@ public class Camera
     public static void scaleVectorToScreen(List<Vector> vs)
     {
         Camera camera = getActiveCameraView();
+        if (camera == null) {
+            return;
+        }
+        
         Vector viewportDim = getActiveViewportDim();
         Vector scale = new Vector(
                 Tracer.screenX / viewportDim.getX(),
@@ -629,6 +642,10 @@ public class Camera
     public static Vector getActiveViewportDim()
     {
         Camera camera = getActiveCameraView();
+        if (camera == null) {
+            return null;
+        }
+        
         return new Vector(camera.viewportX, camera.viewportY);
     }
     
@@ -641,6 +658,12 @@ public class Camera
             timer.purge();
             timer.cancel();
         }
+        
+        nextCameraId = 0;
+        activeCameraView = -1;
+        activeCameraControl = -1;
+        cameraMap.clear();
+        hasSetupStaticKeyListener = false;
     }
     
 }
