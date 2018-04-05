@@ -43,7 +43,7 @@ public final class MachineDetector
     /**
      * The id of the Hotwire Machine Arduino.
      */
-    private static String hotwire;
+    private static String hotwire = "55736303739351F012F0";
     
     /**
      * The id of the Test Arduino.
