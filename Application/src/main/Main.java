@@ -30,15 +30,19 @@ public class Main
 {
     
     //TODO make port thread-safe (commands vs streaming)
-    
-    //TODO calibrate Tracer and Renderer
-    //TODO make it print the model on the top of the foam instead of the bottom
-    
-    //TODO test Rotation traces with real sized profiles
+    //TODO what python modules do we need to install during setup?
     
     //TODO make user help window
     //  question icon button on side of button window, brings up user help page
     //  what is displayed should be dependent on which machine is connected
+    
+    
+    
+    //TODO calibrate Tracer and Renderer
+    //  need to adjust gcode to center and raise model see Renderer line 266
+    
+    //TODO test Rotation traces with real sized profiles
+    
 
     
     //TODO update presentation powerpoint
@@ -49,6 +53,8 @@ public class Main
     //  add figures of acceptable and unacceptable models to the User Guide section
     
     //TODO conference paper
+    
+    
     
     //TODO integration testing
     //  Ensure CNC and hotwire move as expected

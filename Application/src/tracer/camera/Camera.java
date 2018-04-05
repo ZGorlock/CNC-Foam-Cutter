@@ -339,12 +339,12 @@ public class Camera
     }
     
     /**
-     * Handles movement of the camera.
+     * Handles rotation of the camera.
      *
      * @param deltaX The movement in the x direction.
      * @param deltaY The movement in the y direction.
      */
-    public void handleMovement(double deltaX, double deltaY)
+    public void handleRotation(double deltaX, double deltaY)
     {
         double oldPhi = phi;
         double oldTheta = theta;
@@ -356,6 +356,21 @@ public class Camera
         if (phi != oldPhi || theta != oldTheta) {
             updateRequired = true;
         }
+    }
+    
+    /**
+     * Handles movement of the camera.
+     *
+     * @param deltaX The movement in the x direction.
+     * @param deltaY The movement in the y direction.
+     */
+    public void handleMovement(double deltaX, double deltaY)
+    {
+        double ox = Tracer.getOrigin().getX();
+        double oy = Tracer.getOrigin().getY();
+        double oz = Tracer.getOrigin().getZ();
+        
+        Tracer.setOrigin(new Vector(ox + (rho / 100 * deltaX), oy + (rho / 100 * deltaY), oz));
     }
     
     /**

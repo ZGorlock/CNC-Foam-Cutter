@@ -6,6 +6,7 @@
 
 package tracer;
 
+import gui.interfaces.main.ModelController;
 import javafx.embed.swing.SwingNode;
 import renderer.Renderer;
 import tracer.camera.Camera;
@@ -67,7 +68,7 @@ public class Tracer
     /**
      * The maximum number of traces to display before old traces begin to disappear.
      */
-    public static final int MAX_TRACES = 3600;
+    public static final int MAX_TRACES = 360000; //TODO adjust after testing
     
     /**
      * Whether or not to display the trace demo.
@@ -90,7 +91,7 @@ public class Tracer
     /**
      * The last trace that was hit.
      */
-    private static Vector lastTrace = new Vector(0, 0, 0);
+    private static Vector lastTrace = new Vector(0, -ModelController.STARTING_MILL_HEIGHT_CNC  + (Renderer.foamCenter.getZ() * Renderer.MILLIMETERS_IN_INCH), 0);
     
     /**
      * The list of traces currently being rendered.
@@ -233,9 +234,10 @@ public class Tracer
         double w = (Renderer.foamWidth * Renderer.MILLIMETERS_IN_INCH) / 2;
         double l = (Renderer.foamLength * Renderer.MILLIMETERS_IN_INCH) / 2;
         double h = (Renderer.foamHeight * Renderer.MILLIMETERS_IN_INCH) / 2;
-        
+    
         System.out.println();
-        System.out.println("Foam Dimensions: " + w + " x " + l + " x " + h);
+        System.out.println(String.format("Foam Dimensions:  %.2f x %.2f x %.2f", w, l, h));
+        System.out.println(String.format("Model Dimensions: %.2f x %.2f x %.2f", Renderer.modelWidth, Renderer.modelLength, Renderer.modelHeight));
         
         Vector c1 = new Vector(-w, -h, -l);
         Vector c2 = new Vector(-w, -h, l);
@@ -266,7 +268,7 @@ public class Tracer
         objects.add(r4);
         objects.add(r5);
         objects.add(r6);
-        
+    
         if (MachineDetector.isCncMachine() && traceDemo) {
             //animation
             TimerTask traceTask = new TimerTask()
@@ -294,12 +296,24 @@ public class Tracer
     }
     
     /**
+     * Handles rotation of the camera.
+     *
+     * @param deltaX The movement in the x direction.
+     * @param deltaY The movement in the y direction.
+     */
+    public void handleCameraRotation(double deltaX, double deltaY)
+    {
+        Camera c = Camera.getActiveCameraView();
+        c.handleRotation(deltaX, deltaY);
+    }
+    
+    /**
      * Handles movement of the camera.
      *
      * @param deltaX The movement in the x direction.
      * @param deltaY The movement in the y direction.
      */
-    public void handleCameraControl(double deltaX, double deltaY)
+    public void handleCameraMovement(double deltaX, double deltaY)
     {
         Camera c = Camera.getActiveCameraView();
         c.handleMovement(deltaX, deltaY);
@@ -317,7 +331,7 @@ public class Tracer
     }
     
     
-    //Getter
+    //Getters
     
     /**
      * Returns the origin for the Tracer instance.
@@ -327,6 +341,19 @@ public class Tracer
     public static Vector getOrigin()
     {
         return instance.origin;
+    }
+    
+    
+    //Setters
+    
+    /**
+     * Sets the origin for the Tracer instance.
+     *
+     * @param origin The origin for the Tracer instance.
+     */
+    public static void setOrigin(Vector origin)
+    {
+        instance.origin = origin;
     }
     
     
@@ -341,7 +368,7 @@ public class Tracer
      */
     public static synchronized void addTrace(double x, double y, double z)
     {
-        Vector trace = new Vector(x, y, z);
+        Vector trace = new Vector(x, -z + (Renderer.foamCenter.getZ() * Renderer.MILLIMETERS_IN_INCH), -y);
         Edge edge = new Edge(Color.RED, lastTrace, trace);
     
         traces.add(0, edge);

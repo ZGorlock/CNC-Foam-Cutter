@@ -8,8 +8,7 @@ package renderer;
 
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
 import gui.interfaces.greeting.GreetingController;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
+import gui.interfaces.popup.SystemNotificationController;
 import javafx.animation.Timeline;
 import javafx.embed.swing.JFXPanel;
 import javafx.embed.swing.SwingNode;
@@ -24,7 +23,6 @@ import javafx.scene.shape.MeshView;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
-import javafx.util.Duration;
 import tracer.camera.Camera;
 import utils.MachineDetector;
 
@@ -135,7 +133,7 @@ public class Renderer
     /**
      * The center point of the foam block.
      */
-    public static Light.Point foamCenter;
+    public static Light.Point foamCenter = new Light.Point(0.0, 0.0, 0.0, new Color(0, 0, 0, 1));
     
     /**
      * The width of the model (in millimeters).
@@ -169,6 +167,11 @@ public class Renderer
      * The scene containing the view of the model.
      */
     private Scene scene;
+    
+    /**
+     * The group holding the objects in the scene.
+     */
+    private Group group;
     
     /**
      * The STL model file to render.
@@ -210,6 +213,9 @@ public class Renderer
         
         if (!instance.model.isEmpty()) {
             Group group = instance.renderModel();
+            if (group == null) {
+                return null;
+            }
             
             instance.scene = new Scene(group, VIEWPORT_SIZE, VIEWPORT_SIZE, true);
             instance.scene.setFill(fillColor);
@@ -240,27 +246,47 @@ public class Renderer
      */
     private Group renderModel()
     {
-        MeshView[] meshViews = loadModel(model);
+        MeshView meshView = loadModel(model);
+    
+        modelWidth = meshView.getBoundsInLocal().getWidth();
+        modelLength = meshView.getBoundsInLocal().getHeight();
+        modelHeight = meshView.getBoundsInLocal().getDepth();
         
-         foamCenter = new Light.Point(foamWidth / 2, foamLength / 2, foamHeight / 2, new Color(0, 0, 0, 1));
+        if (modelWidth > foamWidth * MILLIMETERS_IN_INCH ||
+                modelLength > foamLength * MILLIMETERS_IN_INCH ||
+                modelHeight > foamHeight * MILLIMETERS_IN_INCH) {
+            System.err.println("The model does not fit within the foam block!");
+            SystemNotificationController.throwNotification("Your model must fit within the foam block!", true, false);
+            return null;
+        }
+    
+        //TODO these adjustments need to be made to the gcode as well
+        double translateZ = (modelHeight / 2) - ((foamHeight * MILLIMETERS_IN_INCH) - (modelHeight * 2));
+        double translateX = -modelWidth / 2;
+        double translateY = modelLength / 2;
+        Translate translation = new Translate(translateX, translateY, translateZ);
+        
+        foamCenter = new Light.Point(foamWidth / 2, foamLength / 2, foamHeight / 2, new Color(0, 0, 0, 1));
         ((Rotate) MODEL_ROTATE_X).pivotXProperty().bind(foamCenter.xProperty());
         ((Rotate) MODEL_ROTATE_Y).pivotYProperty().bind(foamCenter.yProperty());
         ((Rotate) MODEL_ROTATE_Z).pivotZProperty().bind(foamCenter.zProperty());
         
-        for (MeshView meshView : meshViews) {
-            PhongMaterial sample = new PhongMaterial(modelColor);
-            sample.setDiffuseColor(modelColor);
-            sample.setSpecularColor(lightColor);
-            sample.setSpecularPower(5);
-            meshView.setMaterial(sample);
-            
-            meshView.setScaleX(MODEL_SCALE);
-            meshView.setScaleY(MODEL_SCALE);
-            meshView.setScaleZ(MODEL_SCALE);
-            meshView.getTransforms().setAll(MODEL_ROTATE_X, MODEL_ROTATE_Y, MODEL_ROTATE_Z, MODEL_ROTATE_CONSTANT_Z);
-        }
+        PhongMaterial sample = new PhongMaterial(modelColor);
+        sample.setDiffuseColor(modelColor);
+        sample.setSpecularColor(lightColor);
+        sample.setSpecularPower(5);
+        meshView.setMaterial(sample);
         
-        root = new Group(meshViews);
+        meshView.setScaleX(MODEL_SCALE);
+        meshView.setScaleY(MODEL_SCALE);
+        meshView.setScaleZ(MODEL_SCALE);
+        meshView.getTransforms().setAll(translation);
+        
+        group = new Group();
+        group.getChildren().add(meshView);
+        group.getTransforms().setAll(MODEL_ROTATE_X, MODEL_ROTATE_Y, MODEL_ROTATE_Z, MODEL_ROTATE_CONSTANT_Z);
+
+        root = new Group(group);
         root.getChildren().add(new AmbientLight(ambientColor));
         addBorder();
         addLightSources();
@@ -272,20 +298,20 @@ public class Renderer
      * Loads the STL model file into memory.
      *
      * @param model The STL model file.
-     * @return A list of MeshViews describing the model.
+     * @return The MeshViews describing the model.
      */
-    private MeshView[] loadModel(String model)
+    private MeshView loadModel(String model)
     {
         File file = new File(model);
         if (!file.exists()) {
-            return new MeshView[]{};
+            return new MeshView();
         }
         
         StlMeshImporter importer = new StlMeshImporter();
         importer.read(file);
         Mesh mesh = importer.getImport();
         
-        return new MeshView[]{new MeshView(mesh)};
+        return new MeshView(mesh);
     }
     
     /**
@@ -316,21 +342,21 @@ public class Renderer
     {
         double translateX = 0;
         double translateY = 0;
-        double translateZ = ((Math.max(foamWidth, foamLength) + foamHeight) * -1.5) * MODEL_SCALE * MILLIMETERS_IN_INCH;
+        double translateZ = ((Math.max(foamWidth, foamLength) + foamHeight) * 1.5) * MODEL_SCALE * MILLIMETERS_IN_INCH;
         
         perspectiveCamera = new PerspectiveCamera(true);
-        perspectiveCamera.getTransforms().addAll(new Translate(translateX, translateY, translateZ));
+        perspectiveCamera.getTransforms().addAll(new Translate(translateX, translateY, translateZ), new Rotate(180, Rotate.Y_AXIS));
         
         perspectiveCamera.setFarClip(5000);
         perspectiveCamera.setNearClip(0.1);
         perspectiveCamera.setFieldOfView(45.0);
         
-        timeline = new Timeline(
-                new KeyFrame(Duration.seconds(0), new KeyValue(((Rotate) MODEL_ROTATE_CONSTANT_Z).angleProperty(), 360)),
-                new KeyFrame(Duration.seconds(15), new KeyValue(((Rotate) MODEL_ROTATE_CONSTANT_Z).angleProperty(), 0))
-        );
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
+//        timeline = new Timeline(
+//                new KeyFrame(Duration.seconds(0), new KeyValue(((Rotate) MODEL_ROTATE_CONSTANT_Z).angleProperty(), 360)),
+//                new KeyFrame(Duration.seconds(15), new KeyValue(((Rotate) MODEL_ROTATE_CONSTANT_Z).angleProperty(), 0))
+//        );
+//        timeline.setCycleCount(Timeline.INDEFINITE);
+//        timeline.play();
         
         scene.setCamera(perspectiveCamera);
     }
@@ -343,7 +369,7 @@ public class Renderer
         Box border = new Box(foamWidth, foamLength, foamHeight);
         PhongMaterial sample = new PhongMaterial(borderColor);
         sample.setSpecularColor(borderColor);
-        sample.setSpecularPower(100);
+        sample.setSpecularPower(1000);
         sample.setDiffuseColor(borderColor);
         border.setMaterial(sample);
         border.setDrawMode(DrawMode.LINE);
@@ -351,11 +377,8 @@ public class Renderer
         border.setScaleX(MODEL_SCALE * MILLIMETERS_IN_INCH);
         border.setScaleY(MODEL_SCALE * MILLIMETERS_IN_INCH);
         border.setScaleZ(MODEL_SCALE * MILLIMETERS_IN_INCH);
-    
-        border.setTranslateZ((foamHeight / -2) * MODEL_SCALE * MILLIMETERS_IN_INCH);
-        border.getTransforms().setAll(MODEL_ROTATE_X, MODEL_ROTATE_Y, MODEL_ROTATE_Z, MODEL_ROTATE_CONSTANT_Z);
         
-        root.getChildren().add(border);
+        group.getChildren().add(border);
     }
     
     
@@ -389,8 +412,8 @@ public class Renderer
      */
     public static void handleCameraMovement(double deltaX, double deltaY)
     {
-        ((Rotate) MODEL_ROTATE_X).setAngle(((Rotate) MODEL_ROTATE_X).getAngle() + (.1 * deltaY));
-        ((Rotate) MODEL_ROTATE_Z).setAngle(((Rotate) MODEL_ROTATE_Z).getAngle() + (-.1 * deltaX));
+        ((Rotate) MODEL_ROTATE_X).setAngle(((Rotate) MODEL_ROTATE_X).getAngle() + (-.2 * deltaY));
+        ((Rotate) MODEL_ROTATE_Z).setAngle(((Rotate) MODEL_ROTATE_Z).getAngle() + (-.2 * deltaX));
     }
     
     /**

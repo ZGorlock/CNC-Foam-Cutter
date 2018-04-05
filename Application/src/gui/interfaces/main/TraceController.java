@@ -100,7 +100,11 @@ public class TraceController
             });
             node.setOnMouseReleased(mouseEvent -> node.setCursor(Cursor.HAND));
             node.setOnMouseDragged(mouseEvent -> {
-                tracer.handleCameraControl(mouseEvent.getSceneX() - delta.x, mouseEvent.getSceneY() - delta.y);
+//                if (mouseEvent.isShiftDown()) {
+//                    tracer.handleCameraMovement(mouseEvent.getSceneX() - delta.x, mouseEvent.getSceneY() - delta.y);
+//                } else {
+                tracer.handleCameraRotation(mouseEvent.getSceneX() - delta.x, mouseEvent.getSceneY() - delta.y);
+//                }
                 delta.x = mouseEvent.getSceneX();
                 delta.y = mouseEvent.getSceneY();
             });

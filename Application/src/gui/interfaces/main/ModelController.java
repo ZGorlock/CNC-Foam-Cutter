@@ -81,6 +81,7 @@ public class ModelController
     
     //Constants
     
+    //TODO double check all these dimensions (max foam dimensions in inches)
     /**
      * The maximum width of the foam block for the CNC machine, in inches.
      */
@@ -110,6 +111,11 @@ public class ModelController
      * The maximum height of the foam block for the Hot Wire machine, in inches.
      */
     public static final double MAX_HEIGHT_HOTWIRE = 66;
+    
+    /**
+     * The starting height of the CNC mill bit, in millimeters.
+     */
+    public static final double STARTING_MILL_HEIGHT_CNC = 304.8; //TODO check this
     
     
     //Static Fields
@@ -196,6 +202,9 @@ public class ModelController
         
         if (MachineDetector.isCncMachine() && !GreetingController.getModel().isEmpty()) {
             renderer = Renderer.setup(swingNodeModel);
+            if (renderer == null) {
+                return;
+            }
         } else {
             controller.swingNodeModel.setVisible(false);
             controller.profileImage.setVisible(true);
