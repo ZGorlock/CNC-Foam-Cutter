@@ -81,6 +81,10 @@ public class Debug extends Main
         Renderer.foamLength = ModelController.MAX_LENGTH_CNC;
         Renderer.foamHeight = ModelController.MAX_HEIGHT_CNC;
         
+        Renderer.modelWidth = 166;
+        Renderer.modelLength = 472;
+        Renderer.modelHeight = 81;
+        
         Gui.debug = true;
         Application.launch(Gui.class, args);
     }

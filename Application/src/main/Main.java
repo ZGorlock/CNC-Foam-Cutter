@@ -30,7 +30,6 @@ public class Main
 {
     
     //TODO make port thread-safe (commands vs streaming)
-    //TODO add a default "G-code" image as profileImage in Model.fxml when using a gcode file for CNC
     
     //TODO calibrate Tracer and Renderer
     //TODO make it print the model on the top of the foam instead of the bottom

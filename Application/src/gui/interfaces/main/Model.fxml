@@ -2,6 +2,7 @@
 
 <?import javafx.embed.swing.SwingNode?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -16,7 +17,9 @@
                     <center>
                         <StackPane>
                             <SwingNode fx:id="swingNodeModel"/>
-                            <ImageView fx:id="profileImage" preserveRatio="true" fitWidth="680.0" fitHeight="680.0" visible="false"/>
+                            <ImageView fx:id="profileImage" preserveRatio="true" fitWidth="680.0" fitHeight="680.0" visible="false">
+                                <Image url="@../../images/gcodePlaceholder.jpg"/>
+                            </ImageView>
                         </StackPane>
                     </center>
                 </BorderPane>

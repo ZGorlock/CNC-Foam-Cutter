@@ -23,6 +23,7 @@ import javafx.scene.layout.StackPane;
 import main.Main;
 import renderer.Renderer;
 import tracer.math.Delta;
+import utils.MachineDetector;
 
 import java.io.File;
 import java.net.URL;
@@ -192,7 +193,13 @@ public class ModelController
     public void initialize()
     {
         controller = this;
-        renderer = Renderer.setup(swingNodeModel);
+        
+        if (MachineDetector.isCncMachine() && !GreetingController.getModel().isEmpty()) {
+            renderer = Renderer.setup(swingNodeModel);
+        } else {
+            controller.swingNodeModel.setVisible(false);
+            controller.profileImage.setVisible(true);
+        }
         
         File file = new File(GreetingController.getFilenames().get(0));
         if (file.exists()) {
