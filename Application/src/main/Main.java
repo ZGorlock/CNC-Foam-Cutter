@@ -37,22 +37,20 @@ public class Main
     //  what is displayed should be dependent on which machine is connected
     
     
-    
-    //TODO calibrate Tracer and Renderer
-    //  need to adjust gcode to center and raise model see Renderer line 266
-    
     //TODO test Rotation traces with real sized profiles
+    //TODO need to adjust gcode to center and raise model see Renderer line 266
     
-
     
+    
+    //TODO conference paper
     //TODO update presentation powerpoint
     
     //TODO update Design Document
-    //  update application screenshots and add new figures as necessary (and renumber them)
     //  update the sequence diagrams
-    //  add figures of acceptable and unacceptable models to the User Guide section
-    
-    //TODO conference paper
+    //  add images of acceptable and unacceptable models to the User Guide section
+    //
+    //  redo figure numbers
+    //  redo figure pages in table (after removing table of contents)
     
     
     
@@ -63,6 +61,8 @@ public class Main
     
     //  Test CNC model
     //  Test Hotwire profiles, (1[360], 4[1, 90])
+    
+    //TODO calibrate Tracer and Renderer (after machine)
     
     //TODO before releasing
     //  search for all TODOs
@@ -80,6 +80,11 @@ public class Main
      * The machine type to run when working in development mode.
      */
     public static final MachineDetector.Machine developmentMode = MachineDetector.Machine.CNC;
+    
+    /**
+     * A flag indicating whether to use the demo mode of the application for an ideal case.
+     */
+    public static final boolean demoMode = true;
     
     /**
      * A flag indicating whether or not to produce development logging or not.
