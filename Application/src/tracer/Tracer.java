@@ -8,6 +8,7 @@ package tracer;
 
 import gui.interfaces.main.ModelController;
 import javafx.embed.swing.SwingNode;
+import main.Main;
 import renderer.Renderer;
 import tracer.camera.Camera;
 import tracer.math.matrix.Matrix3;
@@ -68,7 +69,7 @@ public class Tracer
     /**
      * The maximum number of traces to display before old traces begin to disappear.
      */
-    public static final int MAX_TRACES = 360000; //TODO adjust after testing
+    public static final int MAX_TRACES = 360; //TODO adjust after testing
     
     /**
      * Whether or not to display the trace demo.
@@ -370,7 +371,13 @@ public class Tracer
      */
     public static synchronized void addTrace(double x, double y, double z)
     {
-        Vector trace = new Vector(x, -z + (Renderer.foamCenter.getZ() * Renderer.MILLIMETERS_IN_INCH), -y);
+        Vector trace;
+        if (Main.demoMode) {
+            trace = new Vector(x - 50, -z - (Renderer.foamCenter.getZ() * Renderer.MILLIMETERS_IN_INCH) + 5, -y + 50);
+        } else {
+            trace = new Vector(x, -z + (Renderer.foamCenter.getZ() * Renderer.MILLIMETERS_IN_INCH), -y);
+        }
+        
         Edge edge = new Edge(Color.RED, lastTrace, trace);
     
         traces.add(0, edge);
@@ -422,7 +429,6 @@ public class Tracer
         }
         
         while (running.get()) {}
-        instance.renderPanel = null;
         instance = null;
         
         running.set(false);

@@ -28,40 +28,31 @@ import java.util.regex.Pattern;
  */
 public class Main
 {
-    //TODO out of bounds safety check in modifier
-
+    
+    //TODO make port thread-safe (commands vs streaming)
     //TODO what python modules do we need to install during setup?
     
     //TODO make user help window
     //  question icon button on side of button window, brings up user help page
     //  what is displayed should be dependent on which machine is connected
-    //  Zero out machine before start
-    //  Then set that as Zero with magical command or unplugging grbl to the southwest corner with the bit touching the floor, that's zero
-    //  Once that's set, raise it up and put the foam in flushed with the axis.
-    //  Include dimensions in user manual
-    //  Tell the user through the manual where Zero is supposed to be
-
-    //TODO Adjust the Gcode for the above
-
     
-    //TODO calibrate Tracer and Renderer
-    //  need to adjust gcode to center and raise model see Renderer line 266
     
-    //TODO test Rotation traces with real sized profiles AND set max travel distance for both teams
-    //TODO 1.8
-
+    //TODO test Rotation traces with real sized profiles
+    //TODO need to adjust gcode to center and raise model see Renderer line 266
     
-    //TODO update presentation powerpoint (with pictures/videos), i added it to drive
     
-    //TODO update Design Document
-    //  update application screenshots and add new figures as necessary (and renumber them)
-    //  update the sequence diagrams
-    //  add figures of acceptable and unacceptable models to the User Guide section
     
     //TODO conference paper
-    // These are some preferences Tyler mentioned to set on Slicer
-    //TODO --print-center to the center of the bed for Slicer
-    //TODO --z-offset need to set (usually the amount of height it can travel)
+    //TODO update presentation powerpoint
+    
+    //TODO update Design Document
+    //  update the sequence diagrams
+    //  add images of acceptable and unacceptable models to the User Guide section
+    //
+    //  redo figure numbers
+    //  redo figure pages in table (after removing table of contents)
+    
+    
     
     //TODO integration testing
     //  Ensure CNC and hotwire move as expected
@@ -70,6 +61,8 @@ public class Main
     
     //  Test CNC model
     //  Test Hotwire profiles, (1[360], 4[1, 90])
+    
+    //TODO calibrate Tracer and Renderer (after machine)
     
     //TODO before releasing
     //  search for all TODOs
@@ -87,6 +80,11 @@ public class Main
      * The machine type to run when working in development mode.
      */
     public static final MachineDetector.Machine developmentMode = MachineDetector.Machine.CNC;
+    
+    /**
+     * A flag indicating whether to use the demo mode of the application for an ideal case.
+     */
+    public static final boolean demoMode = true;
     
     /**
      * A flag indicating whether or not to produce development logging or not.

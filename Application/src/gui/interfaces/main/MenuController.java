@@ -82,6 +82,7 @@ public class MenuController
     public void initialize()
     {
         controller = this;
+        paused = false;
         stopped = false;
         
         if (MachineDetector.isCncMachine()) {
@@ -130,8 +131,6 @@ public class MenuController
         
                     stopButton.setText("STOP");
                     stopButton.setOnAction(this::stop);
-                    
-//                    TPane.getSelectionModel().select(0);
                 } else {
                     SystemNotificationController.throwNotification("The process of communicating with the machine could not be started!", true, false);
                 }
@@ -160,7 +159,7 @@ public class MenuController
                             RotationController.controller.textFieldRotationStep.setDisable(true);
                             RotationController.controller.rotationStepButton.setDisable(true);
         
-//                            TPane.getSelectionModel().select(0);
+                            TPane.getSelectionModel().select(0);
                         } else {
                             SystemNotificationController.throwNotification("The process of communicating with the machine could not be started!", true, false);
                         }

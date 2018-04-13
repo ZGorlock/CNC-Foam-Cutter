@@ -26,6 +26,7 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
+import main.Main;
 import tracer.camera.Camera;
 import utils.MachineDetector;
 
@@ -264,9 +265,18 @@ public class Renderer
         }
     
         //TODO these adjustments need to be made to the gcode as well
-        double translateX = 0;//-modelWidth / 2;
-        double translateY = 0;//modelLength / 2;
-        double translateZ = 0;//(foamHeight * MILLIMETERS_IN_INCH / 2) - ((foamHeight * MILLIMETERS_IN_INCH) - modelHeight);
+        double translateX;
+        double translateY;
+        double translateZ;
+        if (Main.demoMode) {
+            translateX = 0;
+            translateZ = -26;
+            translateY = 40;
+        } else {
+            translateX = -modelWidth / 2;
+            translateY = modelLength / 2;
+            translateZ = (foamHeight * MILLIMETERS_IN_INCH / 2) - ((foamHeight * MILLIMETERS_IN_INCH) - modelHeight);
+        }
         Translate translation = new Translate(translateX, translateY, translateZ);
         
         foamCenter = new Light.Point(foamWidth / 2, foamLength / 2, foamHeight / 2, new Color(0, 0, 0, 1));
