@@ -39,7 +39,6 @@ public class Main
     //  add budget figure for hot-wire team
     //  update user guide with more information on how to zero and where it should be / set up foam / dimensions of both machines in millimers and the max dimensions of the foam/model they can use
     //
-    //  redo figure numbers
     //  redo figure pages in table (after removing table of contents)
     //  redo table of contents after everything else is done
     
