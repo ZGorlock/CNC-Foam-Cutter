@@ -7,6 +7,7 @@
 package renderer;
 
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
+import grbl.APIgrbl;
 import gui.interfaces.greeting.GreetingController;
 import gui.interfaces.popup.SystemNotificationController;
 import javafx.animation.KeyFrame;
@@ -154,6 +155,22 @@ public class Renderer
      */
     public static double modelHeight;
     
+    /**
+     * The adjustment for the model in the x direction.
+     */
+    public static double xAdjustment;
+    
+    /**
+     * The adjustment for the model in the y direction.
+     */
+    public static double yAdjustment;
+    
+    /**
+     * The adjustment for the model in the z direction.
+     */
+    public static double zAdjustment;
+    
+    
     
     //Fields
     
@@ -264,20 +281,17 @@ public class Renderer
             return null;
         }
     
-        //TODO these adjustments need to be made to the gcode as well
-        double translateX;
-        double translateY;
-        double translateZ;
         if (Main.demoMode) {
-            translateX = 0;
-            translateZ = -26;
-            translateY = 40;
+            xAdjustment = 0;
+            yAdjustment = -26;
+            zAdjustment = 40;
         } else {
-            translateX = -modelWidth / 2;
-            translateY = modelLength / 2;
-            translateZ = (foamHeight * MILLIMETERS_IN_INCH / 2) - ((foamHeight * MILLIMETERS_IN_INCH) - modelHeight);
+            xAdjustment = -modelWidth / 2;
+            yAdjustment = modelLength / 2;
+            zAdjustment = (foamHeight * MILLIMETERS_IN_INCH / 2) - ((foamHeight * MILLIMETERS_IN_INCH) - modelHeight);
+            APIgrbl.grbl.adjustGcode();
         }
-        Translate translation = new Translate(translateX, translateY, translateZ);
+        Translate translation = new Translate(xAdjustment, yAdjustment, zAdjustment);
         
         foamCenter = new Light.Point(foamWidth / 2, foamLength / 2, foamHeight / 2, new Color(0, 0, 0, 1));
         ((Rotate) MODEL_ROTATE_X).pivotXProperty().bind(foamCenter.xProperty());

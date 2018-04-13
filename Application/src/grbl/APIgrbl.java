@@ -11,6 +11,7 @@ import gui.interfaces.popup.SystemNotificationController;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import main.Main;
+import renderer.Renderer;
 import utils.*;
 
 import java.io.*;
@@ -209,7 +210,7 @@ public class APIgrbl extends Thread
                 }
                 commands.addAll(m.getCommands());
                 commands.add("G28 X Y"); //TODO these need to be checked
-                commands.add("G1 Z" + String.format("%.4f", (RotationController.controller.rotationStep / RotationController.MIN_ROTATION_DEGREE * RotationController.MILLIMETERS_PER_STEP)));
+                commands.add("G1 Z" + String.format("%.3f", (RotationController.controller.rotationStep / RotationController.MIN_ROTATION_DEGREE * RotationController.MILLIMETERS_PER_STEP)));
                 totalProgress += GcodeProgressCalculator.calculateFileProgressUnits(commands);
             }
             totalProgress = commands.size();
@@ -378,6 +379,70 @@ public class APIgrbl extends Thread
         // Reset UI
         doneStreaming = true;
         startedStreaming = false;
+    }
+    
+    /**
+     * Adjusts the gcode for the model.
+     */
+    public void adjustGcode()
+    {
+        double xAdjustment = Renderer.xAdjustment;
+        double yAdjustment = Renderer.yAdjustment;
+        double zAdjustment = Renderer.zAdjustment;
+        
+        for (int i = 0; i < commands.size(); i++) {
+            String command = commands.get(i);
+    
+            List<String> tokens = new ArrayList<>();
+            StringTokenizer st = new StringTokenizer(command);
+            while (st.hasMoreTokens()) {
+                tokens.add(st.nextToken());
+            }
+            
+            if (tokens.size() > 0) {
+                if (tokens.get(0).equals("G1")) {
+    
+                    double x = -1;
+                    double y = -1;
+                    double z = -1;
+                    double f = -1;
+                    
+                    try {
+                        for (String token : tokens) {
+                            if (token.startsWith("X")) {
+                                x = Double.parseDouble(token.substring(1)) + xAdjustment;
+                            } else if (token.startsWith("Y")) {
+                                y = Double.parseDouble(token.substring(1)) + yAdjustment;
+                            } else if (token.startsWith("Z")) {
+                                z = Double.parseDouble(token.substring(1)) + zAdjustment;
+                            } else if (token.startsWith("F")) {
+                                f = Double.parseDouble(token.substring(1));
+                            }
+                        }
+                        
+                        StringBuilder newCommand = new StringBuilder("G1 ");
+                        if (x > -1) {
+                            newCommand.append(String.format("X%.3f ", x));
+                        }
+                        if (y > -1) {
+                            newCommand.append(String.format("Y%.3f ", y));
+                        }
+                        if (z > -1) {
+                            newCommand.append(String.format("Z%.3f ", z));
+                        }
+                        if (f > -1) {
+                            newCommand.append(String.format("F%.3f ", f));
+                        }
+                        commands.set(i, newCommand.toString());
+                        
+                    } catch (NumberFormatException e) {
+                        System.err.println("Error making adjustments to gcode instruction: " + command + ". Number is not formatted properly!");
+                        SystemNotificationController.throwNotification("There was an error adjusting the gcode to fit the machine!", true, false);
+                        return;
+                    }
+                }
+            }
+        }
     }
     
     /**
