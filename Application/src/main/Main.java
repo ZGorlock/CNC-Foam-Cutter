@@ -29,13 +29,24 @@ import java.util.regex.Pattern;
 public class Main
 {
     
+    
     //TODO out of bounds safety check in modifier
-
     //TODO what python modules do we need to install during setup?
     
-    //TODO add sketches of acceptable and unacceptable models to the User Guide section
-    //TODO add real pictures of the machines
-    //TODO add budget figure for hot-wire team
+    //TODO update Design Document
+    //  add sketches of acceptable and unacceptable models to the User Guide section
+    //  add real pictures of the machines
+    //  add budget figure for hot-wire team
+    //  update user guide with more information on how to zero and where it should be / set up foam / dimensions of both machines in millimers and the max dimensions of the foam/model they can use
+    //
+    //  redo figure numbers
+    //  redo figure pages in table (after removing table of contents)
+    //  redo table of contents after everything else is done
+    
+    
+    //TODO update presentation powerpoint
+    //  Add pictures of teams
+    //  Remove progress and plan of action
     
     //TODO test Rotation traces with real sized profiles AND set max travel distance for both teams
     
@@ -44,36 +55,21 @@ public class Main
     //TODO make user help window
     //  question icon button on side of button window, brings up user help page
     //  what is displayed should be dependent on which machine is connected
+    //
     //  Zero out machine before start
     //  Then set that as Zero with magical command or unplugging grbl to the southwest corner with the bit touching the floor, that's zero
     //  Once that's set, raise it up and put the foam in flushed with the axis.
-    //  Include dimensions in user manual
-    //  Tell the user through the manual where Zero is supposed to be
+    //  Include information on how to use the program, each tab
     
-    //TODO 1.8
+    //TODO Update min step angle to 1.8, RotationController
     //TODO calibrate Tracer and Renderer
     
     
     
-    //TODO update presentation powerpoint (with pictures/videos), i added it to drive
-    
-    //TODO conference paper
-    // These are some preferences Tyler mentioned to set on Slicer
-    //TODO --print-center to the center of the bed for Slicer
-    //TODO --z-offset need to set (usually the amount of height it can travel)
-
-    
-    //TODO update Design Document
-    //  redo figure numbers
-    //  redo figure pages in table (after removing table of contents)
-    
-    
-    
     //TODO integration testing
-    //  Ensure CNC and hotwire move as expected
-    //  Determine Z value per degree of rotation
+    //  Verify Z value per degree of rotation
     //  Verify G28 reset method - APIgrbl line 197-198
-    
+    //
     //  Test CNC model
     //  Test Hotwire profiles, (1[360], 4[1, 90])
     

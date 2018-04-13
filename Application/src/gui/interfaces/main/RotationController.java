@@ -46,7 +46,7 @@ public class RotationController
     /**
      * The minimum degree of rotation that the machine can perform.
      */
-    public static final int MIN_ROTATION_DEGREE = 1.8;
+    public static final int MIN_ROTATION_DEGREE = 1;
 
     /**
      * The number of millimeters per step of the motor.
