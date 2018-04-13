@@ -28,22 +28,48 @@ import java.util.regex.Pattern;
  */
 public class Main
 {
-    
-    //TODO make port thread-safe (commands vs streaming)
+
+
+    //TODO need to adjust gcode to center and raise model see Renderer line 266
+
+
+    //TODO out of bounds safety check in modifier
+
     //TODO what python modules do we need to install during setup?
-    
+
     //TODO make user help window
     //  question icon button on side of button window, brings up user help page
     //  what is displayed should be dependent on which machine is connected
-    
-    
+    //  Zero out machine before start
+    //  Then set that as Zero with magical command or unplugging grbl to the southwest corner with the bit touching the floor, that's zero
+    //  Once that's set, raise it up and put the foam in flushed with the axis.
+    //  Include dimensions in user manual
+    //  Tell the user through the manual where Zero is supposed to be
+
+    //TODO Adjust the Gcode for the above
+
+
+    //TODO calibrate Tracer and Renderer
+    //  need to adjust gcode to center and raise model see Renderer line 266
+
+    //TODO test Rotation traces with real sized profiles AND set max travel distance for both teams
+    //TODO 1.8
+
+
+    //TODO update presentation powerpoint (with pictures/videos), i added it to drive
+
+
     //TODO test Rotation traces with real sized profiles
     //TODO need to adjust gcode to center and raise model see Renderer line 266
-    
-    
-    
+
+
+
     //TODO conference paper
-    //TODO update presentation powerpoint
+    // These are some preferences Tyler mentioned to set on Slicer
+    //TODO --print-center to the center of the bed for Slicer
+    //TODO --z-offset need to set (usually the amount of height it can travel)
+
+    //TODO conference paper
     
     //TODO update Design Document
     //  update the sequence diagrams
