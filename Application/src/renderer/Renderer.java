@@ -264,9 +264,9 @@ public class Renderer
         }
     
         //TODO these adjustments need to be made to the gcode as well
-        double translateX = -modelWidth / 2;
-        double translateY = modelLength / 2;
-        double translateZ = (foamHeight * MILLIMETERS_IN_INCH / 2) - ((foamHeight * MILLIMETERS_IN_INCH) - modelHeight);
+        double translateX = 0;//-modelWidth / 2;
+        double translateY = 0;//modelLength / 2;
+        double translateZ = 0;//(foamHeight * MILLIMETERS_IN_INCH / 2) - ((foamHeight * MILLIMETERS_IN_INCH) - modelHeight);
         Translate translation = new Translate(translateX, translateY, translateZ);
         
         foamCenter = new Light.Point(foamWidth / 2, foamLength / 2, foamHeight / 2, new Color(0, 0, 0, 1));

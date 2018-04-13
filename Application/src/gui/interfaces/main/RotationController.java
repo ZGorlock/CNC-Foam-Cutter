@@ -46,7 +46,12 @@ public class RotationController
     /**
      * The minimum degree of rotation that the machine can perform.
      */
-    public static final int MIN_ROTATION_DEGREE = 1;
+    public static final int MIN_ROTATION_DEGREE = 1.8;
+
+    /**
+     * The number of millimeters per step of the motor.
+     */
+    public static final double MILLIMETERS_PER_STEP = 0.0079365;
     
     
     //FXML Fields

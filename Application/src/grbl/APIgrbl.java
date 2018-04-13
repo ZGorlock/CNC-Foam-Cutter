@@ -209,8 +209,8 @@ public class APIgrbl extends Thread
                 }
                 commands.addAll(m.getCommands());
                 commands.add("G28 X Y"); //TODO these need to be checked
-                commands.add("G1 Z0.001 F7800.000"); //TODO this too (rotation RotationController.controller.rotationStep degrees)
-                //totalProgress += GcodeProgressCalculator.calculateFileProgressUnits(commands);
+                commands.add("G1 Z" + String.format("%.4f", (RotationController.controller.rotationStep / RotationController.MIN_ROTATION_DEGREE * RotationController.MILLIMETERS_PER_STEP)));
+                totalProgress += GcodeProgressCalculator.calculateFileProgressUnits(commands);
             }
             totalProgress = commands.size();
             currentProgress = 0;
