@@ -33,10 +33,14 @@ public class Main
 
     //TODO what python modules do we need to install during setup?
     
-    //TODO add images of acceptable and unacceptable models to the User Guide section
+    //TODO add sketches of acceptable and unacceptable models to the User Guide section
     //TODO add real pictures of the machines
+    //TODO add budget figure for hot-wire team
     
-
+    //TODO test Rotation traces with real sized profiles AND set max travel distance for both teams
+    
+    
+    
     //TODO make user help window
     //  question icon button on side of button window, brings up user help page
     //  what is displayed should be dependent on which machine is connected
@@ -49,9 +53,6 @@ public class Main
     //TODO 1.8
     //TODO calibrate Tracer and Renderer
     
-    //TODO test Rotation traces with real sized profiles AND set max travel distance for both teams
-    
-    //TODO test Rotation traces with real sized profiles
     
     
     //TODO update presentation powerpoint (with pictures/videos), i added it to drive
