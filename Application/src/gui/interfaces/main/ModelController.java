@@ -83,39 +83,34 @@ public class ModelController
     
     //TODO double check all these dimensions (max foam dimensions in inches)
     /**
-     * The maximum width of the foam block for the CNC machine, in inches.
+     * The default maximum width of the foam block for the CNC machine, in inches.
      */
-    public static final double MAX_WIDTH_CNC = 20;
+    public static final double DEFAULT_MAX_WIDTH_CNC = 20;
     
     /**
-     * The maximum length of the foam block for the CNC machine, in inches.
+     * The default maximum length of the foam block for the CNC machine, in inches.
      */
-    public static final double MAX_LENGTH_CNC = 40;
+    public static final double DEFAULT_MAX_LENGTH_CNC = 40;
     
     /**
-     * The maximum height of the foam block for the CNC machine, in inches.
+     * The default maximum height of the foam block for the CNC machine, in inches.
      */
-    public static final double MAX_HEIGHT_CNC = 10;
+    public static final double DEFAULT_MAX_HEIGHT_CNC = 10;
     
     /**
-     * The maximum width of the foam block for the Hot Wire machine, in inches.
+     * The default maximum width of the foam block for the Hot Wire machine, in inches.
      */
-    public static final double MAX_WIDTH_HOTWIRE = 66;
+    public static final double DEFAULT_MAX_WIDTH_HOTWIRE = 66;
     
     /**
-     * The maximum length of the foam block for the Hot Wire machine, in inches.
+     * The default maximum length of the foam block for the Hot Wire machine, in inches.
      */
-    public static final double MAX_LENGTH_HOTWIRE = 66;
+    public static final double DEFAULT_MAX_LENGTH_HOTWIRE = 66;
     
     /**
-     * The maximum height of the foam block for the Hot Wire machine, in inches.
+     * The default maximum height of the foam block for the Hot Wire machine, in inches.
      */
-    public static final double MAX_HEIGHT_HOTWIRE = 66;
-    
-    /**
-     * The starting height of the CNC mill bit, in millimeters.
-     */
-    public static final double STARTING_MILL_HEIGHT_CNC = 304.8; //TODO check this
+    public static final double DEFAULT_MAX_HEIGHT_HOTWIRE = 66;
     
     
     //Static Fields
@@ -129,6 +124,36 @@ public class ModelController
      * The instance of the Renderer.
      */
     public static Renderer renderer;
+    
+    /**
+     * The maximum width of the foam block for the CNC machine, in inches.
+     */
+    public static double maxWidthCnc;
+    
+    /**
+     * The maximum length of the foam block for the CNC machine, in inches.
+     */
+    public static double maxLengthCnc;
+    
+    /**
+     * The maximum height of the foam block for the CNC machine, in inches.
+     */
+    public static double maxHeightCnc;
+    
+    /**
+     * The maximum width of the foam block for the Hot Wire machine, in inches.
+     */
+    public static double maxWidthHotwire;
+    
+    /**
+     * The maximum length of the foam block for the Hot Wire machine, in inches.
+     */
+    public static double maxLengthHotwire;
+    
+    /**
+     * The maximum height of the foam block for the Hot Wire machine, in inches.
+     */
+    public static double maxHeightHotwire;
     
     
     //Fields

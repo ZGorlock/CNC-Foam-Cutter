@@ -17,6 +17,7 @@ import javafx.application.Platform;
 import renderer.Renderer;
 import tracer.Tracer;
 import utils.CmdLine;
+import utils.ConfigurationManager;
 import utils.Constants;
 import utils.MachineDetector;
 
@@ -29,26 +30,25 @@ import java.util.regex.Pattern;
 public class Main
 {
     
-    
     //TODO out of bounds safety check in modifier
     //TODO what python modules do we need to install during setup?
     
-    //TODO update Design Document
-    //  add sketches of acceptable and unacceptable models to the User Guide section
-    //  add real pictures of the machines
-    //  add budget figure for hot-wire team
-    //  update user guide with more information on how to zero and where it should be / set up foam / dimensions of both machines in millimers and the max dimensions of the foam/model they can use
-    //
-    //  redo figure pages in table (after removing table of contents)
-    //  redo table of contents after everything else is done
+    //TODO create Rotation traces with real sized profiles
+    //TODO set max travel distance for both teams (make it a config)
+    //  do these need to be set in slicer?
+    //  run a check in Modifier? (must be done after model adjustment)
     
     
     //TODO update presentation powerpoint
-    //  Add pictures of teams
-    //  Remove progress and plan of action
+    //  Slide 3 - Add pictures of green team
     
-    //TODO test Rotation traces with real sized profiles AND set max travel distance for both teams
-    
+    //TODO update Design Document
+    //  add sketches of acceptable and unacceptable models to the User Guide section
+    //  update user guide with more information on how to zero and where it should be / set up foam / dimensions of both machines in millimers and the max dimensions of the foam/model they can use
+    //  add info on new help popup and key listener for gcode tab
+    //
+    //  redo figure pages in table (after removing table of contents)
+    //  redo table of contents after everything else is done
     
     
     //TODO make user help window
@@ -60,8 +60,8 @@ public class Main
     //  Once that's set, raise it up and put the foam in flushed with the axis.
     //  Include information on how to use the program, each tab
     
-    //TODO Update min step angle to 1.8, RotationController
     //TODO calibrate Tracer and Renderer
+    //TODO finalize max foam dimensions of both machines (ModelController and config.ini)
     
     
     
@@ -88,12 +88,12 @@ public class Main
     /**
      * The machine type to run when working in development mode.
      */
-    public static final MachineDetector.Machine developmentMode = MachineDetector.Machine.CNC;
+    public static final MachineDetector.Machine developmentMode = MachineDetector.Machine.HOTWIRE;
     
     /**
      * A flag indicating whether to use the demo mode of the application for an ideal case.
      */
-    public static final boolean demoMode = true;
+    public static final boolean demoMode = false;
     
     /**
      * A flag indicating whether or not to produce development logging or not.
@@ -264,6 +264,8 @@ public class Main
             }
         }
 //        TODO "pip install pyserial"
+    
+        ConfigurationManager.loadSettings();
         
         System.out.println("OS:           " + operatingSystem);
         System.out.println("Architecture: " + architecture);

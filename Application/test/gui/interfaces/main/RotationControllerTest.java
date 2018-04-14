@@ -57,7 +57,7 @@ public class RotationControllerTest
     @Test
     public void testFormatDegree() throws Exception
     {
-        Assert.assertEquals("180°", RotationController.formatDegree(180));
+        Assert.assertEquals("180.00°", RotationController.formatDegree(180.0));
     }
     
     @Test
@@ -65,7 +65,7 @@ public class RotationControllerTest
     {
         RotationController sut = new RotationController();
         RotationController.controller = sut;
-        sut.rotationStep = RotationController.MIN_ROTATION_DEGREE;
+        sut.rotationStep = RotationController.DEFAULT_MIN_ROTATION_DEGREE;
     
         Image i1 = Mockito.mock(Image.class);
         Image i2 = Mockito.mock(Image.class);
@@ -79,10 +79,10 @@ public class RotationControllerTest
         profiles.add(i4);
     
         sut.rotationProfileMap = new HashMap<>();
-        sut.rotationProfileMap.put(profiles.get(0), 75);
-        sut.rotationProfileMap.put(profiles.get(1), 130);
-        sut.rotationProfileMap.put(profiles.get(2), 55);
-        sut.rotationProfileMap.put(profiles.get(3), 100);
+        sut.rotationProfileMap.put(profiles.get(0), 75.0);
+        sut.rotationProfileMap.put(profiles.get(1), 130.0);
+        sut.rotationProfileMap.put(profiles.get(2), 55.0);
+        sut.rotationProfileMap.put(profiles.get(3), 100.0);
     
         sut.gcodeTraceFileMap = new HashMap<>();
         sut.gcodeTraceFileMap.put(profiles.get(0), "a");
@@ -114,10 +114,10 @@ public class RotationControllerTest
         sut.rotationStep = 45;
         Assert.assertFalse(RotationController.generateQueueHelper(profiles));
     
-        sut.rotationProfileMap.put(profiles.get(0), 45);
-        sut.rotationProfileMap.put(profiles.get(1), 90);
-        sut.rotationProfileMap.put(profiles.get(2), 135);
-        sut.rotationProfileMap.put(profiles.get(3), 90);
+        sut.rotationProfileMap.put(profiles.get(0), 45.0);
+        sut.rotationProfileMap.put(profiles.get(1), 90.0);
+        sut.rotationProfileMap.put(profiles.get(2), 135.0);
+        sut.rotationProfileMap.put(profiles.get(3), 90.0);
         Assert.assertTrue(RotationController.generateQueueHelper(profiles));
     }
     

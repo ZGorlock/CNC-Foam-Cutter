@@ -85,9 +85,9 @@ public class Debug extends Main
             Renderer.foamHeight = 8;
             
         } else {
-            Renderer.foamWidth = ModelController.MAX_WIDTH_CNC;
-            Renderer.foamLength = ModelController.MAX_LENGTH_CNC;
-            Renderer.foamHeight = ModelController.MAX_HEIGHT_CNC;
+            Renderer.foamWidth = ModelController.DEFAULT_MAX_WIDTH_CNC;
+            Renderer.foamLength = ModelController.DEFAULT_MAX_LENGTH_CNC;
+            Renderer.foamHeight = ModelController.DEFAULT_MAX_HEIGHT_CNC;
     
             Renderer.modelWidth = 166;
             Renderer.modelLength = 472;

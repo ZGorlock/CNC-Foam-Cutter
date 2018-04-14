@@ -67,9 +67,9 @@ public class Tracer
     public static final Color backgroundColor = new Color(230, 230, 230);
     
     /**
-     * The maximum number of traces to display before old traces begin to disappear.
+     * The default maximum number of traces to display before old traces begin to disappear.
      */
-    public static final int MAX_TRACES = 360; //TODO adjust after testing
+    public static final int DEFAULT_MAX_TRACES = 360; //TODO adjust after testing
     
     /**
      * Whether or not to display the trace demo.
@@ -92,7 +92,7 @@ public class Tracer
     /**
      * The last trace that was hit.
      */
-    private static Vector lastTrace = new Vector(0, -ModelController.STARTING_MILL_HEIGHT_CNC  + (Renderer.foamCenter.getZ() * Renderer.MILLIMETERS_IN_INCH), 0);
+    private static Vector lastTrace = new Vector(0, 0, 0);
     
     /**
      * The list of traces currently being rendered.
@@ -108,6 +108,11 @@ public class Tracer
      * The timer for the trace demo.
      */
     private static Timer traceTimer;
+    
+    /**
+     * The maximum number of traces to display before old traces begin to disappear.
+     */
+    public static int maxTraces;
     
     
     //Fields
@@ -167,7 +172,7 @@ public class Tracer
         }
         instance = new Tracer(node);
         
-        lastTrace = new Vector(0, -ModelController.STARTING_MILL_HEIGHT_CNC  + (Renderer.foamCenter.getZ() * Renderer.MILLIMETERS_IN_INCH), 0);
+        lastTrace = new Vector(0, ModelController.maxHeightCnc * Renderer.MILLIMETERS_IN_INCH, 0);
         
         //add cameras
         Camera camera = new Camera();
@@ -384,13 +389,13 @@ public class Tracer
         addObject(edge);
         lastTrace = trace;
     
-        if (traces.size() > MAX_TRACES) {
-            removeObject(traces.get(MAX_TRACES - 1));
-            traces.remove(MAX_TRACES - 1);
+        if (traces.size() > maxTraces) {
+            removeObject(traces.get(maxTraces - 1));
+            traces.remove(maxTraces - 1);
         }
     
         for (int i = 0; i < traces.size(); i++) {
-            traces.get(i).setColor(new Color(1, 0, 0, 1 - (i / (float) MAX_TRACES)));
+            traces.get(i).setColor(new Color(1, 0, 0, 1 - (i / (float) maxTraces)));
         }
     }
     

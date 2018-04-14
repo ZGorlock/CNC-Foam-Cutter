@@ -44,14 +44,14 @@ public class RotationController
     //Constants
     
     /**
-     * The minimum degree of rotation that the machine can perform.
+     * The default minimum degree of rotation that the machine can perform.
      */
-    public static final int MIN_ROTATION_DEGREE = 1;
+    public static final double DEFAULT_MIN_ROTATION_DEGREE = 1.8;
 
     /**
-     * The number of millimeters per step of the motor.
+     * The default number of millimeters per step of the motor.
      */
-    public static final double MILLIMETERS_PER_STEP = 0.0079365;
+    public static final double DEFAULT_MILLIMETERS_PER_STEP = 0.0079365;
     
     
     //FXML Fields
@@ -104,6 +104,16 @@ public class RotationController
      */
     public static final List<String> queue = new ArrayList<>();
     
+    /**
+     * The minimum rotation degree.
+     */
+    public static double minimumRotationDegree;
+    
+    /**
+     * The number of millimeters per step.
+     */
+    public static double millimetersPerStep;
+    
     
     //Fields
     
@@ -125,12 +135,12 @@ public class RotationController
     /**
      * The map between the Image in the UI and the rotation degrees for that profile.
      */
-    public Map<Image, Integer> rotationProfileMap;
+    public Map<Image, Double> rotationProfileMap;
     
     /**
      * The rotation step to use during printing.
      */
-    public int rotationStep;
+    public double rotationStep;
     
     /**
      * The index of the gcode profile current selected.
@@ -165,12 +175,12 @@ public class RotationController
     /**
      * The temporary field for the degrees of the image that is going to be sent when swapping images
      */
-    private int giverDegrees;
+    private double giverDegrees;
 
     /**
      * The temporary field for the degrees of the image that is going to be received when swapping images
      */
-    private int recieverDegrees;
+    private double recieverDegrees;
     
     
     //Constructors
@@ -229,7 +239,7 @@ public class RotationController
                 setRotationStep();
             }
         });
-        rotationStep = MIN_ROTATION_DEGREE;
+        rotationStep = minimumRotationDegree;
         textFieldRotationStep.setText(String.valueOf(rotationStep));
         
         renderImages();
@@ -269,8 +279,9 @@ public class RotationController
             return;
         }
         
-        int d = 360 / gcodeTraces.size();
-        int degreeGap = 360 - (d * gcodeTraces.size());
+        int steps = (int) (360.0 / minimumRotationDegree);
+        double d = steps / gcodeTraces.size();
+        double degreeGap = steps - (d * gcodeTraces.size());
         
         ImageView firstPic = null;
         
@@ -287,10 +298,10 @@ public class RotationController
 
             // Initialize all evenly spaced degrees
             if (degreeGap > 0) {
-                rotationProfileMap.put(image, d + 1);
+                rotationProfileMap.put(image, (d + 1) * minimumRotationDegree);
                 degreeGap--;
             } else {
-                rotationProfileMap.put(image, d);
+                rotationProfileMap.put(image, d * minimumRotationDegree);
             }
 
             pic.setPreserveRatio(true);
@@ -413,7 +424,7 @@ public class RotationController
         HBox temp = (HBox) sp.getContent();
         VBox box = (VBox) temp.getChildren().get(index);
         
-        Integer d = Integer.parseInt(input);
+        Double d = Double.parseDouble(input);
         rotationProfileMap.replace(((ImageView) box.getChildren().get(0)).getImage(), d);
         
         // Set new selected value
@@ -499,7 +510,7 @@ public class RotationController
     {
         String rotationStepDegree = textFieldRotationStep.getText();
         if (isValidStepAngle(rotationStepDegree)) {
-            rotationStep = Integer.parseInt(rotationStepDegree);
+            rotationStep = Double.parseDouble(rotationStepDegree);
         }
     }
     
@@ -543,12 +554,16 @@ public class RotationController
     public static boolean isValidStepAngle(String str)
     {
         try {
-            int d = Integer.parseInt(str);
-            if (d <= 0 || d > 360) {
-                SystemNotificationController.throwNotification("The step angle must be between 1 and 360 degrees! (360 for no rotation)", false, false);
+            double d = Double.parseDouble(str);
+            if (d <= 0.0 || d > 360.0) {
+                SystemNotificationController.throwNotification(String.format("The step angle must be between %.2f and 360 degrees! (360 for no rotation)", minimumRotationDegree), false, false);
                 return false;
             }
-            if (360 % d != 0) {
+            if ((d / minimumRotationDegree) != (int) (d / minimumRotationDegree)) {
+                SystemNotificationController.throwNotification(String.format("The step angle must be an even multiple of the minimum step degree (%.2f)!", minimumRotationDegree), false, false);
+                return false;
+            }
+            if ((360.0 / d) != (int) (360.0 / d)) {
                 SystemNotificationController.throwNotification("The step angle must evenly divide into 360!", false, false);
                 return false;
             }
@@ -564,10 +579,10 @@ public class RotationController
      * @param d The angle.
      * @return The formatted angle string.
      */
-    public static String formatDegree(Integer d)
+    public static String formatDegree(Double d)
     {
         // String formatting
-        String deg = String.format("%d", d);
+        String deg = String.format("%.2f", d);
         String symbol = "°";
         return deg + symbol;
     }
@@ -602,15 +617,15 @@ public class RotationController
         queue.clear();
         
         for (Image image : profiles) {
-            int degrees = controller.rotationProfileMap.get(image);
-            if (degrees % controller.rotationStep != 0) {
+            double degrees = controller.rotationProfileMap.get(image);
+            if ((degrees / controller.rotationStep) != (int) (degrees / controller.rotationStep)) {
                 return false;
             }
         }
     
         for (Image image : profiles) {
-            int degrees = controller.rotationProfileMap.get(image);
-            int cycles = degrees / controller.rotationStep;
+            double degrees = controller.rotationProfileMap.get(image);
+            int cycles = (int) (degrees / controller.rotationStep);
             for (int j = 0; j < cycles; j++) {
                 queue.add(controller.gcodeTraceFileMap.get(image));
             }

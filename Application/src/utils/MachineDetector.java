@@ -26,6 +26,19 @@ public final class MachineDetector
         HOTWIRE,
         NONE
     }
+    
+    
+    //Constants
+    
+    /**
+     * The default id of the CNC Machine Arduino.
+     */
+    public static final String DEFAULT_CNC_ARDUINO = "55735323835351017091";
+    
+    /**
+     * The default id of the Hotwire Machine Arduino.
+     */
+    public static final String DEFAULT_HOTWIRE_ARDUINO = "95530343235351D092F0";
 
     
     //Static Fields
@@ -38,17 +51,12 @@ public final class MachineDetector
     /**
      * The id of the CNC Machine Arduino.
      */
-    private static String cnc = "55735323835351017091";
+    public static String cncArduino;
     
     /**
      * The id of the Hotwire Machine Arduino.
      */
-    private static String hotwire = "55736303739351F012F0";
-    
-    /**
-     * The id of the Test Arduino.
-     */
-    private static String test = "95530343235351D092F0";
+    public static String hotwireArduino;
     
     
     //Static Methods
@@ -64,9 +72,9 @@ public final class MachineDetector
         if (Main.development) {
             machine = Main.developmentMode;
         } else {
-            if (type.compareTo(cnc) == 0) {
+            if (type.compareTo(cncArduino) == 0) {
                 machine = Machine.CNC;
-            } else if (type.compareTo(hotwire) == 0) {
+            } else if (type.compareTo(hotwireArduino) == 0) {
                 machine = Machine.HOTWIRE;
             } else {
                 machine = Machine.NONE;

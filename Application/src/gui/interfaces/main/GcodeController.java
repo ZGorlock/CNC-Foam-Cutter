@@ -58,9 +58,9 @@ public class GcodeController
     //Constants
     
     /**
-     * The maximum history to display in the gcode window.
+     * The default maximum history to display in the gcode window.
      */
-    public static final int MAX_CODE_HISTORY = 500;
+    public static final int DEFAULT_MAX_CODE_HISTORY = 500;
     
     
     //Static Fields
@@ -94,6 +94,10 @@ public class GcodeController
      * The string buffer for the gcode command text area.
      */
     public static String codeBlockText = "";
+    /**
+     * The maximum history to display in the gcode window.
+     */
+    public static int maxCodeHistory;
     
     
     //Fields
@@ -140,7 +144,7 @@ public class GcodeController
     public void initialize()
     {
         controller = this;
-        
+    
         textFieldCommand.setPromptText("Send Command...");
         textFieldCommand.setOnKeyPressed(event -> {
             if (KeyCode.ENTER.compareTo(event.getCode()) == 0) {
@@ -197,7 +201,7 @@ public class GcodeController
                     for (int i = 0; i < height - codeBlock.size() + 1; i++) {
                         codeBlockTextBuilder.append(System.lineSeparator());
                     }
-                    for (int i = (codeBlock.size() > MAX_CODE_HISTORY ? codeBlock.size() - MAX_CODE_HISTORY : 0); i < codeBlock.size(); i++) {
+                    for (int i = (codeBlock.size() > maxCodeHistory ? codeBlock.size() - maxCodeHistory : 0); i < codeBlock.size(); i++) {
                         if (i == codeBlock.size() - 1) {
                             codeBlockTextBuilder.append(codeBlock.get(i).substring(0, codeBlock.get(i).length() - 1));
                         } else {
@@ -237,7 +241,7 @@ public class GcodeController
                     for (int i = 0; i < height - commandBlock.size() + 1; i++) {
                         commandBlockTextBuilder.append(System.lineSeparator());
                     }
-                    for (int i = (commandBlock.size() > MAX_CODE_HISTORY ? commandBlock.size() - MAX_CODE_HISTORY : 0); i < commandBlock.size(); i++) {
+                    for (int i = (commandBlock.size() > maxCodeHistory ? commandBlock.size() - maxCodeHistory : 0); i < commandBlock.size(); i++) {
                         commandBlockTextBuilder.append(commandBlock.get(i));
                         if (i != commandBlock.size() - 1) {
                             commandBlockTextBuilder.append(System.lineSeparator());

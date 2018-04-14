@@ -26,9 +26,22 @@ public class APIgrbl extends Thread
     //Constants
     
     /**
+     * The default number of recent time remaining calculations to store.
+     */
+    public static final int DEFAULT_TIME_REMAINING_HISTORY_COUNT = 5;
+    
+    
+    //Static Fields
+    
+    /**
+     * The instance of the grbl processor.
+     */
+    public static APIgrbl grbl;
+    
+    /**
      * The number of recent time remaining calculations to store.
      */
-    public static final int TIME_REMAINING_HISTORY_COUNT = 5;
+    public static int timeRemainingHistoryCount;
     
     
     //Fields
@@ -71,7 +84,7 @@ public class APIgrbl extends Thread
     /**
      * The list of the recent time remaining calculations.
      */
-    private final List<Double> timeRemainingHistory = new ArrayList<>(TIME_REMAINING_HISTORY_COUNT);
+    private final List<Double> timeRemainingHistory = new ArrayList<>();
     
     /**
      * The x coordinate status field for grbl, displayed on the Tracer tab.
@@ -118,14 +131,6 @@ public class APIgrbl extends Thread
      * Variable to check if we've started streaming
      */
     private boolean startedStreaming = false;
-
-
-    //Static Fields
-    
-    /**
-     * The instance of the grbl processor.
-     */
-    public static APIgrbl grbl;
     
     
     //Constructors
@@ -210,7 +215,7 @@ public class APIgrbl extends Thread
                 }
                 commands.addAll(m.getCommands());
                 commands.add("G28 X Y"); //TODO these need to be checked
-                commands.add("G1 Z" + String.format("%.3f", (RotationController.controller.rotationStep / RotationController.MIN_ROTATION_DEGREE * RotationController.MILLIMETERS_PER_STEP)));
+                commands.add("G1 Z" + String.format("%.3f", (RotationController.controller.rotationStep / RotationController.minimumRotationDegree * RotationController.millimetersPerStep)));
                 totalProgress += GcodeProgressCalculator.calculateFileProgressUnits(commands);
             }
             totalProgress = commands.size();
@@ -645,8 +650,8 @@ public class APIgrbl extends Thread
             double timeRemaining = (timePerProgress * progressRemaining);
     
             grbl.timeRemainingHistory.add(0, timeRemaining);
-            if (grbl.timeRemainingHistory.size() > TIME_REMAINING_HISTORY_COUNT) {
-                grbl.timeRemainingHistory.remove(TIME_REMAINING_HISTORY_COUNT);
+            if (grbl.timeRemainingHistory.size() > timeRemainingHistoryCount) {
+                grbl.timeRemainingHistory.remove(timeRemainingHistoryCount);
             }
             
             double averageTimeRemaining = 0.0;

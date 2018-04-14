@@ -190,9 +190,9 @@ public class InputController
             invalid = true;
         }
         
-        double maxWidth = MachineDetector.isCncMachine() ? ModelController.MAX_WIDTH_CNC : ModelController.MAX_WIDTH_HOTWIRE;
-        double maxLength = MachineDetector.isCncMachine() ? ModelController.MAX_LENGTH_CNC : ModelController.MAX_LENGTH_HOTWIRE;
-        double maxHeight = MachineDetector.isCncMachine() ? ModelController.MAX_HEIGHT_CNC : ModelController.MAX_WIDTH_HOTWIRE;
+        double maxWidth = MachineDetector.isCncMachine() ? ModelController.maxWidthCnc : ModelController.maxWidthHotwire;
+        double maxLength = MachineDetector.isCncMachine() ? ModelController.maxLengthCnc : ModelController.maxLengthHotwire;
+        double maxHeight = MachineDetector.isCncMachine() ? ModelController.maxHeightCnc : ModelController.maxHeightHotwire;
         
         if (widthText.isEmpty()) {
             width.getStyleClass().add("error");
