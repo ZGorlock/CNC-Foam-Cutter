@@ -33,9 +33,9 @@ public class Main
     //TODO out of bounds safety check in modifier
     //TODO what python modules do we need to install during setup?
     
-    //TODO create Rotation traces with real sized profiles
+    //TODO create Rotation traces with real sized profiles (!!!this is important to get done soon, the way that the gcode is drawn will change!!!)
     //TODO set max travel distance for both teams (make it a config)
-    //  do these need to be set in slicer?
+    //  do these need to be set when we run slicer?
     //  run a check in Modifier? (must be done after model adjustment)
     
     
