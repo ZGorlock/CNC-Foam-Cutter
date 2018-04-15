@@ -261,12 +261,10 @@ public class APIgrbl extends Thread
             while (i < commands.size()) {
 
                 // Wait for machine to finish
-                while(getStatus().compareTo("Run") == 0)
-                {
-                    try{
+                while (getStatus().equals("Run")) {
+                    try {
                         Thread.sleep(200);
-                    }catch (InterruptedException ignore){
-
+                    } catch (InterruptedException ignore) {
                     }
                     queryStatus();
                 }
@@ -289,7 +287,7 @@ public class APIgrbl extends Thread
                 if (Main.development && Main.bypassArduinoForTracer && MachineDetector.isCncMachine()) {
                     TracerGcodeBypass.traceGcodeCommand(commands.get(i), true);
                 }
-                packetProgressUnits += GcodeProgressCalculator.calculateInstructionProgressUnits(commands.get(i));
+//                packetProgressUnits += GcodeProgressCalculator.calculateInstructionProgressUnits(commands.get(i));
                 packetProgressUnits++;
 
                 currentProgress += packetProgressUnits;
