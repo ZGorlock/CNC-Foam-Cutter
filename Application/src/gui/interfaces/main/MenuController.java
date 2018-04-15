@@ -132,7 +132,9 @@ public class MenuController
                     stopButton.setText("STOP");
                     stopButton.setOnAction(this::stop);
                 } else {
-                    SystemNotificationController.throwNotification("The process of communicating with the machine could not be started!", true, false);
+                    if (!APIgrbl.outOfBounds) {
+                        SystemNotificationController.throwNotification("The process of communicating with the machine could not be started!", true, false);
+                    }
                 }
                 
             } else if (MachineDetector.isHotWireMachine()) {

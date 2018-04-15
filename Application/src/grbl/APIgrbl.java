@@ -43,6 +43,11 @@ public class APIgrbl extends Thread
      */
     public static int timeRemainingHistoryCount;
     
+    /**
+     * A flag indicating whether the adjusted gcode moves outside of the bounds of the machine or not.
+     */
+    public static boolean outOfBounds = false;
+    
     
     //Fields
     
@@ -216,7 +221,7 @@ public class APIgrbl extends Thread
                     profileImages.put(commands.size(), RotationController.controller.gcodeTraceMap.get(profile));
                 }
                 commands.addAll(m.getCommands());
-                commands.add("G28 X Y"); //TODO these need to be checked
+                commands.add("G28 X Y"); //TODO this need to be checked
                 commands.add("G1 Z" + String.format("%.3f", (RotationController.controller.rotationStep / RotationController.minimumRotationDegree * RotationController.millimetersPerStep)));
                 totalProgress += GcodeProgressCalculator.calculateFileProgressUnits(commands);
             }
@@ -373,9 +378,13 @@ public class APIgrbl extends Thread
     
     /**
      * Adjusts the gcode for the model.
+     *
+     * @return Whether the gcode is within the bounds of the machine or not.
      */
     public boolean adjustGcode()
     {
+        outOfBounds = false;
+        
         double xAdjustment = Renderer.xAdjustment;
         double yAdjustment = Renderer.yAdjustment;
         double zAdjustment = Renderer.zAdjustment;
@@ -426,8 +435,8 @@ public class APIgrbl extends Thread
                         if (Math.abs(y) > yMax) {
                             yMax = Math.abs(y);
                         }
-                        if (Math.abs(z) > zMax) {
-                            zMax = Math.abs(z);
+                        if (z > zMax) {
+                            zMax = z;
                         }
                         
                         StringBuilder newCommand = new StringBuilder("G1 ");
@@ -456,9 +465,10 @@ public class APIgrbl extends Thread
         
         if (absolute) {
             if (xMax > ModelController.maxXTravelCnc / 2.0 || yMax > ModelController.maxYTravelCnc / 2.0 || zMax > ModelController.maxZTravelCnc) {
-                String travelMessage = String.format("The maximum travel distance is: +/- %.1f x, +/- %.1f y, + %.1f z\nBut your path takes you to: +/- %.1f x, +/- %.1f y, + %.1f z\nWhich is out of the bounds of the machine! Please adjust your model!", ModelController.maxXTravelCnc / 2.0, ModelController.maxYTravelCnc / 2.0, ModelController.maxZTravelCnc / 1.0, xMax, yMax, zMax);
+                String travelMessage = String.format("The maximum travel distance is: +/- %.1f x, +/- %.1f y, 0->%.1f z\nBut your path takes you to: +/- %.1f x, +/- %.1f y, + %.1f z\nWhich is out of the bounds of the machine! Please adjust your model!", ModelController.maxXTravelCnc / 2.0, ModelController.maxYTravelCnc / 2.0, ModelController.maxZTravelCnc / 1.0, xMax, yMax, zMax);
                 System.err.println("The path takes the machine out if its bounds!");
                 SystemNotificationController.throwNotification(travelMessage, true, false, 400);
+                outOfBounds = true;
                 return false;
             }
         } else {

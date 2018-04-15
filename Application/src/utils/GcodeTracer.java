@@ -7,6 +7,7 @@
 package utils;
 
 import gui.interfaces.main.ModelController;
+import gui.interfaces.popup.SystemNotificationController;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -85,7 +86,6 @@ public class GcodeTracer
      * @param gcode The gcode file to trace.
      * @return The BufferedImage that was created from the gcode.
      */
-    static int n;
     private synchronized BufferedImage traceGcode(String gcode)
     {
         List<String> lines = new ArrayList<>();
@@ -100,19 +100,26 @@ public class GcodeTracer
         initializeImage(g2);
         
         traceX = IMAGE_BORDER;
-        traceY = IMAGE_BORDER + (IMAGE_SIZE_X - 2 * IMAGE_BORDER) / 2;
+        traceY = IMAGE_SIZE_X / 2;
         Pattern g1Pattern = Pattern.compile("G1\\sX(?<x>-?\\d*\\.?\\d*)\\sY(?<y>-?\\d*\\.?\\d*).*");
         for (String line : lines) {
             Matcher g1Matcher = g1Pattern.matcher(line);
             if (g1Matcher.matches()) {
-                double x = Double.valueOf(g1Matcher.group("x"));
-                double y = Double.valueOf(g1Matcher.group("y"));
-                moveTrace(g2, x, y);
+                double x = 0;
+                double y = 0;
+                try {
+                    x = Double.valueOf(g1Matcher.group("x"));
+                    y = Double.valueOf(g1Matcher.group("y"));
+                } catch (NumberFormatException e) {
+                    System.err.println("Gcode instruction: \"" + line + "\" is not formatted correctly!");
+                    SystemNotificationController.throwNotification("Gcode instruction: \"" + line + "\" is not formatted correctly!", true, false);
+                    break;
+                }
+                if (!moveTrace(g2, x, y)) {
+                    break;
+                }
             }
         }
-    
-        n++;
-        saveImage(trace, "JPG", new File(String.valueOf(n) + ".jpg"));
         
         return trace;
     }
@@ -156,13 +163,24 @@ public class GcodeTracer
      * @param g2 The graphics context.
      * @param x  The relative x movement.
      * @param y  The relative y movement.
+     *
+     * @return Whether the trace stayed in the bounds of the machine or not.
      */
-    private synchronized void moveTrace(Graphics2D g2, double x, double y)
+    private synchronized boolean moveTrace(Graphics2D g2, double x, double y)
     {
         g2.setColor(Color.BLACK);
         g2.drawLine((int) traceY / scaleFactor, (int) traceX / scaleFactor, (int) (traceY + y) / scaleFactor, (int) (traceX + x) / scaleFactor);
         traceX += x;
         traceY += y;
+    
+        if (Math.abs(traceX - IMAGE_BORDER) > ModelController.maxXTravelHotwire / 2 || traceY - (IMAGE_SIZE_X / 2) > ModelController.maxYTravelHotwire || traceY - (IMAGE_SIZE_X / 2) < 0) {
+            String travelMessage = String.format("The maximum travel distance is: +/- %.1f x, 0->%.1f y\nBut your path takes you out of the bounds of the machine!\nPlease adjust your gcode!", ModelController.maxXTravelHotwire / 2.0, ModelController.maxYTravelHotwire / 1.0);
+            System.err.println("The path takes the machine out if its bounds!");
+            SystemNotificationController.throwNotification(travelMessage, true, false, 400);
+            return false;
+        }
+        
+        return true;
     }
     
     

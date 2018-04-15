@@ -12,19 +12,12 @@ import gui.interfaces.popup.SystemNotificationController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.CheckBox;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import main.Main;
 import slicer.Slicer;
 
-import java.awt.*;
-import java.awt.event.KeyListener;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -332,7 +325,9 @@ public class GcodeController
         APIgrbl apiGrbl = APIgrbl.grbl;
         apiGrbl.setFilename(gcodeFile);
         if (!apiGrbl.initialize()) {
-            System.err.println("Could not set up grbl!");
+            if (!APIgrbl.outOfBounds) {
+                System.err.println("Could not set up grbl!");
+            }
             return false;
         }
         apiGrbl.start();
@@ -356,7 +351,9 @@ public class GcodeController
         APIgrbl apiGrbl = APIgrbl.grbl;
         apiGrbl.setProfiles(RotationController.queue);
         if (!apiGrbl.initialize()) {
-            System.err.println("Could not set up grbl!");
+            if (!APIgrbl.outOfBounds) {
+                System.err.println("Could not set up grbl!");
+            }
             return false;
         }
         apiGrbl.start();
