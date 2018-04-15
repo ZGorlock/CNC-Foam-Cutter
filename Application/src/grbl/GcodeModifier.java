@@ -84,7 +84,6 @@ public class GcodeModifier
             removeWhitespace();
             removeBadCommands();
             convertBadParameters();
-            //TODO check max travel distance
             return true;
         }
         

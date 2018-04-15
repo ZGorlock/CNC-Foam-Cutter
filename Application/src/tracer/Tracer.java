@@ -69,7 +69,7 @@ public class Tracer
     /**
      * The default maximum number of traces to display before old traces begin to disappear.
      */
-    public static final int DEFAULT_MAX_TRACES = 360; //TODO adjust after testing
+    public static final int DEFAULT_MAX_TRACES = 720;
     
     /**
      * Whether or not to display the trace demo.

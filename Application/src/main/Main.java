@@ -30,33 +30,48 @@ import java.util.regex.Pattern;
 public class Main
 {
     
-    //TODO out of bounds safety check in modifier
+    
+    //NICK
+    
     //TODO what python modules do we need to install during setup?
+    //  let me know and i will set up the program to install them automatically
     
-    //TODO create Rotation traces with real sized profiles (!!!this is important to get done soon, the way that the gcode is drawn will change!!!)
-    
-    //TODO set max travel distance for both teams (make it a config) -> it's already a config, it is currently set for the CNC
-    //  run a check in Modifier? (must be done after model adjustment), <---- Yes, because the machine sometimes uses relative coordinates,
-    //  we will need to run a check for max travel distance and inform the user that the model will travel this much at its peak before printing
-    
-    
-    //  The user must leave a bottom offset of foam so that the drill doesn't cut into the machine bed, and should zero it out in the bottom left corner.
-    //  HIGHLY VALUABLE RECOMMENDATION TO INCLUDE-> every machinist should run some small tests to get familiar with the system before cutting.
-
-    // TODO make $$ print out every grbl config not just the first one.
-    
-    
-    //TODO update presentation powerpoint
-    //  Slide 3 - Add pictures of green team
+    //TODO make $$ print out every grbl config not just the first one
     
     //TODO update Design Document
     //  add sketches of acceptable and unacceptable models to the User Guide section
-    //  update user guide with more information on how to zero and where it should be / set up foam / dimensions of both machines in millimers and the max dimensions of the foam/model they can use
-    //  add info on new help popup and key listener for gcode tab
     //
-    //  redo figure pages in table (after removing table of contents)
-    //  redo table of contents after everything else is done
+    //  update user guide with more information
+    //      how to zero and where it should be for each machine
+    //          center top for hotwire, you know for cnc
+    //      how to set up foam
+    //          The user must leave a bottom offset of foam so that the drill doesn't cut into the machine bed, and should zero it out in the bottom left corner.
+    //      dimensions of both machines in millimers and the max dimensions of the foam
+    //          you can find these values in config.ini
+    //      model they can use? (you wrote this one)
+    //      HIGHLY VALUABLE RECOMMENDATION TO INCLUDE-> every machinist should run some small tests to get familiar with the system before cutting.
+    //
+    //  update user experience section
+    //      add info on new help popup and key listener for gcode tab
     
+    //TODO calibrate Tracer and Renderer
+    //  Get a simple shape to test with
+    //  Make sure it prints it in the middle of the foam at the top levels of the foam
+    //  Make sure it looks the same in the Renderer
+    //      Check for mirrored axes
+    //      Check for position
+    //  Make sure it looks the same in the Tracer
+    //      Check for mirrored axes
+    //      Check for position
+    
+    //TODO Integration Testing
+    //  verify that the Z value per degree actually rotates it the correct amount, try 1.8 and 90
+    //  verify that G28 properly reset the hotwire to the top center and doesnt rotate the bed
+    //      if this doesnt work see if the syntax is wrong (APIgrbl line 224)
+    //      if it just doesnt work then i can write up our own code to reset it
+    
+    
+    //ZACK
     
     //TODO make user help window
     //  question icon button on side of button window, brings up user help page
@@ -65,19 +80,19 @@ public class Main
     //  Once that's set, raise it up and put the foam in flushed with the axis.
     //  Include information on how to use the program, each tab
     
-    //TODO calibrate Tracer and Renderer
+    //TODO update Design Document
+    //  redo figure pages in table (after removing table of contents)
+    //  redo table of contents after everything else is done
     
     
-    //TODO integration testing
-    //  Verify Z value per degree of rotation
-    //  Verify G28 reset method - APIgrbl line 197-198
-    //
-    //  Test CNC model
-    //  Test Hotwire profiles, (1[360], 4[1, 90])
+    
     
     
     //TODO before releasing
     //  search for all TODOs
+    //      APIgrbl line 224
+    //      GcodeController line 131
+    //
     //  set Main.development = false;
 
     
