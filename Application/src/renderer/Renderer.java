@@ -7,7 +7,6 @@
 package renderer;
 
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
-import grbl.APIgrbl;
 import gui.interfaces.greeting.GreetingController;
 import gui.interfaces.popup.SystemNotificationController;
 import javafx.animation.KeyFrame;
@@ -289,7 +288,6 @@ public class Renderer
             xAdjustment = -modelWidth / 2;
             yAdjustment = modelLength / 2;
             zAdjustment = (foamHeight * MILLIMETERS_IN_INCH / 2) - ((foamHeight * MILLIMETERS_IN_INCH) - modelHeight);
-            APIgrbl.grbl.adjustGcode();
         }
         Translate translation = new Translate(xAdjustment, yAdjustment, zAdjustment);
         

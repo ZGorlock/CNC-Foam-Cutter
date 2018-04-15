@@ -6,6 +6,8 @@
 
 package utils;
 
+import gui.interfaces.main.ModelController;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -27,19 +29,24 @@ public class GcodeTracer
     //Constants
     
     /**
-     * The dimensions of the image.
-     */
-    public static final int IMAGE_SIZE = 300;
-    
-    /**
      * The dimensions of the image border.
      */
-    public static final int IMAGE_BORDER = IMAGE_SIZE / 20;
+    public static final int IMAGE_BORDER = 20;
     
     /**
-     * The position of the image's center.
+     * The x dimension of the image.
      */
-    public static final int IMAGE_MIDDLE = IMAGE_SIZE / 2;
+    public static final int IMAGE_SIZE_X = ModelController.maxXTravelHotwire + 2 * IMAGE_BORDER;
+    
+    /**
+     * The y dimension of the image.
+     */
+    public static final int IMAGE_SIZE_Y = ModelController.maxYTravelHotwire + 2 * IMAGE_BORDER;
+    
+    /**
+     * The scale to reduce the overall image by.
+     */
+    public static final int scaleFactor = 3;
     
     
     //Fields
@@ -47,7 +54,7 @@ public class GcodeTracer
     /**
      * The current x trace positions.
      */
-    private double traceX = IMAGE_MIDDLE;
+    private double traceX = IMAGE_SIZE_X / 2;
     
     /**
      * The current y trace positions.
@@ -78,6 +85,7 @@ public class GcodeTracer
      * @param gcode The gcode file to trace.
      * @return The BufferedImage that was created from the gcode.
      */
+    static int n;
     private synchronized BufferedImage traceGcode(String gcode)
     {
         List<String> lines = new ArrayList<>();
@@ -87,13 +95,12 @@ public class GcodeTracer
             System.err.println("Error reading lines of gcode file:" + gcode + ".");
             e.printStackTrace();
         }
-        
-        BufferedImage trace = new BufferedImage(IMAGE_SIZE, IMAGE_SIZE, BufferedImage.TYPE_INT_RGB);
+        BufferedImage trace = new BufferedImage(IMAGE_SIZE_X / scaleFactor, IMAGE_SIZE_Y / scaleFactor, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = trace.createGraphics();
         initializeImage(g2);
         
         traceX = IMAGE_BORDER;
-        traceY = IMAGE_MIDDLE;
+        traceY = IMAGE_BORDER + (IMAGE_SIZE_X - 2 * IMAGE_BORDER) / 2;
         Pattern g1Pattern = Pattern.compile("G1\\sX(?<x>-?\\d*\\.?\\d*)\\sY(?<y>-?\\d*\\.?\\d*).*");
         for (String line : lines) {
             Matcher g1Matcher = g1Pattern.matcher(line);
@@ -103,6 +110,9 @@ public class GcodeTracer
                 moveTrace(g2, x, y);
             }
         }
+    
+        n++;
+        saveImage(trace, "JPG", new File(String.valueOf(n) + ".jpg"));
         
         return trace;
     }
@@ -116,21 +126,27 @@ public class GcodeTracer
     {
         //initialize image
         g2.setColor(Color.WHITE);
-        g2.fillRect(0, 0, IMAGE_SIZE, IMAGE_SIZE);
-        g2.setColor(Color.BLACK);
-        g2.drawRect(0, 0, IMAGE_SIZE - 1, IMAGE_SIZE - 1);
-        g2.setColor(Color.GRAY);
-        g2.drawLine(IMAGE_BORDER, IMAGE_BORDER, IMAGE_SIZE - IMAGE_BORDER, IMAGE_BORDER);
-        g2.drawLine(IMAGE_MIDDLE, IMAGE_BORDER, IMAGE_MIDDLE, IMAGE_SIZE - IMAGE_BORDER);
+        g2.fillRect(0, 0, IMAGE_SIZE_X / scaleFactor, IMAGE_SIZE_Y / scaleFactor);
+//        g2.setColor(Color.BLACK);
+//        g2.drawRect(0, 0, (IMAGE_SIZE_X / scaleFactor) - 1, (IMAGE_SIZE_Y / scaleFactor) - 1);
+        g2.setColor(Color.DARK_GRAY);
+        
+        g2.drawLine(IMAGE_BORDER / scaleFactor, IMAGE_BORDER / scaleFactor, (IMAGE_SIZE_X - IMAGE_BORDER) / scaleFactor, IMAGE_BORDER / scaleFactor);
+        g2.drawLine(IMAGE_BORDER / scaleFactor, (IMAGE_BORDER - 1) / scaleFactor, (IMAGE_SIZE_X - IMAGE_BORDER) / scaleFactor, (IMAGE_BORDER - 1) / scaleFactor);
+        
+        g2.drawLine((IMAGE_SIZE_X / 2 - 1) / scaleFactor, IMAGE_BORDER / scaleFactor, (IMAGE_SIZE_X / 2 - 1) / scaleFactor, (IMAGE_SIZE_Y - IMAGE_BORDER) / scaleFactor);
+        g2.drawLine((IMAGE_SIZE_X / 2) / scaleFactor,     IMAGE_BORDER / scaleFactor, (IMAGE_SIZE_X / 2) / scaleFactor, (IMAGE_SIZE_Y - IMAGE_BORDER) / scaleFactor);
+        g2.drawLine((IMAGE_SIZE_X / 2 + 1) / scaleFactor, IMAGE_BORDER / scaleFactor, (IMAGE_SIZE_X / 2 + 1) / scaleFactor, (IMAGE_SIZE_Y - IMAGE_BORDER) / scaleFactor);
+        
         
         //draw grid
         g2.setColor(new Color(220, 220, 220));
-        for (int i = 1; i <= (IMAGE_MIDDLE - IMAGE_BORDER) / 10; i++) {
-            g2.drawLine(IMAGE_MIDDLE + (10 * i), IMAGE_BORDER, IMAGE_MIDDLE + (10 * i), IMAGE_SIZE - IMAGE_BORDER);
-            g2.drawLine(IMAGE_MIDDLE - (10 * i), IMAGE_BORDER, IMAGE_MIDDLE - (10 * i), IMAGE_SIZE - IMAGE_BORDER);
+        for (int i = 1; i <= ((IMAGE_SIZE_X - 2 * IMAGE_BORDER) / 2) / 25.4; i++) {
+            g2.drawLine((((IMAGE_SIZE_X - 2 * IMAGE_BORDER) / 2) + IMAGE_BORDER + (int) (25.4 * i)) / scaleFactor, IMAGE_BORDER / scaleFactor, (((IMAGE_SIZE_X - 2 * IMAGE_BORDER)/ 2) + IMAGE_BORDER + (int) (25.4 * i)) / scaleFactor, (IMAGE_SIZE_Y - IMAGE_BORDER) / scaleFactor);
+            g2.drawLine((((IMAGE_SIZE_X - 2 * IMAGE_BORDER) / 2) + IMAGE_BORDER - (int) (25.4 * i)) / scaleFactor, IMAGE_BORDER / scaleFactor, (((IMAGE_SIZE_X - 2 * IMAGE_BORDER) / 2) + IMAGE_BORDER - (int) (25.4 * i)) / scaleFactor, (IMAGE_SIZE_Y - IMAGE_BORDER) / scaleFactor);
         }
-        for (int i = 1; i <= (IMAGE_SIZE - (2 * IMAGE_BORDER)) / 10; i++) {
-            g2.drawLine(IMAGE_BORDER, IMAGE_BORDER + (10 * i), IMAGE_SIZE - IMAGE_BORDER, IMAGE_BORDER + (10 * i));
+        for (int i = 1; i <= (IMAGE_SIZE_Y - 2 * IMAGE_BORDER) / 25.4; i++) {
+            g2.drawLine(IMAGE_BORDER / scaleFactor, (IMAGE_BORDER + (int) (25.4 * i)) / scaleFactor, (IMAGE_SIZE_X - IMAGE_BORDER) / scaleFactor, (IMAGE_BORDER + (int) (25.4 * i)) / scaleFactor);
         }
     }
     
@@ -144,7 +160,7 @@ public class GcodeTracer
     private synchronized void moveTrace(Graphics2D g2, double x, double y)
     {
         g2.setColor(Color.BLACK);
-        g2.drawLine((int) traceY, (int) traceX, (int) (traceY + y), (int) (traceX + x));
+        g2.drawLine((int) traceY / scaleFactor, (int) traceX / scaleFactor, (int) (traceY + y) / scaleFactor, (int) (traceX + x) / scaleFactor);
         traceX += x;
         traceY += y;
     }

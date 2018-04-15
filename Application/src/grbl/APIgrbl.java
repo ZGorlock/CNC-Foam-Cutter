@@ -201,6 +201,8 @@ public class APIgrbl extends Thread
             totalProgress = commands.size();
             currentProgress = 0;
             
+            return adjustGcode();
+            
         } else {
             for (String profile : profiles) {
                 // Modifies to gbrl acceptable gcode
@@ -374,11 +376,17 @@ public class APIgrbl extends Thread
     /**
      * Adjusts the gcode for the model.
      */
-    public void adjustGcode()
+    public boolean adjustGcode()
     {
         double xAdjustment = Renderer.xAdjustment;
         double yAdjustment = Renderer.yAdjustment;
         double zAdjustment = Renderer.zAdjustment;
+        
+        double xMax = 0;
+        double yMax = 0;
+        double zMax = 0;
+        
+        boolean absolute = false;
         
         for (int i = 0; i < commands.size(); i++) {
             String command = commands.get(i);
@@ -390,6 +398,10 @@ public class APIgrbl extends Thread
             }
             
             if (tokens.size() > 0) {
+                if (tokens.get(0).equals("G90")) {
+                    absolute = true;
+                }
+                
                 if (tokens.get(0).equals("G1")) {
     
                     double x = -1;
@@ -410,6 +422,16 @@ public class APIgrbl extends Thread
                             }
                         }
                         
+                        if (Math.abs(x) > xMax) {
+                            xMax = Math.abs(x);
+                        }
+                        if (Math.abs(y) > yMax) {
+                            yMax = Math.abs(y);
+                        }
+                        if (Math.abs(z) > zMax) {
+                            zMax = Math.abs(z);
+                        }
+                        
                         StringBuilder newCommand = new StringBuilder("G1 ");
                         if (x > -1) {
                             newCommand.append(String.format("X%.3f ", x));
@@ -428,11 +450,25 @@ public class APIgrbl extends Thread
                     } catch (NumberFormatException e) {
                         System.err.println("Error making adjustments to gcode instruction: " + command + ". Number is not formatted properly!");
                         SystemNotificationController.throwNotification("There was an error adjusting the gcode to fit the machine!", true, false);
-                        return;
+                        return false;
                     }
                 }
             }
         }
+        
+        if (absolute) {
+            if (xMax > ModelController.maxXTravelCnc / 2.0 || yMax > ModelController.maxYTravelCnc / 2.0 || zMax > ModelController.maxZTravelCnc) {
+                String travelMessage = String.format("The maximum travel distance is: +/- %.1f x, +/- %.1f y, + %.1f z\nBut your path takes you to: +/- %.1f x, +/- %.1f y, + %.1f z\nWhich is out of the bounds of the machine! Please adjust your model!", ModelController.maxXTravelCnc / 2.0, ModelController.maxYTravelCnc / 2.0, ModelController.maxZTravelCnc / 1.0, xMax, yMax, zMax);
+                System.err.println("The path takes the machine out if its bounds!");
+                SystemNotificationController.throwNotification(travelMessage, true, false, 400);
+                return false;
+            }
+        } else {
+            String travelMessage = String.format("The maximum travel distance is: +/- %.1f x, +/- %.1f y, + %.1f z\nYour path is in relative coordinates!\nIt cannot be verified to be within the travel distance of the machine!\nProceed carefully!", ModelController.maxXTravelCnc / 2.0, ModelController.maxYTravelCnc / 2.0, ModelController.maxZTravelCnc / 1.0);
+            SystemNotificationController.throwNotification(travelMessage, false, false, 400);
+        }
+        
+        return true;
     }
     
     /**

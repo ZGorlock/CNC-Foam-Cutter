@@ -34,11 +34,12 @@ public class Main
     //TODO what python modules do we need to install during setup?
     
     //TODO create Rotation traces with real sized profiles (!!!this is important to get done soon, the way that the gcode is drawn will change!!!)
+    
     //TODO set max travel distance for both teams (make it a config) -> it's already a config, it is currently set for the CNC
-    //  do these need to be set when we run slicer?
     //  run a check in Modifier? (must be done after model adjustment), <---- Yes, because the machine sometimes uses relative coordinates,
     //  we will need to run a check for max travel distance and inform the user that the model will travel this much at its peak before printing
-    //  This way they can ensure they position their model in the appropriate position.
+    
+    
     //  The user must leave a bottom offset of foam so that the drill doesn't cut into the machine bed, and should zero it out in the bottom left corner.
     //  HIGHLY VALUABLE RECOMMENDATION TO INCLUDE-> every machinist should run some small tests to get familiar with the system before cutting.
 
@@ -90,7 +91,7 @@ public class Main
     /**
      * The machine type to run when working in development mode.
      */
-    public static final MachineDetector.Machine developmentMode = MachineDetector.Machine.CNC;
+    public static final MachineDetector.Machine developmentMode = MachineDetector.Machine.HOTWIRE;
     
     /**
      * A flag indicating whether to use the demo mode of the application for an ideal case.

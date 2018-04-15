@@ -428,8 +428,8 @@ public class RotationController
         rotationProfileMap.replace(((ImageView) box.getChildren().get(0)).getImage(), d);
         
         // Set new selected value
-        temp.getChildren().get(index).setScaleX(1.18);
-        temp.getChildren().get(index).setScaleY(1.18);
+        temp.getChildren().get(index).setScaleX(1.1);
+        temp.getChildren().get(index).setScaleY(1.1);
         
         VBox vbox = (VBox) temp.getChildren().get(index);
         Text text = (Text) vbox.getChildren().get(1);
@@ -444,8 +444,8 @@ public class RotationController
     {
         HBox temp = (HBox) sp.getContent();
         
-        temp.getChildren().get(index).setScaleX(1.18);
-        temp.getChildren().get(index).setScaleY(1.18);
+        temp.getChildren().get(index).setScaleX(1.1);
+        temp.getChildren().get(index).setScaleY(1.1);
         
         VBox vbox = (VBox) temp.getChildren().get(index);
         

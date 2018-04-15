@@ -143,8 +143,9 @@ public class SystemNotificationController
      *  @param error      The error message to display.
      *  @param fullstop   Whether or not to perform a full stop.
      *  @param areYouSure Whether or not to perform an "are you sure" check before performing a full stop.
+     *  @param height     The height of the notification in pixels.
      */
-    public static void throwNotification(String error, boolean fullstop, boolean areYouSure)
+    public static void throwNotification(String error, boolean fullstop, boolean areYouSure, int height)
     {
         Platform.runLater(() -> {
             Parent root;
@@ -154,7 +155,7 @@ public class SystemNotificationController
                 root = FXMLLoader.load(fxml);
                 Stage stage = new Stage();
                 stage.setTitle("3D CNC Foam Cutter");
-                stage.setScene(new Scene(root, 840, 300));
+                stage.setScene(new Scene(root, 840, height));
                 stage.show();
     
                 // Set notification
@@ -173,6 +174,21 @@ public class SystemNotificationController
                 Main.killApplication();
             }
         });
+    }
+    
+    /**
+     *  This method is used throughout the application to show any kind of message to the user,<br/>
+     *  that be of an error, an exception, or just a regular notification, it is also used during full stops.<br/>
+     *  Calling SystemNotificationController.throwNotification will show the popup with whatever custom message is<br/>
+     *  inputted on the string field.
+     *
+     *  @param error      The error message to display.
+     *  @param fullstop   Whether or not to perform a full stop.
+     *  @param areYouSure Whether or not to perform an "are you sure" check before performing a full stop.
+     */
+    public static void throwNotification(String error, boolean fullstop, boolean areYouSure)
+    {
+        throwNotification(error, fullstop, areYouSure, 300);
     }
     
 }

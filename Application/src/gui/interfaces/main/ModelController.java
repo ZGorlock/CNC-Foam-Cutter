@@ -104,12 +104,12 @@ public class ModelController
     /**
      * The default maximum length of the foam block for the Hot Wire machine, in inches.
      */
-    public static final double DEFAULT_MAX_LENGTH_HOTWIRE = 36;
+    public static final double DEFAULT_MAX_LENGTH_HOTWIRE = 48;
     
     /**
      * The default maximum height of the foam block for the Hot Wire machine, in inches.
      */
-    public static final double DEFAULT_MAX_HEIGHT_HOTWIRE = 48;
+    public static final double DEFAULT_MAX_HEIGHT_HOTWIRE = 36;
     
     /**
      * The default maximum x travel distance for the CNC machine, in millimeters.
@@ -135,6 +135,7 @@ public class ModelController
      * The default maximum y travel distance for the Hot Wire machine, in millimeters.
      */
     public static final int DEFAULT_MAX_Y_TRAVEL_HOTWIRE = 1219;
+    
     
     //Static Fields
     
@@ -202,8 +203,6 @@ public class ModelController
      * The maximum y travel distance for the Hot Wire machine, in millimeters.
      */
     public static int maxYTravelHotwire;
-    
-    
     
     
     //Fields

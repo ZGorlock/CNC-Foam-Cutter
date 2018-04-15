@@ -105,9 +105,9 @@ public class InputController
         if (Main.development) {
             nid.setText("ab123456");
             desc.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
-            width.setText("20");
-            length.setText("40");
-            height.setText("10");
+            width.setText("18");
+            length.setText("29");
+            height.setText("8");
         }
 
         desc.textProperty().addListener((ov, oldValue, newValue) -> {
