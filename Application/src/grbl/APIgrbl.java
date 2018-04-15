@@ -264,51 +264,52 @@ public class APIgrbl extends Thread
         
                 double packetProgressUnits = 0;
                 int charsUsed = 0;
-                while (charsUsed < 127) {
-    
+
+//                while (charsUsed < 127) {
+//
                     if (profileImages.containsKey(i)) {
                         ModelController.setCurrentProfileImage(profileImages.get(i));
-        
+
                         File profileGcode = new File(RotationController.controller.gcodeTraceFileMap.get(profileImages.get(i)));
                                 Platform.runLater(() -> ModelController.setFileName(profileGcode.getName()));
                                 Platform.runLater(() -> ModelController.setFileSize(ModelController.calculateFileSize(profileGcode)));
                     }
-    
-                    String newCommand = null;
-                    if (i < commands.size()) {
-                        newCommand = commands.get(i);
-                        i++;
-                    }
-
-                    if (newCommand != null) {
-                        if ((newCommand.length() + charsUsed + 1) < 127) {
-                            // append what will be written
-                            sb.append(newCommand);
-                            sb.append('\n');
-                            
+//
+//                    String newCommand = null;
+//                    if (i < commands.size()) {
+//                        newCommand = commands.get(i);
+//                        i++;
+//                    }
+//
+//                    if (newCommand != null) {
+//                        if ((newCommand.length() + charsUsed + 1) < 127) {
+//                            // append what will be written
+//                            sb.append(newCommand);
+//                            sb.append('\n');
+//
                             if (Main.development && Main.bypassArduinoForTracer && MachineDetector.isCncMachine()) {
-                                TracerGcodeBypass.traceGcodeCommand(newCommand, true);
+                                TracerGcodeBypass.traceGcodeCommand(commands.get(i), true);
                             }
-
-                            // update counts
-                            charsUsed += newCommand.length() + 1;
-//                            packetProgressUnits += GcodeProgressCalculator.calculateInstructionProgressUnits(newCommand);
+//
+//                            // update counts
+//                            charsUsed += newCommand.length() + 1;
+                            packetProgressUnits += GcodeProgressCalculator.calculateInstructionProgressUnits(commands.get(i));
                             packetProgressUnits++;
-                        } else {
-                            // end of 127 char limit
-                            i--;
-                            charsUsed = 127;
-                        }
-                    } else {
-                        // end of file, stopping conditions
-                        charsUsed = 127;
-                    }
-                }
+//                        } else {
+//                            // end of 127 char limit
+//                            i--;
+//                            charsUsed = 127;
+//                        }
+//                    } else {
+//                        // end of file, stopping conditions
+//                        charsUsed = 127;
+//                    }
+//                }
                 currentProgress += packetProgressUnits;
         
                 // create string to be printed
-                String gcode = sb.toString();
-        
+                //String gcode = sb.toString();
+                String gcode = commands.get(i++) + '\n';
                 bw.write(gcode);
                 bw.close();
         
@@ -373,6 +374,12 @@ public class APIgrbl extends Thread
                         }
                     }
                 }
+                try{
+                    wait(2000); //Wait for machine to load up
+                }catch (InterruptedException ignored){
+
+                }
+
             }
         } catch (IOException e) {
             System.err.println("There was an error writing tempfile.txt during streaming!");

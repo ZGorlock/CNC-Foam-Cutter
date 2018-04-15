@@ -86,6 +86,7 @@ class Streamer(object):
             self.s.write(('?\n').encode())
             time.sleep(1)
             response = ''
+
             while(len(response) < 6):
                 response = self.s.readline().decode()
             print(response)

@@ -34,11 +34,15 @@ public class Main
     //TODO what python modules do we need to install during setup?
     
     //TODO create Rotation traces with real sized profiles (!!!this is important to get done soon, the way that the gcode is drawn will change!!!)
-    //TODO set max travel distance for both teams (make it a config)
+    //TODO set max travel distance for both teams (make it a config) -> it's already a config, it is currently set for the CNC
     //  do these need to be set when we run slicer?
-    //  run a check in Modifier? (must be done after model adjustment)
-    
-    
+    //  run a check in Modifier? (must be done after model adjustment), <---- Yes, because the machine sometimes uses relative coordinates,
+    //  we will need to run a check for max travel distance and inform the user that the model will travel this much at its peak before printing
+    //  This way they can ensure they position their model in the appropriate position.
+    //  The user must leave a bottom offset of foam so that the drill doesn't cut into the machine bed, and should zero it out in the bottom left corner.
+    //  HIGHLY VALUABLE RECOMMENDATION TO INCLUDE-> every machinist should run some small tests to get familiar with the system before cutting.
+
+    // TODO make $$ print out every grbl config not just the first one.
     //TODO update presentation powerpoint
     //  Slide 3 - Add pictures of green team
     
@@ -54,15 +58,12 @@ public class Main
     //TODO make user help window
     //  question icon button on side of button window, brings up user help page
     //  what is displayed should be dependent on which machine is connected
-    //
-    //  Zero out machine before start
-    //  Then set that as Zero with magical command or unplugging grbl to the southwest corner with the bit touching the floor, that's zero
+    //  WASD controls x,y P = +z L = -z R = Reset SPACEBAR = reset zero
     //  Once that's set, raise it up and put the foam in flushed with the axis.
     //  Include information on how to use the program, each tab
     
     //TODO calibrate Tracer and Renderer
     //TODO finalize max foam dimensions of both machines (ModelController and config.ini)
-    
     
     
     //TODO integration testing
@@ -88,7 +89,7 @@ public class Main
     /**
      * The machine type to run when working in development mode.
      */
-    public static final MachineDetector.Machine developmentMode = MachineDetector.Machine.HOTWIRE;
+    public static final MachineDetector.Machine developmentMode = MachineDetector.Machine.CNC;
     
     /**
      * A flag indicating whether to use the demo mode of the application for an ideal case.
@@ -103,7 +104,7 @@ public class Main
     /**
      * A flag indicating whether or not to bypass the Arduino for the Tracer.
      */
-    public static final boolean bypassArduinoForTracer = true;
+    public static final boolean bypassArduinoForTracer = false;
     
     
     //Static Fields

@@ -6,6 +6,8 @@
 
 package grbl;
 
+import gui.interfaces.main.GcodeController;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -82,7 +84,7 @@ public class GcodeModifier
             removeWhitespace();
             removeBadCommands();
             convertBadParameters();
-            
+            //TODO check max travel distance
             return true;
         }
         
@@ -204,6 +206,18 @@ public class GcodeModifier
                         }
                     } else if (token.charAt(0) == 'F') {
                         hitF = true;
+                        // Check for speed
+                        String speed = token.substring(1);
+                        double newSpeed = Double.parseDouble(speed);
+
+                        if(newSpeed > GcodeController.MAX_SPEED)
+                        {
+                            speed = String.valueOf(GcodeController.MAX_SPEED);
+                            String newToken = token.charAt(0) + speed;
+                            tokens.remove(j);
+                            tokens.add(newToken);
+                        }
+
                         if (mockF != -1) {
                             tokens.remove(mockF);
                             mockF = -1;
@@ -226,7 +240,7 @@ public class GcodeModifier
             }
         }
     }
-    
+
     /**
      * Prints the list of commands.
      */
