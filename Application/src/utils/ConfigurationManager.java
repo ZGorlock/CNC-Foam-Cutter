@@ -93,6 +93,12 @@ public class ConfigurationManager
         ModelController.maxLengthHotwire = getConfigAsDouble("MAX_LENGTH_HOTWIRE", ModelController.DEFAULT_MAX_LENGTH_HOTWIRE);
         ModelController.maxHeightHotwire = getConfigAsDouble("MAX_HEIGHT_HOTWIRE", ModelController.DEFAULT_MAX_HEIGHT_HOTWIRE);
     
+        ModelController.maxXTravelCnc = getConfigAsInt("MAX_X_TRAVEL_CNC", ModelController.DEFAULT_MAX_X_TRAVEL_CNC);
+        ModelController.maxYTravelCnc = getConfigAsInt("MAX_Y_TRAVEL_CNC", ModelController.DEFAULT_MAX_Y_TRAVEL_CNC);
+        ModelController.maxZTravelCnc = getConfigAsInt("MAX_Z_TRAVEL_CNC", ModelController.DEFAULT_MAX_Z_TRAVEL_CNC);
+        ModelController.maxXTravelHotwire = getConfigAsInt("MAX_X_TRAVEL_CNC", ModelController.DEFAULT_MAX_X_TRAVEL_HOTWIRE);
+        ModelController.maxYTravelHotwire = getConfigAsInt("MAX_X_TRAVEL_CNC", ModelController.DEFAULT_MAX_Y_TRAVEL_HOTWIRE);
+        
         RotationController.minimumRotationDegree = getConfigAsDouble("MIN_ROTATION_DEGREE", RotationController.DEFAULT_MIN_ROTATION_DEGREE);
         RotationController.millimetersPerStep = getConfigAsDouble("MILLIMETERS_PER_STEP", RotationController.DEFAULT_MILLIMETERS_PER_STEP);
     

@@ -43,6 +43,8 @@ public class Main
     //  HIGHLY VALUABLE RECOMMENDATION TO INCLUDE-> every machinist should run some small tests to get familiar with the system before cutting.
 
     // TODO make $$ print out every grbl config not just the first one.
+    
+    
     //TODO update presentation powerpoint
     //  Slide 3 - Add pictures of green team
     
@@ -63,7 +65,6 @@ public class Main
     //  Include information on how to use the program, each tab
     
     //TODO calibrate Tracer and Renderer
-    //TODO finalize max foam dimensions of both machines (ModelController and config.ini)
     
     
     //TODO integration testing

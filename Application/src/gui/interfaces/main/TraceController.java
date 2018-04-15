@@ -157,8 +157,7 @@ public class TraceController
     public static void addTrace(double x, double y, double z)
     {
         // Do not add null traces
-        if(!APIgrbl.grbl.isDoneStreaming())
-        {
+        if (!APIgrbl.grbl.isDoneStreaming()) {
             Tracer.addTrace(x, y, z);
         }
     }
