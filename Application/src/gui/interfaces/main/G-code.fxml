@@ -19,6 +19,10 @@
                             onAction="#sendCommand" styleClass="buttonGold" text="Send" HBox.hgrow="ALWAYS">
                     </Button>
                 </HBox>
+                <HBox spacing = "10">
+                <TextField text = "1.0" fx:id ="textFieldStepSize" maxWidth="100.0" styleClass = "console" HBox.hgrow="ALWAYS"/>
+                <CheckBox fx:id = "check" minHeight="45" onMouseClicked="#keyboardEnabled"/><Text styleClass="keyboardMessage">Enable Keyboard movement (WASD + UP/DN)</Text>
+                </HBox>
             </VBox>
         </center>
     </BorderPane>

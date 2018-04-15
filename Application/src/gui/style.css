@@ -124,3 +124,9 @@
 .error{
     -fx-background-color:rgba(255,0,0,0.2);
 }
+
+.keyboardMessage{
+    -fx-opacity:.5;
+    -fx-padding: 20px;
+    -fx-position: relative;
+}

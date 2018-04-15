@@ -11,14 +11,20 @@ import gui.interfaces.greeting.GreetingController;
 import gui.interfaces.popup.SystemNotificationController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.CheckBox;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import main.Main;
 import slicer.Slicer;
 
+import java.awt.*;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -43,6 +49,11 @@ public class GcodeController
      * The text area for the responses to user commands.
      */
     public TextArea textAreaResponse;
+
+    /**
+     * The text area for the responses to user commands.
+     */
+    public TextField textFieldStepSize;
     
     /**
      * The text area for the gcode that has been streamed to the Arduino.
@@ -53,14 +64,19 @@ public class GcodeController
      * The Send button.
      */
     public Button sendButton;
+
+    /**
+     * The Send button.
+     */
+    public CheckBox check;
     
     
     //Constants
     
     /**
-     * The default maximum history to display in the gcode window.
+     * The maximum history to display in the gcode window.
      */
-    public static final int DEFAULT_MAX_CODE_HISTORY = 500;
+    public static final int MAX_CODE_HISTORY = 500;
     
     
     //Static Fields
@@ -94,10 +110,6 @@ public class GcodeController
      * The string buffer for the gcode command text area.
      */
     public static String codeBlockText = "";
-    /**
-     * The maximum history to display in the gcode window.
-     */
-    public static int maxCodeHistory;
     
     
     //Fields
@@ -111,6 +123,11 @@ public class GcodeController
      * The timer for updating the command block.
      */
     public Timer commandUpdateTimer;
+
+    /**
+     * The timer for updating the command block.
+     */
+    private boolean keyEnabled = false;
     
     
     //Constructors
@@ -144,7 +161,6 @@ public class GcodeController
     public void initialize()
     {
         controller = this;
-    
         textFieldCommand.setPromptText("Send Command...");
         textFieldCommand.setOnKeyPressed(event -> {
             if (KeyCode.ENTER.compareTo(event.getCode()) == 0) {
@@ -164,8 +180,9 @@ public class GcodeController
         if (textFieldCommand.getText().equals(textFieldCommand.getPromptText()) || textFieldCommand.getText().isEmpty() || APIgrbl.grbl == null) {
             return;
         }
-        
+
         String userCommand = textFieldCommand.getText();
+
         APIgrbl.grbl.sendRequest(userCommand);
         commandBlock.add('>' + userCommand);
         textFieldCommand.clear();
@@ -201,7 +218,7 @@ public class GcodeController
                     for (int i = 0; i < height - codeBlock.size() + 1; i++) {
                         codeBlockTextBuilder.append(System.lineSeparator());
                     }
-                    for (int i = (codeBlock.size() > maxCodeHistory ? codeBlock.size() - maxCodeHistory : 0); i < codeBlock.size(); i++) {
+                    for (int i = (codeBlock.size() > MAX_CODE_HISTORY ? codeBlock.size() - MAX_CODE_HISTORY : 0); i < codeBlock.size(); i++) {
                         if (i == codeBlock.size() - 1) {
                             codeBlockTextBuilder.append(codeBlock.get(i).substring(0, codeBlock.get(i).length() - 1));
                         } else {
@@ -241,7 +258,7 @@ public class GcodeController
                     for (int i = 0; i < height - commandBlock.size() + 1; i++) {
                         commandBlockTextBuilder.append(System.lineSeparator());
                     }
-                    for (int i = (commandBlock.size() > maxCodeHistory ? commandBlock.size() - maxCodeHistory : 0); i < commandBlock.size(); i++) {
+                    for (int i = (commandBlock.size() > MAX_CODE_HISTORY ? commandBlock.size() - MAX_CODE_HISTORY : 0); i < commandBlock.size(); i++) {
                         commandBlockTextBuilder.append(commandBlock.get(i));
                         if (i != commandBlock.size() - 1) {
                             commandBlockTextBuilder.append(System.lineSeparator());
@@ -272,7 +289,7 @@ public class GcodeController
             commandUpdateTimer.purge();
             commandUpdateTimer.cancel();
         }
-        
+        keyEnabled = false;
         commandBlock = new ArrayList<>();
         commandBlockText = "";
         codeBlock = new ArrayList<>();
@@ -372,5 +389,53 @@ public class GcodeController
         GreetingController.controller.slicingDone = true;
         return true;
     }
-    
+
+    public void keyboardEnabled(MouseEvent mouseEvent) {
+        Scene thisScene = sendButton.getScene();
+        keyEnabled = !keyEnabled;
+        if(keyEnabled)
+        {
+            thisScene.setOnKeyPressed(e-> {
+                String step = textFieldStepSize.getText();
+
+                try{
+                    Double amount = Double.parseDouble(step);
+                }catch (NumberFormatException nfe){
+                    return;
+                }
+                boolean stepping = true;
+                String userCommand = "";
+                if (KeyCode.W.compareTo(e.getCode()) == 0) {
+                    userCommand = "G0 Y";
+                }else if (KeyCode.A.compareTo(e.getCode()) == 0) {
+                    userCommand = "G0 X-";
+                }else if (KeyCode.S.compareTo(e.getCode()) == 0) {
+                    userCommand = "G0 Y-";
+                }else if (KeyCode.D.compareTo(e.getCode()) == 0) {
+                    userCommand = "G0 X";
+                }else if (KeyCode.P.compareTo(e.getCode()) == 0) {
+                    userCommand = "G0 Z";
+                }else if (KeyCode.L.compareTo(e.getCode()) == 0) {
+                    userCommand = "G0 Z-";
+                }else if(KeyCode.SPACE.compareTo(e.getCode()) == 0) {
+                    stepping = false;
+                    userCommand = "G10 P0 L20 X0 Y0 Z0";
+                }else if(KeyCode.R.compareTo(e.getCode()) == 0) {
+                    stepping = false;
+                    userCommand = "$X";
+                }
+
+
+                if(!userCommand.isEmpty())
+                {
+                    if(stepping)
+                    {
+                        userCommand += step;
+                    }
+                    APIgrbl.grbl.sendRequest(userCommand);
+                    commandBlock.add('>' + userCommand);
+                }
+            });
+        }
+    }
 }

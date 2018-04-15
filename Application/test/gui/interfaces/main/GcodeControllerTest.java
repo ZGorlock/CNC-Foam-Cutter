@@ -41,20 +41,20 @@ public class GcodeControllerTest
         
         sut.sendCommand(null);
         Assert.assertEquals(0, GcodeController.commandBlock.size());
-        
+
         tf.setText("");
-        
+
         sut.sendCommand(null);
         Assert.assertEquals(0, GcodeController.commandBlock.size());
-        
+
         APIgrbl.grbl = null;
-    
+
         sut.sendCommand(null);
         Assert.assertEquals(0, GcodeController.commandBlock.size());
-        
+
         APIgrbl.grbl = grbl;
         tf.setText("A command");
-        
+
         sut.sendCommand(null);
         Assert.assertEquals(1, GcodeController.commandBlock.size());
         Assert.assertEquals(">A command", GcodeController.commandBlock.get(0));
