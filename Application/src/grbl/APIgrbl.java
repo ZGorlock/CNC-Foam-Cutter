@@ -257,7 +257,18 @@ public class APIgrbl extends Thread
             int i = 0;
             startedStreaming = true;
             while (i < commands.size()) {
-                
+
+                // Wait for machine to finish
+                while(getStatus().compareTo("Run") == 0)
+                {
+                    try{
+                        Thread.sleep(200);
+                    }catch (InterruptedException ignore){
+
+                    }
+                    queryStatus();
+                }
+
                 // read every 127 characters and create a file with them for stream.py to use
                 BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile));
                 StringBuilder sb = new StringBuilder();
@@ -265,50 +276,23 @@ public class APIgrbl extends Thread
                 double packetProgressUnits = 0;
                 int charsUsed = 0;
 
-//                while (charsUsed < 127) {
-//
-                    if (profileImages.containsKey(i)) {
-                        ModelController.setCurrentProfileImage(profileImages.get(i));
+                if (profileImages.containsKey(i)) {
+                    ModelController.setCurrentProfileImage(profileImages.get(i));
 
-                        File profileGcode = new File(RotationController.controller.gcodeTraceFileMap.get(profileImages.get(i)));
-                                Platform.runLater(() -> ModelController.setFileName(profileGcode.getName()));
-                                Platform.runLater(() -> ModelController.setFileSize(ModelController.calculateFileSize(profileGcode)));
-                    }
-//
-//                    String newCommand = null;
-//                    if (i < commands.size()) {
-//                        newCommand = commands.get(i);
-//                        i++;
-//                    }
-//
-//                    if (newCommand != null) {
-//                        if ((newCommand.length() + charsUsed + 1) < 127) {
-//                            // append what will be written
-//                            sb.append(newCommand);
-//                            sb.append('\n');
-//
-                            if (Main.development && Main.bypassArduinoForTracer && MachineDetector.isCncMachine()) {
-                                TracerGcodeBypass.traceGcodeCommand(commands.get(i), true);
-                            }
-//
-//                            // update counts
-//                            charsUsed += newCommand.length() + 1;
-                            packetProgressUnits += GcodeProgressCalculator.calculateInstructionProgressUnits(commands.get(i));
-                            packetProgressUnits++;
-//                        } else {
-//                            // end of 127 char limit
-//                            i--;
-//                            charsUsed = 127;
-//                        }
-//                    } else {
-//                        // end of file, stopping conditions
-//                        charsUsed = 127;
-//                    }
-//                }
+                    File profileGcode = new File(RotationController.controller.gcodeTraceFileMap.get(profileImages.get(i)));
+                            Platform.runLater(() -> ModelController.setFileName(profileGcode.getName()));
+                            Platform.runLater(() -> ModelController.setFileSize(ModelController.calculateFileSize(profileGcode)));
+                }
+
+                if (Main.development && Main.bypassArduinoForTracer && MachineDetector.isCncMachine()) {
+                    TracerGcodeBypass.traceGcodeCommand(commands.get(i), true);
+                }
+                packetProgressUnits += GcodeProgressCalculator.calculateInstructionProgressUnits(commands.get(i));
+                packetProgressUnits++;
+
                 currentProgress += packetProgressUnits;
         
                 // create string to be printed
-                //String gcode = sb.toString();
                 String gcode = commands.get(i++) + '\n';
                 bw.write(gcode);
                 bw.close();
@@ -374,12 +358,6 @@ public class APIgrbl extends Thread
                         }
                     }
                 }
-                try{
-                    wait(2000); //Wait for machine to load up
-                }catch (InterruptedException ignored){
-
-                }
-
             }
         } catch (IOException e) {
             System.err.println("There was an error writing tempfile.txt during streaming!");
@@ -592,6 +570,71 @@ public class APIgrbl extends Thread
             TraceController.controller.grblStatus.setText(status);
             TraceController.addTrace(getCoordinateX(), getCoordinateY(), getCoordinateZ());
         });
+    }
+
+    private void queryStatus()
+    {
+        File tempDirectory = new File(Constants.GRBL_TEMP_DIRECTORY);
+        File tempCommand = new File(tempDirectory, "tempQuery.txt");
+        if (!tempDirectory.exists() || !tempCommand.exists()) {
+            try {
+                tempDirectory.mkdir();
+                tempCommand.createNewFile();
+            } catch (IOException e) {
+                System.err.println("There was an error creating tempQuery.txt used for streaming instructions!");
+                e.printStackTrace();
+                SystemNotificationController.throwNotification("There was an error in grbl's status when querying it!", false, false);
+                return;
+            }
+        }
+
+        try {
+            //write the command to file
+            BufferedWriter bw = new BufferedWriter(new FileWriter(tempCommand));
+            bw.write("?\n");
+            bw.close();
+
+            // execute stream.py with the command being sent, get input stream as a response
+            Process process = null;
+            while (process == null) {
+                process = CmdLine.executeCmdAsThread("python " + Constants.GRBL_DIRECTORY + "stream.py " + Constants.GRBL_TEMP_DIRECTORY + tempCommand.getName() + "\n");
+                if (process != null) {
+                    BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+                    String line;
+                    while (true) {
+                        line = r.readLine();
+                        if (line == null || line.isEmpty()) {
+                            break;
+                        }
+
+                        //  Parse line into coordinates
+                        String[] decomposed = line.split(",");
+
+                        if (decomposed.length != 7) {
+                            return;
+                        }
+
+                        setStatus(decomposed[0].substring(1));
+
+                        if (Main.development && Main.developmentLogging) {
+                            System.out.println(line + " Status Query");
+                        }
+                    }
+                } else {
+                    System.err.println("Error attempting to run stream.py! Reattempting...");
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException ignored) {
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("There was an error writing a user entered command or reading grbl's response!");
+            e.printStackTrace();
+            SystemNotificationController.throwNotification("There was an error executing your command!", false, false);
+            return;
+        }
     }
     
     /**

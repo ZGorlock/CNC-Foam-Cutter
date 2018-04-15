@@ -6,6 +6,7 @@
 
 package gui.interfaces.main;
 
+import grbl.APIgrbl;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -155,7 +156,11 @@ public class TraceController
      */
     public static void addTrace(double x, double y, double z)
     {
-        Tracer.addTrace(x, y, z);
+        // Do not add null traces
+        if(!APIgrbl.grbl.isDoneStreaming())
+        {
+            Tracer.addTrace(x, y, z);
+        }
     }
     
 }
