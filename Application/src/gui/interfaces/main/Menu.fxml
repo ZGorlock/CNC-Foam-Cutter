@@ -2,6 +2,8 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -12,8 +14,15 @@
     <BorderPane prefHeight="100.0" prefWidth="600.0">
         <center>
             <HBox fx:id="hBox" alignment="CENTER" styleClass="h1" spacing="80">
-                <Button fx:id="stopButton" text="PRINT" styleClass="buttonGold" onAction="#print"/>
+                <Button fx:id="stopButton" text="PRINT" styleClass="buttonGold" onAction="#print" />
             </HBox>
         </center>
+        <right>
+            <VBox alignment="CENTER">
+                <ImageView id="helpView" preserveRatio="true" onMouseClicked="#help" style="-fx-background-color: #F2C313;">
+                    <Image url="@../../images/help.jpg"/>
+                </ImageView>
+            </VBox>
+        </right>
     </BorderPane>
 </VBox>

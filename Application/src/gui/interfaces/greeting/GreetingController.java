@@ -6,6 +6,7 @@
 
 package gui.interfaces.greeting;
 
+import gui.interfaces.help.HelpController;
 import gui.interfaces.main.GcodeController;
 import gui.interfaces.popup.SystemNotificationController;
 import javafx.application.Platform;
@@ -19,10 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.Main;
@@ -395,6 +393,16 @@ public class GreetingController
             e.printStackTrace();
             Main.killApplication();
         }
+    }
+    
+    /**
+     * Opens the user help window.
+     *
+     * @param actionEvent The event that triggered the call.
+     */
+    public void help(MouseEvent actionEvent)
+    {
+        HelpController.help();
     }
     
     /**

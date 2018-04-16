@@ -56,6 +56,13 @@
                 <Button fx:id="uploadButton" onAction="#upload" styleClass="buttonGold" text="Upload"/>
             </HBox>
         </center>
+        <right>
+            <VBox alignment="CENTER">
+                <ImageView id="helpView" preserveRatio="true" onMouseClicked="#help" style="-fx-background-color: #F2C313;">
+                    <Image url="@../../images/help.jpg"/>
+                </ImageView>
+            </VBox>
+        </right>
     </BorderPane>
 
 </VBox>

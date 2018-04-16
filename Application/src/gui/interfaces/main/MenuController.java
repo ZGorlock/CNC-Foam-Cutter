@@ -8,6 +8,7 @@ package gui.interfaces.main;
 
 import grbl.APIgrbl;
 import gui.Gui;
+import gui.interfaces.help.HelpController;
 import gui.interfaces.popup.JobCompletedController;
 import gui.interfaces.popup.SystemNotificationController;
 import javafx.event.ActionEvent;
@@ -16,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import main.Main;
@@ -236,6 +238,16 @@ public class MenuController
     {
        initiatePause(actionEvent);
        SystemNotificationController.throwNotification("Performing a Full Stop!", true, true);
+    }
+    
+    /**
+     * Opens the user help window.
+     *
+     * @param actionEvent The event that triggered the call.
+     */
+    public void help(MouseEvent actionEvent)
+    {
+        HelpController.help();
     }
     
     /**
