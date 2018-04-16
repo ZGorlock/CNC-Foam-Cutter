@@ -220,6 +220,8 @@ public class APIgrbl extends Thread
                 if (!profileImages.containsValue(RotationController.controller.gcodeTraceMap.get(profile))) {
                     profileImages.put(commands.size(), RotationController.controller.gcodeTraceMap.get(profile));
                 }
+    
+                commands.add("G1 Y" + String.valueOf(ModelController.maxYTravelHotwire - (Renderer.foamHeight * Renderer.MILLIMETERS_IN_INCH)));
                 commands.addAll(m.getCommands());
                 commands.add("G28 X Y"); //TODO this need to be checked
                 commands.add("G1 Z1.0"); //TODO + String.format("%.3f", (RotationController.controller.rotationStep / RotationController.minimumRotationDegree * RotationController.millimetersPerStep)));

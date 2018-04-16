@@ -105,9 +105,15 @@ public class InputController
         if (Main.development) {
             nid.setText("ab123456");
             desc.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
-            width.setText("18");
-            length.setText("29");
-            height.setText("8");
+            if (MachineDetector.isCncMachine()) {
+                width.setText("18");
+                length.setText("29");
+                height.setText("8");
+            } else if (MachineDetector.isHotWireMachine()) {
+                width.setText("36");
+                length.setText("36");
+                height.setText("24");
+            }
         }
 
         desc.textProperty().addListener((ov, oldValue, newValue) -> {
@@ -125,9 +131,15 @@ public class InputController
     {
         nidText = "ab123456";
         descText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
-        widthText = "20";
-        lengthText = "40";
-        heightText = "10";
+        if (MachineDetector.isCncMachine()) {
+            width.setText("18");
+            length.setText("29");
+            height.setText("8");
+        } else if (MachineDetector.isHotWireMachine()) {
+            width.setText("36");
+            length.setText("36");
+            height.setText("48");
+        }
     }
     
     /**

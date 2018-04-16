@@ -8,6 +8,7 @@ package utils;
 
 import gui.interfaces.main.ModelController;
 import gui.interfaces.popup.SystemNotificationController;
+import renderer.Renderer;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -60,12 +61,22 @@ public class GcodeTracer
     /**
      * The current x trace positions.
      */
-    private double traceX = IMAGE_SIZE_X / 2;
+    private double traceX;
     
     /**
      * The current y trace positions.
      */
-    private double traceY = IMAGE_BORDER;
+    private double traceY;
+    
+    /**
+     * The initial x trace position.
+     */
+    private double initTraceX;
+    
+    /**
+     * The initial y trace position.
+     */
+    private double initTraceY;
     
     
     //Methods
@@ -103,12 +114,17 @@ public class GcodeTracer
             e.printStackTrace();
         }
         BufferedImage trace = new BufferedImage(IMAGE_SIZE_X / scaleFactor, IMAGE_SIZE_Y / scaleFactor, BufferedImage.TYPE_INT_RGB);
+        
+        initTraceX = IMAGE_SIZE_X / 2;
+        initTraceY = IMAGE_BORDER;
+        
+        traceX = initTraceX;
+        traceY = initTraceY + (IMAGE_SIZE_Y - 2 * IMAGE_BORDER) - (Renderer.foamHeight * Renderer.MILLIMETERS_IN_INCH);
+    
         Graphics2D g2 = trace.createGraphics();
         initializeImage(g2);
         
-        traceX = IMAGE_BORDER;
-        traceY = IMAGE_SIZE_X / 2;
-        Pattern g1Pattern = Pattern.compile("G[01]\\s*(X(?<x>[-]?\\d*\\.?\\d*))?\\s*(Y(?<y>[-]?\\d*\\.?\\d*))?\\s*");
+        Pattern g1Pattern = Pattern.compile("G[01]\\s*(X(?<x>[-]?\\d*\\.?\\d*))?\\s*(Y(?<y>[-]?\\d*\\.?\\d*))?.*");
         for (String line : lines) {
             Matcher g1Matcher = g1Pattern.matcher(line);
             if (g1Matcher.matches()) {
@@ -183,13 +199,13 @@ public class GcodeTracer
     private synchronized boolean moveTrace(Graphics2D g2, double x, double y)
     {
         g2.setColor(Color.BLACK);
-        g2.drawLine((int) traceY / scaleFactor, (int) traceX / scaleFactor, (int) (traceY + y) / scaleFactor, (int) (traceX + x) / scaleFactor);
-        g2.drawLine(((int) traceY / scaleFactor) - 1, ((int) traceX / scaleFactor) - 1, ((int) (traceY + y) / scaleFactor) - 1, ((int) (traceX + x) / scaleFactor) - 1);
-        g2.drawLine(((int) traceY / scaleFactor) + 1, ((int) traceX / scaleFactor) + 1, ((int) (traceY + y) / scaleFactor) + 1, ((int) (traceX + x) / scaleFactor) + 1);
+        g2.drawLine((int) traceX / scaleFactor, (int) traceY / scaleFactor, (int) (traceX + x) / scaleFactor, (int) (traceY + y) / scaleFactor);
+        g2.drawLine(((int) traceX / scaleFactor) - 1, ((int) traceY / scaleFactor) - 1, ((int) (traceX + x) / scaleFactor) - 1,((int) (traceY + y) / scaleFactor) - 1);
+        g2.drawLine(((int) traceX / scaleFactor) + 1, ((int) traceY / scaleFactor) + 1,  ((int) (traceX + x) / scaleFactor) + 1, ((int) (traceY + y) / scaleFactor) + 1);
         traceX += x;
         traceY += y;
     
-        if (Math.abs(traceX - IMAGE_BORDER) > ModelController.maxXTravelHotwire / 2 || traceY - (IMAGE_SIZE_X / 2) > ModelController.maxYTravelHotwire || traceY - (IMAGE_SIZE_X / 2) < 0) {
+        if (Math.abs(traceX - initTraceX) > ModelController.maxYTravelHotwire / 2 || traceY - initTraceY > ModelController.maxYTravelHotwire  || traceY - initTraceY < 0) {
             String travelMessage = String.format("The maximum travel distance is: +/- %.1f x, 0->%.1f y\nBut your path takes you out of the bounds of the machine!\nPlease adjust your gcode!", ModelController.maxXTravelHotwire / 2.0, ModelController.maxYTravelHotwire / 1.0);
             System.err.println("The path takes the machine out if its bounds!");
             SystemNotificationController.throwNotification(travelMessage, true, false, 400);
