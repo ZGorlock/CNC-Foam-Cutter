@@ -101,7 +101,7 @@ public class GcodeTracer
         
         traceX = IMAGE_BORDER;
         traceY = IMAGE_SIZE_X / 2;
-        Pattern g1Pattern = Pattern.compile("G1\\sX(?<x>-?\\d*\\.?\\d*)\\sY(?<y>-?\\d*\\.?\\d*).*");
+        Pattern g1Pattern = Pattern.compile("G[01]\\sX(?<x>-?\\d*\\.?\\d*)\\sY(?<y>-?\\d*\\.?\\d*).*");
         for (String line : lines) {
             Matcher g1Matcher = g1Pattern.matcher(line);
             if (g1Matcher.matches()) {
