@@ -161,9 +161,17 @@ public class GcodeModifier
         for (int i = 0; i < commands.size(); i++) {
             String command = commands.get(i);
             
+            
+            if (command.isEmpty()) {
+                commands.remove(i); //continue or remove
+                i--;
+                continue;
+            }
+    
+            String gCommand = command.indexOf(' ') == -1 ? command : command.substring(0, command.indexOf(' '));
+            
             // check the acceptable set
-            if (command.isEmpty() || command.indexOf(' ') == -1 ||
-                    !ACCEPTABLE_GCODE.contains(command.substring(0, command.indexOf(' ')))) {
+            if (!ACCEPTABLE_GCODE.contains(gCommand)) {
                 commands.remove(i); //continue or remove
                 i--;
             }
