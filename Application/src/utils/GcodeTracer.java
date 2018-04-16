@@ -49,6 +49,11 @@ public class GcodeTracer
      */
     public static final int scaleFactor = 3;
     
+    /**
+     * The current profile number.
+     */
+    public static int n = 0;
+    
     
     //Fields
     
@@ -73,6 +78,8 @@ public class GcodeTracer
      */
     public synchronized List<BufferedImage> traceGcodeSet(List<String> gcodeFiles)
     {
+        n = 0;
+        
         List<BufferedImage> traces = new ArrayList<>();
         for (String gcode : gcodeFiles) {
             traces.add(traceGcode(gcode));
@@ -101,15 +108,19 @@ public class GcodeTracer
         
         traceX = IMAGE_BORDER;
         traceY = IMAGE_SIZE_X / 2;
-        Pattern g1Pattern = Pattern.compile("G[01]\\sX(?<x>-?\\d*\\.?\\d*)\\sY(?<y>-?\\d*\\.?\\d*).*");
+        Pattern g1Pattern = Pattern.compile("G[01]\\s*(X(?<x>[-]?\\d*\\.?\\d*))?\\s*(Y(?<y>[-]?\\d*\\.?\\d*))?\\s*");
         for (String line : lines) {
             Matcher g1Matcher = g1Pattern.matcher(line);
             if (g1Matcher.matches()) {
                 double x = 0;
                 double y = 0;
                 try {
-                    x = Double.valueOf(g1Matcher.group("x"));
-                    y = Double.valueOf(g1Matcher.group("y"));
+                    if (line.contains("X")) {
+                        x = Double.valueOf(g1Matcher.group("x"));
+                    }
+                    if (line.contains("Y")) {
+                        y = Double.valueOf(g1Matcher.group("y"));
+                    }
                 } catch (NumberFormatException e) {
                     System.err.println("Gcode instruction: \"" + line + "\" is not formatted correctly!");
                     SystemNotificationController.throwNotification("Gcode instruction: \"" + line + "\" is not formatted correctly!", true, false);
@@ -120,6 +131,9 @@ public class GcodeTracer
                 }
             }
         }
+        
+        n++;
+        saveImage(trace, "JPG", new File(n + ".jpg"));
         
         return trace;
     }
@@ -170,6 +184,8 @@ public class GcodeTracer
     {
         g2.setColor(Color.BLACK);
         g2.drawLine((int) traceY / scaleFactor, (int) traceX / scaleFactor, (int) (traceY + y) / scaleFactor, (int) (traceX + x) / scaleFactor);
+        g2.drawLine(((int) traceY / scaleFactor) - 1, ((int) traceX / scaleFactor) - 1, ((int) (traceY + y) / scaleFactor) - 1, ((int) (traceX + x) / scaleFactor) - 1);
+        g2.drawLine(((int) traceY / scaleFactor) + 1, ((int) traceX / scaleFactor) + 1, ((int) (traceY + y) / scaleFactor) + 1, ((int) (traceX + x) / scaleFactor) + 1);
         traceX += x;
         traceY += y;
     

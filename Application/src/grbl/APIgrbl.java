@@ -222,7 +222,7 @@ public class APIgrbl extends Thread
                 }
                 commands.addAll(m.getCommands());
                 commands.add("G28 X Y"); //TODO this need to be checked
-                commands.add("G1 Z" + String.format("%.3f", (RotationController.controller.rotationStep / RotationController.minimumRotationDegree * RotationController.millimetersPerStep)));
+                commands.add("G1 Z1.0"); //TODO + String.format("%.3f", (RotationController.controller.rotationStep / RotationController.minimumRotationDegree * RotationController.millimetersPerStep)));
                 totalProgress += GcodeProgressCalculator.calculateFileProgressUnits(commands);
             }
             totalProgress = commands.size();
