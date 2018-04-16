@@ -221,10 +221,10 @@ public class APIgrbl extends Thread
                     profileImages.put(commands.size(), RotationController.controller.gcodeTraceMap.get(profile));
                 }
     
-                commands.add("G1 Y" + String.valueOf(ModelController.maxYTravelHotwire - (Renderer.foamHeight * Renderer.MILLIMETERS_IN_INCH)));
+                commands.add("G0 Y" + String.valueOf(ModelController.maxYTravelHotwire - (Renderer.foamHeight * Renderer.MILLIMETERS_IN_INCH)));
                 commands.addAll(m.getCommands());
                 commands.add("G28 X Y"); //TODO this need to be checked
-                commands.add("G1 Z1.0"); //TODO + String.format("%.3f", (RotationController.controller.rotationStep / RotationController.minimumRotationDegree * RotationController.millimetersPerStep)));
+                commands.add("G0 Z1.0"); //TODO + String.format("%.3f", (RotationController.controller.rotationStep / RotationController.minimumRotationDegree * RotationController.millimetersPerStep)));
                 totalProgress += GcodeProgressCalculator.calculateFileProgressUnits(commands);
             }
             totalProgress = commands.size();

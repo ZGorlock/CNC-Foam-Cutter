@@ -76,6 +76,11 @@ public class Main
     // Check comments on document, things like the Gcode tab will need new screenshots, should the user help be screenshotted to?
     
     
+    //TODO document
+    //  hotwire should be in relative coordinates
+    //  cnc should be in absolute coordinates
+    
+    
     
     
     //TODO before releasing
