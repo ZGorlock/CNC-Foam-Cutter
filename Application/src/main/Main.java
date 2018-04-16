@@ -29,30 +29,16 @@ import java.util.regex.Pattern;
  */
 public class Main
 {
-    
-    
     //NICK
     
     //TODO what python modules do we need to install during setup?
     //  let me know and i will set up the program to install them automatically
+    //  pyserial, serial <-have to test with actual arduino.
     
-    //TODO make $$ print out every grbl config not just the first one
+    //TODO make $$ print out every grbl config not just the first one <-Will test tomorrow with machine
     
     //TODO update Design Document
-    //  add sketches of acceptable and unacceptable models to the User Guide section
-    //
-    //  update user guide with more information
-    //      how to zero and where it should be for each machine
-    //          center top for hotwire, you know for cnc
-    //      how to set up foam
-    //          The user must leave a bottom offset of foam so that the drill doesn't cut into the machine bed, and should zero it out in the bottom left corner.
-    //      dimensions of both machines in millimers and the max dimensions of the foam
-    //          you can find these values in config.ini
-    //      model they can use? (you wrote this one)
-    //      HIGHLY VALUABLE RECOMMENDATION TO INCLUDE-> every machinist should run some small tests to get familiar with the system before cutting.
-    //
-    //  update user experience section
-    //      add info on new help popup and key listener for gcode tab
+    //  add sketches of acceptable and unacceptable models to the User Guide section <-- Still gotta test this out
     
     //TODO calibrate Tracer and Renderer
     //  Get a simple shape to test with
@@ -79,11 +65,14 @@ public class Main
     //  WASD controls x,y P = +z L = -z R = Reset SPACEBAR = reset zero
     //  Once that's set, raise it up and put the foam in flushed with the axis.
     //  Include information on how to use the program, each tab
-    
+
+    // Check what I've added to the user help window, modify as needed.
+
     //TODO update Design Document
     //  redo figure pages in table (after removing table of contents)
     //  redo table of contents after everything else is done
-    
+
+    // Check comments on document, things like the Gcode tab will need new screenshots, should the user help be screenshotted to?
     
     
     

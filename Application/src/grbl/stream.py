@@ -87,9 +87,13 @@ class Streamer(object):
             time.sleep(1)
             response = ''
 
-            while(len(response) < 6):
+            #If command is to show all configurations then print all 45 of them
+            if(l == "$$"):
+                for i in range(0,45):
+                    print(self.s.readline().decode()
+            else: while(len(response) < 6):
                 response = self.s.readline().decode()
-            print(response)
+                print(response)
 
         # Close file and serial port
         self.file.close()
