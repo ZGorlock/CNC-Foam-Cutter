@@ -412,17 +412,17 @@ public class GcodeController
                 boolean stepping = true;
                 String userCommand = "";
                 if (KeyCode.W.compareTo(e.getCode()) == 0) {
-                    userCommand = "G0 Y";
+                    userCommand = "G91 G21 G0 Y";
                 }else if (KeyCode.A.compareTo(e.getCode()) == 0) {
-                    userCommand = "G0 X-";
+                    userCommand = "G91 G21 G0 X-";
                 }else if (KeyCode.S.compareTo(e.getCode()) == 0) {
-                    userCommand = "G0 Y-";
+                    userCommand = "G91 G21 G0 Y-";
                 }else if (KeyCode.D.compareTo(e.getCode()) == 0) {
-                    userCommand = "G0 X";
+                    userCommand = "G91 G21 G0 X";
                 }else if (KeyCode.P.compareTo(e.getCode()) == 0) {
-                    userCommand = "G0 Z";
+                    userCommand = "G91 G21 G0 Z";
                 }else if (KeyCode.L.compareTo(e.getCode()) == 0) {
-                    userCommand = "G0 Z-";
+                    userCommand = "G91 G21 G0 Z-";
                 }else if(KeyCode.SPACE.compareTo(e.getCode()) == 0) {
                     stepping = false;
                     userCommand = "G10 P0 L20 X0 Y0 Z0";

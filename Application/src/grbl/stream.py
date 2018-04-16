@@ -88,10 +88,10 @@ class Streamer(object):
             response = ''
 
             #If command is to show all configurations then print all 45 of them
-            if(l == "$$"):
-                for i in range(0,45):
-                    print(self.s.readline().decode()
-            else: while(len(response) < 6):
+            #if(l == "$$"):
+            #    for i in range(0,45):
+            #        print(self.s.readline().decode()
+            while(len(response) < 6):
                 response = self.s.readline().decode()
                 print(response)
 

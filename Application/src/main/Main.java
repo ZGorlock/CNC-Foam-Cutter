@@ -56,7 +56,8 @@ public class Main
     //      if this doesnt work see if the syntax is wrong (APIgrbl line 224)
     //      if it just doesnt work then i can write up our own code to reset it
     
-    
+    // g28 DOESNT DO ANYTHING
+    // Z should move by 1
     //ZACK
     
     //TODO make user help window

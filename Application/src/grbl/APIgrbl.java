@@ -266,14 +266,16 @@ public class APIgrbl extends Thread
             while (i < commands.size()) {
 
                 // Wait for machine to finish
-                while (getStatus().equals("Run")) {
-                    try {
-                        Thread.sleep(200);
-                    } catch (InterruptedException ignore) {
+                if(MachineDetector.isCncMachine())
+                {
+                    while (getStatus().equals("Run")) {
+                        try {
+                            Thread.sleep(200);
+                        } catch (InterruptedException ignore) {
+                        }
+                        queryStatus();
                     }
-                    queryStatus();
                 }
-
                 // read every 127 characters and create a file with them for stream.py to use
                 BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile));
                 StringBuilder sb = new StringBuilder();
