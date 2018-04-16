@@ -395,47 +395,50 @@ public class GcodeController
         GreetingController.controller.slicingDone = true;
         return true;
     }
-
-    public void keyboardEnabled(MouseEvent mouseEvent) {
+    
+    /**
+     * Enables keyboard shortcuts for moving the machine.
+     *
+     * @param actionEvent The action event that triggered the handler.
+     */
+    public void keyboardEnabled(MouseEvent actionEvent)
+    {
         Scene thisScene = sendButton.getScene();
         keyEnabled = !keyEnabled;
-        if(keyEnabled)
-        {
-            thisScene.setOnKeyPressed(e-> {
+        if (keyEnabled) {
+            thisScene.setOnKeyPressed(e -> {
                 String step = textFieldStepSize.getText();
-
-                try{
+                
+                try {
                     Double amount = Double.parseDouble(step);
-                }catch (NumberFormatException nfe){
+                } catch (NumberFormatException nfe) {
                     return;
                 }
                 boolean stepping = true;
                 String userCommand = "";
                 if (KeyCode.W.compareTo(e.getCode()) == 0) {
                     userCommand = "G91 G21 G0 Y";
-                }else if (KeyCode.A.compareTo(e.getCode()) == 0) {
+                } else if (KeyCode.A.compareTo(e.getCode()) == 0) {
                     userCommand = "G91 G21 G0 X-";
-                }else if (KeyCode.S.compareTo(e.getCode()) == 0) {
+                } else if (KeyCode.S.compareTo(e.getCode()) == 0) {
                     userCommand = "G91 G21 G0 Y-";
-                }else if (KeyCode.D.compareTo(e.getCode()) == 0) {
+                } else if (KeyCode.D.compareTo(e.getCode()) == 0) {
                     userCommand = "G91 G21 G0 X";
-                }else if (KeyCode.P.compareTo(e.getCode()) == 0) {
+                } else if (KeyCode.P.compareTo(e.getCode()) == 0) {
                     userCommand = "G91 G21 G0 Z";
-                }else if (KeyCode.L.compareTo(e.getCode()) == 0) {
+                } else if (KeyCode.L.compareTo(e.getCode()) == 0) {
                     userCommand = "G91 G21 G0 Z-";
-                }else if(KeyCode.SPACE.compareTo(e.getCode()) == 0) {
+                } else if (KeyCode.SPACE.compareTo(e.getCode()) == 0) {
                     stepping = false;
                     userCommand = "G10 P0 L20 X0 Y0 Z0";
-                }else if(KeyCode.R.compareTo(e.getCode()) == 0) {
+                } else if (KeyCode.R.compareTo(e.getCode()) == 0) {
                     stepping = false;
                     userCommand = "$X";
                 }
-
-
-                if(!userCommand.isEmpty())
-                {
-                    if(stepping)
-                    {
+                
+                
+                if (!userCommand.isEmpty()) {
+                    if (stepping) {
                         userCommand += step;
                     }
                     APIgrbl.grbl.sendRequest(userCommand);
