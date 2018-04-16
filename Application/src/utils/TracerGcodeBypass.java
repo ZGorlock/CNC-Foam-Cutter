@@ -71,7 +71,7 @@ public class TracerGcodeBypass
         
         
         if (tokens.size() > 0) {
-            if (tokens.get(0).equals("G1")) {
+            if (tokens.get(0).equals("G1") || tokens.get(0).equals("G0")) {
                 double x = saveX;
                 double y = saveY;
                 double z = saveZ;

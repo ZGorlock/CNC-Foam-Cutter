@@ -77,7 +77,7 @@ public class GcodeProgressCalculator
         }
         
         if (tokens.size() > 0) {
-            if (tokens.get(0).equals("G1")) {
+            if (tokens.get(0).equals("G1") || tokens.get(0).equals("G0")) {
                 double x = 0;
                 double y = 0;
                 double z = 0;

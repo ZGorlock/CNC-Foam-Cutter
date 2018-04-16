@@ -411,7 +411,7 @@ public class APIgrbl extends Thread
                     absolute = true;
                 }
                 
-                if (tokens.get(0).equals("G1")) {
+                if (tokens.get(0).equals("G1") || tokens.get(0).equals("G0")) {
     
                     double x = -1;
                     double y = -1;
@@ -441,7 +441,7 @@ public class APIgrbl extends Thread
                             zMax = z;
                         }
                         
-                        StringBuilder newCommand = new StringBuilder("G1 ");
+                        StringBuilder newCommand = new StringBuilder(tokens.get(0)).append(" ");
                         if (x > -1) {
                             newCommand.append(String.format("X%.3f ", x));
                         }

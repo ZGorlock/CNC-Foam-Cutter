@@ -257,7 +257,7 @@ public class GcodeModifier
         
             if (tokens.size() > 0) {
                 
-                if (tokens.get(0).equals("G1")) {
+                if (tokens.get(0).equals("G1") || tokens.get(0).equals("G0")) {
                 
                     double x = -1;
                     double y = -1;
@@ -277,7 +277,7 @@ public class GcodeModifier
                             }
                         }
                     
-                        StringBuilder newCommand = new StringBuilder("G1 ");
+                        StringBuilder newCommand = new StringBuilder(tokens.get(0)).append(" ");
                         if (x > -1) {
                             newCommand.append(String.format("X%.3f ", x));
                         }
