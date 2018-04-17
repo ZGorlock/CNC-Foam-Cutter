@@ -209,6 +209,9 @@ public class APIgrbl extends Thread
             return adjustGcode();
             
         } else {
+            commands.add("G21"); //set units to millimeters
+            commands.add("G91"); //use relative positioning
+            
             for (String profile : profiles) {
                 // Modifies to gbrl acceptable gcode
                 GcodeModifier m = new GcodeModifier(profile);
@@ -220,7 +223,7 @@ public class APIgrbl extends Thread
                 if (!profileImages.containsValue(RotationController.controller.gcodeTraceMap.get(profile))) {
                     profileImages.put(commands.size(), RotationController.controller.gcodeTraceMap.get(profile));
                 }
-    
+                
                 commands.add("G0 Y" + String.valueOf(ModelController.maxYTravelHotwire - (Renderer.foamHeight * Renderer.MILLIMETERS_IN_INCH)));
                 commands.addAll(m.getCommands());
                 commands.add("G28 X Y"); //TODO this need to be checked

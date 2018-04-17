@@ -14,6 +14,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import utils.MachineDetector;
 
 import java.net.URL;
 
@@ -28,7 +29,7 @@ public class HelpBrowser extends Region
     public HelpBrowser()
     {
         getStyleClass().add("browser");
-        URL url = this.getClass().getResource("help.html");
+        URL url = this.getClass().getResource(MachineDetector.isHotWireMachine() ? "help_hotwire.html" : "help_cnc.html");
         webEngine.load(url.toString());
         getChildren().add(browser);
     }

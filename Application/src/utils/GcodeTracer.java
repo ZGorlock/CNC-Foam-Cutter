@@ -174,8 +174,7 @@ public class GcodeTracer
         g2.drawLine((IMAGE_SIZE_X / 2 - 1) / scaleFactor, IMAGE_BORDER / scaleFactor, (IMAGE_SIZE_X / 2 - 1) / scaleFactor, (IMAGE_SIZE_Y - IMAGE_BORDER) / scaleFactor);
         g2.drawLine((IMAGE_SIZE_X / 2) / scaleFactor,     IMAGE_BORDER / scaleFactor, (IMAGE_SIZE_X / 2) / scaleFactor, (IMAGE_SIZE_Y - IMAGE_BORDER) / scaleFactor);
         g2.drawLine((IMAGE_SIZE_X / 2 + 1) / scaleFactor, IMAGE_BORDER / scaleFactor, (IMAGE_SIZE_X / 2 + 1) / scaleFactor, (IMAGE_SIZE_Y - IMAGE_BORDER) / scaleFactor);
-        
-        
+    
         //draw grid
         g2.setColor(new Color(220, 220, 220));
         for (int i = 1; i <= ((IMAGE_SIZE_X - 2 * IMAGE_BORDER) / 2) / 25.4; i++) {
@@ -185,6 +184,13 @@ public class GcodeTracer
         for (int i = 1; i <= (IMAGE_SIZE_Y - 2 * IMAGE_BORDER) / 25.4; i++) {
             g2.drawLine(IMAGE_BORDER / scaleFactor, (IMAGE_BORDER + (int) (25.4 * i)) / scaleFactor, (IMAGE_SIZE_X - IMAGE_BORDER) / scaleFactor, (IMAGE_BORDER + (int) (25.4 * i)) / scaleFactor);
         }
+        
+        //draw foam box
+        g2.setColor(Color.BLACK);
+        g2.drawLine((int) ((IMAGE_SIZE_X / 2) - (Renderer.foamLength * Renderer.MILLIMETERS_IN_INCH / 2)) / scaleFactor, (int) (IMAGE_SIZE_Y - IMAGE_BORDER) / scaleFactor, (int) ((IMAGE_SIZE_X / 2) - (Renderer.foamLength * Renderer.MILLIMETERS_IN_INCH / 2)) / scaleFactor, (int) (IMAGE_SIZE_Y - IMAGE_BORDER - (Renderer.foamHeight * Renderer.MILLIMETERS_IN_INCH)) / scaleFactor);
+        g2.drawLine((int) ((IMAGE_SIZE_X / 2) + (Renderer.foamLength * Renderer.MILLIMETERS_IN_INCH / 2)) / scaleFactor, (int) (IMAGE_SIZE_Y - IMAGE_BORDER) / scaleFactor, (int) ((IMAGE_SIZE_X / 2) + (Renderer.foamLength * Renderer.MILLIMETERS_IN_INCH / 2)) / scaleFactor, (int) (IMAGE_SIZE_Y - IMAGE_BORDER - (Renderer.foamHeight * Renderer.MILLIMETERS_IN_INCH)) / scaleFactor);
+        g2.drawLine((int) ((IMAGE_SIZE_X / 2) - (Renderer.foamLength * Renderer.MILLIMETERS_IN_INCH / 2)) / scaleFactor, (int) (IMAGE_SIZE_Y - IMAGE_BORDER) / scaleFactor, (int) ((IMAGE_SIZE_X / 2) + (Renderer.foamLength * Renderer.MILLIMETERS_IN_INCH / 2)) / scaleFactor, (int) (IMAGE_SIZE_Y - IMAGE_BORDER) / scaleFactor);
+        g2.drawLine((int) ((IMAGE_SIZE_X / 2) - (Renderer.foamLength * Renderer.MILLIMETERS_IN_INCH / 2)) / scaleFactor, (int) (IMAGE_SIZE_Y - IMAGE_BORDER - (Renderer.foamHeight * Renderer.MILLIMETERS_IN_INCH)) / scaleFactor, (int) ((IMAGE_SIZE_X / 2) + (Renderer.foamLength * Renderer.MILLIMETERS_IN_INCH / 2)) / scaleFactor, (int) (IMAGE_SIZE_Y - IMAGE_BORDER - (Renderer.foamHeight * Renderer.MILLIMETERS_IN_INCH)) / scaleFactor);
     }
     
     /**

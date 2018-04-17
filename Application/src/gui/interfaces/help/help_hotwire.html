@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+<head>
+    <style>
+        body {
+            background-color: #fff3aa;
+        }
+    </style>
+</head>
+
+<body>
+    <h1><center> - User Help - </center></h1>
+
+    <h2>Table of Contents:</h2>
+    <ul>
+        <li><h3><a href="#c1">Router System</a></h3></li>
+        <li><h3><a href="#c2">Hotwire System</a></h3></li>
+        <li><h3><a href="#c3">Software we use</a></h3></li>
+    </ul>
+
+    <br/>
+    <hr/>
+    <br/>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+    <h2 id="c1">Router System</h2>
+    <h3>Safety information</h3>
+    <p>In case of emergency please press the emergency stop button FIRST, before proceeding to stop the streaming process.
+    The emergency stop button kills all power to the machine (this includes the router), the control board is powered through
+        the computer so it is also important to pause/stop the streaming process.</p>
+
+    <h3>Calibrating</h3>
+    <p>To move the machine you can send G-code commands or move it using your keyboard.
+        To move it using your keyboard you must first enable the keyboard movement option, which allows you to move:</p>
+    <li>W for +Y</li>
+    <li>A for -X</li>
+    <li>S for -Y</li>
+    <li>D for +X</li>
+    <li>P for +Z</li>
+    <li>L for -Z</li>
+    <li>R for RESET = $X</li>
+    <li>SPACEBAR for Reset Zero Location</li>
+    <p>Additionally, you can prompt our machine for its configurations by sending a $$ command, or viewing our config file.
+        Please do not touch the config file unless you know what you are doing.</p>
+
+    <h3>Foam Positioning for CNC</h3>
+    <p>In case of cutting from an STL file, please make sure the foam fits inside the machine. The foam should be larger than your model to cut.
+    Place the machine in the center of every axis. This helps the machine not go outside of bounds, however it is imperative to be present during
+    cutting in case of emergencies.</p>
+    <p>In case of cutting from a gcode file, you must position it according to your model's needs. It is imperative to be present during cutting
+    in case of emergencies, and it is recommended to conduct small tests to get familiar with the system.</p>
+
+    <h3>Start cutting</h3>
+    <p>To start cutting make power is running through the machine and you've zero'd it out to your desired position by pressing SPACEBAR to zero out.
+    Now you can flip the switch on the router and the endmill will start spinning, by no means should you ever touch the endmill. For some cuts, you might
+    need to start the router and then move it into the foam in a -Z direction, then zero it out, then start the cut. This is completely acceptable, and
+    recommended for STL file cuts. To convert STL files to G-code we are using an open source software called Slicer TM, we'd like to remind you
+    no software is perfect, and if you'd like to get an extremely professional cut you should provide your own G-code.</p>
+    <h3>STL files</h3>
+    <p>Please refer to our User Guide on a visual help of how STL files should be model. Models should be in millimeters as units.</p>
+    <br/>
+    <hr/>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+    <h2 id="c2">Hotwire System</h2>
+    <h3>Safety information</h3>
+    <p>In case of emergency please kill all power to the machine FIRST, before proceeding to stop the streaming process.
+        Killing all power to the machine ensures the wire will commence cooling down, the control board is powered through
+        the computer so it is also important to pause/stop the streaming process.</p>
+    <p>Please never cut indoors as melting foam is toxic.</p>
+    <p>Please never ever for any reason at all touch the HOT wire, as it is above 500 degrees Fahrenheit, adjustable temperature through
+    the dimmer. Please allow several minutes before touching the hotwire. Only touch it after it has cooled down for several minutes, if absolutely necessary
+    and with a piece of foam preferably to ensure it is actually cool.</p>
+
+    <h3>Calibrating</h3>
+    <p>To move the machine you can send G-code commands or move it using your keyboard.
+        To move it using your keyboard you must first enable the keyboard movement option, which allows you to move:</p>
+    <li>W for +Y</li>
+    <li>A for -X</li>
+    <li>S for -Y</li>
+    <li>D for +X</li>
+    <li>P for +Z</li>
+    <li>L for -Z</li>
+    <li>R for RESET = $X</li>
+    <li>SPACEBAR for Reset Zero Location</li>
+    <p>Additionally, you can prompt our machine for its configurations by sending a $$ command, or viewing our config file.
+    Please do not touch the config file unless you know what you are doing.</p>
+
+    h3>Foam Positioning for Hotwire</h3>
+    <p>Please position the wire in the center top position to get ready for a cut. Please ensure to leave a small amount of foam at the bottom of your model
+        to use as a handle. Do not attempt undercuts. Please position your foam in the center of the rotating bed.</p>
+
+    <h3>Start cutting</h3>
+    <p>To start cutting make power is running through the machine and you've zero'd it out to your desired position by pressing SPACEBAR to zero out. It is
+        recommende to set the wire in the top middle of the machine. It is highly recommended to run small tests to get acquainted with the system.</p>
+    <br/>
+
+    <hr/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <h2 id="c3">Software we use</h2>
+    <h3>How Slicer Works</h3>
+    <p>Slicer is a 3D printing software that converts STL file into G-code. To use 3D printing for CNC milling, we cut the shape into the foam. This is
+        why this software best performs "undercuts". If you're going to be using Slicer for your milling needs, it's best to run tests to get familiar with it,
+        if you feel like we've explained everything in exuberant detail, please run some tests.</p>
+    <br/>
+    <h3>How Grbl Works</h3>
+    <p>Grbl is a G-code compiler written in C designed for Arduino UNO/Duemillanova. This compiler interprets G-code commands sent through our interface in file
+    form through command line. We'd like to remind you that no software is perfect, Grbl only works for a subset of G-code compilable instructions and we've
+    made sure any command that goes through is modified/deleted if it does not comply. If a certain parameter of an instruction won't comply but the overall command
+    works then we will only modify that parameter.</p>
+    <br/>
+</body>
+
+</html>

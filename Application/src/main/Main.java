@@ -31,10 +31,6 @@ public class Main
 {
     //NICK
     
-    //TODO what python modules do we need to install during setup?
-    //  let me know and i will set up the program to install them automatically
-    //  pyserial, serial <-have to test with actual arduino.
-    
     //TODO make $$ print out every grbl config not just the first one <-Will test tomorrow with machine
     
     //TODO update Design Document
@@ -56,8 +52,7 @@ public class Main
     //      if this doesnt work see if the syntax is wrong (APIgrbl line 224)
     //      if it just doesnt work then i can write up our own code to reset it
     
-    // g28 DOESNT DO ANYTHING
-    // Z should move by 1
+    
     //ZACK
     
     //TODO make user help window
@@ -77,7 +72,8 @@ public class Main
     
     
     //TODO document
-    //  hotwire should be in relative coordinates
+    //  hotwire gcode should be in relative coordinates
+    //      should only cut on the positive side for each profile
     //  cnc should be in absolute coordinates
     
     
@@ -276,7 +272,8 @@ public class Main
                 }
             }
         }
-//        TODO "pip install pyserial"
+        CmdLine.executeCmd("pip install pyserial"); //TODO make sure these work on a new computer and then that the arduino works
+        CmdLine.executeCmd("pip install serial");
     
         ConfigurationManager.loadSettings();
         
