@@ -51,6 +51,13 @@
 
 
     <BorderPane prefHeight="100.0" prefWidth="600.0">
+        <left>
+            <VBox alignment="CENTER">
+                <ImageView id="helpViewOffset" preserveRatio="true" style="-fx-background-color: #F2C313;">
+                    <Image url="@../../images/help_offset.jpg"/>
+                </ImageView>
+            </VBox>
+        </left>
         <center>
             <HBox styleClass="h1" alignment="CENTER">
                 <Button fx:id="uploadButton" onAction="#upload" styleClass="buttonGold" text="Upload"/>

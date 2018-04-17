@@ -4,14 +4,19 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <VBox prefHeight="720.0" prefWidth="1080.0" stylesheets="/gui/style.css" xmlns="http://javafx.com/javafx/8.0.121"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.interfaces.main.MenuController">
     <TabPane fx:id="TPane" styleClass="tabPane"/>
 
     <BorderPane prefHeight="100.0" prefWidth="600.0">
+        <left>
+            <VBox alignment="CENTER">
+                <ImageView id="helpViewOffset" preserveRatio="true" style="-fx-background-color: #F2C313;">
+                    <Image url="@../../images/help_offset.jpg"/>
+                </ImageView>
+            </VBox>
+        </left>
         <center>
             <HBox fx:id="hBox" alignment="CENTER" styleClass="h1" spacing="80">
                 <Button fx:id="stopButton" text="PRINT" styleClass="buttonGold" onAction="#print" />

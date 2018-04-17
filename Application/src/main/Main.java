@@ -32,10 +32,6 @@ public class Main
     
     //NICK
 
-    // make $$ print out every grbl config not just the first one <-Will test tomorrow with machine -> This feature is not essential and i think should
-    //  stripped, the user can google configurations and we should set them previously. Aren't we making a config file to be pushed?
-
-    
     //TODO update Design Document
     //  add sketches of acceptable and unacceptable models to the User Guide section <-- Still gotta test this out
     //
@@ -57,14 +53,6 @@ public class Main
     
     //ZACK
 
-    // i've made the program force absolute coordinates only if it's an stl file, gives the user freedom when providing gcode.
-    //  apigrbl line 208
-
-    // I added info on the help, I can't run the program because of the bug, but I updated the cnc section on help_cnc and the hotwire section
-    //  on help_hotwire, I imagine we're gonna only keep those sections respectively.
-
-    
-    //TODO fix button centering
     //TODO new videos/screenshots
     //  redo profiles for new video
     // Check comments on document, things like the Gcode tab will need new screenshots, should the user help be screenshotted to?
@@ -75,8 +63,7 @@ public class Main
     //  WASD controls x,y P = +z L = -z R = Reset SPACEBAR = reset zero
     //  Once that's set, raise it up and put the foam in flushed with the axis.
     //  Include information on how to use the program, each tab
-
-
+    
     //TODO update Design Document
     //  redo figure pages in table (after removing table of contents)
     //  redo table of contents after everything else is done

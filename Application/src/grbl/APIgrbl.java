@@ -6,7 +6,6 @@
 
 package grbl;
 
-import gui.interfaces.greeting.GreetingController;
 import gui.interfaces.main.*;
 import gui.interfaces.popup.SystemNotificationController;
 import javafx.application.Platform;
@@ -205,10 +204,6 @@ public class APIgrbl extends Thread
             commands = m.getCommands();
             totalProgress = commands.size();
             currentProgress = 0;
-            if(GreetingController.controller.getGcode().isEmpty())
-            {
-                commands.add("G90"); // use absolute coordinates if it is stl file
-            }
 
             return adjustGcode();
             
@@ -229,7 +224,9 @@ public class APIgrbl extends Thread
                 }
                 
                 commands.addAll(m.getCommands());
-                commands.add("G0 Z" + String.format("%d", RotationController.rotationStep));
+                if (profiles.size() > 1) {
+                    commands.add("G0 Z" + String.format("%d", RotationController.rotationStep));
+                }
             }
             totalProgress = commands.size();
             currentProgress = 0;
@@ -290,7 +287,6 @@ public class APIgrbl extends Thread
         
                 // create string to be printed
                 String gcode = commands.get(i++) + '\n';
-                System.out.println(gcode);
                 bw.write(gcode);
                 bw.close();
                 
@@ -404,11 +400,11 @@ public class APIgrbl extends Thread
                 }
 
                 if (tokens.get(0).equals("G1") || tokens.get(0).equals("G0")) {
-
-                    double x = -1;
-                    double y = -1;
-                    double z = -1;
-                    double f = -1;
+    
+                    double x = Double.MIN_VALUE;
+                    double y = Double.MIN_VALUE;
+                    double z = Double.MIN_VALUE;
+                    double f = Double.MIN_VALUE;
 
                     try {
                         for (String token : tokens) {
@@ -432,18 +428,18 @@ public class APIgrbl extends Thread
                         if (z > zMax) {
                             zMax = z;
                         }
-
+    
                         StringBuilder newCommand = new StringBuilder(tokens.get(0)).append(" ");
-                        if (x > -1) {
+                        if (x != Double.MIN_VALUE) {
                             newCommand.append(String.format("X%.3f ", x));
                         }
-                        if (y > -1) {
+                        if (y != Double.MIN_VALUE) {
                             newCommand.append(String.format("Y%.3f ", y));
                         }
-                        if (z > -1) {
+                        if (z != Double.MIN_VALUE) {
                             newCommand.append(String.format("Z%.3f ", z));
                         }
-                        if (f > -1) {
+                        if (f != Double.MIN_VALUE) {
                             newCommand.append(String.format("F%.3f ", f));
                         }
                         commands.set(i, newCommand.toString());

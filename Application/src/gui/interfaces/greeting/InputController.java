@@ -112,7 +112,7 @@ public class InputController
             } else if (MachineDetector.isHotWireMachine()) {
                 width.setText("36");
                 length.setText("36");
-                height.setText("24");
+                height.setText("36");
             }
         }
 
@@ -138,7 +138,7 @@ public class InputController
         } else if (MachineDetector.isHotWireMachine()) {
             width.setText("36");
             length.setText("36");
-            height.setText("48");
+            height.setText("36");
         }
     }
     
