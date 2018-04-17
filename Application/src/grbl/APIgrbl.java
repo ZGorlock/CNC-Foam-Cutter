@@ -224,7 +224,7 @@ public class APIgrbl extends Thread
                 }
                 
                 commands.addAll(m.getCommands());
-                commands.add("G0 Z" + String.format("%.3f", (RotationController.controller.rotationStep / RotationController.minimumRotationDegree)));
+                commands.add("G0 Z" + String.format("%d", RotationController.rotationStep));
             }
             totalProgress = commands.size();
             currentProgress = 0;

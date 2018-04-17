@@ -12,6 +12,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
@@ -30,10 +31,7 @@ import utils.GcodeTracer;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * The controller for the Rotation tab.
@@ -72,14 +70,14 @@ public class RotationController
     public Button queueButton;
     
     /**
-     * The input field for setting degrees of rotation per step during printing.
+     * The selector box for setting rotation per step during printing.
      */
-    public TextField textFieldRotationStep;
-
+    public ComboBox stepSelection;
+    
     /**
-     * The button for setting degrees of rotation for the selected gcode profile.
+     * The list of selectable rotations per step.
      */
-    public Button rotationStepButton;
+    public FXCollections stepOptions;
 
     /**
      * The window for the scrolling list of gcode profiles.
@@ -109,6 +107,16 @@ public class RotationController
      */
     public static double millimetersPerStep;
     
+    /**
+     * The rotation step to use during printing.
+     */
+    public static int rotationStep;
+    
+    /**
+     * The maximum number of rotation steps.
+     */
+    public static int maxSteps;
+    
     
     //Fields
     
@@ -128,14 +136,9 @@ public class RotationController
     public Map<String, Image> gcodeTraceMap;
     
     /**
-     * The map between the Image in the UI and the rotation degrees for that profile.
+     * The map between the Image in the UI and the number of steps for that profile.
      */
-    public Map<Image, Double> rotationProfileMap;
-    
-    /**
-     * The rotation step to use during printing.
-     */
-    public double rotationStep;
+    public Map<Image, Integer> rotationProfileMap;
     
     /**
      * The index of the gcode profile current selected.
@@ -168,14 +171,19 @@ public class RotationController
     private String recieverFile;
 
     /**
-     * The temporary field for the degrees of the image that is going to be sent when swapping images
+     * The temporary field for the steps of the image that is going to be sent when swapping images
      */
-    private double giverDegrees;
+    private int giverSteps;
 
     /**
-     * The temporary field for the degrees of the image that is going to be received when swapping images
+     * The temporary field for the steps of the image that is going to be received when swapping images
      */
-    private double recieverDegrees;
+    private int recieverSteps;
+    
+    /**
+     * The map of valid step rotation degrees.
+     */
+    private Map<String, Integer> validStepDegrees;
     
     
     //Constructors
@@ -227,17 +235,36 @@ public class RotationController
                 queueRotation();
             }
         });
-    
-        textFieldRotationStep.setPromptText("Enter step...");
-        textFieldRotationStep.setOnKeyPressed(event -> {
-            if (KeyCode.ENTER.compareTo(event.getCode()) == 0) {
-                setRotationStep();
-            }
-        });
-        rotationStep = minimumRotationDegree;
-        textFieldRotationStep.setText(String.valueOf(rotationStep));
+        
+        calculateValidStepDegrees();
+        for (String key : validStepDegrees.keySet()) {
+            stepSelection.getItems().add(key);
+        }
+        stepSelection.getItems().sort(Comparator.reverseOrder());
+        stepSelection.getSelectionModel().select("1/" + maxSteps);
+        stepSelection.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> rotationStep = validStepDegrees.get(stepSelection.getSelectionModel().getSelectedItem().toString()));
+        
+        rotationStep = validStepDegrees.get("1/" + maxSteps);
         
         renderImages();
+    }
+    
+    /**
+     * Calculates the valid step rotations for the machine.
+     */
+    private void calculateValidStepDegrees()
+    {
+        validStepDegrees = new HashMap<>();
+    
+        maxSteps = (int) (360.0 / minimumRotationDegree);
+        validStepDegrees.put("None", maxSteps);
+        validStepDegrees.put("1/" + maxSteps, 1);
+        
+        for (int i = 2; i < maxSteps; i++) {
+            if (maxSteps % i == 0) {
+                validStepDegrees.put("1/" + maxSteps / i, i);
+            }
+        }
     }
     
     /**
@@ -274,9 +301,8 @@ public class RotationController
             return;
         }
         
-        int steps = (int) (360.0 / minimumRotationDegree);
-        double d = steps / gcodeTraces.size();
-        double degreeGap = steps - (d * gcodeTraces.size());
+        int d = maxSteps / gcodeTraces.size();
+        int degreeGap = maxSteps - (d * gcodeTraces.size());
         
         ImageView firstPic = null;
         
@@ -293,10 +319,10 @@ public class RotationController
 
             // Initialize all evenly spaced degrees
             if (degreeGap > 0) {
-                rotationProfileMap.put(image, (d + 1) * minimumRotationDegree);
+                rotationProfileMap.put(image, d + 1);
                 degreeGap--;
             } else {
-                rotationProfileMap.put(image, d * minimumRotationDegree);
+                rotationProfileMap.put(image, d);
             }
 
             pic.setPreserveRatio(true);
@@ -321,7 +347,7 @@ public class RotationController
                     content.putImage(pic.getImage());
                     db.setContent(content);
                     giverFile = gcodeTraceFileMap.get(pic.getImage());
-                    giverDegrees = rotationProfileMap.get(pic.getImage());
+                    giverSteps = rotationProfileMap.get(pic.getImage());
                     event.consume();
                 }
             });
@@ -340,7 +366,7 @@ public class RotationController
                     recieverImage = pic.getImage();
     
                     recieverFile = gcodeTraceFileMap.get(recieverImage);
-                    recieverDegrees = rotationProfileMap.get(recieverImage);
+                    recieverSteps = rotationProfileMap.get(recieverImage);
     
                     gcodeTraceFileMap.remove(pic.getImage());
                     rotationProfileMap.remove(pic.getImage());
@@ -349,7 +375,7 @@ public class RotationController
     
                     gcodeTraceFileMap.put(pic.getImage(), giverFile);
                     gcodeTraceMap.put(giverFile, pic.getImage());
-                    rotationProfileMap.put(pic.getImage(), giverDegrees);
+                    rotationProfileMap.put(pic.getImage(), giverSteps);
     
                     HBox temp = (HBox) sp.getContent();
                     int newIndex = Integer.parseInt(pic.getId());
@@ -357,7 +383,7 @@ public class RotationController
                     VBox vbox = (VBox) temp.getChildren().get(newIndex);
                     Text text = (Text) vbox.getChildren().get(1);
     
-                    text.setText(formatDegree(giverDegrees));
+                    text.setText(String.valueOf(giverSteps));
                 }
             });
 
@@ -370,7 +396,7 @@ public class RotationController
     
                     gcodeTraceFileMap.put(pic.getImage(), recieverFile);
                     gcodeTraceMap.put(recieverFile, pic.getImage());
-                    rotationProfileMap.put(pic.getImage(), recieverDegrees);
+                    rotationProfileMap.put(pic.getImage(), recieverSteps);
     
                     HBox temp = (HBox) sp.getContent();
                     int newIndex = Integer.parseInt(pic.getId());
@@ -378,7 +404,7 @@ public class RotationController
                     VBox vbox = (VBox) temp.getChildren().get(newIndex);
                     Text text = (Text) vbox.getChildren().get(1);
     
-                    text.setText(formatDegree(recieverDegrees));
+                    text.setText(String.valueOf(recieverSteps));
                 }
             });
 
@@ -386,7 +412,7 @@ public class RotationController
             vbox.getChildren().add(pic);
             
             // Setting the new degree
-            Text text = new Text(formatDegree(rotationProfileMap.get(image)));
+            Text text = new Text(String.valueOf(rotationProfileMap.get(image)));
             
             // Add to the parent
             vbox.getChildren().add(text);
@@ -412,14 +438,14 @@ public class RotationController
         String input = textFieldDegrees.getText();
         
         // Handle invalid input
-        if (!isValidAngle(input)) {
+        if (!isValidStepCount(input)) {
             return;
         }
     
         HBox temp = (HBox) sp.getContent();
         VBox box = (VBox) temp.getChildren().get(index);
         
-        Double d = Double.parseDouble(input);
+        Integer d = Integer.parseInt(input);
         rotationProfileMap.replace(((ImageView) box.getChildren().get(0)).getImage(), d);
         
         // Set new selected value
@@ -429,7 +455,7 @@ public class RotationController
         VBox vbox = (VBox) temp.getChildren().get(index);
         Text text = (Text) vbox.getChildren().get(1);
         
-        text.setText(formatDegree(d));
+        text.setText(String.valueOf(d));
     }
     
     /**
@@ -499,17 +525,6 @@ public class RotationController
     }
     
     /**
-     * Sets the rotation step degree from the input field.
-     */
-    public void setRotationStep()
-    {
-        String rotationStepDegree = textFieldRotationStep.getText();
-        if (isValidStepAngle(rotationStepDegree)) {
-            rotationStep = Double.parseDouble(rotationStepDegree);
-        }
-    }
-    
-    /**
      * Resets the controller.
      */
     public void reset()
@@ -521,17 +536,16 @@ public class RotationController
     //Static Methods
     
     /**
-     * Determines if an angle value is valid.
+     * Determines if a step count value is valid.
      *
-     * @param str The angle value.
-     * @return Whether the angle value is valid or not.
+     * @param str The step count.
+     * @return Whether the step count value is valid or not.
      */
-    public static boolean isValidAngle(String str)
+    public static boolean isValidStepCount(String str)
     {
         try {
             int d = Integer.parseInt(str);
-            if (d < 0 || d > 360) {
-                SystemNotificationController.throwNotification("The angle must be between 0 and 360 degrees!", false, false);
+            if (d < 0) {
                 return false;
             }
         } catch (NumberFormatException e) {
@@ -584,10 +598,8 @@ public class RotationController
     
     /**
      * Generates the rotation profile queue.
-     *
-     * @return Whether the queue was successfully generated or not.
      */
-    public static boolean generateQueue()
+    public static void generateQueue()
     {
         List<Image> profiles = new ArrayList<>();
         
@@ -598,35 +610,24 @@ public class RotationController
             profiles.add(image);
         }
         
-        return generateQueueHelper(profiles);
+        generateQueueHelper(profiles);
     }
     
     /**
      * Generates the rotation profile queue.
      *
      * @param profiles The list of profile images in the queue.
-     * @return Whether the queue was successfully generated or not.
      */
-    public static boolean generateQueueHelper(List<Image> profiles)
+    public static void generateQueueHelper(List<Image> profiles)
     {
         queue.clear();
-        
-        for (Image image : profiles) {
-            double degrees = controller.rotationProfileMap.get(image);
-            if ((degrees / controller.rotationStep) != (int) (degrees / controller.rotationStep)) {
-                return false;
-            }
-        }
     
         for (Image image : profiles) {
-            double degrees = controller.rotationProfileMap.get(image);
-            int cycles = (int) (degrees / controller.rotationStep);
+            int cycles = controller.rotationProfileMap.get(image);
             for (int j = 0; j < cycles; j++) {
                 queue.add(controller.gcodeTraceFileMap.get(image));
             }
         }
-        
-        return true;
     }
     
 }

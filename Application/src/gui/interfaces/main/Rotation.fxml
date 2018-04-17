@@ -12,18 +12,23 @@
             <HBox spacing="10" HBox.hgrow="ALWAYS">
                 <TextField fx:id="textFieldDegrees"/>
                 <Button fx:id="queueButton" onAction="#queueRotation" styleClass="buttonGold"
-                        text="Set Degrees" HBox.hgrow="ALWAYS"/>
+                        text="Set Step Count" HBox.hgrow="ALWAYS"/>
             </HBox>
         </TilePane>
 
         <Text/>
 
         <TilePane alignment="CENTER">
-            <Text>   </Text>
-            <HBox spacing="10" alignment="CENTER_RIGHT">
-                <TextField fx:id="textFieldRotationStep"/>
-                <Button fx:id="rotationStepButton" onAction="#setRotationStep" styleClass="buttonGold"
-                        text="Set Step Degree" HBox.hgrow="ALWAYS"/>
+            <Label alignment="CENTER_RIGHT"/>
+            <HBox spacing="10" HBox.hgrow="ALWAYS">
+                <Label alignment="CENTER_RIGHT"/>
+                <Label alignment="CENTER_RIGHT"/>
+                <Label alignment="CENTER_RIGHT"/>
+                <Label alignment="CENTER_RIGHT"/>
+                <Label alignment="CENTER_RIGHT"/>
+                <Label alignment="CENTER_RIGHT"/>
+                <Label text="Select Rotation Step:" styleClass="bold" alignment="CENTER_RIGHT"/>
+                <ComboBox fx:id="stepSelection" />
             </HBox>
         </TilePane>
     </VBox>

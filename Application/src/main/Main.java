@@ -29,7 +29,9 @@ import java.util.regex.Pattern;
  */
 public class Main
 {
+    
     //NICK
+    //I made the Rotation Tab way better, check it out
     
     //TODO make $$ print out every grbl config not just the first one <-Will test tomorrow with machine
     //TODO GcodeController line 131
@@ -43,6 +45,7 @@ public class Main
     //  cnc should be in absolute coordinates
     //
     //  how to zero/center/user wasd for both machines
+    //TODO add any new stuff to the user help
     
     //TODO edit that video, speed it up or whatever, i put it on the google drive in demo
     
@@ -60,8 +63,8 @@ public class Main
     
     //ZACK
     
-    //TODO rotation tab
     //TODO new videos/screenshots
+    //  redo profiles for new video
     // Check comments on document, things like the Gcode tab will need new screenshots, should the user help be screenshotted to?
     
     //TODO make user help window

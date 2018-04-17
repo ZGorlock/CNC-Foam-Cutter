@@ -141,37 +141,34 @@ public class MenuController
                 
             } else if (MachineDetector.isHotWireMachine()) {
                 double total = 0;
-                for (double degree : RotationController.controller.rotationProfileMap.values()) {
-                    total += degree;
+                for (int step : RotationController.controller.rotationProfileMap.values()) {
+                    total += step;
                 }
                 
-                if (total == 360.0) {
-                    if (RotationController.generateQueue()) {
-                        if (GcodeController.startGrblForHotwire()) {
-                            playPauseButton = new Button();
-                            playPauseButton.getStyleClass().add("buttonGold");
-                            playPauseButton.setOnMouseClicked(e -> playPauseButtonClicked(actionEvent));
-        
-                            playPauseButton.setText("Pause");
-                            hBox.getChildren().add(playPauseButton);
-        
-                            stopButton.setText("STOP");
-                            stopButton.setOnAction(this::stop);
-        
-                            RotationController.controller.textFieldDegrees.setDisable(true);
-                            RotationController.controller.queueButton.setDisable(true);
-                            RotationController.controller.textFieldRotationStep.setDisable(true);
-                            RotationController.controller.rotationStepButton.setDisable(true);
-        
-                            TPane.getSelectionModel().select(0);
-                        } else {
-                            SystemNotificationController.throwNotification("The process of communicating with the machine could not be started!", true, false);
-                        }
+                if (total * RotationController.rotationStep == RotationController.maxSteps) {
+                    RotationController.generateQueue();
+                    if (GcodeController.startGrblForHotwire()) {
+                        playPauseButton = new Button();
+                        playPauseButton.getStyleClass().add("buttonGold");
+                        playPauseButton.setOnMouseClicked(e -> playPauseButtonClicked(actionEvent));
+    
+                        playPauseButton.setText("Pause");
+                        hBox.getChildren().add(playPauseButton);
+    
+                        stopButton.setText("STOP");
+                        stopButton.setOnAction(this::stop);
+    
+                        RotationController.controller.textFieldDegrees.setDisable(true);
+                        RotationController.controller.queueButton.setDisable(true);
+                        RotationController.controller.textFieldDegrees.setDisable(true);
+                        RotationController.controller.stepSelection.setDisable(true);
+    
+                        TPane.getSelectionModel().select(0);
                     } else {
-                        SystemNotificationController.throwNotification("Your profile degrees are not all multiples of the step degree!", false, false);
+                        SystemNotificationController.throwNotification("The process of communicating with the machine could not be started!", true, false);
                     }
                 } else {
-                    SystemNotificationController.throwNotification("The sum of your profiles must add up to 360 degrees!", false, false);
+                    SystemNotificationController.throwNotification("The sum of your profiles' steps must equal " + (RotationController.maxSteps / RotationController.rotationStep) + "!", false, false);
                 }
             }
         }
