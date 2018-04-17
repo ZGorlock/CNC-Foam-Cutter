@@ -32,7 +32,6 @@ public class Main
     
     //NICK
     
-    //TODO invert the W and S commands for the Hotwire machine, but not for the CNC machine
     //TODO get the real Arduino id for hotwire
     
     //TODO fill in the user help window
@@ -66,6 +65,8 @@ public class Main
     //TODO fill in the user help window
     
     //TODO update Design Document
+    //  add new pictures to User Pages
+    //
     //  redo figure pages in table (after removing table of contents)
     //  redo table of contents after everything else is done
 
