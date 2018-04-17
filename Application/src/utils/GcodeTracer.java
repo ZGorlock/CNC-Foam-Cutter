@@ -149,6 +149,14 @@ public class GcodeTracer
         }
         
         n++;
+        File d1 = new File(Constants.GRBL_TEMP_DIRECTORY);
+        if (!d1.exists()) {
+            d1.mkdir();
+        }
+        File d2 = new File(d1, "images");
+        if (!d2.exists()) {
+            d2.mkdir();
+        }
         saveImage(trace, "JPG", new File(Constants.GRBL_TEMP_DIRECTORY + "images" + File.separator + n + ".jpg"));
         
         return trace;

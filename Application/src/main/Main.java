@@ -63,6 +63,8 @@ public class Main
     // I added info on the help, I can't run the program because of the bug, but I updated the cnc section on help_cnc and the hotwire section
     //  on help_hotwire, I imagine we're gonna only keep those sections respectively.
 
+    
+    //TODO fix button centering
     //TODO new videos/screenshots
     //  redo profiles for new video
     // Check comments on document, things like the Gcode tab will need new screenshots, should the user help be screenshotted to?
@@ -79,8 +81,7 @@ public class Main
     //  redo figure pages in table (after removing table of contents)
     //  redo table of contents after everything else is done
 
-    //I made the Rotation Tab way better, check it out
-    //TODO bug -> java.io.FileNotFoundException: resources\gcode\temp\images\1.jpg (The system cannot find the path specified)
+    
     
     
     
