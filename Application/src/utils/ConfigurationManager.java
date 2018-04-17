@@ -100,7 +100,6 @@ public class ConfigurationManager
         ModelController.maxYTravelHotwire = getConfigAsInt("MAX_X_TRAVEL_CNC", ModelController.DEFAULT_MAX_Y_TRAVEL_HOTWIRE);
         
         RotationController.minimumRotationDegree = getConfigAsDouble("MIN_ROTATION_DEGREE", RotationController.DEFAULT_MIN_ROTATION_DEGREE);
-//       TODO RotationController.millimetersPerStep = getConfigAsDouble("MILLIMETERS_PER_STEP", RotationController.DEFAULT_MILLIMETERS_PER_STEP);
     
         APIgrbl.timeRemainingHistoryCount = getConfigAsInt("TIME_REMAINING_HISTORY_COUNT", APIgrbl.DEFAULT_TIME_REMAINING_HISTORY_COUNT);
         

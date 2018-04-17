@@ -202,7 +202,6 @@ public class APIgrbl extends Thread
             }
     
             commands = m.getCommands();
-            //totalProgress = GcodeProgressCalculator.calculateFileProgressUnits(commands);
             totalProgress = commands.size();
             currentProgress = 0;
             
@@ -223,10 +222,8 @@ public class APIgrbl extends Thread
                 if (!profileImages.containsValue(RotationController.controller.gcodeTraceMap.get(profile))) {
                     profileImages.put(commands.size(), RotationController.controller.gcodeTraceMap.get(profile));
                 }
-    
-//                commands.add("G0 Y" + String.valueOf(ModelController.maxYTravelHotwire - (Renderer.foamHeight * Renderer.MILLIMETERS_IN_INCH)));
+                
                 commands.addAll(m.getCommands());
-                //commands.add("G28 X Y"); //TODO this need to be checked
                 commands.add("G0 Z" + String.format("%.3f", (RotationController.controller.rotationStep / RotationController.minimumRotationDegree)));
             }
             totalProgress = commands.size();
@@ -268,21 +265,7 @@ public class APIgrbl extends Thread
             int i = 0;
             startedStreaming = true;
             while (i < commands.size()) {
-
-                // Wait for machine to finish
-//                if(MachineDetector.isCncMachine())
-//                {
-//                    System.out.println(getStatus());
-//                    while (getStatus().equals("Run")) {
-//                        try {
-//                            Thread.sleep(200);
-//                        } catch (InterruptedException ignore) {
-//                        }
-//                        queryStatus();
-//                        System.out.println(getStatus());
-//                    }
-//                }
-                // read every 127 characters and create a file with them for stream.py to use
+                
                 BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile));
                 StringBuilder sb = new StringBuilder();
         
@@ -299,7 +282,6 @@ public class APIgrbl extends Thread
                 if (Main.development && Main.bypassArduinoForTracer && MachineDetector.isCncMachine()) {
                     TracerGcodeBypass.traceGcodeCommand(commands.get(i), true);
                 }
-//                packetProgressUnits += GcodeProgressCalculator.calculateInstructionProgressUnits(commands.get(i));
         
                 // create string to be printed
                 String gcode = commands.get(i++) + '\n';
@@ -343,17 +325,12 @@ public class APIgrbl extends Thread
                     //create new process and add to the response for UI
                     handleRequest();
                 }
-
-//                try{
-//                    Thread.sleep(10000);
-//                }catch (InterruptedException ignore){
-//
-//                }
+                
                 // execute stream.py with the file created, get input stream as a response
                 Process process = null;
                 while (process == null) {
                     process = CmdLine.executeCmdAsThread("python " + Constants.GRBL_DIRECTORY + "stream.py " + Constants.GRBL_TEMP_DIRECTORY + tempFile.getName() +"\n");
-                    if (process != null) {
+                    if (process != null && MachineDetector.isCncMachine()) {
                         BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
     
                         String line = "";
@@ -364,7 +341,7 @@ public class APIgrbl extends Thread
                                 if (Main.development && Main.developmentLogging) {
                                     System.out.println(line);
                                 }
-                                //updateCoordinates(line); todo
+                                updateCoordinates(line);
                             }
                         }
                     } else {
@@ -663,14 +640,12 @@ public class APIgrbl extends Thread
                     String line;
                     while (true) {
                         line = r.readLine();
-                        System.out.println(line.isEmpty() + "this is weird");
                         if (line == null || line.isEmpty()) {
                             break;
                         }
 
                         //  Parse line into coordinates
                         String[] decomposed = line.split("[,]");
-                        System.out.println(decomposed.length + "is length");
 
                         if (decomposed.length != 7) {
                             return;

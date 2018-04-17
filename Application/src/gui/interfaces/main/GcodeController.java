@@ -128,7 +128,7 @@ public class GcodeController
     public static int maxCodeHistory;
 
     /**
-     *  The maximum speed for the machines //TODO different speeds for different machines?
+     *  The maximum speed for the machines. //TODO different speeds for different machines?
      */
     public static double MAX_SPEED = 500.0;
     

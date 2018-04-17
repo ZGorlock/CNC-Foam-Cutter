@@ -148,8 +148,8 @@ public class GcodeTracer
             }
         }
         
-        n++; //TODO
-        saveImage(trace, "JPG", new File(n + ".jpg"));
+        n++;
+        saveImage(trace, "JPG", new File(Constants.GRBL_TEMP_DIRECTORY + "images" + File.separator + n + ".jpg"));
         
         return trace;
     }
@@ -210,13 +210,6 @@ public class GcodeTracer
         g2.drawLine(((int) traceX / scaleFactor) + 1, ((int) traceY / scaleFactor) + 1,  ((int) (traceX + x) / scaleFactor) + 1, ((int) (traceY + y) / scaleFactor) + 1);
         traceX += x;
         traceY += y;
-    
-//        if (Math.abs(traceX - initTraceX) > ModelController.maxYTravelHotwire / 2 || traceY - initTraceY > ModelController.maxYTravelHotwire  || traceY - initTraceY < 0) {
-//            String travelMessage = String.format("The maximum travel distance is: +/- %.1f x, 0->%.1f y\nBut your path takes you out of the bounds of the machine!\nPlease adjust your gcode!", ModelController.maxXTravelHotwire / 2.0, ModelController.maxYTravelHotwire / 1.0);
-//            System.err.println("The path takes the machine out if its bounds!");
-//            SystemNotificationController.throwNotification(travelMessage, true, false, 400);
-//            return false;
-//        }
         
         return true;
     }

@@ -32,9 +32,19 @@ public class Main
     //NICK
     
     //TODO make $$ print out every grbl config not just the first one <-Will test tomorrow with machine
+    //TODO GcodeController line 131
     
     //TODO update Design Document
     //  add sketches of acceptable and unacceptable models to the User Guide section <-- Still gotta test this out
+    //
+    //  hotwire gcode should be in relative coordinates in millimeters, one gcode per line
+    //      make sure maximum dimensions are known in millimeters
+    //
+    //  cnc should be in absolute coordinates
+    //
+    //  how to zero/center/user wasd for both machines
+    
+    //TODO edit that video, speed it up or whatever, i put it on the google drive in demo
     
     //TODO calibrate Tracer and Renderer
     //  Get a simple shape to test with
@@ -46,14 +56,13 @@ public class Main
     //      Check for mirrored axes
     //      Check for position
     
-    //TODO Integration Testing
-    //  verify that the Z value per degree actually rotates it the correct amount, try 1.8 and 90
-    //  verify that G28 properly reset the hotwire to the top center and doesnt rotate the bed
-    //      if this doesnt work see if the syntax is wrong (APIgrbl line 224)
-    //      if it just doesnt work then i can write up our own code to reset it
     
     
     //ZACK
+    
+    //TODO rotation tab
+    //TODO new videos/screenshots
+    // Check comments on document, things like the Gcode tab will need new screenshots, should the user help be screenshotted to?
     
     //TODO make user help window
     //  question icon button on side of button window, brings up user help page
@@ -62,29 +71,20 @@ public class Main
     //  Once that's set, raise it up and put the foam in flushed with the axis.
     //  Include information on how to use the program, each tab
 
-    // Check what I've added to the user help window, modify as needed.
 
     //TODO update Design Document
     //  redo figure pages in table (after removing table of contents)
     //  redo table of contents after everything else is done
 
-    // Check comments on document, things like the Gcode tab will need new screenshots, should the user help be screenshotted to?
-    
-    
-    //TODO document
-    //  hotwire gcode should be in relative coordinates
-    //      should only cut on the positive side for each profile
-    //  cnc should be in absolute coordinates
     
     
     
     
     //TODO before releasing
     //  search for all TODOs
-    //      APIgrbl line 224
-    //      GcodeController line 131
     //
     //  set Main.development = false;
+    //      test with development = false
 
     
     //Constants
