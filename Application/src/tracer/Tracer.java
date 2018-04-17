@@ -93,6 +93,11 @@ public class Tracer
      * The last trace that was hit.
      */
     private static Vector lastTrace = new Vector(0, 0, 0);
+
+    /**
+     * The current position of the trace.
+     */
+    public static Vector current = new Vector(0, 0, 0);
     
     /**
      * The list of traces currently being rendered.
@@ -172,7 +177,8 @@ public class Tracer
         }
         instance = new Tracer(node);
         
-        lastTrace = new Vector(0, ModelController.maxHeightCnc * Renderer.MILLIMETERS_IN_INCH, 0);
+        lastTrace = new Vector(0, - ModelController.maxHeightCnc * Renderer.MILLIMETERS_IN_INCH, 0);
+        current = new Vector(0, (Renderer.foamCenter.getZ() * Renderer.MILLIMETERS_IN_INCH), 0);
         
         //add cameras
         Camera camera = new Camera();
@@ -370,18 +376,22 @@ public class Tracer
     /**
      * Adds a new trace point to the Tracer.
      *
-     * @param x The x position of the trace.
-     * @param y The y position of the trace.
-     * @param z The z position of the trace.
+     * @param x The x relative movement of the trace.
+     * @param y The y relative movement of the trace.
+     * @param z The z relative movement of the trace.
      */
     public static synchronized void addTrace(double x, double y, double z)
     {
         Vector trace;
         if (Main.demoMode) {
-            trace = new Vector(x - 50, -z - (Renderer.foamCenter.getZ() * Renderer.MILLIMETERS_IN_INCH) + 5, -y + 50);
+            trace = new Vector(current.getX() + x - 50, current.getY() - z - (Renderer.foamCenter.getZ() * Renderer.MILLIMETERS_IN_INCH) + 5, current.getZ() + y + 50);
         } else {
-            trace = new Vector(x, -z + (Renderer.foamCenter.getZ() * Renderer.MILLIMETERS_IN_INCH), -y);
+            trace = new Vector(current.getX() + x, current.getY() - z + (Renderer.foamCenter.getZ() * Renderer.MILLIMETERS_IN_INCH), current.getZ() + y);
         }
+
+        current.setX(trace.getX());
+        current.setY(trace.getY());
+        current.setZ(trace.getZ());
         
         Edge edge = new Edge(Color.RED, lastTrace, trace);
     

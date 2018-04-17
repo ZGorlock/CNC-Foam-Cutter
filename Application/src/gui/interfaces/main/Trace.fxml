@@ -22,17 +22,17 @@
         <bottom>
             <HBox spacing="20" alignment="CENTER" styleClass="hbox">
                 <HBox spacing="5">
-                    <Text styleClass="bold">X Position:</Text>
+                    <Text styleClass="bold">X Movement:</Text>
                     <Label fx:id="grblX"/>
                 </HBox>
                 <HBox spacing="25"/>
                 <HBox spacing="5">
-                    <Text styleClass="bold">Y Position:</Text>
+                    <Text styleClass="bold">Y Movment:</Text>
                     <Label fx:id="grblY"/>
                 </HBox>
                 <HBox spacing="25"/>
                 <HBox spacing="5">
-                    <Text styleClass="bold">Z Position:</Text>
+                    <Text styleClass="bold">Z Movement:</Text>
                     <Label fx:id="grblZ"/>
                 </HBox>
                 <HBox spacing="25"/>

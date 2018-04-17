@@ -91,7 +91,7 @@ public class Main
     /**
      * The machine type to run when working in development mode.
      */
-    public static final MachineDetector.Machine developmentMode = MachineDetector.Machine.HOTWIRE;
+    public static final MachineDetector.Machine developmentMode = MachineDetector.Machine.CNC;
     
     /**
      * A flag indicating whether to use the demo mode of the application for an ideal case.

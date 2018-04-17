@@ -136,6 +136,11 @@ public class APIgrbl extends Thread
      * Variable to check if we've started streaming
      */
     private boolean startedStreaming = false;
+
+    /**
+     * A flag indicating whether grbl has been started yet or not.
+     */
+    private boolean grblStarted = false;
     
     
     //Constructors
@@ -192,6 +197,7 @@ public class APIgrbl extends Thread
         commands = new ArrayList<>();
         profileImages = new HashMap<>();
         totalProgress = 0;
+        grblStarted = false;
         
         if (profiles == null) {
             // Modifies to gbrl acceptable gcode
@@ -204,8 +210,8 @@ public class APIgrbl extends Thread
             commands = m.getCommands();
             totalProgress = commands.size();
             currentProgress = 0;
-
-            return adjustGcode();
+//            return adjustGcode();
+            return true;
             
         } else {
             commands.add("G21"); //set units to millimeters
@@ -267,30 +273,86 @@ public class APIgrbl extends Thread
             int i = 0;
             startedStreaming = true;
             while (i < commands.size()) {
-                
+
                 BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile));
                 StringBuilder sb = new StringBuilder();
-        
+
                 int charsUsed = 0;
 
                 if (profileImages.containsKey(i)) {
                     ModelController.setCurrentProfileImage(profileImages.get(i));
 
                     File profileGcode = new File(RotationController.controller.gcodeTraceFileMap.get(profileImages.get(i)));
-                            Platform.runLater(() -> ModelController.setFileName(profileGcode.getName()));
-                            Platform.runLater(() -> ModelController.setFileSize(ModelController.calculateFileSize(profileGcode)));
+                    Platform.runLater(() -> ModelController.setFileName(profileGcode.getName()));
+                    Platform.runLater(() -> ModelController.setFileSize(ModelController.calculateFileSize(profileGcode)));
                 }
 
                 if (Main.development && Main.bypassArduinoForTracer && MachineDetector.isCncMachine()) {
                     TracerGcodeBypass.traceGcodeCommand(commands.get(i), true);
                 }
-        
+
                 // create string to be printed
                 String gcode = commands.get(i++) + '\n';
                 bw.write(gcode);
                 bw.close();
-                
+
                 currentProgress++;
+
+
+//                while (i < commands.size()) {
+//
+//                    BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile));
+//                    StringBuilder sb = new StringBuilder();
+//
+//                    int charsUsed = 0;
+//                    int packetProgressUnits = 0;
+//
+//                    while (charsUsed < 127) {
+//                        if (profileImages.containsKey(i)) {
+//                            ModelController.setCurrentProfileImage(profileImages.get(i));
+//
+//                            File profileGcode = new File(RotationController.controller.gcodeTraceFileMap.get(profileImages.get(i)));
+//                            Platform.runLater(() -> ModelController.setFileName(profileGcode.getName()));
+//                            Platform.runLater(() -> ModelController.setFileSize(ModelController.calculateFileSize(profileGcode)));
+//                        }
+//
+//                        String newCommand = null;
+//                        if (i < commands.size()) {
+//                            newCommand = commands.get(i);
+//                            i++;
+//                        }
+//
+//                        if (newCommand != null) {
+//                            if ((newCommand.length() + charsUsed + 1) < 127) {
+//                                // append what will be written
+//                                sb.append(newCommand);
+//                                sb.append('\n');
+//
+//                                if (Main.development && Main.bypassArduinoForTracer && MachineDetector.isCncMachine()) {
+//                                    TracerGcodeBypass.traceGcodeCommand(commands.get(i), true);
+//                                }
+//
+//                                // update counts
+//                                charsUsed += newCommand.length() + 1;
+//                                packetProgressUnits++;
+//                            } else {
+//                                // end of 127 char limit
+//                                i--;
+//                                charsUsed = 127;
+//                            }
+//                        } else {
+//                            // end of file, stopping conditions
+//                            charsUsed = 127;
+//                        }
+//                    }
+//                    currentProgress += packetProgressUnits;
+//
+//                    // create string to be printed
+//                    String gcode = sb.toString();
+////                String gcode = commands.get(i++) + '\n';
+//                    bw.write(gcode);
+//                    bw.close();
+
         
                 // Update UI
                 while (gcode.contains("\n\n")) {
@@ -321,7 +383,8 @@ public class APIgrbl extends Thread
                     currentProgress = 0;
                     return;
                 }
-    
+
+                System.out.println("Waiting on: " + commandsFromUI.size());
                 while (commandsFromUI.size() > 0) {
                     //create new process and add to the response for UI
                     handleRequest();
@@ -330,7 +393,10 @@ public class APIgrbl extends Thread
                 // execute stream.py with the file created, get input stream as a response
                 Process process = null;
                 while (process == null) {
-                    process = CmdLine.executeCmdAsThread("python " + Constants.GRBL_DIRECTORY + "stream.py " + Constants.GRBL_TEMP_DIRECTORY + tempFile.getName() +"\n");
+                    process = CmdLine.executeCmdAsThread("python " + Constants.GRBL_DIRECTORY + "stream.py \"" + Constants.GRBL_TEMP_DIRECTORY + tempFile.getName() + "\" " + (grblStarted ? "1" : "0") + "\n");
+                    if (!grblStarted) {
+                        grblStarted = true;
+                    }
                     if (process != null && MachineDetector.isCncMachine()) {
                         BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
     
@@ -363,6 +429,7 @@ public class APIgrbl extends Thread
         
         // Reset UI
         doneStreaming = true;
+        grblStarted = false;
         startedStreaming = false;
     }
     
@@ -538,7 +605,7 @@ public class APIgrbl extends Thread
             // execute stream.py with the command being sent, get input stream as a response
             Process process = null;
             while (process == null) {
-                process = CmdLine.executeCmdAsThread("python " + Constants.GRBL_DIRECTORY + "stream.py " + Constants.GRBL_TEMP_DIRECTORY + tempCommand.getName() + "\n");
+                process = CmdLine.executeCmdAsThread("python " + Constants.GRBL_DIRECTORY + "stream.py \"" + Constants.GRBL_TEMP_DIRECTORY + tempCommand.getName() + "\" " + (grblStarted ? "1" : "0") + "\n");
                 if (process != null) {
                     BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
             
@@ -634,7 +701,7 @@ public class APIgrbl extends Thread
             // execute stream.py with the command being sent, get input stream as a response
             Process process = null;
             while (process == null) {
-                process = CmdLine.executeCmdAsThread("python " + Constants.GRBL_DIRECTORY + "stream.py " + Constants.GRBL_TEMP_DIRECTORY + tempCommand.getName() + "\n");
+                process = CmdLine.executeCmdAsThread("python " + Constants.GRBL_DIRECTORY + "stream.py \"" + Constants.GRBL_TEMP_DIRECTORY + tempCommand.getName() + "\" " + (grblStarted ? "1" : "0") + "\n");
                 if (process != null) {
                     BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
@@ -690,8 +757,9 @@ public class APIgrbl extends Thread
             commandCheckingTimer.purge();
             commandCheckingTimer.cancel();
         }
-        
+
         this.doneStreaming = false;
+        this.grblStarted = false;
     }
     
     

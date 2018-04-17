@@ -4,12 +4,11 @@
     <list default="true" id="56b1c012-66b6-40cf-9135-3a18552cf345" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/src/grbl/APIgrbl.java" afterPath="$PROJECT_DIR$/src/grbl/APIgrbl.java" />
-      <change beforePath="$PROJECT_DIR$/src/grbl/GcodeModifier.java" afterPath="$PROJECT_DIR$/src/grbl/GcodeModifier.java" />
       <change beforePath="$PROJECT_DIR$/src/grbl/stream.py" afterPath="$PROJECT_DIR$/src/grbl/stream.py" />
-      <change beforePath="$PROJECT_DIR$/src/gui/interfaces/main/GcodeController.java" afterPath="$PROJECT_DIR$/src/gui/interfaces/main/GcodeController.java" />
-      <change beforePath="$PROJECT_DIR$/src/gui/interfaces/main/RotationController.java" afterPath="$PROJECT_DIR$/src/gui/interfaces/main/RotationController.java" />
-      <change beforePath="$PROJECT_DIR$/src/utils/ConfigurationManager.java" afterPath="$PROJECT_DIR$/src/utils/ConfigurationManager.java" />
-      <change beforePath="$PROJECT_DIR$/src/utils/GcodeTracer.java" afterPath="$PROJECT_DIR$/src/utils/GcodeTracer.java" />
+      <change beforePath="$PROJECT_DIR$/src/gui/interfaces/main/Trace.fxml" afterPath="$PROJECT_DIR$/src/gui/interfaces/main/Trace.fxml" />
+      <change beforePath="$PROJECT_DIR$/src/gui/interfaces/main/TraceController.java" afterPath="$PROJECT_DIR$/src/gui/interfaces/main/TraceController.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/Main.java" afterPath="$PROJECT_DIR$/src/main/Main.java" />
+      <change beforePath="$PROJECT_DIR$/src/tracer/Tracer.java" afterPath="$PROJECT_DIR$/src/tracer/Tracer.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,11 +20,103 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="APIgrbl.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="APIgrbl.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/grbl/APIgrbl.java">
           <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="261">
+              <caret line="214" column="12" lean-forward="true" selection-start-line="214" selection-start-column="12" selection-end-line="214" selection-end-column="12" />
+              <folding>
+                <element signature="e#19263#19264#0" expanded="true" />
+                <element signature="e#19306#19307#0" expanded="true" />
+                <element signature="e#19461#20010#0" expanded="true" />
+                <element signature="e#20009#20010#0" expanded="true" />
+                <element signature="e#27154#27155#0" expanded="true" />
+                <element signature="e#27178#27179#0" expanded="true" />
+                <element signature="e#29921#29922#0" expanded="true" />
+                <element signature="e#29945#29946#0" expanded="true" />
+                <element signature="e#30124#30125#0" expanded="true" />
+                <element signature="e#30148#30149#0" expanded="true" />
+                <element signature="e#30327#30328#0" expanded="true" />
+                <element signature="e#30351#30352#0" expanded="true" />
+                <element signature="e#30499#30500#0" expanded="true" />
+                <element signature="e#30528#30529#0" expanded="true" />
+                <element signature="e#30707#30708#0" expanded="true" />
+                <element signature="e#30743#30744#0" expanded="true" />
+                <element signature="e#30941#30942#0" expanded="true" />
+                <element signature="e#30967#30968#0" expanded="true" />
+                <element signature="e#31141#31142#0" expanded="true" />
+                <element signature="e#31167#31168#0" expanded="true" />
+                <element signature="e#31341#31342#0" expanded="true" />
+                <element signature="e#31367#31368#0" expanded="true" />
+                <element signature="e#31530#31531#0" expanded="true" />
+                <element signature="e#31566#31567#0" expanded="true" />
+                <element signature="e#31748#31749#0" expanded="true" />
+                <element signature="e#31788#31789#0" expanded="true" />
+                <element signature="e#31970#31971#0" expanded="true" />
+                <element signature="e#32010#32011#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Tracer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/tracer/Tracer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="764">
+              <caret line="379" column="34" lean-forward="false" selection-start-line="379" selection-start-column="34" selection-end-line="379" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TraceController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/gui/interfaces/main/TraceController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="468">
+              <caret line="160" column="23" lean-forward="false" selection-start-line="160" selection-start-column="23" selection-end-line="160" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Trace.fxml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/gui/interfaces/main/Trace.fxml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="302">
+              <caret line="28" column="34" lean-forward="false" selection-start-line="28" selection-start-column="34" selection-end-line="28" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="JavaFX-Scene-Builder">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="detect.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/grbl/detect.py">
+          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="63">
-              <caret line="630" column="7" lean-forward="true" selection-start-line="630" selection-start-column="7" selection-end-line="630" selection-end-column="7" />
+              <caret line="3" column="29" lean-forward="false" selection-start-line="3" selection-start-column="29" selection-end-line="3" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="startUp.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/grbl/startUp.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GcodeModifier.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/grbl/GcodeModifier.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-266">
+              <caret line="293" column="25" lean-forward="false" selection-start-line="293" selection-start-column="25" selection-end-line="293" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -34,18 +125,28 @@
       <file leaf-file-name="stream.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/grbl/stream.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="522">
-              <caret line="104" column="79" lean-forward="true" selection-start-line="104" selection-start-column="79" selection-end-line="104" selection-end-column="79" />
+            <state relative-caret-position="194">
+              <caret line="54" column="24" lean-forward="false" selection-start-line="54" selection-start-column="24" selection-end-line="54" selection-end-column="24" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MenuController.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/gui/interfaces/main/MenuController.java">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2499">
-              <caret line="11" column="28" lean-forward="false" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
+            <state relative-caret-position="273">
+              <caret line="92" column="7" lean-forward="false" selection-start-line="92" selection-start-column="7" selection-end-line="92" selection-end-column="7" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="help_hotwire.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/gui/interfaces/help/help_hotwire.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="819">
+              <caret line="39" column="120" lean-forward="false" selection-start-line="39" selection-start-column="120" selection-end-line="39" selection-end-column="120" />
               <folding />
             </state>
           </provider>
@@ -79,6 +180,11 @@
       <find>handle</find>
       <find>?</find>
       <find>JobCompl</find>
+      <find>stream.py</find>
+      <find>X Position</find>
+      <find>of the trace</find>
+      <find>adjustG</find>
+      <find>lastTrace</find>
     </findStrings>
     <dirStrings>
       <dir>C:\Users\nicol\Desktop\Nicolas\Current\SD2\CNC-Foam-Cutter\Application\src\gui</dir>
@@ -97,7 +203,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/grbl/Tests/Tester.java" />
         <option value="$PROJECT_DIR$/src/grbl/API.java" />
         <option value="$PROJECT_DIR$/src/grbl/tests/APITester.java" />
         <option value="$PROJECT_DIR$/src/grbl/tests/input/Constants.java" />
@@ -135,20 +240,26 @@
         <option value="$PROJECT_DIR$/src/gui/Gui.java" />
         <option value="$PROJECT_DIR$/test/gui/interfaces/main/GcodeControllerTest.java" />
         <option value="$PROJECT_DIR$/src/gui/interfaces/main/G-code.fxml" />
-        <option value="$PROJECT_DIR$/src/gui/interfaces/main/GcodeController.java" />
         <option value="$PROJECT_DIR$/resources/gcode/temp/tempfile.txt" />
-        <option value="$PROJECT_DIR$/src/main/Main.java" />
-        <option value="$PROJECT_DIR$/src/grbl/stream.py" />
         <option value="$PROJECT_DIR$/src/gui/interfaces/main/RotationController.java" />
         <option value="$PROJECT_DIR$/src/utils/ConfigurationManager.java" />
         <option value="$PROJECT_DIR$/src/utils/GcodeTracer.java" />
         <option value="$PROJECT_DIR$/src/grbl/GcodeModifier.java" />
+        <option value="$PROJECT_DIR$/src/gui/interfaces/main/GcodeController.java" />
+        <option value="$PROJECT_DIR$/src/gui/interfaces/help/help_cnc.html" />
+        <option value="$PROJECT_DIR$/src/gui/interfaces/help/help_hotwire.html" />
+        <option value="$PROJECT_DIR$/src/main/Main.java" />
+        <option value="$PROJECT_DIR$/src/grbl/stream.py" />
+        <option value="$PROJECT_DIR$/src/gui/interfaces/main/Trace.fxml" />
+        <option value="$PROJECT_DIR$/src/gui/interfaces/main/TraceController.java" />
+        <option value="$PROJECT_DIR$/src/tracer/Tracer.java" />
         <option value="$PROJECT_DIR$/src/grbl/APIgrbl.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="952" />
+    <option name="x" value="539" />
+    <option name="y" value="-20" />
     <option name="width" value="976" />
     <option name="height" value="1088" />
   </component>
@@ -167,10 +278,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -182,6 +293,12 @@
               <item name="3D-CNC-Foam-Cutter" type="b2602c69:ProjectViewProjectNode" />
               <item name="Application" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="3D-CNC-Foam-Cutter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Application" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="gcode" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="3D-CNC-Foam-Cutter" type="b2602c69:ProjectViewProjectNode" />
@@ -214,6 +331,20 @@
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="profiles" type="462c0819:PsiDirectoryNode" />
               <item name="disk" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="3D-CNC-Foam-Cutter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Application" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="profiles" type="462c0819:PsiDirectoryNode" />
+              <item name="rotation demo" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="3D-CNC-Foam-Cutter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Application" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="profiles" type="462c0819:PsiDirectoryNode" />
+              <item name="sample wing" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="3D-CNC-Foam-Cutter" type="b2602c69:ProjectViewProjectNode" />
@@ -300,19 +431,20 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\nicol\Desktop\CNC-Foam-Cutter\Application\src\grbl" />
+      <recent name="E:\Coding\JAVA\CNC-Foam-Cutter\Application\resources\gcode" />
+      <recent name="C:\Users\nicol\Desktop\CNC-Foam-Cutter\Application\lib\Slic3r" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\Coding\JAVA\CNC-Foam-Cutter\Application\lib\Java3D" />
       <recent name="E:\Coding\JAVA\CNC-Foam-Cutter\Application\lib" />
       <recent name="E:\Coding\JAVA\CNC-Foam-Cutter\Application\resources" />
       <recent name="C:\Users\nicol\Desktop\CNC-Foam-Cutter\Application\src\utils" />
       <recent name="C:\Users\nicol\Desktop\CNC-Foam-Cutter\Application\src\grbl\tests\input" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\nicol\Desktop\CNC-Foam-Cutter\Application\src\grbl" />
-      <recent name="E:\Coding\JAVA\CNC-Foam-Cutter\Application\resources\gcode" />
-      <recent name="C:\Users\nicol\Desktop\CNC-Foam-Cutter\Application\lib\Slic3r" />
     </key>
   </component>
   <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
@@ -329,8 +461,10 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/grbl/APIgrbl.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/gui/interfaces/main/RotationController.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/gui/interfaces/help/help_cnc.html</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/gui/interfaces/help/help_hotwire.html</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/gui/interfaces/main/GcodeController.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/Main.java</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Created" />
@@ -662,7 +796,14 @@
       <option name="project" value="LOCAL" />
       <updated>1523925947248</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="On-site Debugging">
+      <created>1523945944649</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1523945944649</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -677,46 +818,36 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24765868" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44527897" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23829344" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32597265" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298647" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13333334" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31529656" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34759918" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4880333" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4090431" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39854318" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39854318" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1862643" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25078043" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44527897" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298647" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20052083" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
     </layout>
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -726,41 +857,24 @@
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="Added basic Java 3D rendering support" />
     <MESSAGE value="Changed to mach3 gcode generation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed to mach3 gcode generation" />
+    <MESSAGE value="On-site Debugging" />
+    <option name="LAST_COMMIT_MESSAGE" value="On-site Debugging" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/tracer/Tracer.java</url>
-          <line>384</line>
-          <properties />
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/grbl/APIgrbl.java</url>
-          <line>568</line>
+          <line>613</line>
           <properties />
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/grbl/APIgrbl.java</url>
-          <line>285</line>
+          <line>276</line>
           <properties />
           <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/grbl/APIgrbl.java</url>
-          <line>341</line>
-          <properties />
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/grbl/APIgrbl.java</url>
-          <line>364</line>
-          <properties />
-          <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/grbl/GcodeModifier.java</url>
@@ -769,27 +883,15 @@
           <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="11" />
+      <option name="time" value="12" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/gui/Interfaces/MainMenu/Rotation.fxml" />
-    <entry file="file://$PROJECT_DIR$/src/gui/Interfaces/MainMenu/Trace.fxml" />
-    <entry file="file://$PROJECT_DIR$/src/gui/Interfaces/MainMenu/Model.fxml" />
-    <entry file="file://$PROJECT_DIR$/src/gui/Interfaces/MainMenu/TraceController.java" />
-    <entry file="file://$PROJECT_DIR$/src/gui/Interfaces/MainMenu/RotationController.java" />
     <entry file="file://$PROJECT_DIR$/src/gui/Interfaces/PopUps/PauseNotification.fxml" />
     <entry file="file://$PROJECT_DIR$/src/gui/Interfaces/MainMenu/Menu.fxml" />
     <entry file="file://$PROJECT_DIR$/src/gui/Interfaces/PopUps/PauseNotificationController.java" />
     <entry file="file://$PROJECT_DIR$/src/gui/Interfaces/PopUps/JobCompletedController.java" />
-    <entry file="file://$PROJECT_DIR$/src/gui/interfaces/greeting/GreetingController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="136" column="12" lean-forward="false" selection-start-line="136" selection-start-column="12" selection-end-line="136" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/gui/Interfaces/MainMenu/G-code.fxml" />
     <entry file="file://$PROJECT_DIR$/src/gui/Interfaces/PopUps/JobCompleted.fxml" />
     <entry file="file://$PROJECT_DIR$/src/gui/Interfaces/PopUps/SystemNotification.fxml" />
@@ -811,34 +913,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/tracer/Tracer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6636">
-          <caret line="347" column="0" lean-forward="false" selection-start-line="347" selection-start-column="0" selection-end-line="347" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/gui/interfaces/greeting/Greeting.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gui/interfaces/greeting/Input.fxml">
       <provider editor-type-id="JavaFX-Scene-Builder">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gui/interfaces/greeting/Input.fxml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="399">
           <caret line="19" column="82" lean-forward="false" selection-start-line="19" selection-start-column="82" selection-end-line="19" selection-end-column="82" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/grbl/DetectGrbl.java">
@@ -896,26 +990,24 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="470">
           <caret line="50" column="0" lean-forward="true" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gui/interfaces/main/G-code.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="462">
           <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
           <folding />
         </state>
       </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/profiles/rotation demo/rd01.gcode">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="21">
           <caret line="1" column="3" lean-forward="true" selection-start-line="1" selection-start-column="3" selection-end-line="1" selection-end-column="3" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -923,7 +1015,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="483">
           <caret line="23" column="2" lean-forward="false" selection-start-line="23" selection-start-column="2" selection-end-line="23" selection-end-column="2" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -931,7 +1022,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="483">
           <caret line="23" column="2" lean-forward="false" selection-start-line="23" selection-start-column="2" selection-end-line="23" selection-end-column="2" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -939,7 +1029,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="525">
           <caret line="25" column="2" lean-forward="false" selection-start-line="25" selection-start-column="2" selection-end-line="25" selection-end-column="2" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -947,7 +1036,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="525">
           <caret line="25" column="2" lean-forward="false" selection-start-line="25" selection-start-column="2" selection-end-line="25" selection-end-column="2" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -955,7 +1043,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -963,7 +1050,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -971,7 +1057,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="22" lean-forward="false" selection-start-line="0" selection-start-column="22" selection-end-line="0" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -979,7 +1064,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -987,7 +1071,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -995,14 +1078,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="249">
           <caret line="102" column="51" lean-forward="false" selection-start-line="102" selection-start-column="33" selection-end-line="102" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gui/interfaces/main/RotationController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2741">
-          <caret line="114" column="31" lean-forward="false" selection-start-line="114" selection-start-column="31" selection-end-line="114" selection-end-column="31" />
           <folding />
         </state>
       </provider>
@@ -1015,59 +1090,155 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/grbl/GcodeModifier.java">
+    <entry file="file://$PROJECT_DIR$/src/gui/interfaces/main/MenuController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="94">
-          <caret line="293" column="25" lean-forward="true" selection-start-line="293" selection-start-column="25" selection-end-line="293" selection-end-column="25" />
+        <state relative-caret-position="21">
+          <caret line="11" column="28" lean-forward="false" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/gui/interfaces/main/TraceController.java">
+    <entry file="file://$PROJECT_DIR$/src/gui/interfaces/main/RotationController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2428">
-          <caret line="24" column="3" lean-forward="false" selection-start-line="24" selection-start-column="3" selection-end-line="24" selection-end-column="3" />
+        <state relative-caret-position="21">
+          <caret line="114" column="7" lean-forward="true" selection-start-line="114" selection-start-column="7" selection-end-line="114" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gui/interfaces/greeting/GreetingController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9345">
+          <caret line="485" column="5" lean-forward="false" selection-start-line="485" selection-start-column="5" selection-end-line="485" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gui/interfaces/help/help_cnc.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="777">
+          <caret line="37" column="34" lean-forward="false" selection-start-line="37" selection-start-column="34" selection-end-line="37" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gui/interfaces/help/help_hotwire.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="819">
+          <caret line="39" column="120" lean-forward="false" selection-start-line="39" selection-start-column="120" selection-end-line="39" selection-end-column="120" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gui/interfaces/main/GcodeController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="123">
-          <caret line="181" column="5" lean-forward="true" selection-start-line="181" selection-start-column="5" selection-end-line="181" selection-end-column="5" />
+        <state relative-caret-position="-276">
+          <caret line="132" column="38" lean-forward="false" selection-start-line="132" selection-start-column="38" selection-end-line="132" selection-end-column="38" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="39" column="39" lean-forward="true" selection-start-line="39" selection-start-column="39" selection-end-line="39" selection-end-column="39" />
+        <state relative-caret-position="273">
+          <caret line="92" column="7" lean-forward="false" selection-start-line="92" selection-start-column="7" selection-end-line="92" selection-end-column="7" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/grbl/APIgrbl.java">
+    <entry file="file://$PROJECT_DIR$/src/grbl/startUp.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/grbl/detect.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="63">
-          <caret line="630" column="7" lean-forward="true" selection-start-line="630" selection-start-column="7" selection-end-line="630" selection-end-column="7" />
+          <caret line="3" column="29" lean-forward="false" selection-start-line="3" selection-start-column="29" selection-end-line="3" selection-end-column="29" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/grbl/stream.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="104" column="79" lean-forward="true" selection-start-line="104" selection-start-column="79" selection-end-line="104" selection-end-column="79" />
+        <state relative-caret-position="194">
+          <caret line="54" column="24" lean-forward="false" selection-start-line="54" selection-start-column="24" selection-end-line="54" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/gui/interfaces/main/MenuController.java">
+    <entry file="file://$PROJECT_DIR$/src/grbl/GcodeModifier.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2499">
-          <caret line="11" column="28" lean-forward="false" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
+        <state relative-caret-position="-266">
+          <caret line="293" column="25" lean-forward="false" selection-start-line="293" selection-start-column="25" selection-end-line="293" selection-end-column="25" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gui/interfaces/main/Trace.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="302">
+          <caret line="28" column="34" lean-forward="false" selection-start-line="28" selection-start-column="34" selection-end-line="28" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gui/interfaces/main/TraceController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="160" column="23" lean-forward="false" selection-start-line="160" selection-start-column="23" selection-end-line="160" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tracer/Tracer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="764">
+          <caret line="379" column="34" lean-forward="false" selection-start-line="379" selection-start-column="34" selection-end-line="379" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/grbl/APIgrbl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="214" column="12" lean-forward="true" selection-start-line="214" selection-start-column="12" selection-end-line="214" selection-end-column="12" />
+          <folding>
+            <element signature="e#19263#19264#0" expanded="true" />
+            <element signature="e#19306#19307#0" expanded="true" />
+            <element signature="e#19461#20010#0" expanded="true" />
+            <element signature="e#20009#20010#0" expanded="true" />
+            <element signature="e#27154#27155#0" expanded="true" />
+            <element signature="e#27178#27179#0" expanded="true" />
+            <element signature="e#29921#29922#0" expanded="true" />
+            <element signature="e#29945#29946#0" expanded="true" />
+            <element signature="e#30124#30125#0" expanded="true" />
+            <element signature="e#30148#30149#0" expanded="true" />
+            <element signature="e#30327#30328#0" expanded="true" />
+            <element signature="e#30351#30352#0" expanded="true" />
+            <element signature="e#30499#30500#0" expanded="true" />
+            <element signature="e#30528#30529#0" expanded="true" />
+            <element signature="e#30707#30708#0" expanded="true" />
+            <element signature="e#30743#30744#0" expanded="true" />
+            <element signature="e#30941#30942#0" expanded="true" />
+            <element signature="e#30967#30968#0" expanded="true" />
+            <element signature="e#31141#31142#0" expanded="true" />
+            <element signature="e#31167#31168#0" expanded="true" />
+            <element signature="e#31341#31342#0" expanded="true" />
+            <element signature="e#31367#31368#0" expanded="true" />
+            <element signature="e#31530#31531#0" expanded="true" />
+            <element signature="e#31566#31567#0" expanded="true" />
+            <element signature="e#31748#31749#0" expanded="true" />
+            <element signature="e#31788#31789#0" expanded="true" />
+            <element signature="e#31970#31971#0" expanded="true" />
+            <element signature="e#32010#32011#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1128,6 +1299,7 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
@@ -1135,6 +1307,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
+          <last-edited>JUnit</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

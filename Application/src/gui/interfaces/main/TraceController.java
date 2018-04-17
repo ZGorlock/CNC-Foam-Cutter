@@ -150,9 +150,9 @@ public class TraceController
     /**
      * Adds a new trace point to the Tracer.
      *
-     * @param x The x position of the trace.
-     * @param y The y position of the trace.
-     * @param z The z position of the trace.
+     * @param x The x relative movement of the trace.
+     * @param y The y relative movement of the trace.
+     * @param z The z relative movement of the trace.
      */
     public static void addTrace(double x, double y, double z)
     {
