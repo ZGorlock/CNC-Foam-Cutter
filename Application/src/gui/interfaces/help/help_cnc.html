@@ -53,7 +53,8 @@
     <h3>Safety information</h3>
     <p>In case of emergency please press the emergency stop button FIRST, before proceeding to stop the streaming process.
     The emergency stop button kills all power to the machine (this includes the router), the control board is powered through
-        the computer so it is also important to pause/stop the streaming process.</p>
+        the computer so it is also important to pause/stop the streaming process. If you'd like to stall the machine
+    please send a "!" command.</p>
 
     <h3>Calibrating</h3>
     <p>To move the machine you can send G-code commands or move it using your keyboard.
@@ -66,13 +67,14 @@
     <li>L for -Z</li>
     <li>R for RESET = $X</li>
     <li>SPACEBAR for Reset Zero Location</li>
-    <p>Additionally, you can prompt our machine for its configurations by sending a $$ command, or viewing our config file.
-        Please do not touch the config file unless you know what you are doing.</p>
+    <p>Additionally, you can set by how many steps the machine will move, and you can edit configurations through our config file.
+        Please do not touch the config file unless you know what you are doing. You are encouraged to look up information about grbl to get more acquainted
+        with the machine.</p>
 
     <h3>Foam Positioning for CNC</h3>
     <p>In case of cutting from an STL file, please make sure the foam fits inside the machine. The foam should be larger than your model to cut.
-    Place the machine in the center of every axis. This helps the machine not go outside of bounds, however it is imperative to be present during
-    cutting in case of emergencies.</p>
+    Place the machine in the center of every axis. This helps the machine not to go outside of bounds, however it is imperative to be present during
+    cutting in case of emergencies. This machine uses absolute coordinates only for stl files, for gcode files, this is up to you.</p>
     <p>In case of cutting from a gcode file, you must position it according to your model's needs. It is imperative to be present during cutting
     in case of emergencies, and it is recommended to conduct small tests to get familiar with the system.</p>
 

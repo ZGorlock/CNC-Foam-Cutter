@@ -6,6 +6,7 @@
 
 package grbl;
 
+import gui.interfaces.greeting.GreetingController;
 import gui.interfaces.main.*;
 import gui.interfaces.popup.SystemNotificationController;
 import javafx.application.Platform;
@@ -204,7 +205,11 @@ public class APIgrbl extends Thread
             commands = m.getCommands();
             totalProgress = commands.size();
             currentProgress = 0;
-            
+            if(GreetingController.controller.getGcode().isEmpty())
+            {
+                commands.add("G90"); // use absolute coordinates if it is stl file
+            }
+
             return adjustGcode();
             
         } else {

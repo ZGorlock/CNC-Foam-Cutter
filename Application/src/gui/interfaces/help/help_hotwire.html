@@ -138,7 +138,9 @@
     <p>In case of emergency please kill all power to the machine FIRST, before proceeding to stop the streaming process.
         Killing all power to the machine ensures the wire will commence cooling down, the control board is powered through
         the computer so it is also important to pause/stop the streaming process.</p>
-    <p>Please never cut indoors as melting foam is toxic.</p>
+    <p>Please never cut indoors as melting foam is toxic. If for any reason you'd like to stall the machine
+        please send a "!" command, but for emergencies, kill all power to the machine, and wait for the last instruction sent to
+        be completed. This might take a while so it's best to wait several minutes before returning power to the machine.</p>
     <p>Please never ever for any reason at all touch the HOT wire, as it is above 500 degrees Fahrenheit, adjustable temperature through
     the dimmer. Please allow several minutes before touching the hotwire. Only touch it after it has cooled down for several minutes, if absolutely necessary
     and with a piece of foam preferably to ensure it is actually cool.</p>
@@ -154,16 +156,25 @@
     <li>L for -Z</li>
     <li>R for RESET = $X</li>
     <li>SPACEBAR for Reset Zero Location</li>
-    <p>Additionally, you can prompt our machine for its configurations by sending a $$ command, or viewing our config file.
-    Please do not touch the config file unless you know what you are doing.</p>
+    <p>Additionally, you can set by how many steps the machine will move, and you can edit configurations through our config file.
+    Please do not touch the config file unless you know what you are doing. You are encouraged to look up information about grbl to get more acquainted
+    with the machine.</p>
 
     h3>Foam Positioning for Hotwire</h3>
-    <p>Please position the wire in the center top position to get ready for a cut. Please ensure to leave a small amount of foam at the bottom of your model
-        to use as a handle. Do not attempt undercuts. Please position your foam in the center of the rotating bed.</p>
+    <p>Please position the wire in the center top position of the foam to get ready for a cut.
+        Please ensure to leave a small amount of foam at the bottom of your model
+        to use as a handle. Do not attempt cut that get too close to the rotating bed.
+        Please position your foam in the center of the rotating bed.
+        If at the end of your cut you wish to cut the foam handle/base off, then we recommend to use the keyboard enable feature to maneuver
+        around the foam.
+    </p>
 
     <h3>Start cutting</h3>
     <p>To start cutting make power is running through the machine and you've zero'd it out to your desired position by pressing SPACEBAR to zero out. It is
-        recommende to set the wire in the top middle of the machine. It is highly recommended to run small tests to get acquainted with the system.</p>
+        recommende to set the wire in the top middle of the foam. It is highly recommended to run small tests to get acquainted with the system.
+        For best results and for safety, please standby the machine during the cut, wires break and things happen, stretching out the wire because one motor
+        is ahead of the other is a possibility that should incite you to be close to turning the machine off at any point.
+    </p>
     <br/>
 
     <hr/>

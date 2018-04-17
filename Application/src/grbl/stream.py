@@ -102,17 +102,6 @@ class Streamer(object):
 
             print(response)
 
-            #If command is to show all configurations then print all 45 of them
-
-            #print(line, " is line")
-            # if line == '$$':
-            #     while(len(response) >= 6):
-            #         response = '\n'
-            #         while(response == '\n'):
-            #             response = self.s.readline().decode()
-            #             #print(response, " inside while")
-            #         print(response)
-
         # Close file and serial port
         self.file.close()
         self.s.close()

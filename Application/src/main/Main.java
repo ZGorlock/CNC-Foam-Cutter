@@ -31,21 +31,15 @@ public class Main
 {
     
     //NICK
-    //I made the Rotation Tab way better, check it out
-    
-    //TODO make $$ print out every grbl config not just the first one <-Will test tomorrow with machine
-    //TODO GcodeController line 131
+
+    // make $$ print out every grbl config not just the first one <-Will test tomorrow with machine -> This feature is not essential and i think should
+    //  stripped, the user can google configurations and we should set them previously. Aren't we making a config file to be pushed?
+
     
     //TODO update Design Document
     //  add sketches of acceptable and unacceptable models to the User Guide section <-- Still gotta test this out
     //
-    //  hotwire gcode should be in relative coordinates in millimeters, one gcode per line
-    //      make sure maximum dimensions are known in millimeters
-    //
-    //  cnc should be in absolute coordinates
-    //
-    //  how to zero/center/user wasd for both machines
-    //TODO add any new stuff to the user help
+    //TODO add any new stuff to the user help -> for whatever we find out next.
     
     //TODO edit that video, speed it up or whatever, i put it on the google drive in demo
     
@@ -62,7 +56,13 @@ public class Main
     
     
     //ZACK
-    
+
+    // i've made the program force absolute coordinates only if it's an stl file, gives the user freedom when providing gcode.
+    //  apigrbl line 208
+
+    // I added info on the help, I can't run the program because of the bug, but I updated the cnc section on help_cnc and the hotwire section
+    //  on help_hotwire, I imagine we're gonna only keep those sections respectively.
+
     //TODO new videos/screenshots
     //  redo profiles for new video
     // Check comments on document, things like the Gcode tab will need new screenshots, should the user help be screenshotted to?
@@ -79,7 +79,8 @@ public class Main
     //  redo figure pages in table (after removing table of contents)
     //  redo table of contents after everything else is done
 
-    
+    //I made the Rotation Tab way better, check it out
+    //TODO bug -> java.io.FileNotFoundException: resources\gcode\temp\images\1.jpg (The system cannot find the path specified)
     
     
     
