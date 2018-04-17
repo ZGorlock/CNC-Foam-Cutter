@@ -266,12 +266,12 @@ public class GcodeModifier
             if (tokens.size() > 0) {
                 
                 if (tokens.get(0).equals("G1") || tokens.get(0).equals("G0")) {
-                
+
                     double x = -1;
                     double y = -1;
                     double z = -1;
                     double f = -1;
-                
+
                     try {
                         for (String token : tokens) {
                             if (token.startsWith("X")) {
@@ -284,7 +284,7 @@ public class GcodeModifier
                                 f = Double.parseDouble(token.substring(1));
                             }
                         }
-                    
+
                         StringBuilder newCommand = new StringBuilder(tokens.get(0)).append(" ");
                         if (x > -1) {
                             newCommand.append(String.format("X%.3f ", x));
@@ -299,7 +299,7 @@ public class GcodeModifier
                             newCommand.append(String.format("F%.3f ", f));
                         }
                         commands.set(i, newCommand.toString());
-                    
+
                     } catch (NumberFormatException e) {
                         System.err.println("Error making adjustments to gcode instruction: " + command + ". Number is not formatted properly!");
                     }

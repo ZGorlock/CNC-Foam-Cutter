@@ -209,9 +209,6 @@ public class APIgrbl extends Thread
             return adjustGcode();
             
         } else {
-            commands.add("G21"); //set units to millimeters
-            commands.add("G91"); //use relative positioning
-            
             for (String profile : profiles) {
                 // Modifies to gbrl acceptable gcode
                 GcodeModifier m = new GcodeModifier(profile);
@@ -223,11 +220,11 @@ public class APIgrbl extends Thread
                 if (!profileImages.containsValue(RotationController.controller.gcodeTraceMap.get(profile))) {
                     profileImages.put(commands.size(), RotationController.controller.gcodeTraceMap.get(profile));
                 }
-                
-                commands.add("G0 Y" + String.valueOf(ModelController.maxYTravelHotwire - (Renderer.foamHeight * Renderer.MILLIMETERS_IN_INCH)));
+    
+                //commands.add("G1 Y" + String.valueOf(ModelController.maxYTravelHotwire - (Renderer.foamHeight * Renderer.MILLIMETERS_IN_INCH)));
                 commands.addAll(m.getCommands());
-                commands.add("G28 X Y"); //TODO this need to be checked
-                commands.add("G0 Z1.0"); //TODO + String.format("%.3f", (RotationController.controller.rotationStep / RotationController.minimumRotationDegree * RotationController.millimetersPerStep)));
+                //commands.add("G28 X Y"); //TODO this need to be checked
+                commands.add("G0 Z10.0"); //TODO + String.format("%.3f", (RotationController.controller.rotationStep / RotationController.minimumRotationDegree * RotationController.millimetersPerStep)));
                 totalProgress += GcodeProgressCalculator.calculateFileProgressUnits(commands);
             }
             totalProgress = commands.size();
@@ -271,8 +268,8 @@ public class APIgrbl extends Thread
             while (i < commands.size()) {
 
                 // Wait for machine to finish
-                if(MachineDetector.isCncMachine())
-                {
+//                if(MachineDetector.isCncMachine())
+//                {
                     while (getStatus().equals("Run")) {
                         try {
                             Thread.sleep(200);
@@ -280,7 +277,7 @@ public class APIgrbl extends Thread
                         }
                         queryStatus();
                     }
-                }
+//                }
                 // read every 127 characters and create a file with them for stream.py to use
                 BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile));
                 StringBuilder sb = new StringBuilder();
@@ -359,7 +356,7 @@ public class APIgrbl extends Thread
                                 if (Main.development && Main.developmentLogging) {
                                     System.out.println(line);
                                 }
-                                updateCoordinates(line);
+                                //updateCoordinates(line);
                             }
                         }
                     } else {
@@ -391,38 +388,38 @@ public class APIgrbl extends Thread
     public boolean adjustGcode()
     {
         outOfBounds = false;
-        
+
         double xAdjustment = Renderer.xAdjustment;
         double yAdjustment = Renderer.yAdjustment;
         double zAdjustment = Renderer.zAdjustment;
-        
+
         double xMax = 0;
         double yMax = 0;
         double zMax = 0;
-        
+
         boolean absolute = false;
-        
+
         for (int i = 0; i < commands.size(); i++) {
             String command = commands.get(i);
-    
+
             List<String> tokens = new ArrayList<>();
             StringTokenizer st = new StringTokenizer(command);
             while (st.hasMoreTokens()) {
                 tokens.add(st.nextToken());
             }
-            
+
             if (tokens.size() > 0) {
                 if (tokens.get(0).equals("G90")) {
                     absolute = true;
                 }
-                
+
                 if (tokens.get(0).equals("G1") || tokens.get(0).equals("G0")) {
-    
+
                     double x = -1;
                     double y = -1;
                     double z = -1;
                     double f = -1;
-                    
+
                     try {
                         for (String token : tokens) {
                             if (token.startsWith("X")) {
@@ -435,7 +432,7 @@ public class APIgrbl extends Thread
                                 f = Double.parseDouble(token.substring(1));
                             }
                         }
-                        
+
                         if (Math.abs(x) > xMax) {
                             xMax = Math.abs(x);
                         }
@@ -445,7 +442,7 @@ public class APIgrbl extends Thread
                         if (z > zMax) {
                             zMax = z;
                         }
-                        
+
                         StringBuilder newCommand = new StringBuilder(tokens.get(0)).append(" ");
                         if (x > -1) {
                             newCommand.append(String.format("X%.3f ", x));
@@ -460,7 +457,7 @@ public class APIgrbl extends Thread
                             newCommand.append(String.format("F%.3f ", f));
                         }
                         commands.set(i, newCommand.toString());
-                        
+
                     } catch (NumberFormatException e) {
                         System.err.println("Error making adjustments to gcode instruction: " + command + ". Number is not formatted properly!");
                         SystemNotificationController.throwNotification("There was an error adjusting the gcode to fit the machine!", true, false);
@@ -469,7 +466,7 @@ public class APIgrbl extends Thread
                 }
             }
         }
-        
+
         if (absolute) {
             if (xMax > ModelController.maxXTravelCnc / 2.0 || yMax > ModelController.maxYTravelCnc / 2.0 || zMax > ModelController.maxZTravelCnc) {
                 String travelMessage = String.format("The maximum travel distance is: +/- %.1f x, +/- %.1f y, 0->%.1f z\nBut your path takes you to: +/- %.1f x, +/- %.1f y, + %.1f z\nWhich is out of the bounds of the machine! Please adjust your model!", ModelController.maxXTravelCnc / 2.0, ModelController.maxYTravelCnc / 2.0, ModelController.maxZTravelCnc / 1.0, xMax, yMax, zMax);

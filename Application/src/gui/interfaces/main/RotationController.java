@@ -51,7 +51,7 @@ public class RotationController
     /**
      * The default number of millimeters per step of the motor.
      */
-    public static final double DEFAULT_MILLIMETERS_PER_STEP = 0.0079365;
+    public static final double DEFAULT_MILLIMETERS_PER_STEP = 5;//0.0079365;
     
     
     //FXML Fields
