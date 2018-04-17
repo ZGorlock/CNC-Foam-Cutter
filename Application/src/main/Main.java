@@ -34,11 +34,11 @@ public class Main
     
     //TODO invert the W and S commands for the Hotwire machine, but not for the CNC machine
     //TODO get the real Arduino id for hotwire
-
+    
+    //TODO fill in the user help window
+    
     //TODO update Design Document
     //  add sketches of acceptable and unacceptable models to the User Guide section <-- Still gotta test this out
-    //
-    //TODO add any new stuff to the user help -> for whatever we find out next.
     
     //TODO edit that video, speed it up or whatever, i put it on the google drive in demo
     
@@ -63,12 +63,7 @@ public class Main
     //  redo profiles for new video
     // Check comments on document, things like the Gcode tab will need new screenshots, should the user help be screenshotted to?
     
-    //TODO make user help window
-    //  question icon button on side of button window, brings up user help page
-    //  what is displayed should be dependent on which machine is connected
-    //  WASD controls x,y P = +z L = -z R = Reset SPACEBAR = reset zero
-    //  Once that's set, raise it up and put the foam in flushed with the axis.
-    //  Include information on how to use the program, each tab
+    //TODO fill in the user help window
     
     //TODO update Design Document
     //  redo figure pages in table (after removing table of contents)
