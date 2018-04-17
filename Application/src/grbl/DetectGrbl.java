@@ -51,7 +51,7 @@ public class DetectGrbl
 
         while (process == null) {
 
-            process = CmdLine.executeCmdAsThread("python " + Constants.GRBL_DIRECTORY + "runDetect.py");
+            process = CmdLine.executeCmdAsThread("py " + Constants.GRBL_DIRECTORY + "runDetect.py");
             if (process != null) {
                 BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
 

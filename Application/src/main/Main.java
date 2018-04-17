@@ -42,20 +42,14 @@ public class Main
     //TODO edit that video, speed it up or whatever, i put it on the google drive in demo
     
     //TODO calibrate Tracer and Renderer
-    //  Get a simple shape to test with
     //  Make sure it prints it in the middle of the foam at the top levels of the foam
-    //  Make sure it looks the same in the Renderer
-    //      Check for mirrored axes
-    //      Check for position
     //  Make sure it looks the same in the Tracer
-    //      Check for mirrored axes
     //      Check for position
     
     
     
     //ZACK
 
-    //TODO why does it wait so long?
     //TODO when does the job completed popup happen?
     
     //TODO new videos/screenshots
@@ -224,7 +218,7 @@ public class Main
             }
         }
         
-        String pythonCheck = CmdLine.executeCmd("python -V");
+        String pythonCheck = CmdLine.executeCmd("py -V");
         boolean installPython = false;
         if (pythonCheck.isEmpty() || pythonCheck.matches("'python' is not recognized .*")) {
             installPython = true;
@@ -247,7 +241,7 @@ public class Main
             String pythonInstallCmd = Constants.PYTHON_DIRECTORY + Constants.PYTHON_FILENAME;
             CmdLine.executeCmd(pythonInstallCmd, true);
             
-            pythonCheck = CmdLine.executeCmd("python -V");
+            pythonCheck = CmdLine.executeCmd("py -V");
             if (pythonCheck.isEmpty() || pythonCheck.matches("'python' is not recognized .*")) {
                 System.out.println("Please install Python 3 and try again.");
                 return false;

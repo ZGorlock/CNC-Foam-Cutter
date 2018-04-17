@@ -393,7 +393,7 @@ public class APIgrbl extends Thread
                 // execute stream.py with the file created, get input stream as a response
                 Process process = null;
                 while (process == null) {
-                    process = CmdLine.executeCmdAsThread("python " + Constants.GRBL_DIRECTORY + "stream.py \"" + Constants.GRBL_TEMP_DIRECTORY + tempFile.getName() + "\" " + (grblStarted ? "1" : "0") + "\n");
+                    process = CmdLine.executeCmdAsThread("py " + Constants.GRBL_DIRECTORY + "stream.py \"" + Constants.GRBL_TEMP_DIRECTORY + tempFile.getName() + "\" " + (grblStarted ? "1" : "0") + "\n");
                     if (!grblStarted) {
                         grblStarted = true;
                     }
@@ -605,7 +605,7 @@ public class APIgrbl extends Thread
             // execute stream.py with the command being sent, get input stream as a response
             Process process = null;
             while (process == null) {
-                process = CmdLine.executeCmdAsThread("python " + Constants.GRBL_DIRECTORY + "stream.py \"" + Constants.GRBL_TEMP_DIRECTORY + tempCommand.getName() + "\" " + (grblStarted ? "1" : "0") + "\n");
+                process = CmdLine.executeCmdAsThread("py " + Constants.GRBL_DIRECTORY + "stream.py \"" + Constants.GRBL_TEMP_DIRECTORY + tempCommand.getName() + "\" " + (grblStarted ? "1" : "0") + "\n");
                 if (process != null) {
                     BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
             

@@ -17,6 +17,7 @@ import tracer.objects.base.AbstractObject;
 import tracer.objects.base.BaseObject;
 import tracer.objects.base.ObjectInterface;
 import tracer.objects.base.polygon.Rectangle;
+import tracer.objects.base.simple.BigVertex;
 import tracer.objects.base.simple.Edge;
 import utils.MachineDetector;
 
@@ -282,6 +283,9 @@ public class Tracer
         objects.add(r4);
         objects.add(r5);
         objects.add(r6);
+
+
+        objects.add(new BigVertex(Color.RED, current, 3));
     
         if (MachineDetector.isCncMachine() && traceDemo) {
             //animation
