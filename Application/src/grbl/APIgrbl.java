@@ -209,8 +209,8 @@ public class APIgrbl extends Thread
             return adjustGcode();
             
         } else {
-            commands.add("G21"); //set units to millimeters
-            commands.add("G91"); //use relative positioning
+//            commands.add("G21"); //set units to millimeters TODO
+//            commands.add("G91"); //use relative positioning
     
             for (String profile : profiles) {
                 // Modifies to gbrl acceptable gcode
