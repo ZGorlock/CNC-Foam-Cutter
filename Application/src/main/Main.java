@@ -31,6 +31,9 @@ public class Main
 {
     
     //NICK
+    
+    //TODO invert the W and S commands for the Hotwire machine, but not for the CNC machine
+    //TODO get the real Arduino id for hotwire
 
     //TODO update Design Document
     //  add sketches of acceptable and unacceptable models to the User Guide section <-- Still gotta test this out
@@ -53,6 +56,9 @@ public class Main
     
     //ZACK
 
+    //TODO why does it wait so long?
+    //TODO when does the job completed popup happen?
+    
     //TODO new videos/screenshots
     //  redo profiles for new video
     // Check comments on document, things like the Gcode tab will need new screenshots, should the user help be screenshotted to?
