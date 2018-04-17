@@ -209,6 +209,9 @@ public class APIgrbl extends Thread
             return adjustGcode();
             
         } else {
+            commands.add("G21"); //set units to millimeters
+            commands.add("G91"); //use relative positioning
+    
             for (String profile : profiles) {
                 // Modifies to gbrl acceptable gcode
                 GcodeModifier m = new GcodeModifier(profile);
@@ -221,7 +224,7 @@ public class APIgrbl extends Thread
                     profileImages.put(commands.size(), RotationController.controller.gcodeTraceMap.get(profile));
                 }
     
-                //commands.add("G1 Y" + String.valueOf(ModelController.maxYTravelHotwire - (Renderer.foamHeight * Renderer.MILLIMETERS_IN_INCH)));
+                //commands.add("G0 Y" + String.valueOf(ModelController.maxYTravelHotwire - (Renderer.foamHeight * Renderer.MILLIMETERS_IN_INCH)));
                 commands.addAll(m.getCommands());
                 //commands.add("G28 X Y"); //TODO this need to be checked
                 commands.add("G0 Z10.0"); //TODO + String.format("%.3f", (RotationController.controller.rotationStep / RotationController.minimumRotationDegree * RotationController.millimetersPerStep)));
@@ -282,7 +285,6 @@ public class APIgrbl extends Thread
                 BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile));
                 StringBuilder sb = new StringBuilder();
         
-                double packetProgressUnits = 0;
                 int charsUsed = 0;
 
                 if (profileImages.containsKey(i)) {
@@ -297,14 +299,14 @@ public class APIgrbl extends Thread
                     TracerGcodeBypass.traceGcodeCommand(commands.get(i), true);
                 }
 //                packetProgressUnits += GcodeProgressCalculator.calculateInstructionProgressUnits(commands.get(i));
-                packetProgressUnits++;
-
-                currentProgress += packetProgressUnits;
         
                 // create string to be printed
                 String gcode = commands.get(i++) + '\n';
+                System.out.println(gcode);
                 bw.write(gcode);
                 bw.close();
+                
+                currentProgress++;
         
                 // Update UI
                 while (gcode.contains("\n\n")) {
@@ -356,7 +358,7 @@ public class APIgrbl extends Thread
                                 if (Main.development && Main.developmentLogging) {
                                     System.out.println(line);
                                 }
-                                //updateCoordinates(line);
+                                //updateCoordinates(line); todo
                             }
                         }
                     } else {
