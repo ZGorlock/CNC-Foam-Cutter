@@ -209,8 +209,8 @@ public class APIgrbl extends Thread
             return adjustGcode();
             
         } else {
-//            commands.add("G21"); //set units to millimeters TODO
-//            commands.add("G91"); //use relative positioning
+            commands.add("G21"); //set units to millimeters
+            commands.add("G91"); //use relative positioning
     
             for (String profile : profiles) {
                 // Modifies to gbrl acceptable gcode
@@ -224,11 +224,10 @@ public class APIgrbl extends Thread
                     profileImages.put(commands.size(), RotationController.controller.gcodeTraceMap.get(profile));
                 }
     
-                //commands.add("G0 Y" + String.valueOf(ModelController.maxYTravelHotwire - (Renderer.foamHeight * Renderer.MILLIMETERS_IN_INCH)));
+//                commands.add("G0 Y" + String.valueOf(ModelController.maxYTravelHotwire - (Renderer.foamHeight * Renderer.MILLIMETERS_IN_INCH)));
                 commands.addAll(m.getCommands());
                 //commands.add("G28 X Y"); //TODO this need to be checked
-                commands.add("G0 Z10.0"); //TODO + String.format("%.3f", (RotationController.controller.rotationStep / RotationController.minimumRotationDegree * RotationController.millimetersPerStep)));
-                totalProgress += GcodeProgressCalculator.calculateFileProgressUnits(commands);
+                commands.add("G0 Z" + String.format("%.3f", (RotationController.controller.rotationStep / RotationController.minimumRotationDegree)));
             }
             totalProgress = commands.size();
             currentProgress = 0;
@@ -273,13 +272,15 @@ public class APIgrbl extends Thread
                 // Wait for machine to finish
 //                if(MachineDetector.isCncMachine())
 //                {
-                    while (getStatus().equals("Run")) {
-                        try {
-                            Thread.sleep(200);
-                        } catch (InterruptedException ignore) {
-                        }
-                        queryStatus();
-                    }
+//                    System.out.println(getStatus());
+//                    while (getStatus().equals("Run")) {
+//                        try {
+//                            Thread.sleep(200);
+//                        } catch (InterruptedException ignore) {
+//                        }
+//                        queryStatus();
+//                        System.out.println(getStatus());
+//                    }
 //                }
                 // read every 127 characters and create a file with them for stream.py to use
                 BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile));
@@ -343,6 +344,11 @@ public class APIgrbl extends Thread
                     handleRequest();
                 }
 
+//                try{
+//                    Thread.sleep(10000);
+//                }catch (InterruptedException ignore){
+//
+//                }
                 // execute stream.py with the file created, get input stream as a response
                 Process process = null;
                 while (process == null) {
@@ -622,6 +628,9 @@ public class APIgrbl extends Thread
         });
     }
 
+    /**
+     * Queries the status of grbl.
+     */
     private void queryStatus()
     {
         File tempDirectory = new File(Constants.GRBL_TEMP_DIRECTORY);
@@ -654,19 +663,20 @@ public class APIgrbl extends Thread
                     String line;
                     while (true) {
                         line = r.readLine();
+                        System.out.println(line.isEmpty() + "this is weird");
                         if (line == null || line.isEmpty()) {
                             break;
                         }
 
                         //  Parse line into coordinates
-                        String[] decomposed = line.split(",");
+                        String[] decomposed = line.split("[,]");
+                        System.out.println(decomposed.length + "is length");
 
                         if (decomposed.length != 7) {
                             return;
                         }
 
                         setStatus(decomposed[0].substring(1));
-
                         if (Main.development && Main.developmentLogging) {
                             System.out.println(line + " Status Query");
                         }

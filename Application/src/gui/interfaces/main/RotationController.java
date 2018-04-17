@@ -46,12 +46,12 @@ public class RotationController
     /**
      * The default minimum degree of rotation that the machine can perform.
      */
-    public static final double DEFAULT_MIN_ROTATION_DEGREE = 1.8;
+    public static final double DEFAULT_MIN_ROTATION_DEGREE = 3.6;
 
     /**
      * The default number of millimeters per step of the motor.
      */
-    public static final double DEFAULT_MILLIMETERS_PER_STEP = 5;//0.0079365;todo
+//    public static final double DEFAULT_MILLIMETERS_PER_STEP = ;//0.0079365;todo
     
     
     //FXML Fields

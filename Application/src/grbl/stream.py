@@ -81,17 +81,37 @@ class Streamer(object):
         
         for line in self.file:
             l = line.strip()
+            #print(l)
             self.s.write((l + '\n').encode())
             time.sleep(1)
-            self.s.write(('?\n').encode())
-            time.sleep(1)
+            justwaiting = ''
             response = ''
+
+            while(justwaiting != 'Idle'):
+                self.s.write(('?\n').encode())
+                time.sleep(1)
+                response = self.s.readline().decode()
+                #print(justwaiting, " is this")
+                # while(len(justwaiting) < 6):
+                #     print(justwaiting, " is that")
+                #     response = self.s.readline().decode()
+                justwaiting = response.split(",")
+                #print("split", justwaiting)
+                justwaiting = justwaiting[0][1:]
+                #print("what we want", justwaiting)
+
+            print(response)
 
             #If command is to show all configurations then print all 45 of them
 
-            while(len(response) < 6):
-                response = self.s.readline().decode()
-            print(response)
+            #print(line, " is line")
+            # if line == '$$':
+            #     while(len(response) >= 6):
+            #         response = '\n'
+            #         while(response == '\n'):
+            #             response = self.s.readline().decode()
+            #             #print(response, " inside while")
+            #         print(response)
 
         # Close file and serial port
         self.file.close()
