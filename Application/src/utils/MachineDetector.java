@@ -38,7 +38,7 @@ public final class MachineDetector
     /**
      * The default id of the Hotwire Machine Arduino.
      */
-    public static final String DEFAULT_HOTWIRE_ARDUINO = "95530343235351D092F0";
+    public static final String DEFAULT_HOTWIRE_ARDUINO = "85735313033351202220";
 
     
     //Static Fields

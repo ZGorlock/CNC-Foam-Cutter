@@ -398,7 +398,7 @@ public class APIgrbl extends Thread
                     if (!grblStarted) {
                         grblStarted = true;
                     }
-                    if (process != null && MachineDetector.isCncMachine()) {
+                    if (process != null) {
                         BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
     
                         String line = "";
@@ -407,7 +407,10 @@ public class APIgrbl extends Thread
         
                             if (!line.isEmpty()) {
                                 System.out.println(line);
-                                updateCoordinates(line);
+                                if(MachineDetector.isCncMachine())
+                                {
+                                    updateCoordinates(line);
+                                }
                             }
                         }
                     } else {
@@ -606,7 +609,7 @@ public class APIgrbl extends Thread
                 if (process != null) {
                     BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
     
-                    Platform.runLater(()-> TraceController.controller.grblStatus.setText("Run"));
+
                     
                     String line;
                     while (true) {
@@ -665,7 +668,7 @@ public class APIgrbl extends Thread
             TraceController.controller.grblX.setText(x);
             TraceController.controller.grblY.setText(y);
             TraceController.controller.grblZ.setText(z);
-            TraceController.controller.grblStatus.setText(status);
+            TraceController.controller.grblStatus.setText(status.equals("Idle") ? "Run" : status);
             TraceController.addTrace(getCoordinateX(), getCoordinateY(), getCoordinateZ());
         });
     }
