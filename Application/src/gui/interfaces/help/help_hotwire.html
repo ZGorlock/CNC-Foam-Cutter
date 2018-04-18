@@ -85,11 +85,15 @@
     <h2 id="c2">Uploading Your Profiles</h2>
 
     <h3>Profile Format</h3>
-    <p>TODO 1gcode per line, cuts in relative coordinates, max size in millimeters (+/- 695mm (X) by 0->1219mm (Y)).</p>
+    <p>Our software takes 1 gcode per line, cuts in relative coordinates, max size in millimeters (+/- 695mm (X) by 0->1219mm (Y)).
+    The profile should be set as a .gcode extension. Most softwares that convert 2D planes to gcode do it in .tap, it is safe to just rename it to
+    .gcode.</p>
     <br/>
 
     <h3>Uploading the Profiles</h3>
-    <p>TODO</p>
+    <p>To upload the profiles you can simply drag the folder containing the profiles if thats the only thing the folder is containing. You can also
+    paste the path to this folder in the search bar or click choose and select all the profiles you need. All must be in the appropriate .gcode extension
+    . It is important to set accurate dimensions for your foam so you can visualize the cut into the foam before printing.</p>
 
     <br/>
     <hr/>
@@ -99,15 +103,17 @@
     <h2 id="c3">The Rotation Tab</h2>
 
     <h3>Profile Previews</h3>
-    <p>TODO</p>
+    <p>Once uploaded, you will be taken to the rotation tab, which contains all the profiles. We draw these out by reading throught the files you
+    gave us. If one isn't showing how you expect it, please revise the gcode and make sure all files contain one command max per line.</p>
     <br/>
 
     <h3>Setting Rotation Step</h3>
-    <p>TODO</p>
+    <p>To set a rotation step (how many times it will rotate), enter in the textfield and then click the button to set. The rotation step
+    * the profile step should equal 1 revolution.</p>
     <br/>
 
     <h3>Setting Profile Steps</h3>
-    <p>TODO</p>
+    <p>We've given you a drop down menu of options as to how much it can accurately rotate according to this machine's mechanical capabilities.</p>
 
     <br/>
     <hr/>
@@ -117,15 +123,26 @@
     <h2 id="c4">The G-code Tab</h2>
 
     <h3>Keyboard Controls</h3>
-    <p>TODO</p>
+    <p>To move the machine you can send G-code commands or move it using your keyboard while on the <a href="#4">G-code Tab</a>.
+        To move it using your keyboard you must first enable keyboard movement option by clicking the checkbox, which allows you to move:</p>
+    <li>W for -Y (Up)</li>
+    <li>A for -X</li>
+    <li>S for +Y (Down)</li>
+    <li>D for +X</li>
+    <li>P for +Z</li>
+    <li>L for -Z</li>
+    <li>R for RESET = $X</li>
+    <li>SPACEBAR for Reset Zero Location</li>
     <br/>
 
     <h3>G-code Streaming</h3>
-    <p>TODO</p>
+    <p>We stream G-code based on the recommended Grbl streaming protocol. You can see instructions as they move in the first black box and you can also give your own commands
+    that will be prioritized over the next instruction to be sent. In the second black box you will see responses to the commands you sent. Any
+    instruction should be typed in the smallest black box.</p>
     <br/>
 
     <h3>G-code Queries</h3>
-    <p>TODO</p>
+    <p>To ask the machine where it currently is, please send a "?" command in the command-line box. You can press enter or click the button to send.</p>
 
     <br/>
     <hr/>
@@ -135,15 +152,16 @@
     <h2 id="c5">The Model Tab</h2>
 
     <h3>Information Overview</h3>
-    <p>TODO</p>
+    <p>In this tab, you can view information you've provided us such as NID, description, plus other useful information like the size of the
+    file, the file name, the code's current progress, and time remaining.</p>
     <br/>
 
     <h3>G-code Preview</h3>
-    <p>TODO</p>
+    <p>In our G-code tab you are able to view instructions as it streams. We also draw out the rotation profiles based on the G-code given.</p>
     <br/>
 
     <h3>Progress Indication</h3>
-    <p>TODO</p>
+    <p>There is a progress percentage in the Model tab for your use, there is also an estimate of the time remaining to complete the cut.</p>
 
     <br/>
     <hr/>
