@@ -30,22 +30,6 @@ import java.util.regex.Pattern;
 public class Main
 {
     
-    //TODO get the real Arduino id for hotwire 85735313033351202220
-    
-    //TODO new videos/screenshots
-    
-    //TODO update Design Document
-    //  add sketches of acceptable and unacceptable models to the User Guide section <-- Still gotta test this out
-    //  add new pictures to User Pages
-    //
-    //  redo figure pages in table (after removing table of contents)
-    //  redo table of contents after everything else is done
-    //
-    //  proofread
-    //  print
-    
-
-    
     //Constants
     
     /**

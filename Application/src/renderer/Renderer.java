@@ -280,14 +280,13 @@ public class Renderer
             return null;
         }
     
+        xAdjustment = -modelWidth / 2;
+        yAdjustment = modelLength / 2;
+        zAdjustment = (foamHeight * MILLIMETERS_IN_INCH / 2) - ((foamHeight * MILLIMETERS_IN_INCH) - modelHeight);
         if (Main.demoMode) {
-            xAdjustment = 0;
-            yAdjustment = -26;
-            zAdjustment = 40;
-        } else {
-            xAdjustment = -modelWidth / 2;
-            yAdjustment = modelLength / 2;
-            zAdjustment = (foamHeight * MILLIMETERS_IN_INCH / 2) - ((foamHeight * MILLIMETERS_IN_INCH) - modelHeight);
+            xAdjustment += 70;
+            yAdjustment += 0;
+            zAdjustment += -70;
         }
         Translate translation = new Translate(xAdjustment, yAdjustment, zAdjustment);
         

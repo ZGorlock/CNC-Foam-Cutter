@@ -385,7 +385,6 @@ public class APIgrbl extends Thread
                     return;
                 }
 
-                System.out.println("Waiting on: " + commandsFromUI.size());
                 while (commandsFromUI.size() > 0) {
                     //create new process and add to the response for UI
                     handleRequest();

@@ -107,12 +107,12 @@ public class TracerGcodeBypass
                     posZ += z;
                 }
                 
-                Tracer.addTrace(posX, posY, posZ);
+                Tracer.addTrace(posX, posY, posZ, true);
                 Platform.runLater(()->{
                     TraceController.controller.grblX.setText(String.format("%.2f", posX));
                     TraceController.controller.grblY.setText(String.format("%.2f", posY));
                     TraceController.controller.grblZ.setText(String.format("%.2f", posZ));
-                    TraceController.controller.grblStatus.setText("Ok");
+                    TraceController.controller.grblStatus.setText("Run");
                 });
             }
         }

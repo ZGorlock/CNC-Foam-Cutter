@@ -7,8 +7,6 @@
 package tracer;
 
 import gui.interfaces.greeting.GreetingController;
-import gui.interfaces.greeting.InputController;
-import gui.interfaces.main.ModelController;
 import javafx.embed.swing.SwingNode;
 import main.Main;
 import renderer.Renderer;
@@ -19,7 +17,6 @@ import tracer.objects.base.AbstractObject;
 import tracer.objects.base.BaseObject;
 import tracer.objects.base.ObjectInterface;
 import tracer.objects.base.polygon.Rectangle;
-import tracer.objects.base.simple.BigVertex;
 import tracer.objects.base.simple.Edge;
 import utils.MachineDetector;
 
@@ -380,27 +377,28 @@ public class Tracer
     /**
      * Adds a new trace point to the Tracer.
      *
-     * @param x The x relative movement of the trace.
-     * @param y The y relative movement of the trace.
-     * @param z The z relative movement of the trace.
+     * @param x The x movement of the trace.
+     * @param y The y movement of the trace.
+     * @param z The z movement of the trace.
+     * @param absolute Whether the trace is in absolute coordinates or not.
      */
-    public static synchronized void addTrace(double x, double y, double z)
+    public static synchronized void addTrace(double x, double y, double z, boolean absolute)
     {
         Vector trace;
         if (Main.demoMode) {
-            trace = new Vector(x - 50, - z + 5, y + 50);
+            trace = new Vector(x - 100 , - z - 100, y - 100);
         } else {
             trace = new Vector(x, - z, y);
         }
 
         Vector currentCopy = new Vector(current.getX(), current.getY(), current.getZ());
 
-        Edge edge = new Edge(Color.RED, currentCopy, currentCopy.plus(trace));
+        Edge edge = new Edge(Color.RED, currentCopy, absolute ? trace : currentCopy.plus(trace));
     
         traces.add(0, edge);
         addObject(edge);
 
-        current = current.plus(trace);
+        current = absolute ? trace : current.plus(trace);
     
         if (traces.size() > maxTraces) {
             removeObject(traces.get(maxTraces - 1));
@@ -410,6 +408,18 @@ public class Tracer
         for (int i = 0; i < traces.size(); i++) {
             traces.get(i).setColor(new Color(1, 0, 0, 1 - (i / (float) maxTraces)));
         }
+    }
+    
+    /**
+     * Adds a new trace point to the Tracer.
+     *
+     * @param x The x relative movement of the trace.
+     * @param y The y relative movement of the trace.
+     * @param z The z relative movement of the trace.
+     */
+    public static synchronized void addTrace(double x, double y, double z)
+    {
+        addTrace(x, y, z, false);
     }
     
     /**

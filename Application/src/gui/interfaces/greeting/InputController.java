@@ -102,7 +102,7 @@ public class InputController
         length.setPromptText("Enter Y...");
         height.setPromptText("Enter Z...");
         
-        if (Main.development) {
+        if (Main.development && !Main.demoMode) {
             nid.setText("ab123456");
             desc.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
             if (MachineDetector.isCncMachine()) {
@@ -132,13 +132,13 @@ public class InputController
         nidText = "ab123456";
         descText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
         if (MachineDetector.isCncMachine()) {
-            width.setText("18");
-            length.setText("29");
-            height.setText("8");
+            widthText = "18";
+            lengthText = "29";
+            heightText = "8";
         } else if (MachineDetector.isHotWireMachine()) {
-            width.setText("36");
-            length.setText("36");
-            height.setText("36");
+            widthText = "36";
+            lengthText = "36";
+            heightText = "36";
         }
     }
     
