@@ -30,47 +30,20 @@ import java.util.regex.Pattern;
 public class Main
 {
     
-    //NICK
-    
     //TODO get the real Arduino id for hotwire
     
-    //TODO fill in the user help window
+    //TODO new videos/screenshots
     
     //TODO update Design Document
     //  add sketches of acceptable and unacceptable models to the User Guide section <-- Still gotta test this out
-    
-    //TODO edit that video, speed it up or whatever, i put it on the google drive in demo
-    
-    //TODO calibrate Tracer and Renderer
-    //  Make sure it prints it in the middle of the foam at the top levels of the foam
-    //  Make sure it looks the same in the Tracer
-    //      Check for position
-    
-    
-    
-    //ZACK
-    
-    //TODO new videos/screenshots
-    //  redo profiles for new video
-    // Check comments on document, things like the Gcode tab will need new screenshots, should the user help be screenshotted to?
-    
-    //TODO fill in the user help window
-    
-    //TODO update Design Document
     //  add new pictures to User Pages
     //
     //  redo figure pages in table (after removing table of contents)
     //  redo table of contents after everything else is done
-
-    
-    
-    
-    
-    //TODO before releasing
-    //  search for all TODOs
     //
-    //  set Main.development = false;
-    //      test with development = false
+    //  proofread
+    //  print
+    
 
     
     //Constants
@@ -83,7 +56,7 @@ public class Main
     /**
      * The machine type to run when working in development mode.
      */
-    public static final MachineDetector.Machine developmentMode = MachineDetector.Machine.CNC;
+    public static final MachineDetector.Machine developmentMode = MachineDetector.Machine.HOTWIRE;
     
     /**
      * A flag indicating whether to use the demo mode of the application for an ideal case.
@@ -93,7 +66,7 @@ public class Main
     /**
      * A flag indicating whether or not to produce development logging or not.
      */
-    public static final boolean developmentLogging = true;
+    public static final boolean developmentLogging = false;
     
     /**
      * A flag indicating whether or not to bypass the Arduino for the Tracer.
@@ -258,7 +231,7 @@ public class Main
                 }
             }
         }
-        CmdLine.executeCmd("pip install pyserial"); //TODO make sure these work on a new computer and then that the arduino works
+        CmdLine.executeCmd("pip install pyserial");
         CmdLine.executeCmd("pip install serial");
     
         ConfigurationManager.loadSettings();

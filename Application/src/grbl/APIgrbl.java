@@ -406,9 +406,7 @@ public class APIgrbl extends Thread
                             line = r.readLine();
         
                             if (!line.isEmpty()) {
-                                if (Main.development && Main.developmentLogging) {
-                                    System.out.println(line);
-                                }
+                                System.out.println(line);
                                 updateCoordinates(line);
                             }
                         }
@@ -599,9 +597,7 @@ public class APIgrbl extends Thread
             bw.write(commandsFromUI.get(0));
             bw.close();
             
-            if (Main.development && Main.developmentLogging) {
-                System.out.println("> " + commandsFromUI.get(0));
-            }
+            System.out.println("> " + commandsFromUI.get(0));
             
             // execute stream.py with the command being sent, get input stream as a response
             Process process = null;
@@ -609,7 +605,9 @@ public class APIgrbl extends Thread
                 process = CmdLine.executeCmdAsThread("py " + Constants.GRBL_DIRECTORY + "stream.py \"" + Constants.GRBL_TEMP_DIRECTORY + tempCommand.getName() + "\" " + (grblStarted ? "1" : "0") + "\n");
                 if (process != null) {
                     BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            
+    
+                    Platform.runLater(()-> TraceController.controller.grblStatus.setText("Run"));
+                    
                     String line;
                     while (true) {
                         line = r.readLine();
@@ -617,9 +615,7 @@ public class APIgrbl extends Thread
                             break;
                         }
                         
-                        if (Main.development && Main.developmentLogging) {
-                            System.out.println(line);
-                        }
+                        System.out.println(line);
                         GcodeController.commandBlock.add(' ' + line);
                     }
                 } else {
@@ -721,9 +717,7 @@ public class APIgrbl extends Thread
                         }
 
                         setStatus(decomposed[0].substring(1));
-                        if (Main.development && Main.developmentLogging) {
-                            System.out.println(line + " Status Query");
-                        }
+                        System.out.println(line + " Status Query");
                     }
                 } else {
                     System.err.println("Error attempting to run stream.py! Reattempting...");

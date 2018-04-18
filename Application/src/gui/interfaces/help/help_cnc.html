@@ -44,15 +44,14 @@
         Once it is in this position, zero the machine by pressing Spacebar while on the <a href="#4">G-code Tab</a> as specified below.
         Then proceed to move the endmill up and position your foam. Please read the rest of this section before attempting this.</p>
     <br/>
-
     <p>To move the machine you can send G-code commands or move it using your keyboard while on the <a href="#4">G-code Tab</a>.
         To move it using your keyboard you must first enable the keyboard movement option, which allows you to move:</p>
     <li>W for +Y</li>
     <li>A for -X</li>
     <li>S for -Y</li>
     <li>D for +X</li>
-    <li>P for +Z</li>
-    <li>L for -Z</li>
+    <li>P for +Z (Up)</li>
+    <li>L for -Z (Down)</li>
     <li>R for RESET = $X</li>
     <li>SPACEBAR for Reset Zero Location</li>
     <p>Additionally, you can set by how many steps the machine will move, and you can edit configurations through our config file.
@@ -76,12 +75,6 @@
         need to start the router and then move it into the foam in a -Z direction, then zero it out, then start the cut. This is completely acceptable, and
         recommended for STL file cuts. To convert STL files to G-code we are using an open source software called Slic3r TM, we'd like to remind you
         no software is perfect, and if you'd like to get an extremely professional cut you should provide your own G-code.</p>
-    <br/>
-
-    <h3>STL files</h3>
-    <p>Please refer to our User Guide on a visual help of how STL files should be model. Models should be in millimeters as units.
-    This machine can only do shapes that are U shaped, you cannot cut under the foam because it the endmill does not have a rotation
-    axis, so it can't twist. If you need to do an upside down U, consider designing it upside down to make it a regular U shape.</p>
 
     <br/>
     <hr/>
@@ -91,14 +84,19 @@
     <h2 id="c2">Uploading Your Model</h2>
 
     <h3>Model Format</h3>
-    <p>Our software takes as input a .STL file or .gcode file. It allows for 1 gcode command per line.
-        It uses relative coordinates to give you more freedom of cut. The max size in millimeters is (+/- 695mm (X) by 0->1219mm (Y)).</p>
+    <p>Our software takes as input a .STL file or .gcode file.
+        If you choose to create a .STL model, you must set Solidworks to use MMGS units; one unit equals one millimeter of foam.
+        You must also orient your axes such that the Z axis is pointing up, and the Y axis is the long horizontal axis of your model.
+        You must also ensure that your model is top-heavy; usually this means that the base of your model is on the top. Because our endmill cuts straight down, we cannot cut out a chunk of foam at the bottom of the block without cutting out everything above it.</p>
+    <p>If you choose to use a .gcode file, it will be assumed that the instructions are in relative coordinates. You can set them to absolute coordinates by including a G90 command at the beginning of your file.
+        You are only allowed to put one gcode instruction per line, for example, "G90 G21 G0 X50" is not acceptable and will be ignored.
+        The max size in millimeters is (+/- 292mm (X) by +/- 431mm (Y) by 0->330mm (Z)) assuming you zero at the center of the X and Y axes and the bottom of the Z axis.</p>
     <br/>
 
     <h3>Uploading the Model</h3>
-    <p>To upload the file/model you can simply drag the file/model if thats the only thing the folder is containing. You can also
-        paste the path to this file/model in the search bar or click choose and the file/model you need.
-        It should follow the appropriate formal.
+    <p>To upload the file you can simply drag the file onto the Model Upload page. You can also
+        paste the path to this file in the search bar or click choose and select the file you need.
+        It should follow the appropriate format.
         It is important to set accurate dimensions for your foam so you can visualize the cut into the foam before printing.</p>
 
     <br/>
@@ -110,15 +108,15 @@
 
     <h3>Information Overview</h3>
     <p>In this tab, you can view information you've provided us such as NID, description, plus other useful information like the size of the
-        file, the file name, the code's current progress, and time remaining.</p>
+        file, the file name, the print job's current progress, and time remaining.</p>
     <br/>
 
     <h3>Model Preview</h3>
-    <p>This is a 3D rendering of the model if it is an stl file, or just an indication it is a gcode file. You can drag the 3D model, zoom in and out of it.</p>
+    <p>This page includes a 3D rendering of the model if it is an stl file, or just an indication it is a gcode file. You can click and drag the 3D model to rotate it.</p>
     <br/>
 
     <h3>Progress Indication</h3>
-    <p>There is a progress percentage in the Model tab for your use, there is also an estimate of the time remaining to complete the cut.</p>
+    <p>There is a progress percentage in the Model tab for your use, there is also an estimate of the time remaining to complete the job.</p>
 
     <br/>
     <hr/>
@@ -130,12 +128,12 @@
     <h3>Keyboard Controls</h3>
     <p>To move the machine you can send G-code commands or move it using your keyboard while on the <a href="#4">G-code Tab</a>.
         To move it using your keyboard you must first enable keyboard movement option by clicking the checkbox, which allows you to move:</p>
-    <li>W for -Y (Up)</li>
+    <li>W for +Y</li>
     <li>A for -X</li>
-    <li>S for +Y (Down)</li>
+    <li>S for -Y</li>
     <li>D for +X</li>
-    <li>P for +Z</li>
-    <li>L for -Z</li>
+    <li>P for +Z (Up)</li>
+    <li>L for -Z (Down)</li>
     <li>R for RESET = $X</li>
     <li>SPACEBAR for Reset Zero Location</li>
     <br/>
@@ -147,8 +145,9 @@
     <br/>
 
     <h3>G-code Queries</h3>
-    <p>To ask the machine where it currently is, please send a "?" command in the command-line box. You can press enter or click the button to send.</p>
-
+    <p>To ask the machine where it currently is, please send a "?" command in the command-line box. You can press enter or click the button to send.
+        You can halt the machine by sending a "!" command.
+        You can also send any other gcode instruction as a query.</p>
 
     <br/>
     <hr/>
@@ -158,13 +157,12 @@
     <h2 id="c5">The Tracer Tab</h2>
 
     <h3>Spindle Tracing</h3>
-    <p>We've provided a preview of the machine's cuts by drawing lines between the points given. This is a good way to see how our machine
-    will cut out what you've given us, you can even run while having the machine turned off if you want to see your result before cutting
-    anything at all!</p>
+    <p>We've provided a preview of the machine's cuts by drawing lines between the points that the machine moves. This is a good way to see how our machine
+        has cut into the foam so far, you can even run with the machine turned off if you want to see your result before cutting anything at all!</p>
     <br/>
 
     <h3>Status Indication</h3>
-    <p>Under the tracing drawing, you are able to see Grbl's last instruction's coordinates.</p>
+    <p>Under the tracing drawing, you are able to see the last movement that Grbl made as well as its current status.</p>
 
     <br/>
     <hr/>

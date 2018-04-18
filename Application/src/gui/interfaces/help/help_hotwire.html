@@ -86,15 +86,17 @@
     <h2 id="c2">Uploading Your Profiles</h2>
 
     <h3>Profile Format</h3>
-    <p>Our software takes 1 gcode per line, cuts in relative coordinates, max size in millimeters (+/- 695mm (X) by 0->1219mm (Y)).
-    The profile should be set as a .gcode extension. Most softwares that convert 2D planes to gcode do it in .tap, it is safe to just rename it to
-    .gcode.</p>
+    <p>The profiles for this machine are stored as .gcode files. Most softwares that convert 2D planes to gcode do it in .tap, it is safe to just rename it to .gcode.
+        It will be assumed that the instructions are in relative coordinates. You can set them to absolute coordinates by including a G90 command at the beginning of your file.
+        You are only allowed to put one gcode instruction per line, for example, "G90 G21 G0 X50" is not acceptable and will be ignored.
+        The max size in millimeters is (+/- 695mm (X) by 0->1219mm (Y)) assuming you zero at the center of the X axis and the top of the Y axis.</p>
     <br/>
 
     <h3>Uploading the Profiles</h3>
-    <p>To upload the profiles you can simply drag the folder containing the profiles if thats the only thing the folder is containing. You can also
-    paste the path to this folder in the search bar or click choose and select all the profiles you need. All must be in the appropriate .gcode extension
-    . It is important to set accurate dimensions for your foam so you can visualize the cut into the foam before printing.</p>
+    <p>To upload the profiles you can simply drag the folder containing the profiles.
+        You can also paste the path to this folder in the search bar or click choose and select all the profiles you need. All must be in the appropriate .gcode extension.
+        It is important to set accurate dimensions for your foam so you can visualize the cut into the foam before printing.
+        Once you are on the <a href="#c3">Rotation Tab</a>, you are able to click and drag the profiles to reorder them.</p>
 
     <br/>
     <hr/>
@@ -104,22 +106,25 @@
     <h2 id="c3">The Rotation Tab</h2>
 
     <h3>Profile Previews</h3>
-    <p>Once uploaded, you will be taken to the rotation tab, which contains all the profiles. We draw these out by reading throught the files you
-    gave us. If one isn't showing how you expect it, please revise the gcode and make sure all files contain one command max per line.</p>
+    <p>Once uploaded, you will be taken to the rotation tab, which contains all the profiles. We draw these out by reading through the files you uploaded and tracing them.
+        You will also see the axes lines and an outline of the position of the foam within the machine.
+        If one isn't showing how you expect it, please revise the gcode and make sure all files contain one command max per line.
+        You can click and drag the profiles relative to each other to reorder them to the order you would like them to print.</p>
     <br/>
 
     <h3>Setting Rotation Step</h3>
-    <p>To set a rotation step (the degrees it will rotate), choose from the drop down menu how many degrees it will rotate. The minimum degree
-    as you can see is 1/100, because 100 rotation steps causes 1 revolution.</p>
+    <p>To set a rotation step choose from the drop down menu how much you would like each profile to take up over the 360 degree area.
+        The minimum rotation step you can choose is 1/100, meaning there will be 100 profiles over the 360 degrees of the model, or 1 profile per 3.6 degrees.
+        If you set the rotation to 1/4, the machine will cut 4 profiles during the printing process, rotating 90 degrees per cut.
+        This would allow you to cut out a four-sided pyramid, for instance, by setting a single slanted profile for the step rotation.
+        If you choose "None", then the machine will only print a single profile and will not rotate at all.</p>
     <br/>
 
     <h3>Setting Profile Steps</h3>
-    <p>You are also able to specify the step count of the machine, by default this is 100,
-        meaning that 100 profiles will be cut during the printing process. We’ve set everything to be in relation to knowing that 100 steps is 1 revolution.
-        For example, if you set the step count to 25 and a step rotation of 1/100, the machine will cut 4 profiles during the printing process.
-        This would allow you to cut out a four-sided pyramid, for instance, by setting a single slanted profile for the step rotation.
-        The rotation step’s minimum number is 1/100 because that is the minimum degree allowed by the machine. The application will not let you begin the printing process if the settings go above one revolution.
-    </p>
+    <p>You are also able to specify the step count for each profile you uploaded.
+        If you have 2 profiles and you would like to cut one profile for 90 degrees and the other for the remaining 270 degrees, and your rotation step is 1/100,
+        you can set the steps for the first profile to 25, and the steps for the second profile to 75.
+        The application will not let you begin the printing process unless the number of steps totals a full rotation relative to the rotation step.</p>
 
     <br/>
     <hr/>
@@ -131,24 +136,26 @@
     <h3>Keyboard Controls</h3>
     <p>To move the machine you can send G-code commands or move it using your keyboard while on the <a href="#4">G-code Tab</a>.
         To move it using your keyboard you must first enable keyboard movement option by clicking the checkbox, which allows you to move:</p>
-    <li>W for -Y (Up)</li>
+    <li>W for +Y</li>
     <li>A for -X</li>
-    <li>S for +Y (Down)</li>
+    <li>S for -Y</li>
     <li>D for +X</li>
-    <li>P for +Z</li>
-    <li>L for -Z</li>
+    <li>P for +Z (Up)</li>
+    <li>L for -Z (Down)</li>
     <li>R for RESET = $X</li>
     <li>SPACEBAR for Reset Zero Location</li>
     <br/>
 
     <h3>G-code Streaming</h3>
     <p>We stream G-code based on the recommended Grbl streaming protocol. You can see instructions as they move in the first black box and you can also give your own commands
-    that will be prioritized over the next instruction to be sent. In the second black box you will see responses to the commands you sent. Any
-    instruction should be typed in the smallest black box.</p>
+        that will be prioritized over the next instruction to be sent. In the second black box you will see responses to the commands you sent. Any
+        instruction should be typed in the smallest black box.</p>
     <br/>
 
     <h3>G-code Queries</h3>
-    <p>To ask the machine where it currently is, please send a "?" command in the command-line box. You can press enter or click the button to send.</p>
+    <p>To ask the machine where it currently is, please send a "?" command in the command-line box. You can press enter or click the button to send.
+        You can halt the machine by sending a "!" command.
+        You can also send any other gcode instruction as a query.</p>
 
     <br/>
     <hr/>
@@ -159,15 +166,15 @@
 
     <h3>Information Overview</h3>
     <p>In this tab, you can view information you've provided us such as NID, description, plus other useful information like the size of the
-    file, the file name, the code's current progress, and time remaining.</p>
+        file, the file name, the print job's current progress, and time remaining.</p>
     <br/>
 
     <h3>G-code Preview</h3>
-    <p>In our G-code tab you are able to view instructions as it streams. We also draw out the rotation profiles based on the G-code given.</p>
+    <p>This page includes a drawing of the current gcode profile that is being printed. This will change when the profile changes so you know which one is currently being executed.</p>
     <br/>
 
     <h3>Progress Indication</h3>
-    <p>There is a progress percentage in the Model tab for your use, there is also an estimate of the time remaining to complete the cut.</p>
+    <p>There is a progress percentage in the Model tab for your use, there is also an estimate of the time remaining to complete the job.</p>
 
     <br/>
     <hr/>
@@ -175,11 +182,6 @@
 
 
     <h2 id="c6">Software We Use</h2>
-
-    <h3>How Slic3r Works</h3>
-    <p>Slic3r is a 3D printing software that converts STL file into G-code. To use 3D printing for CNC milling, we cut the shape into the foam. This is
-        why this software best performs "undercuts". If you're going to be using Slicer for your milling needs, it's best to run tests to get familiar with it.</p>
-    <br/>
 
     <h3>How Grbl Works</h3>
     <p>Grbl is a G-code compiler written in C designed for Arduino UNO / Duemillanova. This compiler interprets G-code commands sent through our interface in file
