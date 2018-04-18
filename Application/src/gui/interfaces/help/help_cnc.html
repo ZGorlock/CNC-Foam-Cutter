@@ -35,7 +35,7 @@
     <p>In case of emergency please press the emergency stop button FIRST, before proceeding to stop the streaming process.
         The emergency stop button kills all power to the machine (this includes the router), the control board is powered through
         the computer so it is also important to pause/stop the streaming process. If you'd like to stall the machine
-        please send a "!" command from the <a href="#4">G-code Tab</a>.</p>
+        please send a "!" command from the <a href="#4">G-code Tab</a>, this stalls the next instruction, but not the current one!</p>
     <br/>
 
     <h3>Calibrating</h3>
@@ -79,7 +79,9 @@
     <br/>
 
     <h3>STL files</h3>
-    <p>TODO Please refer to our User Guide on a visual help of how STL files should be model. Models should be in millimeters as units.</p>
+    <p>Please refer to our User Guide on a visual help of how STL files should be model. Models should be in millimeters as units.
+    This machine can only do shapes that are U shaped, you cannot cut under the foam because it the endmill does not have a rotation
+    axis, so it can't twist. If you need to do an upside down U, consider designing it upside down to make it a regular U shape.</p>
 
     <br/>
     <hr/>
@@ -89,11 +91,15 @@
     <h2 id="c2">Uploading Your Model</h2>
 
     <h3>Model Format</h3>
-    <p>TODO 1gcode per line, cuts in relative coordinates, max size in millimeters (+/- 695mm (X) by 0->1219mm (Y)).</p>
+    <p>Our software takes as input a .STL file or .gcode file. It allows for 1 gcode command per line.
+        It uses relative coordinates to give you more freedom of cut. The max size in millimeters is (+/- 695mm (X) by 0->1219mm (Y)).</p>
     <br/>
 
     <h3>Uploading the Model</h3>
-    <p>TODO</p>
+    <p>To upload the file/model you can simply drag the file/model if thats the only thing the folder is containing. You can also
+        paste the path to this file/model in the search bar or click choose and the file/model you need.
+        It should follow the appropriate formal.
+        It is important to set accurate dimensions for your foam so you can visualize the cut into the foam before printing.</p>
 
     <br/>
     <hr/>
@@ -103,15 +109,16 @@
     <h2 id="c3">The Model Tab</h2>
 
     <h3>Information Overview</h3>
-    <p>TODO</p>
+    <p>In this tab, you can view information you've provided us such as NID, description, plus other useful information like the size of the
+        file, the file name, the code's current progress, and time remaining.</p>
     <br/>
 
     <h3>Model Preview</h3>
-    <p>TODO</p>
+    <p>This is a 3D rendering of the model if it is an stl file, or just an indication it is a gcode file. You can drag the 3D model, zoom in and out of it.</p>
     <br/>
 
     <h3>Progress Indication</h3>
-    <p>TODO</p>
+    <p>There is a progress percentage in the Model tab for your use, there is also an estimate of the time remaining to complete the cut.</p>
 
     <br/>
     <hr/>
@@ -121,15 +128,27 @@
     <h2 id="c4">The G-code Tab</h2>
 
     <h3>Keyboard Controls</h3>
-    <p>TODO</p>
+    <p>To move the machine you can send G-code commands or move it using your keyboard while on the <a href="#4">G-code Tab</a>.
+        To move it using your keyboard you must first enable keyboard movement option by clicking the checkbox, which allows you to move:</p>
+    <li>W for -Y (Up)</li>
+    <li>A for -X</li>
+    <li>S for +Y (Down)</li>
+    <li>D for +X</li>
+    <li>P for +Z</li>
+    <li>L for -Z</li>
+    <li>R for RESET = $X</li>
+    <li>SPACEBAR for Reset Zero Location</li>
     <br/>
 
     <h3>G-code Streaming</h3>
-    <p>TODO</p>
+    <p>We stream G-code based on the recommended Grbl streaming protocol. You can see instructions as they move in the first black box and you can also give your own commands
+        that will be prioritized over the next instruction to be sent. In the second black box you will see responses to the commands you sent. Any
+        instruction should be typed in the smallest black box.</p>
     <br/>
 
     <h3>G-code Queries</h3>
-    <p>TODO</p>
+    <p>To ask the machine where it currently is, please send a "?" command in the command-line box. You can press enter or click the button to send.</p>
+
 
     <br/>
     <hr/>
@@ -139,11 +158,13 @@
     <h2 id="c5">The Tracer Tab</h2>
 
     <h3>Spindle Tracing</h3>
-    <p>TODO</p>
+    <p>We've provided a preview of the machine's cuts by drawing lines between the points given. This is a good way to see how our machine
+    will cut out what you've given us, you can even run while having the machine turned off if you want to see your result before cutting
+    anything at all!</p>
     <br/>
 
     <h3>Status Indication</h3>
-    <p>TODO</p>
+    <p>Under the tracing drawing, you are able to see Grbl's last instruction's coordinates.</p>
 
     <br/>
     <hr/>
