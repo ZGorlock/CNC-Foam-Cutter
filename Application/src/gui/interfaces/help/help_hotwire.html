@@ -108,12 +108,17 @@
     <br/>
 
     <h3>Setting Rotation Step</h3>
-    <p>To set a rotation step (how many times it will rotate), enter in the textfield and then click the button to set. The rotation step
-    * the profile step should equal 1 revolution.</p>
+    <p>To set a rotation step (the degrees it will rotate), choose from the drop down menu how many degrees it will rotate. The minimum degree
+    as you can see is 1/100, because 100 rotation steps causes 1 revolution.</p>
     <br/>
 
     <h3>Setting Profile Steps</h3>
-    <p>We've given you a drop down menu of options as to how much it can accurately rotate according to this machine's mechanical capabilities.</p>
+    <p>You are also able to specify the step count of the machine, by default this is 100,
+        meaning that 100 profiles will be cut during the printing process. We’ve set everything to be in relation to knowing that 100 steps is 1 revolution.
+        For example, if you set the step count to 25 and a step rotation of 1/100, the machine will cut 4 profiles during the printing process.
+        This would allow you to cut out a four-sided pyramid, for instance, by setting a single slanted profile for the step rotation.
+        The rotation step’s minimum number is 1/100 because that is the minimum degree allowed by the machine. The application will not let you begin the printing process if the settings go above one revolution.
+    </p>
 
     <br/>
     <hr/>
