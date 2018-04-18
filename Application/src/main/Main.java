@@ -49,8 +49,6 @@ public class Main
     
     
     //ZACK
-
-    //TODO when does the job completed popup happen?
     
     //TODO new videos/screenshots
     //  redo profiles for new video
@@ -80,7 +78,7 @@ public class Main
     /**
      * A flag indicating whether the application should disable certain checks for development purposes.
      */
-    public static final boolean development = true;
+    public static final boolean development = false;
     
     /**
      * The machine type to run when working in development mode.

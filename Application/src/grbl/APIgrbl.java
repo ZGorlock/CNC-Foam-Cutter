@@ -198,7 +198,9 @@ public class APIgrbl extends Thread
         profileImages = new HashMap<>();
         totalProgress = 0;
         grblStarted = false;
-        
+
+        commands.add("G21"); //set units to millimeters
+
         if (profiles == null) {
             // Modifies to gbrl acceptable gcode
             GcodeModifier m = new GcodeModifier(filename);
@@ -214,7 +216,6 @@ public class APIgrbl extends Thread
             return true;
             
         } else {
-            commands.add("G21"); //set units to millimeters
             commands.add("G91"); //use relative positioning
     
             for (String profile : profiles) {

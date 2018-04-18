@@ -80,11 +80,11 @@ public class GcodeModifier
     public boolean modify()
     {
         if (readGcodeFile()) {
-            removeComments();
-            removeWhitespace();
-            removeBadCommands();
-            convertBadParameters();
-            truncatePrecision();
+//            removeComments();
+//            removeWhitespace();
+//            removeBadCommands();
+//            convertBadParameters();
+//            truncatePrecision();
             return true;
         }
         

@@ -6,6 +6,8 @@
 
 package tracer;
 
+import gui.interfaces.greeting.GreetingController;
+import gui.interfaces.greeting.InputController;
 import gui.interfaces.main.ModelController;
 import javafx.embed.swing.SwingNode;
 import main.Main;
@@ -89,11 +91,6 @@ public class Tracer
      * A flag indicating whether the Tracer is currently painting or not.
      */
     private static final AtomicBoolean running = new AtomicBoolean(false);
-    
-    /**
-     * The last trace that was hit.
-     */
-    private static Vector lastTrace = new Vector(0, 0, 0);
 
     /**
      * The current position of the trace.
@@ -177,10 +174,13 @@ public class Tracer
             return null;
         }
         instance = new Tracer(node);
-        
-        lastTrace = new Vector(0, - ModelController.maxHeightCnc * Renderer.MILLIMETERS_IN_INCH, 0);
-        current = new Vector(0, (Renderer.foamCenter.getZ() * Renderer.MILLIMETERS_IN_INCH), 0);
-        
+
+        if (GreetingController.getModel().isEmpty()) {
+            current = new Vector(0, - Renderer.foamHeight * Renderer.MILLIMETERS_IN_INCH / 2, 0);
+        } else {
+            current = new Vector(Renderer.foamWidth * Renderer.MILLIMETERS_IN_INCH / 2, - Renderer.foamHeight * Renderer.MILLIMETERS_IN_INCH / 2, - Renderer.foamLength * Renderer.MILLIMETERS_IN_INCH / 2);
+        }
+
         //add cameras
         Camera camera = new Camera();
         camera.setLocation(Math.PI / 2, Math.PI, ((Math.max(Renderer.foamWidth, Renderer.foamWidth) + Renderer.foamHeight) * 2) * Renderer.MILLIMETERS_IN_INCH);
@@ -251,7 +251,7 @@ public class Tracer
         double h = (Renderer.foamHeight * Renderer.MILLIMETERS_IN_INCH) / 2;
     
         System.out.println();
-        System.out.println(String.format("Foam Dimensions:  %.2f x %.2f x %.2f", w, l, h));
+        System.out.println(String.format("Foam Dimensions:  %.2f x %.2f x %.2f", w * 2, l * 2, h * 2));
         System.out.println(String.format("Model Dimensions: %.2f x %.2f x %.2f", Renderer.modelWidth, Renderer.modelLength, Renderer.modelHeight));
         
         Vector c1 = new Vector(-w, -h, -l);
@@ -285,7 +285,7 @@ public class Tracer
         objects.add(r6);
 
 
-        objects.add(new BigVertex(Color.RED, current, 3));
+//        objects.add(new BigVertex(Color.RED, current, 3));
     
         if (MachineDetector.isCncMachine() && traceDemo) {
             //animation
@@ -388,20 +388,19 @@ public class Tracer
     {
         Vector trace;
         if (Main.demoMode) {
-            trace = new Vector(current.getX() + x - 50, current.getY() - z - (Renderer.foamCenter.getZ() * Renderer.MILLIMETERS_IN_INCH) + 5, current.getZ() + y + 50);
+            trace = new Vector(x - 50, - z + 5, y + 50);
         } else {
-            trace = new Vector(current.getX() + x, current.getY() - z + (Renderer.foamCenter.getZ() * Renderer.MILLIMETERS_IN_INCH), current.getZ() + y);
+            trace = new Vector(x, - z, y);
         }
 
-        current.setX(trace.getX());
-        current.setY(trace.getY());
-        current.setZ(trace.getZ());
-        
-        Edge edge = new Edge(Color.RED, lastTrace, trace);
+        Vector currentCopy = new Vector(current.getX(), current.getY(), current.getZ());
+
+        Edge edge = new Edge(Color.RED, currentCopy, currentCopy.plus(trace));
     
         traces.add(0, edge);
         addObject(edge);
-        lastTrace = trace;
+
+        current = current.plus(trace);
     
         if (traces.size() > maxTraces) {
             removeObject(traces.get(maxTraces - 1));
