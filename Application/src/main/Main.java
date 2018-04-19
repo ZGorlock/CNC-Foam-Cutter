@@ -40,7 +40,7 @@ public class Main
     /**
      * The machine type to run when working in development mode.
      */
-    public static final MachineDetector.Machine developmentMode = MachineDetector.Machine.HOTWIRE;
+    public static final MachineDetector.Machine developmentMode = MachineDetector.Machine.CNC;
     
     /**
      * A flag indicating whether to use the demo mode of the application for an ideal case.
@@ -154,24 +154,25 @@ public class Main
             return false;
         }
         
-        try {
-            Class.forName("javax.media.j3d.J3DBuffer");
-        } catch (final ClassNotFoundException ignored) {
-            System.err.println("You must have Java3D installed on your system to use this application.");
-            System.out.println("Attempting to install Java3D...");
-            
-            String installJava3D = Constants.JAVA3D_DIRECTORY + Constants.JAVA3D_FILENAME_BASE +
-                    (architecture.equals(Constants.ARCHITECTURE_x64) ? Constants.JAVA3D_FILENAME_SUFFIX_64 : Constants.JAVA3D_FILENAME_SUFFIX_86);
-            
-            CmdLine.executeCmd(installJava3D, true);
-            
-            try {
-                Class.forName("javax.media.j3d.J3DBuffer");
-            } catch (final ClassNotFoundException ignored2) {
-                System.out.println("Please install Java3D and try again.");
-                return false;
-            }
-        }
+//        try {
+//            GraphicsConfigTemplate3D gconfigTemplate = new GraphicsConfigTemplate3D();
+//            GraphicsConfiguration config = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getBestConfiguration(gconfigTemplate);
+//        } catch (Error | Exception ignored) {
+//            System.err.println("You must have Java3D installed on your system to use this application.");
+//            System.out.println("Attempting to install Java3D...");
+//
+//            String installJava3D = Constants.JAVA3D_DIRECTORY + Constants.JAVA3D_FILENAME_BASE +
+//                    (architecture.equals(Constants.ARCHITECTURE_x64) ? Constants.JAVA3D_FILENAME_SUFFIX_64 : Constants.JAVA3D_FILENAME_SUFFIX_86);
+//
+//            CmdLine.executeCmd(installJava3D, true);
+//
+//            try {
+//                Class.forName("javax.media.j3d.J3DBuffer");
+//            } catch (final ClassNotFoundException ignored2) {
+//                System.out.println("Please install Java3D and try again.");
+//                return false;
+//            }
+//        }
         
         String pythonCheck = CmdLine.executeCmd("py -V");
         boolean installPython = false;

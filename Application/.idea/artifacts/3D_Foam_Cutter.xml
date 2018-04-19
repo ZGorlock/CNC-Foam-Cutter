@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="3D Foam Cutter">
+    <output-path>$PROJECT_DIR$</output-path>
+    <root id="archive" name="3D Foam Cutter.jar">
+      <element id="library" level="project" name="JUnit" />
+      <element id="module-output" name="3D-Foam-Cutter" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/out/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="dir-copy" path="$PROJECT_DIR$/fxml" />
+      <element id="library" level="project" name="JFX3DModelImporters" />
+    </root>
+  </artifact>
+</component>
